@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>你是什麼樣的咖啡控？CBTI 咖啡人格測驗</title>
+  <meta name="description" content="20道靈魂拷問，4個維度，16種咖啡人格。測驗結果可能引發咖啡信仰戰爭。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --dark: #1A0E08;
+      --mid: #2C1810;
+      --warm: #3E2215;
+      --gold: #D4A574;
+      --cream: #F5E6D3;
+      --amber: #E8C07A;
+    }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(165deg, #1A0E08 0%, #2C1810 30%, #3E2215 55%, #1A0E08 100%);
+      font-family: 'Noto Sans TC', 'Helvetica Neue', sans-serif;
+      color: #F5E6D3;
+      position: relative;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      opacity: 0.035;
+      pointer-events: none;
+      background-image: radial-gradient(circle at 25% 45%, #D4A574 1px, transparent 1px),
+                        radial-gradient(circle at 75% 75%, #E8C07A 1px, transparent 1px);
+      background-size: 50px 50px, 30px 30px;
+    }
+
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+    @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+    @keyframes growIn { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    @keyframes steam { 0% { opacity: 0; transform: translateY(0) scaleX(1); } 50% { opacity: .5; transform: translateY(-20px) scaleX(1.2); } 100% { opacity: 0; transform: translateY(-40px) scaleX(1); } }
+    @keyframes fadeOut { from { opacity: 1; transform: scale(1); } to { opacity: 0; transform: scale(0.95); } }
+
+    .container { max-width: 500px; margin: 0 auto; padding: 20px 20px 50px; position: relative; z-index: 1; }
+
+    /* ── INTRO ── */
+    .intro { text-align: center; padding-top: 8vh; animation: fadeInUp 0.8s ease; }
+    .logo-wrap { position: relative; display: inline-block; margin-bottom: 8px; }
+    .logo-emoji { font-size: 68px; animation: float 3s ease-in-out infinite; filter: drop-shadow(0 4px 12px rgba(212,165,116,.2)); }
+    .steam-line { position: absolute; top: -10px; width: 2px; height: 30px; background: linear-gradient(to top, rgba(245,230,211,.25), rgba(212,165,116,.15)); border-radius: 50%; animation: steam 2.2s ease-in-out infinite; }
+    .steam-line:nth-child(2) { left: calc(50% - 14px); animation-delay: 0s; }
+    .steam-line:nth-child(3) { left: calc(50%); animation-delay: 0.6s; }
+    .steam-line:nth-child(4) { left: calc(50% + 14px); animation-delay: 1.2s; }
+    .intro-label { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; letter-spacing: 3px; margin-bottom: 4px; background: linear-gradient(90deg, #D4A574, #E8C07A, #D4A574); background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shimmer 8s ease infinite; }
+    .intro-sub { font-size: 10px; letter-spacing: 3px; color: rgba(212,165,116,.5); margin-bottom: 20px; }
+    .intro-title { font-size: 28px; font-weight: 900; line-height: 1.5; margin-bottom: 10px; }
+    .intro-title span { background: linear-gradient(90deg, #D4A574, #E8C07A, #D4A574); background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shimmer 4s ease infinite; }
+    .intro-desc { font-size: 14px; color: rgba(245,230,211,.45); line-height: 1.8; margin-bottom: 40px; }
+    .intro-desc small { display: block; font-size: 12px; color: rgba(245,230,211,.3); margin-top: 4px; }
+    .dim-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 40px; }
+    .dim-card { background: rgba(212,165,116,.06); border: 1px solid rgba(212,165,116,.15); border-radius: 12px; padding: 14px 10px; animation: fadeInUp 0.6s ease both; }
+    .dim-card-label { font-size: 13px; margin-bottom: 4px; }
+    .dim-card-key { font-size: 11px; color: #D4A574; letter-spacing: 2px; font-weight: 500; }
+    .start-btn { background: linear-gradient(135deg, #D4A574, #C08B5C); color: #1A0E08; border: none; border-radius: 50px; padding: 16px 56px; font-size: 16px; font-weight: 700; letter-spacing: 1px; cursor: pointer; box-shadow: 0 8px 30px rgba(212,165,116,.25); transition: all .3s ease; font-family: inherit; }
+    .start-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(212,165,116,.35); }
+
+    /* ── QUIZ ── */
+    .quiz-header { padding: 20px 0 8px; }
+    .quiz-meta { display: flex; justify-content: space-between; align-items: center; }
+    .quiz-dim-label { font-size: 11px; color: rgba(212,165,116,.5); letter-spacing: 1px; }
+    .quiz-counter { font-size: 13px; color: #D4A574; font-weight: 700; }
+    .quiz-counter span { color: rgba(212,165,116,.4); font-weight: 400; }
+    .progress-bar { height: 3px; background: rgba(212,165,116,.08); border-radius: 10px; overflow: hidden; margin: 12px 0; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, #D4A574, #E8C07A); border-radius: 10px; transition: width 0.5s cubic-bezier(.25,.46,.45,.94); }
+    .quiz-question-wrap { animation: slideIn 0.35s ease; padding-top: 24px; }
+    .quiz-question { font-size: 21px; font-weight: 700; line-height: 1.6; margin-bottom: 24px; }
+    .options-list { display: flex; flex-direction: column; gap: 10px; }
+    .opt-btn { background: rgba(212,165,116,.05); border: 1px solid rgba(212,165,116,.15); border-radius: 14px; padding: 15px 16px; font-size: 15px; color: #F5E6D3; text-align: left; line-height: 1.5; cursor: pointer; transition: all .25s cubic-bezier(.25,.46,.45,.94); font-family: inherit; animation: fadeInUp 0.3s ease both; position: relative; overflow: hidden; }
+    .opt-btn:hover { transform: translateY(-2px); border-color: rgba(212,165,116,.35); }
+    .opt-btn:active { transform: scale(.98); }
+    .opt-btn.selected { border-color: #D4A574 !important; background: rgba(212,165,116,.18) !important; }
+
+    /* ── RESULT ── */
+    .result { animation: fadeInUp 0.8s ease; padding-top: 24px; }
+    .result-header { text-align: center; margin-bottom: 26px; }
+    .result-emoji { font-size: 60px; margin-bottom: 10px; animation: pulse 2s ease infinite; filter: drop-shadow(0 4px 24px rgba(212,165,116,.25)); }
+    .result-type-badge { display: inline-block; background: rgba(212,165,116,.1); border: 1px solid rgba(212,165,116,.25); border-radius: 8px; padding: 5px 18px; font-size: 17px; font-weight: 900; letter-spacing: 5px; color: #D4A574; margin-bottom: 10px; font-family: 'Playfair Display', serif; }
+    .result-title { font-size: 25px; font-weight: 900; margin-bottom: 4px; line-height: 1.3; }
+    .result-subtitle { font-size: 12px; color: rgba(212,165,116,.6); letter-spacing: 2px; font-style: italic; font-family: 'Playfair Display', serif; }
+    .result-desc-box { background: rgba(212,165,116,.06); border: 1px solid rgba(212,165,116,.25); border-radius: 18px; padding: 22px 20px; margin-bottom: 16px; }
+    .result-desc { font-size: 15px; line-height: 2; color: rgba(245,230,211,.85); font-weight: 300; }
+    .result-match { background: linear-gradient(135deg, rgba(212,165,116,.1), rgba(212,165,116,.05)); border: 1px solid rgba(212,165,116,.15); border-radius: 14px; padding: 16px 20px; margin-bottom: 16px; }
+    .result-match-label { font-size: 10px; color: #D4A574; letter-spacing: 3px; margin-bottom: 6px; font-weight: 600; }
+    .result-match-text { font-size: 15px; font-weight: 700; line-height: 1.6; }
+    .result-tip { background: rgba(232,192,122,.05); border: 1px solid rgba(232,192,122,.15); border-radius: 14px; padding: 16px 20px; margin-bottom: 24px; }
+    .result-tip-label { font-size: 10px; color: #E8C07A; letter-spacing: 2px; margin-bottom: 5px; font-weight: 600; }
+    .result-tip-text { font-size: 14px; line-height: 1.8; color: rgba(245,230,211,.65); font-weight: 300; }
+    .result-scores { background: rgba(212,165,116,.04); border: 1px solid rgba(212,165,116,.15); border-radius: 18px; padding: 20px 18px; margin-bottom: 28px; }
+    .result-scores-label { font-size: 10px; color: #D4A574; letter-spacing: 3px; margin-bottom: 16px; font-weight: 600; }
+    .score-row { margin-bottom: 16px; }
+    .score-row:last-child { margin-bottom: 0; }
+    .score-labels { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 13px; font-weight: 600; }
+    .score-bar { height: 6px; background: rgba(245,230,211,.06); border-radius: 10px; overflow: hidden; display: flex; }
+    .score-fill-a { height: 100%; border-radius: 10px 0 0 10px; animation: growIn 1s ease both; }
+    .score-fill-b { height: 100%; border-radius: 0 10px 10px 0; animation: growIn 1s ease both; }
+    .result-share { text-align: center; }
+    .result-share p { font-size: 12px; color: rgba(245,230,211,.35); margin-bottom: 14px; }
+    .restart-btn { background: transparent; border: 1px solid rgba(212,165,116,.25); border-radius: 50px; padding: 13px 36px; font-size: 14px; color: #D4A574; cursor: pointer; font-family: inherit; letter-spacing: 2px; transition: all .3s ease; }
+    .restart-btn:hover { background: rgba(212,165,116,.12) !important; }
+    .result-footer { text-align: center; margin-top: 36px; padding-top: 16px; border-top: 1px solid rgba(212,165,116,.15); }
+    .result-footer-text { font-size: 9px; color: rgba(212,165,116,.25); letter-spacing: 2px; }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 480px) {
+      .intro-title { font-size: 24px; }
+      .quiz-question { font-size: 19px; }
+      .opt-btn { font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ══ INTRO ══ -->
+  <div id="intro-stage" class="intro">
+    <div class="logo-wrap">
+      <div class="steam-line"></div>
+      <div class="steam-line"></div>
+      <div class="steam-line"></div>
+      <div class="logo-emoji">☕</div>
+    </div>
+    <h1 class="intro-label">咖啡人格測驗</h1>
+    <p class="intro-sub">COFFEE PERSONALITY TEST</p>
+    <h2 class="intro-title">你是什麼樣的<br><span>咖啡控？</span></h2>
+    <p class="intro-desc">20道靈魂拷問 · 4個維度 · 16種人格<br><small>測驗結果可能引發咖啡信仰戰爭</small></p>
+    <div class="dim-grid" id="dim-grid"></div>
+    <button class="start-btn" id="start-btn">開始測驗</button>
+  </div>
+
+  <!-- ══ QUIZ ══ -->
+  <div id="quiz-stage" class="hidden">
+    <div class="quiz-header">
+      <div class="quiz-meta">
+        <span class="quiz-dim-label" id="quiz-dim-label"></span>
+        <span class="quiz-counter"><span id="q-num">1</span><span>/20</span></span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    </div>
+    <div id="question-wrap" class="quiz-question-wrap">
+      <h2 class="quiz-question" id="question-text"></h2>
+      <div class="options-list" id="options-list"></div>
+    </div>
+  </div>
+
+  <!-- ══ RESULT ══ -->
+  <div id="result-stage" class="result hidden">
+    <div class="result-header">
+      <div class="result-emoji" id="result-emoji"></div>
+      <div class="result-type-badge" id="result-type"></div>
+      <h2 class="result-title" id="result-title"></h2>
+      <p class="result-subtitle" id="result-subtitle"></p>
+    </div>
+    <div class="result-desc-box">
+      <p class="result-desc" id="result-desc"></p>
+    </div>
+    <div class="result-match">
+      <div class="result-match-label">你的經典款</div>
+      <div class="result-match-text" id="result-match"></div>
+    </div>
+    <div class="result-tip">
+      <div class="result-tip-label">給你的小建議</div>
+      <div class="result-tip-text" id="result-tip"></div>
+    </div>
+    <div class="result-scores">
+      <div class="result-scores-label">你的咖啡維度分數</div>
+      <div id="scores-container"></div>
+    </div>
+    <div class="result-share">
+      <p>截圖分享你的咖啡人格</p>
+      <button class="restart-btn" id="restart-btn">再測一次</button>
+    </div>
+    <div class="result-footer">
+      <div class="result-footer-text">CBTI — Coffee Beverage Type Indicator</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ═══ DATA ═══
+const QUESTIONS = [
+  { id:1, dimension:0, question:"你覺得「抹茶拿鐵」算咖啡嗎？", options:[
+    {text:"那是抹茶，不是咖啡，謝謝",score:3},{text:"勉強算⋯⋯但我不會點",score:1},
+    {text:"好喝就好，誰在乎分類",score:-1},{text:"我連黑糖珍珠拿鐵都當咖啡喝",score:-3}]},
+  { id:2, dimension:0, question:"朋友趁你不注意，在你的黑咖啡裡偷加了糖⋯⋯", options:[
+    {text:"友誼的小船當場翻覆，沒有倖存者",score:3},{text:"表面微笑，內心已寫好絕交信",score:2},
+    {text:"嚐一口⋯⋯嗯其實還行？",score:-1},{text:"終於有人懂我不敢自己加糖的心",score:-3}]},
+  { id:3, dimension:0, question:"咖啡廳新品「草莓起司蛋糕風味拿鐵」上市了！", options:[
+    {text:"咖啡豆的棺材板，被你們焊死了",score:3},{text:"不會喝，但會幫它拍遺照",score:0},
+    {text:"聽起來有趣欸，來一杯",score:-2},{text:"再加一份草莓醬跟鮮奶油，多謝",score:-3}]},
+  { id:4, dimension:0, question:"如果咖啡是一段感情，那「牛奶」是什麼角色？", options:[
+    {text:"第三者，破壞了純粹的靈魂",score:3},{text:"門當戶對的正宮，但我選單身",score:1},
+    {text:"靈魂伴侶，互相成就",score:-2},{text:"全家福：奶＋糖＋鮮奶油＋焦糖醬",score:-3}]},
+  { id:5, dimension:0, question:"有人說「加燕麥奶比較健康」，你覺得⋯⋯", options:[
+    {text:"加什麼都是對咖啡的褻瀆",score:3},{text:"比牛奶好一些，但我還是黑的",score:1},
+    {text:"有道理，我來試試",score:-1},{text:"燕麥奶加楓糖漿，完美組合",score:-3},{text:"我已經進化到椰奶了，你們慢慢來",score:-2}]},
+  { id:6, dimension:1, question:"氣溫38°C，中午十二點半，你走進咖啡廳⋯⋯", options:[
+    {text:"熱美式，謝謝。流汗是身體在鼓掌",score:3},{text:"至少溫的吧，冰的傷胃你知道嗎",score:1},
+    {text:"大冰拿，冰塊加滿不用客氣",score:-2},{text:"有冰沙嗎？越冰越好那種",score:-3}]},
+  { id:7, dimension:1, question:"你的冰美式冰塊融化了，變成一杯咖啡味的水⋯⋯", options:[
+    {text:"所以我從不點冰的，感謝宇宙又證明我是對的",score:3},{text:"這是冰飲的宿命，我含淚接受",score:-1},
+    {text:"用咖啡冰塊啊，這是基本常識",score:-2},{text:"我五分鐘就灌完了，融什麼融",score:-3}]},
+  { id:8, dimension:1, question:"冬天暴雨，你窩在咖啡廳窗邊，你點⋯⋯", options:[
+    {text:"熱手沖，捧在手心就是完整的人生",score:3},{text:"熱拿鐵，暖心暖胃暖靈魂",score:2},
+    {text:"冰拿鐵。我四季如一，風雨無阻",score:-2},{text:"冰的。店裡暖氣開那麼強，不喝冰的才奇怪吧",score:-3}]},
+  { id:9, dimension:1, question:"「冷萃需要泡12～24小時」，你的反應是？", options:[
+    {text:"等這麼久不如直接沖一杯熱的，人生苦短",score:3},{text:"偶爾泡一次還行，日常我選熱的",score:1},
+    {text:"冰箱永遠有一瓶 on standby",score:-2},{text:"我已經在研究48小時極致冷萃了",score:-3}]},
+  { id:10, dimension:1, question:"如果全世界只剩一種溫度的咖啡可以喝⋯⋯", options:[
+    {text:"熱的，沒有懸念，直接定案",score:3},{text:"熱的吧，至少可以放涼，冷的不能加熱",score:1},
+    {text:"冰的！熱咖啡等它涼了就難喝了",score:-1},{text:"冰的，我願意為冰美式戰鬥到最後一刻",score:-3},{text:"能不能選常溫⋯⋯我不想選邊站",score:0}]},
+  { id:11, dimension:2, question:"有人說淺焙咖啡喝起來像「水果茶」⋯⋯", options:[
+    {text:"花那個錢不如真的去買果汁",score:3},{text:"咖啡就該有咖啡味，不是水果味",score:2},
+    {text:"這是讚美好嗎！果酸是淺焙的靈魂",score:-2},{text:"喝得出產區風土才是真本事",score:-3}]},
+  { id:12, dimension:2, question:"你覺得星巴克的咖啡⋯⋯", options:[
+    {text:"至少夠濃夠苦，這才叫咖啡",score:3},{text:"普通，趕時間的選擇",score:1},
+    {text:"每次喝都覺得豆子上輩子欠了什麼債",score:-2},{text:"那不是咖啡，那是碳化的眼淚",score:-3},{text:"我去星巴克是為了蛋糕和冷氣",score:0}]},
+  { id:13, dimension:2, question:"「你的豆子被你燙傷了」——聽到這句話你⋯⋯", options:[
+    {text:"又一個淺焙傳教士來佈道了",score:3},{text:"每人口味不同，不需要彼此糾正",score:1},
+    {text:"確實，水溫控制很重要，淺焙更敏感",score:-2},{text:"這是精品咖啡的基本功，背後有科學原理",score:-3}]},
+  { id:14, dimension:2, question:"挑選咖啡豆時，你最先看什麼？", options:[
+    {text:"焙度：深焙、二爆，看到就心安",score:3},{text:"反正喝起來夠勁就好，其他隨便",score:2},
+    {text:"產區、品種、處理法，一個都不能少",score:-2},{text:"杯測分數85分以下的不會出現在我家",score:-3},{text:"看價錢。咖啡因是平等的。",score:0}]},
+  { id:15, dimension:2, question:"如果深焙和淺焙打一架⋯⋯", options:[
+    {text:"深焙一拳把淺焙那個酸酸的打趴",score:3},{text:"深焙穩如泰山，淺焙花拳繡腿",score:1},
+    {text:"淺焙靈活多變，深焙只會蠻力",score:-1},{text:"淺焙是藝術品，深焙是⋯⋯活性碳？",score:-3}]},
+  { id:16, dimension:3, question:"你手機裡的咖啡廳收藏有幾家？", options:[
+    {text:"就那一家。老闆看到我走進來就開始做了",score:3},{text:"三五家輪著去，心裡有排名",score:1},
+    {text:"至少20家，週末就是探店日",score:-2},{text:"多到手機需要擴充容量",score:-3}]},
+  { id:17, dimension:3, question:"菜單上有30種品項，你⋯⋯", options:[
+    {text:"三秒內點完。我的答案從開店到現在沒變過",score:3},{text:"假裝研究菜單兩秒，然後點一樣的",score:2},
+    {text:"認真看完，挑一個沒喝過的冒險",score:-2},{text:"選擇困難症發作，請老闆救命",score:-1},{text:"閉眼隨便指一個，咖啡也要抽盲盒",score:-3}]},
+  { id:18, dimension:3, question:"你有一套完美沖煮參數，朋友說「試試別的比例」⋯⋯", options:[
+    {text:"不用。這參數經過87次校準，謝謝",score:3},{text:"我的很好了，你先忙",score:2},
+    {text:"可以聽聽看，但不一定改",score:-1},{text:"馬上記下來，今晚就做A/B測試",score:-3}]},
+  { id:19, dimension:3, question:"出國旅行，你對喝咖啡這件事⋯⋯", options:[
+    {text:"自帶掛耳包。異鄉的咖啡不可信賴",score:3},{text:"先查飯店附近有沒有認識的連鎖店",score:1},
+    {text:"旅行就是要喝當地特色咖啡啊！",score:-2},{text:"走到哪喝到哪，踩雷也是一種風味體驗",score:-3},{text:"出國我直接改喝茶了",score:0}]},
+  { id:20, dimension:3, question:"如果全世界只剩一種咖啡可以喝⋯⋯", options:[
+    {text:"沒差，反正我本來就只喝一種",score:3},{text:"專情是優點，我可以",score:1},
+    {text:"雖然痛苦，但有咖啡喝就好",score:-1},{text:"那跟世界末日有什麼兩樣",score:-3}]},
+];
+
+const TYPE_RESULTS = {
+  BHDF:{type:"BHDF",title:"黑咖啡修行者",subtitle:"The Purist Monk",emoji:"☕",desc:"你把喝咖啡當修行。一杯熱的深焙黑咖啡，同一組器材、同一個參數，日復一日。你不是無聊，你是在同一杯咖啡中尋找靈魂的極致。",match:"曼特寧深焙手沖，1:15，90°C，永遠不變",tip:"你的堅持令人敬佩，但偶爾讓豆子帶你去一趟旅行？"},
+  BHDE:{type:"BHDE",title:"暗黑浪人",subtitle:"The Dark Wanderer",emoji:"🌙",desc:"黑咖啡、深焙、熱的——但你從不忠於一家店。你是咖啡界的浪人，在每座城市留下一杯空杯。手機裡沒有收藏名單，只有地圖。",match:"每座城市最老那家咖啡館的招牌深焙",tip:"寫下你的流浪地圖，回頭看會很感動"},
+  BHSF:{type:"BHSF",title:"精品咖啡學究",subtitle:"The Flavor Professor",emoji:"🔬",desc:"水溫幾度、研磨幾格、悶蒸幾秒——你都有一套經過87次驗證的公式。風味筆記比情書還認真，杯測分數是你的信仰。",match:"耶加雪菲水洗V60手沖，15g:225ml，不接受質疑",tip:"偶爾放空喝一杯，不是每杯都需要評分的"},
+  BHSE:{type:"BHSE",title:"風味獵人",subtitle:"The Flavor Hunter",emoji:"🏹",desc:"你活著就是為了那句「天啊我沒嚐過這個味道」。淺焙、熱飲、純黑是基本設定，但你永遠在追逐下一支讓你起雞皮疙瘩的奇蹟。",match:"最新產季巴拿馬藝伎，只有你聽過的微批次",tip:"分享你的發現吧，好豆子值得被更多人喝到"},
+  BLDF:{type:"BLDF",title:"鐵打的拿鐵人",subtitle:"The Latte Tank",emoji:"⚙️",desc:"深焙雙份濃縮加熱牛奶，這是你的每日燃料。穩定輸出，從不失誤。店員看到你走進來就開始做了，你覺得這是全世界最完美的公式。",match:"雙份濃縮熱拿鐵，固定那家店那個杯子",tip:"試試換成燕麥奶，世界會多一個維度"},
+  BLDE:{type:"BLDE",title:"奶咖創意總監",subtitle:"The Latte Art Director",emoji:"🎨",desc:"髒髒拿鐵、黑糖厚奶、桂花espresso⋯⋯你的點單是一部創意作品集。你相信咖啡是無限可能的畫布，牛奶是最棒的顏料。",match:"這週剛上市的季節限定特調",tip:"你的好奇心就是最棒的調味料，永遠別停"},
+  BLSF:{type:"BLSF",title:"Flat White信徒",subtitle:"The Flat White Disciple",emoji:"🕊️",desc:"淺焙果酸配上綿密奶泡，Flat White是你找到的完美平衡。你懂精品但不裝腔作勢，你不主動傳教，但如果有誰問，你可以談三小時。",match:"淺中焙精品豆Flat White，固定那家，不解釋",tip:"你的品味比你以為的還要好，自信一點"},
+  BLSE:{type:"BLSE",title:"咖啡社交蝴蝶",subtitle:"The Café Butterfly",emoji:"🦋",desc:"你喝的是氛圍。新咖啡廳、限定口味、漂亮拉花——每一杯都是社交貨幣。你說不出風味輪術語，但你對「好喝」有獨到的直覺。",match:"IG上這週被標記最多的那家的招牌飲品",tip:"你讓更多人愛上咖啡文化，這件事很重要"},
+  CHDF:{type:"CHDF",title:"冰美式戰神",subtitle:"The Iced Americano Spartan",emoji:"🛡️",desc:"不管天氣、心情、場合——冰美式，少冰，謝謝。這不是飲料，這是你的戰鬥燃料。你喝咖啡不為享受，是為了活著。",match:"大杯冰美式，少冰，深焙，每天那一家",tip:"你是咖啡因的忠誠戰士，但晚上六點後請善待自己"},
+  CHDE:{type:"CHDE",title:"冷萃狂狂科學家",subtitle:"The Cold Brew Scientist",emoji:"🧪",desc:"你的冰箱永遠有三瓶不同配方的手萃在實驗中。冰滴、氮氣、碳酸⋯⋯你對「把咖啡弄冷」有無限創意。你的廚房就是實驗室。",match:"自製36小時冷萃，深焙配方，加通寧水",tip:"是時候寫實驗筆記了，搞不好可以出書"},
+  CHSF:{type:"CHSF",title:"冰手沖偏執狂",subtitle:"The Ice Pour-Over Obsessive",emoji:"❄️",desc:"你堅持用淺焙做冰手沖，有一套精密到令人害怕的比例。冰鎮後果酸更明亮，你享受這個事實，也享受朋友看你沖咖啡的樣子。",match:"冰手沖衣索比亞日曬，冰塊必須用過濾水做",tip:"你的偏執是藝術，但偶爾熱喝同支豆子會有不同驚喜"},
+  CHSE:{type:"CHSE",title:"咖啡潮流先鋒",subtitle:"The Coffee Vanguard",emoji:"⚡",desc:"Espresso Tonic、Flash Brew、厭氧日曬冰萃⋯⋯最新趨勢你永遠第一個試。等大家都在喝的時候，你已經在研究下一個了。",match:"你告訴我，下個月流行什麼？",tip:"你就是行走的咖啡趨勢報告，認真考慮開帳號分享"},
+  CLDF:{type:"CLDF",title:"冰拿鐵永恆黨主席",subtitle:"The Iced Latte Eternal",emoji:"🏛️",desc:"你的人生信條只有六個字：冰拿鐵，謝謝。深焙濃郁被冰牛奶馴服的滑順感，是你永恆不變的comfort zone。",match:"冰拿鐵。就這樣。不必問哪家。每一百家。",tip:"你的穩定讓世界運轉，偶爾的小驚喜不會背叛你的"},
+  CLDE:{type:"CLDE",title:"冰飲創意鬼才",subtitle:"The Iced Drink Visionary",emoji:"💡",desc:"你是朋友群裡的咖啡點單顧問。冰搖濃縮、椰奶拿鐵、焦糖冷萃⋯⋯你對冰飲的知識量堪比百科全書。每個季節都有你的驚喜。",match:"每月不同的創意冰咖啡，由你定義潮流",tip:"你可以開一家咖啡廳了，名字就叫「今天喝什麼」"},
+  CLSF:{type:"CLSF",title:"低調質感生活家",subtitle:"The Quiet Connoisseur",emoji:"🌿",desc:"你喝的不只是咖啡，是一種生活品質。淺焙的乾淨、冰牛奶的柔和、固定的好店——你對日常的每個細節都有標準答案。",match:"精品咖啡館的冰澳白，每週固定報到",tip:"你的生活本身就是最大的選物指南"},
+  CLSE:{type:"CLSE",title:"終極咖啡玩家",subtitle:"The Ultimate Coffee Player",emoji:"🎮",desc:"咖啡是世界上最好好玩的遊戲。冰的、奶的、酸的、氣泡的、加酒的⋯⋯你的字典裡沒有「無聊」。你不被任何流派綁架，只被好奇心驅動。",match:"「老闆推薦什麼我就喝什麼」",tip:"你的開放心態是最棒的咖啡濾杯，永遠不要蓋上蓋子"},
+};
+
+const DIMENSIONS = [
+  { labels:["B 純粹派","L 調味派"], colors:["#2C1810","#D4A574"], keys:"B/L" },
+  { labels:["H 熱飲派","C 冷飲派"], colors:["#C0392B","#2980B9"], keys:"H/C" },
+  { labels:["D 深焙派","S 淺焙派"], colors:["#5D3A1A","#E8C07A"], keys:"D/S" },
+  { labels:["F 固定派","E 探索派"], colors:["#5D4037","#FF8F00"], keys:"F/E" },
+];
+
+const DIM_LABELS = ["純粹 vs 調味","熱飲 vs 冷飲","深焙 vs 淺焙","固定 vs 探索"];
+
+// ═══ STATE ═══
+let currentQ = 0;
+let answers = [];
+let animating = false;
+let selectedIdx = null;
+
+// ═══ HELPERS ═══
+function show(id) { document.getElementById(id).classList.remove('hidden'); }
+function hide(id) { document.getElementById(id).classList.add('hidden'); }
+
+function calculateResult(allAnswers) {
+  const dimTotals = [0,0,0,0];
+  const dimCounts = [0,0,0,0];
+  allAnswers.forEach(({dimension, score}) => {
+    dimTotals[dimension] += score;
+    dimCounts[dimension]++;
+  });
+  const dimLabels = [["B","L"],["H","C"],["D","S"],["F","E"]];
+  let type = "";
+  const dimScores = [];
+  dimLabels.forEach((pair, i) => {
+    const total = dimTotals[i];
+    const maxPossible = dimCounts[i] * 3;
+    const normalized = maxPossible > 0 ? total / maxPossible : 0;
+    const aPercent = Math.min(95, Math.max(5, Math.round((normalized + 1) / 2 * 100)));
+    const bPercent = 100 - aPercent;
+    type += aPercent >= 50 ? pair[0] : pair[1];
+    dimScores.push({ a: pair[0], b: pair[1], aPercent, bPercent });
+  });
+  return { result: TYPE_RESULTS[type] || TYPE_RESULTS["BHDF"], dimScores };
+}
+
+// ═══ RENDER FUNCTIONS ═══
+function renderIntro() {
+  const grid = document.getElementById('dim-grid');
+  grid.innerHTML = DIMENSIONS.map((d, i) => `
+    <div class="dim-card" style="animation-delay:${.2+i*.1}s">
+      <div class="dim-card-label">${d.labels[0]} / ${d.labels[1]}</div>
+      <div class="dim-card-key">${d.keys}</div>
+    </div>`).join('');
+}
+
+function renderQuestion() {
+  const q = QUESTIONS[currentQ];
+  document.getElementById('quiz-dim-label').textContent = DIM_LABELS[q.dimension];
+  document.getElementById('q-num').textContent = currentQ + 1;
+  document.getElementById('progress-fill').style.width = ((currentQ + 1) / QUESTIONS.length * 100) + '%';
+  document.getElementById('question-text').textContent = q.question;
+  document.getElementById('options-list').innerHTML = q.options.map((opt, i) => `
+    <button class="opt-btn" data-score="${opt.score}" data-dim="${q.dimension}" data-idx="${i}" style="animation-delay:${.03+i*.05}s">
+      ${opt.text}
+    </button>`).join('');
+}
+
+function renderResult(resultData) {
+  const { result, dimScores } = resultData;
+  document.getElementById('result-emoji').textContent = result.emoji;
+  document.getElementById('result-type').textContent = result.type;
+  document.getElementById('result-title').textContent = result.title;
+  document.getElementById('result-subtitle').textContent = result.subtitle;
+  document.getElementById('result-desc').textContent = result.desc;
+  document.getElementById('result-match').textContent = result.match;
+  document.getElementById('result-tip').textContent = result.tip;
+
+  document.getElementById('scores-container').innerHTML = dimScores.map((s, i) => `
+    <div class="score-row">
+      <div class="score-labels">
+        <span style="color:${DIMENSIONS[i].colors[0]}">${s.a} ${s.aPercent}%</span>
+        <span style="color:${DIMENSIONS[i].colors[1]}">${s.b} ${s.bPercent}%</span>
+      </div>
+      <div class="score-bar">
+        <div class="score-fill-a" style="width:${s.aPercent}%;background:linear-gradient(90deg,${DIMENSIONS[i].colors[0]}cc,${DIMENSIONS[i].colors[0]});animation-delay:${.2+i*.15}s"></div>
+        <div class="score-fill-b" style="width:${s.bPercent}%;background:linear-gradient(90deg,${DIMENSIONS[i].colors[1]},${DIMENSIONS[i].colors[1]});animation-delay:${.2+i*.15}s"></div>
+      </div>
+    </div>`).join('');
+}
+
+// ═══ EVENT HANDLERS ═══
+document.getElementById('start-btn').addEventListener('click', () => {
+  hide('intro-stage');
+  show('quiz-stage');
+  renderQuestion();
+});
+
+document.getElementById('options-list').addEventListener('click', e => {
+  const btn = e.target.closest('.opt-btn');
+  if (!btn || animating) return;
+  animating = true;
+  const score = parseInt(btn.dataset.score);
+  const dimension = parseInt(btn.dataset.dim);
+  const idx = parseInt(btn.dataset.idx);
+  btn.classList.add('selected');
+  selectedIdx = idx;
+  answers.push({ dimension, score });
+  setTimeout(() => {
+    if (currentQ < QUESTIONS.length - 1) {
+      currentQ++;
+      const wrap = document.getElementById('question-wrap');
+      wrap.style.animation = 'none';
+      void wrap.offsetWidth;
+      wrap.style.animation = 'slideIn 0.35s ease';
+      renderQuestion();
+    } else {
+      const r = calculateResult(answers);
+      hide('quiz-stage');
+      show('result-stage');
+      renderResult(r);
+    }
+    animating = false;
+    selectedIdx = null;
+  }, 350);
+});
+
+document.getElementById('restart-btn').addEventListener('click', () => {
+  currentQ = 0;
+  answers = [];
+  animating = false;
+  selectedIdx = null;
+  hide('result-stage');
+  show('intro-stage');
+});
+
+// Init
+renderIntro();
+</script>
+</body>
+</html>
