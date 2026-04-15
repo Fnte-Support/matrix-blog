@@ -120,7 +120,14 @@
     .share-btn svg { width: 16px; height: 16px; }
     .result-footer { text-align: center; margin-top: 36px; padding-top: 16px; border-top: 1px solid rgba(212,165,116,.15); }
     .result-footer-text { font-size: 9px; color: rgba(212,165,116,.25); letter-spacing: 2px; }
-
+    .result-actions { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+    .action-btn { display: flex; align-items: center; gap: 6px; padding: 11px 18px; border-radius: 50px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all .25s ease; border: none; text-decoration: none; }
+    .action-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+    .action-btn.download { background: rgba(212,165,116,.15); color: #D4A574; border: 1px solid rgba(212,165,116,.3); }
+    .action-btn.copy { background: rgba(212,165,116,.1); color: #E8C07A; border: 1px solid rgba(232,192,122,.3); }
+    .action-btn svg { width: 15px; height: 15px; }
+    .counter-badge { display: inline-flex; align-items: center; gap: 5px; background: rgba(212,165,116,.08); border: 1px solid rgba(212,165,116,.2); border-radius: 20px; padding: 5px 14px; font-size: 12px; color: rgba(212,165,116,.7); margin-bottom: 20px; }
+    .counter-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: #D4A574; animation: pulse 1.8s ease infinite; }
     .hidden { display: none !important; }
 
     @media (max-width: 480px) {
@@ -166,6 +173,12 @@
 
   <!-- ══ RESULT ══ -->
   <div id="result-stage" class="result hidden">
+    <div style="text-align:center; margin-bottom:10px">
+      <div class="counter-badge">
+        <span class="dot"></span>
+        <span id="counter-text">已有 0 人測驗</span>
+      </div>
+    </div>
     <div class="result-header">
       <div class="result-emoji" id="result-emoji"></div>
       <div class="result-type-badge" id="result-type"></div>
@@ -188,7 +201,17 @@
       <div id="scores-container"></div>
     </div>
     <div class="result-share">
-      <p>截圖分享你的咖啡人格</p>
+      <div class="result-actions">
+        <button class="action-btn download" id="download-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zm-8 2V5h2v6h1.17L12 13.17 9.83 11H11zm-6 7h14v2H5v-2z"/></svg>
+          下載結果圖
+        </button>
+        <button class="action-btn copy" id="copy-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+          複製結果
+        </button>
+      </div>
+      <p>分享你的咖啡人格</p>
       <div class="share-btns">
         <button class="share-btn website" id="native-share-btn" style="display:none">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.53.57 1.2.96 1.95.96 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
@@ -198,8 +221,8 @@
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.976C23.176 14.393 24 12.458 24 10.314"/></svg>
           LINE
         </a>
-        <a class="share-btn threads" href="https://www.threads.net/@gosakurajp" target="_blank">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c2.75 0 5.09.96 7 2.56-1.97 1.19-3.37 3.06-3.7 5.44H15l-2 5h-3.28l1.7-5H8.5l2-5H12zm-4.5 9h3l-1 5h-3l1-5zM6.5 8C5.12 8 4 9.12 4 10.5V22h3v-5h2v5h3v-9.5C15 9.12 13.88 8 12.5 8h-6z"/></svg>
+        <a class="share-btn threads" id="threads-share-btn" href="https://www.threads.net/intent/post" target="_blank">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5.5-2.5l7.51-3.49L17.5 6.5 9.99 9.99 6.5 17.5zm5.5-6.6c.61 0 1.1.49 1.1 1.1s-.49 1.1-1.1 1.1-1.1-.49-1.1-1.1.49-1.1 1.1-1.1z"/></svg>
           Threads
         </a>
         <a class="share-btn website" href="https://dailycoffee.matrix.com.tw" target="_blank">
@@ -319,6 +342,20 @@ let selectedIdx = null;
 function show(id) { document.getElementById(id).classList.remove('hidden'); }
 function hide(id) { document.getElementById(id).classList.add('hidden'); }
 
+// ═══ COUNTER ═══
+const COUNTER_KEY = 'cbti_count';
+function getCount() { return parseInt(localStorage.getItem(COUNTER_KEY) || '0'); }
+function bumpCount() {
+  const n = getCount() + 1;
+  localStorage.setItem(COUNTER_KEY, String(n));
+  return n;
+}
+function formatCount(n) {
+  if (n >= 10000) return (n / 10000).toFixed(1) + '萬';
+  if (n >= 1000) return (n / 1000).toFixed(1) + 'k';
+  return String(n);
+}
+
 function calculateResult(allAnswers) {
   const dimTotals = [0,0,0,0];
   const dimCounts = [0,0,0,0];
@@ -367,6 +404,13 @@ function renderResult(resultData) {
   const { result, dimScores } = resultData;
   window._resultType = result.type;
   window._resultTitle = result.title;
+  window._resultDesc = result.desc;
+  window._resultMatch = result.match;
+
+  // Bump and show counter
+  const count = bumpCount();
+  document.getElementById('counter-text').textContent = '已有 ' + formatCount(count) + ' 人測驗';
+
   document.getElementById('result-emoji').textContent = result.emoji;
   document.getElementById('result-type').textContent = result.type;
   document.getElementById('result-title').textContent = result.title;
@@ -451,9 +495,123 @@ if (lineBtn) {
 }
 
 // Update Threads share
-const threadsBtns = document.querySelectorAll('.share-btn.threads');
-threadsBtns.forEach(btn => {
-  btn.href = 'https://www.threads.net/intent/post?text=' + encodeURIComponent(SHARE_TITLE + ' ' + SHARE_URL);
+const threadsBtn = document.getElementById('threads-share-btn');
+if (threadsBtn) {
+  threadsBtn.href = 'https://www.threads.net/intent/post?text=' + encodeURIComponent(SHARE_TITLE + ' ' + SHARE_URL);
+}
+
+// ═══ DOWNLOAD RESULT IMAGE ═══
+document.getElementById('download-btn').addEventListener('click', () => {
+  const type = window._resultType || '???';
+  const title = window._resultTitle || '';
+  const emoji = document.getElementById('result-emoji').textContent;
+
+  const canvas = document.createElement('canvas');
+  canvas.width = 1080;
+  canvas.height = 1080;
+  const ctx = canvas.getContext('2d');
+
+  // Background gradient
+  const grad = ctx.createLinearGradient(0, 0, 1080, 1080);
+  grad.addColorStop(0, '#1A0E08');
+  grad.addColorStop(0.5, '#2C1810');
+  grad.addColorStop(1, '#1A0E08');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, 1080, 1080);
+
+  // Border
+  ctx.strokeStyle = 'rgba(212,165,116,0.3)';
+  ctx.lineWidth = 3;
+  ctx.strokeRect(30, 30, 1020, 1020);
+
+  // Emoji
+  ctx.font = '160px serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(emoji, 540, 300);
+
+  // CBTI label
+  ctx.font = '600 36px sans-serif';
+  ctx.fillStyle = '#D4A574';
+  ctx.fillText('CBTI 咖啡人格測驗', 540, 380);
+
+  // Type badge
+  ctx.font = '900 72px sans-serif';
+  ctx.fillStyle = '#E8C07A';
+  ctx.fillText('#' + type, 540, 490);
+
+  // Title
+  ctx.font = '700 52px sans-serif';
+  ctx.fillStyle = '#F5E6D3';
+  ctx.fillText(title, 540, 580);
+
+  // Divider
+  ctx.strokeStyle = 'rgba(212,165,116,0.3)';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(240, 620);
+  ctx.lineTo(840, 620);
+  ctx.stroke();
+
+  // Description (truncated)
+  const desc = window._resultDesc || '';
+  ctx.font = '400 32px sans-serif';
+  ctx.fillStyle = 'rgba(245,230,211,0.75)';
+  const lines = wrapText(ctx, desc, 760, 38);
+  lines.slice(0, 3).forEach((line, i) => ctx.fillText(line, 540, 700 + i * 46));
+
+  // Match
+  const match = window._resultMatch || '';
+  ctx.font = '600 30px sans-serif';
+  ctx.fillStyle = '#D4A574';
+  ctx.fillText('經典款：' + match, 540, 900);
+
+  // URL
+  ctx.font = '300 26px sans-serif';
+  ctx.fillStyle = 'rgba(212,165,116,0.5)';
+  ctx.fillText('dailycoffee.matrix.com.tw/article/cbti/', 540, 1000);
+
+  const link = canvas.toDataURL('image/png');
+  const a = document.createElement('a');
+  a.download = '我的CBTI咖啡人格_' + type + '.png';
+  a.href = link;
+  a.click();
+});
+
+function wrapText(ctx, text, maxWidth, fontSize) {
+  const words = text.split('');
+  const lines = [];
+  let line = '';
+  ctx.font = fontSize + 'px sans-serif';
+  for (const char of words) {
+    const test = line + char;
+    if (ctx.measureText(test).width > maxWidth && line.length > 0) {
+      lines.push(line);
+      line = char;
+    } else {
+      line = test;
+    }
+  }
+  if (line) lines.push(line);
+  return lines;
+}
+
+// ═══ COPY RESULT TEXT ═══
+document.getElementById('copy-btn').addEventListener('click', async () => {
+  const type = window._resultType || '';
+  const title = window._resultTitle || '';
+  const match = window._resultMatch || '';
+  const text = '☕ 我的咖啡人格是 #【' + type + '】「' + title + '」' +
+    '\n📋 經典款：' + match +
+    '\n💡 測驗：https://dailycoffee.matrix.com.tw/article/cbti/';
+  try {
+    await navigator.clipboard.writeText(text);
+    const btn = document.getElementById('copy-btn');
+    const orig = btn.innerHTML;
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> 已複製！';
+    setTimeout(() => btn.innerHTML = orig, 2000);
+  } catch (e) {
+    // fallback
+  }
 });
 
 document.getElementById('restart-btn').addEventListener('click', () => {
