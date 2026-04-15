@@ -111,6 +111,13 @@
     .result-share p { font-size: 12px; color: rgba(245,230,211,.35); margin-bottom: 14px; }
     .restart-btn { background: transparent; border: 1px solid rgba(212,165,116,.25); border-radius: 50px; padding: 13px 36px; font-size: 14px; color: #D4A574; cursor: pointer; font-family: inherit; letter-spacing: 2px; transition: all .3s ease; }
     .restart-btn:hover { background: rgba(212,165,116,.12) !important; }
+    .share-btns { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
+    .share-btn { display: flex; align-items: center; gap: 6px; padding: 11px 20px; border-radius: 50px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all .25s ease; text-decoration: none; border: none; }
+    .share-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+    .share-btn.line { background: #00B900; color: #fff; }
+    .share-btn.threads { background: #000; color: #fff; border: 1px solid rgba(255,255,255,.3); }
+    .share-btn.website { background: rgba(212,165,116,.15); color: #D4A574; border: 1px solid rgba(212,165,116,.3); }
+    .share-btn svg { width: 16px; height: 16px; }
     .result-footer { text-align: center; margin-top: 36px; padding-top: 16px; border-top: 1px solid rgba(212,165,116,.15); }
     .result-footer-text { font-size: 9px; color: rgba(212,165,116,.25); letter-spacing: 2px; }
 
@@ -182,6 +189,24 @@
     </div>
     <div class="result-share">
       <p>截圖分享你的咖啡人格</p>
+      <div class="share-btns">
+        <button class="share-btn website" id="native-share-btn" style="display:none">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.53.57 1.2.96 1.95.96 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
+          分享
+        </button>
+        <a class="share-btn line" id="line-share-btn" href="https://lin.ee/62G0tor" target="_blank">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.976C23.176 14.393 24 12.458 24 10.314"/></svg>
+          LINE
+        </a>
+        <a class="share-btn threads" href="https://www.threads.net/@gosakurajp" target="_blank">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c2.75 0 5.09.96 7 2.56-1.97 1.19-3.37 3.06-3.7 5.44H15l-2 5h-3.28l1.7-5H8.5l2-5H12zm-4.5 9h3l-1 5h-3l1-5zM6.5 8C5.12 8 4 9.12 4 10.5V22h3v-5h2v5h3v-9.5C15 9.12 13.88 8 12.5 8h-6z"/></svg>
+          Threads
+        </a>
+        <a class="share-btn website" href="https://dailycoffee.matrix.com.tw" target="_blank">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+          官網
+        </a>
+      </div>
       <button class="restart-btn" id="restart-btn">再測一次</button>
     </div>
     <div class="result-footer">
@@ -340,6 +365,8 @@ function renderQuestion() {
 
 function renderResult(resultData) {
   const { result, dimScores } = resultData;
+  window._resultType = result.type;
+  window._resultTitle = result.title;
   document.getElementById('result-emoji').textContent = result.emoji;
   document.getElementById('result-type').textContent = result.type;
   document.getElementById('result-title').textContent = result.title;
@@ -347,6 +374,12 @@ function renderResult(resultData) {
   document.getElementById('result-desc').textContent = result.desc;
   document.getElementById('result-match').textContent = result.match;
   document.getElementById('result-tip').textContent = result.tip;
+  // Update share URLs with real result
+  const shareTitle = '我是#' + result.type + '「' + result.title + '」！咖啡人格測驗你也來測測看';
+  const shareText = '20道題目測出你的咖啡人格，你是哪一型？';
+  const lineBtn = document.getElementById('line-share-btn');
+  if (lineBtn) lineBtn.href = 'https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(SHARE_URL) + '&text=' + encodeURIComponent(shareTitle);
+  document.querySelectorAll('.share-btn.threads').forEach(b => b.href = 'https://www.threads.net/intent/post?text=' + encodeURIComponent(shareTitle + ' ' + SHARE_URL));
 
   document.getElementById('scores-container').innerHTML = dimScores.map((s, i) => `
     <div class="score-row">
@@ -395,6 +428,32 @@ document.getElementById('options-list').addEventListener('click', e => {
     animating = false;
     selectedIdx = null;
   }, 350);
+});
+
+// ═══ SHARE ═══
+const SHARE_URL = 'https://dailycoffee.matrix.com.tw/article/cbti/';
+const SHARE_TITLE = '我是#' + (window._resultType || 'CBTI') + '！咖啡人格測驗你也來測測看';
+const SHARE_TEXT = '20道題目測出你的咖啡人格，你是哪一型？';
+
+// Show native share on mobile, hide generic share button
+if (navigator.share) {
+  document.getElementById('native-share-btn').style.display = 'flex';
+  document.getElementById('native-share-btn').addEventListener('click', () => {
+    navigator.share({ title: SHARE_TITLE, text: SHARE_TEXT, url: SHARE_URL }).catch(() => {});
+  });
+}
+
+// Update LINE share with dynamic message
+const lineBtn = document.getElementById('line-share-btn');
+if (lineBtn) {
+  const lineUrl = 'https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(SHARE_URL) + '&text=' + encodeURIComponent(SHARE_TITLE + ' ' + SHARE_TEXT);
+  lineBtn.href = lineUrl;
+}
+
+// Update Threads share
+const threadsBtns = document.querySelectorAll('.share-btn.threads');
+threadsBtns.forEach(btn => {
+  btn.href = 'https://www.threads.net/intent/post?text=' + encodeURIComponent(SHARE_TITLE + ' ' + SHARE_URL);
 });
 
 document.getElementById('restart-btn').addEventListener('click', () => {
