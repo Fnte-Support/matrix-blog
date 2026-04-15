@@ -3,632 +3,201 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Matrix 專欄</title>
+  <title>Daily Coffee | Matrix 咖啡專欄</title>
+  <meta name="description" content="每日咖啡美學探索：產區知識、沖煮技巧、咖啡活動、全球咖啡店地圖，與咖啡人一起成長。">
   <style>
+    :root {
+      --coffee-dark: #2C1810;
+      --coffee-mid: #6B4226;
+      --coffee-light: #C07A3E;
+      --coffee-cream: #F5EDE0;
+      --coffee-bg: #FDFBF8;
+      --gray-light: #f0ede8;
+    }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, sans-serif; background: #f5f5f5; color: #222; }
-    header { background: #fff; padding: 2rem; text-align: center; border-bottom: 1px solid #ddd; }
-    header h1 { font-size: 1.8rem; color: #333; }
-    header a { color: #222; text-decoration: none; }
-    main { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
-    .card { background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.08); transition: box-shadow .2s; }
-    .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.14); }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--coffee-bg); color: var(--coffee-dark); line-height: 1.6; }
+
+    /* ── Header ── */
+    header { background: var(--coffee-dark); color: #fff; padding: 0; position: sticky; top: 0; z-index: 100; }
+    .header-inner { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .site-logo { font-size: 1.3rem; font-weight: 700; color: #fff; text-decoration: none; letter-spacing: 0.5px; }
+    .site-logo span { color: var(--coffee-light); }
+
+    /* ── Category Nav ── */
+    .cat-nav { background: var(--coffee-mid); overflow-x: auto; scrollbar-width: none; }
+    .cat-nav::-webkit-scrollbar { display: none; }
+    .cat-nav-inner { max-width: 1200px; margin: 0 auto; display: flex; padding: 0 1.5rem; gap: 0; }
+    .cat-btn { flex-shrink: 0; padding: 0.75rem 1.2rem; color: rgba(255,255,255,0.75); font-size: 0.9rem; font-weight: 500; border: none; background: none; cursor: pointer; border-bottom: 3px solid transparent; transition: all .2s; white-space: nowrap; }
+    .cat-btn:hover { color: #fff; background: rgba(255,255,255,0.08); }
+    .cat-btn.active { color: #fff; border-bottom-color: var(--coffee-light); font-weight: 600; }
+
+    /* ── Search Bar ── */
+    .search-bar { max-width: 1200px; margin: 1.5rem auto 0; padding: 0 1.5rem; }
+    .search-wrap { position: relative; max-width: 560px; margin: 0 auto; }
+    .search-wrap input { width: 100%; padding: 0.75rem 1rem 0.75rem 3rem; border: 2px solid var(--gray-light); border-radius: 12px; font-size: 1rem; background: #fff; outline: none; transition: border-color .2s; }
+    .search-wrap input:focus { border-color: var(--coffee-light); }
+    .search-wrap .search-icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); font-size: 1.1rem; opacity: 0.5; }
+    #search-results-count { text-align: center; font-size: 0.85rem; color: #888; margin-top: 0.5rem; min-height: 1.2em; }
+
+    /* ── Main Grid ── */
+    main { max-width: 1200px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
+    .section-title { font-size: 1.1rem; font-weight: 600; color: var(--coffee-mid); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--gray-light); display: flex; align-items: center; justify-content: space-between; }
+    .section-title .count { font-weight: 400; color: #aaa; font-size: 0.85rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+    .card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.07); transition: box-shadow .2s, transform .2s; display: flex; flex-direction: column; }
+    .card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.13); transform: translateY(-2px); }
     .card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
-    .card-body { padding: 1rem; }
-    .card-body time { font-size: .85rem; color: #888; }
-    .card-body h2 { font-size: 1.1rem; margin: .4rem 0; line-height: 1.4; }
-    .card-body .tags { font-size: .8rem; color: #666; }
+    .card-body { padding: 1rem 1.1rem; flex: 1; display: flex; flex-direction: column; }
+    .card .cat-tag { display: inline-block; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 0.2rem 0.6rem; border-radius: 20px; margin-bottom: 0.5rem; align-self: flex-start; }
+    .cat-news { background: #FFF3E0; color: #E65100; }
+    .cat-knowledge { background: #E8F5E9; color: #2E7D32; }
+    .cat-events { background: #E3F2FD; color: #1565C0; }
+    .cat-map { background: #F3E5F5; color: #6A1B9A; }
+    .cat-kol { background: #FFEBEE; color: #C62828; }
+    .cat-cbtj { background: #FFF8E1; color: #F57F17; }
+    .card-body h2 { font-size: 1rem; font-weight: 600; line-height: 1.4; margin-bottom: 0.5rem; flex: 1; }
+    .card-body h2 a { color: var(--coffee-dark); text-decoration: none; }
+    .card-body h2 a:hover { color: var(--coffee-light); }
+    .card-meta { display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; color: #aaa; margin-top: auto; padding-top: 0.5rem; }
+    .card-meta time {}
+    .card-empty { grid-column: 1/-1; text-align: center; padding: 4rem 0; color: #bbb; }
+    .card-empty .icon { font-size: 3rem; margin-bottom: 1rem; }
+
+    /* ── Footer ── */
+    footer { background: var(--coffee-dark); color: rgba(255,255,255,0.5); text-align: center; padding: 2rem; font-size: 0.85rem; }
+    footer a { color: rgba(255,255,255,0.7); text-decoration: none; }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .header-inner { height: 56px; }
+      .site-logo { font-size: 1.1rem; }
+      .cat-btn { padding: 0.65rem 0.9rem; font-size: 0.82rem; }
+      .grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
-  <header>
-    <h1><a href="/">Matrix 專欄</a></h1>
-  </header>
-  <main>
-    <div class="grid">
-      
+
+<header>
+  <div class="header-inner">
+    <a href="/" class="site-logo">☕ Daily <span>Coffee</span></a>
+  </div>
+</header>
+
+<nav class="cat-nav" id="catNav">
+  <div class="cat-nav-inner">
+    <button class="cat-btn active" data-cat="all">全部文章</button>
+    <button class="cat-btn" data-cat="news">📢 最新消息</button>
+    <button class="cat-btn" data-cat="knowledge">📖 咖啡小學堂</button>
+    <button class="cat-btn" data-cat="events">🎪 咖啡活動</button>
+    <button class="cat-btn" data-cat="map">🗺️ 咖啡地圖</button>
+    <button class="cat-btn" data-cat="kol">⭐ 達人實測</button>
+    <button class="cat-btn" data-cat="cbtj">🧪 CBTJ</button>
+  </div>
+</nav>
+
+<div class="search-bar">
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="搜尋文章標題或關鍵字…" autocomplete="off">
+  </div>
+  <div id="search-results-count"></div>
+</div>
+
+<main>
+  <div class="section-title">
+    <span id="sectionLabel">全部文章</span>
+    <span class="count" id="articleCount">—</span>
+  </div>
+  <div class="grid" id="articleGrid"></div>
+</main>
+
+<footer>
+  <p>© 2026 Daily Coffee · Matrix 咖啡專欄 · <a href="https://dailycoffee.matrix.com.tw">dailycoffee.matrix.com.tw</a></p>
+</footer>
+
+<script>
+const CAT_LABELS = {
+  all: '全部文章', news: '📢 最新消息', knowledge: '📖 咖啡小學堂',
+  events: '🎪 咖啡活動', map: '🗺️ 咖啡地圖', kol: '⭐ 達人實測', cbtj: '🧪 CBTJ'
+};
+
+let articles = [];
+let currentCat = 'all';
+let searchQuery = '';
+
+// ── Load article list ──
+(async () => {
+  const res = await fetch('/article_list.json');
+  articles = await res.json();
+  render();
+})();
+
+// ── Category tab ──
+document.getElementById('catNav').addEventListener('click', e => {
+  if (e.target.classList.contains('cat-btn')) {
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    e.target.classList.add('active');
+    currentCat = e.target.dataset.cat;
+    document.getElementById('sectionLabel').textContent = CAT_LABELS[currentCat];
+    render();
+  }
+});
+
+// ── Search ──
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchQuery = e.target.value.trim().toLowerCase();
+  render();
+});
+
+function getFiltered() {
+  return articles.filter(a => {
+    const matchCat = currentCat === 'all' || a.category === currentCat;
+    const q = searchQuery;
+    const matchSearch = !q ||
+      a.title.toLowerCase().includes(q) ||
+      (a.tags || '').toLowerCase().includes(q) ||
+      (a.excerpt || '').toLowerCase().includes(q);
+    return matchCat && matchSearch;
+  });
+}
+
+function catClass(cat) { return 'cat-' + (cat || 'knowledge'); }
+function catLabel(cat) {
+  return {news:'最新消息',knowledge:'咖啡小學堂',events:'咖啡活動',map:'咖啡地圖',kol:'達人實測',cbtj:'CBTJ'}[cat] || cat || '';
+}
+
+function render() {
+  const grid = document.getElementById('articleGrid');
+  const filtered = getFiltered();
+  document.getElementById('articleCount').textContent = filtered.length + ' 篇';
+
+  const countEl = document.getElementById('search-results-count');
+  if (searchQuery) {
+    countEl.textContent = searchQuery ? `找到 ${filtered.length} 篇「${searchQuery}」相關文章` : '';
+  } else {
+    countEl.textContent = '';
+  }
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="card-empty"><div class="icon">☕</div><p>這個分類還沒有文章</p><p style="font-size:0.85rem;color:#ccc;margin-top:0.5rem;">敬請期待即將推出的內容</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.slice(0, 50).map(a => `
     <article class="card">
-      <a href="/article/water-quality-coffee-flavor">
-        <img src="/assets/water-quality-coffee-flavor-cover.jpg" alt="水質如何影響咖啡風味？軟水、硬水、TDS 完整解析" loading="lazy">
-        <div class="card-body">
-          <time>2026-04-15</time>
-          <h2>水質如何影響咖啡風味？軟水、硬水、TDS 完整解析</h2>
-          <div class="tags">"水質","TDS","手沖咖啡","咖啡知識","SCAA","軟水","硬水"</div>
-        </div>
+      <a href="${a.url || '/article/' + encodeURIComponent(a.slug)}">
+        <img src="${a.image}" alt="${a.title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=70'">
       </a>
-    </article>
-    <article class="card">
-      <a href="/article/%E8%88%8A%E7%A7%A4%E6%8F%9B%E6%96%B0%E7%A7%A4-TradeIn-Matrix-M2PRO-Coffee-Scale">
-        <img src="/assets/%E8%88%8A%E7%A7%A4%E6%8F%9B%E6%96%B0%E7%A7%A4-TradeIn-Matrix-M2PRO-Coffee-Scale-cover.jpg" alt="舊秤換新秤｜Matrix M2 PRO 咖啡電子秤專屬折抵優惠" loading="lazy">
-        <div class="card-body">
-          <time>2026-04-14</time>
-          <h2>舊秤換新秤｜Matrix M2 PRO 咖啡電子秤專屬折抵優惠</h2>
-          <div class="tags">"Matrix","台中咖啡展","咖啡展","專屬優惠","M2Pro","2026"</div>
+      <div class="card-body">
+        ${a.category ? `<span class="cat-tag ${catClass(a.category)}">${catLabel(a.category)}</span>` : ''}
+        <h2><a href="${a.url || '/article/' + encodeURIComponent(a.slug)}">${a.title}</a></h2>
+        <div class="card-meta">
+          <time>${a.date || ''}</time>
         </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/2026-taiwan-coffee-expo">
-        <img src="/assets/2026-taiwan-coffee-expo-cover.jpg" alt="2026 台灣咖啡節與咖啡展完整指南｜展覽、市集、比賽一次整理（持續更新）" loading="lazy">
-        <div class="card-body">
-          <time>2026-04-07</time>
-          <h2>2026 台灣咖啡節與咖啡展完整指南｜展覽、市集、比賽一次整理（持續更新）</h2>
-          <div class="tags">"Matrix","台灣咖啡活動","咖啡展","攻略整理","一次看","2026"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/tetsu-kasuya-new-hybrid-brewing">
-        <img src="/assets/tetsu-kasuya-new-hybrid-brewing-cover.jpg" alt="粕谷哲最新手沖法「絕對犯規」？新混合萃取配方完整解析" loading="lazy">
-        <div class="card-body">
-          <time>2026-04-01</time>
-          <h2>粕谷哲最新手沖法「絕對犯規」？新混合萃取配方完整解析</h2>
-          <div class="tags">"粕谷哲","新混合萃取","惡魔手沖","手沖教學","一次看","粉水比"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/2026-Taichung-International-Specialty-Coffee">
-        <img src="/assets/2026-Taichung-International-Specialty-Coffee-cover.jpg" alt="2026 台中國際精品咖啡展｜春秋兩季・臺中國際會展中心・40＋精品咖啡品牌齊聚" loading="lazy">
-        <div class="card-body">
-          <time>2026-04-09</time>
-          <h2>2026 台中國際精品咖啡展｜春秋兩季・臺中國際會展中心・40＋精品咖啡品牌齊聚</h2>
-          <div class="tags">"台中咖啡展","台灣咖啡活動","咖啡展","攻略整理","一次看","2026"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/caffeine-timing-metabolism">
-        <img src="/assets/caffeine-timing-metabolism-cover.jpg" alt="播音 ft. 博恩╳劉博仁醫師：你的喝咖啡時機，可能一直都錯了!?" loading="lazy">
-        <div class="card-body">
-          <time>2026-03-11</time>
-          <h2>播音 ft. 博恩╳劉博仁醫師：你的喝咖啡時機，可能一直都錯了!?</h2>
-          <div class="tags">"咖啡時機","咖啡","咖啡因","一次看","2026"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/matrix-v7-blackair-new">
-        <img src="/assets/matrix-v7-blackair-new-cover.jpg" alt="一鍵抽真空，為什麼改變了「保存」這件事？｜Matrix V7 BLACKAIR 電動真空密封罐新品" loading="lazy">
-        <div class="card-body">
-          <time>2026-02-04</time>
-          <h2>一鍵抽真空，為什麼改變了「保存」這件事？｜Matrix V7 BLACKAIR 電動真空密封罐新品</h2>
-          <div class="tags">"Matrix","真空","真空保存","密封罐","真空密封罐","V7 BLACKAIR"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/benefits-of-vacuuming">
-        <img src="https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/BoQZq74kYmWJezX2l5PMywAK/original.jpg" alt="抽真空的好處是什麼？為什麼咖啡豆、茶葉、堅果、乾糧越來越多人選擇真空保存？" loading="lazy">
-        <div class="card-body">
-          <time>2026-02-02</time>
-          <h2>抽真空的好處是什麼？為什麼咖啡豆、茶葉、堅果、乾糧越來越多人選擇真空保存？</h2>
-          <div class="tags">"Matrix","真空","真空保存","密封罐","真空密封罐","V7 BLACKAIR"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/hario-alpha-switch-dripper-review-2026 ">
-        <img src="/assets/hario-alpha-switch-dripper-review-2026 -cover.jpg" alt="HARIO Alpha Switch 濾杯是什麼？浸漬式 × V60 手沖二合一完整解析與選購指南" loading="lazy">
-        <div class="card-body">
-          <time>2026-01-05</time>
-          <h2>HARIO Alpha Switch 濾杯是什麼？浸漬式 × V60 手沖二合一完整解析與選購指南</h2>
-          <div class="tags">"Matrix","Hario","手沖咖啡","聰明濾杯","凹肋 Switch濾杯","新品預購"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/coffee-scale-guide-2026">
-        <img src="https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/g1JZGpdVYBmgAJBVN0onavMR/original.jpg" alt="咖啡電子秤推薦 2026｜0.1g 精準度、計時與流速控制完整選購指南" loading="lazy">
-        <div class="card-body">
-          <time>2025-12-24</time>
-          <h2>咖啡電子秤推薦 2026｜0.1g 精準度、計時與流速控制完整選購指南</h2>
-          <div class="tags">"咖啡秤推薦","人氣電子秤","matrix M2 PRO","Matrix","G1 FlowBar","咖啡電子秤","手沖咖啡"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/SWITCH_IMMERSION_CONTROL">
-        <img src="/assets/SWITCH_IMMERSION_CONTROL-cover.jpg" alt="Switch 濾杯進階攻略：把浸漬時間調到「更準」" loading="lazy">
-        <div class="card-body">
-          <time>2025-12-16</time>
-          <h2>Switch 濾杯進階攻略：把浸漬時間調到「更準」</h2>
-          <div class="tags">"Matrix","Hario","Switch 濾杯","濾杯","浸漬式開關","新品介紹"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/BREWING_BASICS_SWITCH_IMMERSION_DRIPPER">
-        <img src="/assets/BREWING_BASICS_SWITCH_IMMERSION_DRIPPER-cover.jpg" alt="Switch 濾杯是什麼？為什麼很多人一用就回不去一般濾杯" loading="lazy">
-        <div class="card-body">
-          <time>2025-12-16</time>
-          <h2>Switch 濾杯是什麼？為什麼很多人一用就回不去一般濾杯</h2>
-          <div class="tags">"Matrix","Hario","Switch 濾杯","濾杯","浸漬式開關","新品介紹"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/tokyo-coffee-festival-giveaway-rules">
-        <img src="https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/rAW85emGlnzoVEqZlyok6vBL/original.gif" alt="Matrix 會員抽獎活動辦法｜忠實會員回饋＋新會員加入抽台北咖x東京咖啡節票" loading="lazy">
-        <div class="card-body">
-          <time>2025-12-12</time>
-          <h2>Matrix 會員抽獎活動辦法｜忠實會員回饋＋新會員加入抽台北咖x東京咖啡節票</h2>
-          <div class="tags">"Matrix","台北咖","東京咖啡節","抽獎","會員限定","咖啡市集"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/coffee-tasting-coupons-guide">
-        <img src="/assets/coffee-tasting-coupons-guide-cover.jpg" alt="咖啡啜飲券是什麼？為什麼咖啡節都用這種制度" loading="lazy">
-        <div class="card-body">
-          <time>2025-12-15</time>
-          <h2>咖啡啜飲券是什麼？為什麼咖啡節都用這種制度</h2>
-          <div class="tags">"Matrix","台北咖","東京咖啡節","攻略整理","一次看","咖啡市集"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/tokyo-coffee-festival-what-is">
-        <img src="/assets/tokyo-coffee-festival-what-is-cover.jpg" alt="東京咖啡節是什麼？為何被視為日本最重要的咖啡市集" loading="lazy">
-        <div class="card-body">
-          <time>2025-12-15</time>
-          <h2>東京咖啡節是什麼？為何被視為日本最重要的咖啡市集</h2>
-          <div class="tags">"Matrix","台北咖","東京咖啡節","攻略整理","一次看","咖啡市集"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/COFFEECULTURE_TAIPEI_TOKYO">
-        <img src="/assets/COFFEECULTURE_TAIPEI_TOKYO-cover.jpg" alt="2025 臺北咖 X 東京咖啡節完整攻略｜時間地點票券、40+ 台日咖啡名店一次逛" loading="lazy">
-        <div class="card-body">
-          <time>2025-12-12</time>
-          <h2>2025 臺北咖 X 東京咖啡節完整攻略｜時間地點票券、40+ 台日咖啡名店一次逛</h2>
-          <div class="tags">"Matrix","台北咖","東京咖啡節","攻略整理","一次看","咖啡市集"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/Hario-V60-NEO-SWITCH-IMMERSION-MODE ">
-        <img src="https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/eKP9MRgBYr8xmaLRlOvLWZrn/original.jpg " alt="HARIO V60 NEO隱藏技能曝光！加個Switch配件立刻升級浸泡式｜咖啡新手也能沖出大師級風味" loading="lazy">
-        <div class="card-body">
-          <time>2025-12-02</time>
-          <h2>HARIO V60 NEO隱藏技能曝光！加個Switch配件立刻升級浸泡式｜咖啡新手也能沖出大師級風味</h2>
-          <div class="tags">"Matrix","Hario","手沖咖啡","V60 NEO","V60 NEO 樹脂濾杯","新品開箱"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/hario-alpha-switch-immersion-dripper-review-2025 ">
-        <img src="https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/zRo4LO6m3AmL7B013pr2d90e/original.jpg " alt="HARIO α 阿爾法錐形凹肋 Switch 浸漬式聰明濾杯｜手沖界的「變形金剛」新品預購開跑！" loading="lazy">
-        <div class="card-body">
-          <time>2025-11-27</time>
-          <h2>HARIO α 阿爾法錐形凹肋 Switch 浸漬式聰明濾杯｜手沖界的「變形金剛」新品預購開跑！</h2>
-          <div class="tags">"Matrix","Hario","手沖咖啡","聰明濾杯","凹肋 Switch濾杯","新品預購"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/taipei-coffee-expo-2025-m2pro-review">
-        <img src="https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/eKP9MRgBYr8x9pkylOvLWZrn/original.jpg" alt="2025 台北國際咖啡展｜四天的相遇與交流，讓我們再次確認：好的咖啡器材，來自真實使用者的定義" loading="lazy">
-        <div class="card-body">
-          <time>2025-11-19</time>
-          <h2>2025 台北國際咖啡展｜四天的相遇與交流，讓我們再次確認：好的咖啡器材，來自真實使用者的定義</h2>
-          <div class="tags">"Matrix","咖啡職人","手沖冠軍","咖啡師","matrix M2 PRO","臺灣國際咖啡展","最新咖啡消息"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/m2pro-world-baristas-taiwan-coffee-show">
-        <img src="https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/v5zx6meKY4vKd9d4l0DVkLyo/original.jpg" alt="當世界級咖啡職人遇見M2 PRO 咖啡電子秤──2025台灣國際咖啡展Matrix攤位紀實" loading="lazy">
-        <div class="card-body">
-          <time>2025-11-19</time>
-          <h2>當世界級咖啡職人遇見M2 PRO 咖啡電子秤──2025台灣國際咖啡展Matrix攤位紀實</h2>
-          <div class="tags">"Matrix","咖啡職人","手沖冠軍","咖啡師","matrix M2 PRO","臺灣國際咖啡展","最新咖啡消息"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/taipei-coffee-expo-2025-recap">
-        <img src="/assets/taipei-coffee-expo-2025-recap-cover.jpg" alt="2025台北咖啡展精彩回顧｜四天與咖啡愛好者的深度交流｜M2 Pro AI大師咖啡電子秤展演亮點" loading="lazy">
-        <div class="card-body">
-          <time>2025-11-18</time>
-          <h2>2025台北咖啡展精彩回顧｜四天與咖啡愛好者的深度交流｜M2 Pro AI大師咖啡電子秤展演亮點</h2>
-          <div class="tags">"Matrix","咖啡職人","手沖教學","咖啡師","matrix M2 PRO","臺灣國際咖啡展","最新咖啡消息"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/taipei-coffee-show-matrix-m2-pro ">
-        <img src="https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/BoQZq74kYmW0ARAkl5PMywAK/original.jpg " alt="台北咖啡展體驗 Matrix M2 Pro｜用 AI 智能咖啡秤精準萃取手沖精品咖啡，將風味發揮到極致" loading="lazy">
-        <div class="card-body">
-          <time>2025-11-12</time>
-          <h2>台北咖啡展體驗 Matrix M2 Pro｜用 AI 智能咖啡秤精準萃取手沖精品咖啡，將風味發揮到極致</h2>
-          <div class="tags">"Matrix","咖啡展","台北咖啡展","手沖咖啡","matrix M2 PRO","臺灣國際咖啡展","最新咖啡消息"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/matrix-coffee-scale-taiwan-expo ">
-        <img src="https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/ZLjRK1AGl0AZg226NV6DPJEw/original.jpg " alt="台灣國際咖啡展展前必看｜用 Matrix M2 PRO打造完美手沖咖啡｜咖啡師秘訣展會現場體驗 N1122" loading="lazy">
-        <div class="card-body">
-          <time>2025-11-10</time>
-          <h2>台灣國際咖啡展展前必看｜用 Matrix M2 PRO打造完美手沖咖啡｜咖啡師秘訣展會現場體驗 N1122</h2>
-          <div class="tags">"Matrix","咖啡展","台北咖啡展","手沖咖啡","matrix M2 PRO","臺灣國際咖啡展","最新咖啡消息"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/2025-taiwan-coffee-show-goodman-roaster-experience ">
-        <img src="https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/dqpOVABK324x1ryqNrkRwEv7/original.jpg " alt="Goodman Roaster 精品咖啡體驗！從士林到京都的咖啡旅程｜2025 臺灣國際咖啡展 ｜Matrix N1122" loading="lazy">
-        <div class="card-body">
-          <time>2025-11-05</time>
-          <h2>Goodman Roaster 精品咖啡體驗！從士林到京都的咖啡旅程｜2025 臺灣國際咖啡展 ｜Matrix N1122</h2>
-          <div class="tags">"Matrix","咖啡展","台北咖啡展","手沖咖啡","Goodman","Matrix","最新咖啡消息"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/2025-taiwan-coffee-show ">
-        <img src="https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/v5zx6meKY4vKLnxbl0DVkLyo/original.jpg " alt="Matrix 品牌盛大參展 2025 臺灣國際咖啡展｜N1122 攤位精彩展演與互動體驗" loading="lazy">
-        <div class="card-body">
-          <time>2025-11-03</time>
-          <h2>Matrix 品牌盛大參展 2025 臺灣國際咖啡展｜N1122 攤位精彩展演與互動體驗</h2>
-          <div class="tags">"Matrix","咖啡展","台北咖啡展","手沖咖啡","matrix M2 PRO","臺灣國際咖啡展","最新咖啡消息"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/coffee-giveaway-2025 ">
-        <img src="https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/wAjo1QaDle4BzMn7390xLGMJ/original.jpg " alt="不用花錢就能拿！追蹤IG就送Matrix專業咖啡秤？台北咖啡展這波也太大方了吧！" loading="lazy">
-        <div class="card-body">
-          <time>2025-10-30</time>
-          <h2>不用花錢就能拿！追蹤IG就送Matrix專業咖啡秤？台北咖啡展這波也太大方了吧！</h2>
-          <div class="tags">"Matrix","咖啡展","台北咖啡展","手沖咖啡","matrix M2 PRO","Matrix","最新咖啡消息"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/hario-switch-sunrise-unboxing-review ">
-        <img src="https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/EM7nvrbJlqVO9jA8NBpxVwjP/original.jpg " alt="當日出落入杯中：HARIO Switch Sunrise × 坂口憲二咖啡美學的極致演繹" loading="lazy">
-        <div class="card-body">
-          <time>2025-10-29</time>
-          <h2>當日出落入杯中：HARIO Switch Sunrise × 坂口憲二咖啡美學的極致演繹</h2>
-          <div class="tags">"Matrix","Hario","Hario Switch Sunrise","手沖咖啡","Switch Sunrise","坂口憲二","2025濾杯推薦"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/2025-coffee-dripper-guide ">
-        <img src="https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/a1A4ovQm3KXraqR5lDxz6OWE/original.jpg " alt="【2025濾杯選購指南】精品玩家年度推薦總整理｜HARIO、KADOU、zeroHero 三大品牌實測" loading="lazy">
-        <div class="card-body">
-          <time>2025-11-22</time>
-          <h2>【2025濾杯選購指南】精品玩家年度推薦總整理｜HARIO、KADOU、zeroHero 三大品牌實測</h2>
-          <div class="tags">"Matrix","Hario","手沖咖啡","V60 NEO","V60 NEO 樹脂濾杯","2025濾杯推薦"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/news-hario-v60-neo-resin-dripper ">
-        <img src="https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/LWx9yMqPlG7Qa8v8lEpb1wO7/original.jpg " alt="Matrix 搶先報｜HARIO V60 NEO 濾杯早鳥預購開放！新會員最高享9折｜老朋友回購75折，最低到手價$338！" loading="lazy">
-        <div class="card-body">
-          <time>2025-10-27</time>
-          <h2>Matrix 搶先報｜HARIO V60 NEO 濾杯早鳥預購開放！新會員最高享9折｜老朋友回購75折，最低到手價$338！</h2>
-          <div class="tags">"Matrix","Hario","手沖咖啡","V60 NEO","V60 NEO 樹脂濾杯","新品預購"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/hario-v60-neo-resin-dripper-review ">
-        <img src="https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/wP6vpqMBNgzK8nebld7DaZ0y/original.jpg " alt="【最新 HARIO V60濾杯登場】V60 NEO 樹脂濾杯 ｜72 條肋條設計，開啟新一代手沖體驗" loading="lazy">
-        <div class="card-body">
-          <time>2025-10-22</time>
-          <h2>【最新 HARIO V60濾杯登場】V60 NEO 樹脂濾杯 ｜72 條肋條設計，開啟新一代手沖體驗</h2>
-          <div class="tags">"Matrix","Hario","手沖咖啡","V60 NEO","V60 NEO 樹脂濾杯","新品開箱"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/matrix-vacuum-coffee-storage ">
-        <img src="https://img.1shop.tw/e2mJZnvrG0rg7v5AKPba5qkd/Xno5Qb1D3MVmkp91l67ZWPv9/original.jpg " alt="精品咖啡保存全攻略｜中秋過後剩下的咖啡豆怎麼辦？" loading="lazy">
-        <div class="card-body">
-          <time>2025-10-21</time>
-          <h2>精品咖啡保存全攻略｜中秋過後剩下的咖啡豆怎麼辦？</h2>
-          <div class="tags">"Matrix","咖啡豆","手沖咖啡","精品咖啡","密封罐","咖啡學問"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/matrix-pro-coffee-blower-review">
-        <img src="https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/5yxD7ZmWlk1WL2WaYXgBqvRQ/original.jpg" alt="Matrix 鑽紋便攜式除塵吹球 PRO 開箱評測｜磨豆機刀盤清潔神器：解決咖啡苦味原因，還原純粹風味" loading="lazy">
-        <div class="card-body">
-          <time>2025-10-03</time>
-          <h2>Matrix 鑽紋便攜式除塵吹球 PRO 開箱評測｜磨豆機刀盤清潔神器：解決咖啡苦味原因，還原純粹風味</h2>
-          <div class="tags">"Matrix","鑽紋便攜式除塵吹球 PRO","開箱評測","咖啡消息","咖啡電子秤"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/Taiwan-International-Coffee-Show">
-        <img src="/assets/Taiwan-International-Coffee-Show-cover.jpg" alt="2025 台北國際咖啡展｜首都咖啡狂潮來襲，Matrix M2 PRO 重磅登場＆限時優惠活動火熱開跑" loading="lazy">
-        <div class="card-body">
-          <time>2025-10-31</time>
-          <h2>2025 台北國際咖啡展｜首都咖啡狂潮來襲，Matrix M2 PRO 重磅登場＆限時優惠活動火熱開跑</h2>
-          <div class="tags">"台北咖啡展","matrix M2 PRO","Matrix","咖啡消息","咖啡電子秤"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/ /news-matrix-vacuum-container-survey">
-        <img src=" https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/41brG7JDYpJbya2plxW5ywvg/original.jpg" alt="Matrix 自動抽真空密封罐｜新品前測問卷正式開放，邀請您一起參與！" loading="lazy">
-        <div class="card-body">
-          <time>2025-09-25</time>
-          <h2>Matrix 自動抽真空密封罐｜新品前測問卷正式開放，邀請您一起參與！</h2>
-          <div class="tags">"真空密封罐","抽真空","密封罐","咖啡豆保存","保鮮盒","食物保鮮"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/ /2025-Taichung-International-Specialty-Coffee">
-        <img src="" alt="2026 台中國際精品咖啡展｜中台灣咖啡盛會，Matrix M2 PRO 亮相展出＆社群抽獎活動熱烈進行中" loading="lazy">
-        <div class="card-body">
-          <time>2026-04-10</time>
-          <h2>2026 台中國際精品咖啡展｜中台灣咖啡盛會，Matrix M2 PRO 亮相展出＆社群抽獎活動熱烈進行中</h2>
-          <div class="tags">"M2PRO","台中國際精品咖啡展","Matrix攤位","沖煮體驗","體驗送禮","電子秤"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/ /m2pro-user-stories">
-        <img src=" https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/w560gEeAlo0erAwxNOqrx1ab/original.png" alt="您的咖啡故事，值得被聽見 — Matrix M2 PRO 體驗分享邀請" loading="lazy">
-        <div class="card-body">
-          <time>2025-09-23</time>
-          <h2>您的咖啡故事，值得被聽見 — Matrix M2 PRO 體驗分享邀請</h2>
-          <div class="tags">"M2PRO","募集開箱","使用心得","社群分享","開箱測評"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/ /hand-drip-filter-kadou-arita-review ">
-        <img src=" https://img.1shop.tw/e2mJZnvrG0rg7v5AKPba5qkd/xQdpkWj03aePnypR39by6aRo/original.jpg " alt="KADOU 珈堂星芒濾杯隼 3 代目評測：日本有田燒白瓷手沖咖啡濾杯推薦【2025最新開箱實測】" loading="lazy">
-        <div class="card-body">
-          <time>2025-09-23</time>
-          <h2>KADOU 珈堂星芒濾杯隼 3 代目評測：日本有田燒白瓷手沖咖啡濾杯推薦【2025最新開箱實測】</h2>
-          <div class="tags">"KADOU","星芒濾杯","星芒濾杯隼 3 代目","有田燒白瓷","開箱測評"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/2025-taiwan-coffee-expo-taipei-taichung">
-        <img src="https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/ZOaL8DPWY6LGAEA5l92ExyG0/original.jpg" alt="2025下半年咖啡展覽市集懶人包：台北 & 台中重點展會總覽" loading="lazy">
-        <div class="card-body">
-          <time>2025-10-30</time>
-          <h2>2025下半年咖啡展覽市集懶人包：台北 & 台中重點展會總覽</h2>
-          <div class="tags">"咖啡展","matrix M2 PRO","Matrix","咖啡消息","咖啡電子秤"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/matrix-m2-pro-coffee-mania-festival">
-        <img src="https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/7QBw2oEnYzJ44wn8YxAP0vM9/original.jpg" alt="Matrix 首次參加咖啡爽節心得分享｜交流熱烈，M2 PRO AI手沖電子秤大獲好評" loading="lazy">
-        <div class="card-body">
-          <time>2025-09-09</time>
-          <h2>Matrix 首次參加咖啡爽節心得分享｜交流熱烈，M2 PRO AI手沖電子秤大獲好評</h2>
-          <div class="tags">"咖啡爽節","matrix M2 PRO","Matrix","咖啡消息","咖啡電子秤"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/2025coffeeshow">
-        <img src="https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/ZOaL8DPWY6LGLxWbl92ExyG0/original.jpg" alt="matrix生活美學專家展覽快報｜2025 台灣國際咖啡展全攻略" loading="lazy">
-        <div class="card-body">
-          <time>2025-09-04</time>
-          <h2>matrix生活美學專家展覽快報｜2025 台灣國際咖啡展全攻略</h2>
-          <div class="tags">"咖啡展","matrix M2 PRO","Matrix","咖啡消息","咖啡電子秤"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/build-your-pour-over-kit-guide">
-        <img src="/assets/build-your-pour-over-kit-guide-cover.jpg" alt="打造自己的精品手沖組合：精選咖啡秤 × 濾杯 × 手沖壺全攻略" loading="lazy">
-        <div class="card-body">
-          <time>2025-08-20</time>
-          <h2>打造自己的精品手沖組合：精選咖啡秤 × 濾杯 × 手沖壺全攻略</h2>
-          <div class="tags">"手沖組合","matrix M2 PRO","Matrix","HARIO","濾杯","手沖壺","咖啡電子秤"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/2025-coffee-scale-recommendations-guide">
-        <img src="https://img.1shop.tw/e2mJZnvrG0rg7v5AKPba5qkd/zRo4LO6m3AmmOje83pr2d90e/original.jpg" alt="2025 咖啡秤推薦總整理｜精選 4 款人氣電子秤功能與選購指南" loading="lazy">
-        <div class="card-body">
-          <time>2025-08-15</time>
-          <h2>2025 咖啡秤推薦總整理｜精選 4 款人氣電子秤功能與選購指南</h2>
-          <div class="tags">"咖啡秤推薦","人氣電子秤","matrix M2 PRO","HARIO","Matrix","ZeroHero","咖啡電子秤"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/news-2025coffeemaniafestival-guest">
-        <img src="/assets/news-2025coffeemaniafestival-guest-cover.jpg" alt="2026咖啡展限定｜親手體驗真正懂你的咖啡電子秤──「Matrix M2 Pro AI大師咖啡秤」深度體驗" loading="lazy">
-        <div class="card-body">
-          <time>2026-04-09</time>
-          <h2>2026咖啡展限定｜親手體驗真正懂你的咖啡電子秤──「Matrix M2 Pro AI大師咖啡秤」深度體驗</h2>
-          <div class="tags">"matrix M2 PRO","咖啡展","手沖體驗","免費體驗","M2PRO體驗","預約登記"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/news-2026coffeemaniafestival-coffeeshop">
-        <img src="/assets/news-2026coffeemaniafestival-coffeeshop-cover.jpg" alt="「請支援『咖啡秤』！」2026咖啡展店家限定免費體驗計畫」" loading="lazy">
-        <div class="card-body">
-          <time>2026-04-09</time>
-          <h2>「請支援『咖啡秤』！」2026咖啡展店家限定免費體驗計畫」</h2>
-          <div class="tags">"matrix M2 PRO","咖啡展","攤位限定","免費體驗","請支援咖啡秤","M2PRO體驗","咖啡店家限定"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/news-2025coffeemaniafestival">
-        <img src=" https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/g9M05D783DyyGzr2lRoA6Z1W/original-1.jpg.avif?auto=compress" alt="2025 咖啡爽節｜臺北最終站盛大開跑，首度 M2 PRO 深度體驗＆專屬小禮物就在 Matrix 攤位" loading="lazy">
-        <div class="card-body">
-          <time>2025-07-09</time>
-          <h2>2025 咖啡爽節｜臺北最終站盛大開跑，首度 M2 PRO 深度體驗＆專屬小禮物就在 Matrix 攤位</h2>
-          <div class="tags">"matrix M2 PRO","咖啡爽節","攤位","快閃活動","沖煮體驗","打卡送禮","電子秤"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/ /news-m2pro-coffee365">
-        <img src=" https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/g1JZGpdVYBmmrJdMN0onavMR/original-1.jpg.avif?auto=compress" alt="一場專業與熱情交織的開箱體驗：「Coffee365 精緻呈現 Matrix M2 Pro AI 大師咖啡秤」" loading="lazy">
-        <div class="card-body">
-          <time>2025-07-07</time>
-          <h2>一場專業與熱情交織的開箱體驗：「Coffee365 精緻呈現 Matrix M2 Pro AI 大師咖啡秤」</h2>
-          <div class="tags">"matrix M2 PRO","Coffee365","M2 PRO","咖啡電子秤","咖啡秤","M2 PRO評價","電子秤"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/ /news-m2pro-mucrafts">
-        <img src=" https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/Kyg9vWx8NyKK90KG3GJP14Zm/original-1.jpg.avif?auto=compress" alt="沐萃推薦：「為咖啡人而生的職人級進化」Matrix M2 PRO 電子秤的全新實戰體驗" loading="lazy">
-        <div class="card-body">
-          <time>2025-07-03</time>
-          <h2>沐萃推薦：「為咖啡人而生的職人級進化」Matrix M2 PRO 電子秤的全新實戰體驗</h2>
-          <div class="tags">"matrix M2 PRO","沐萃","M2 PRO","咖啡電子秤","咖啡秤","沐萃Mucrafts","電子秤"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/ /news-m2pro-yuancoffee">
-        <img src=" https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/EM7nvrbJlqVVzBOnNBpxVwjP/original-1.png.avif?auto=compress" alt="元食咖啡俊元推薦Matrix M2 PRO：「我認為這是一台目前市面上，最適合手沖咖啡來使用的電子秤。」完整開箱解析" loading="lazy">
-        <div class="card-body">
-          <time>2025-06-10</time>
-          <h2>元食咖啡俊元推薦Matrix M2 PRO：「我認為這是一台目前市面上，最適合手沖咖啡來使用的電子秤。」完整開箱解析</h2>
-          <div class="tags">"matrix M2 PRO","元食cafe","M2 PRO","咖啡電子秤","咖啡秤","元食俊元","電子秤"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/ /news-m2pro-ai-coffee-scale">
-        <img src=" https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/wP6vpqMBNgzzWLxmld7DaZ0y/original.jpg?auto=compress" alt="Matrix 推出全新 M2 Pro AI大師 義式手沖LED四顯流速粉水比咖啡秤 突破性設計簡化咖啡沖煮體驗" loading="lazy">
-        <div class="card-body">
-          <time>2025-06-09</time>
-          <h2>Matrix 推出全新 M2 Pro AI大師 義式手沖LED四顯流速粉水比咖啡秤 突破性設計簡化咖啡沖煮體驗</h2>
-          <div class="tags">"matrix M2 PRO","M1 PRO升級","M2 PRO","咖啡電子秤","咖啡秤","早鳥優惠","電子秤"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/ /article2025050801">
-        <img src=" https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/y8Rxg1qMlj88mVKRYbLe06wn/original.jpg?auto=compress" alt="Matrix 搶先報｜M2 PRO 咖啡電子秤早鳥優惠" loading="lazy">
-        <div class="card-body">
-          <time>2025-05-08</time>
-          <h2>Matrix 搶先報｜M2 PRO 咖啡電子秤早鳥優惠</h2>
-          <div class="tags">"matrix M1 PRO","M1 PRO升級","M2 PRO","咖啡電子秤","咖啡秤","早鳥優惠","電子秤"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/ /g1flowbar-unbox">
-        <img src=" https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/kEyLdZjRNLmm1m6eY8pWbz6O/original.png?auto=compress" alt="【AD Cafe 實測推薦】Matrix G1 FlowBar電子秤開箱｜全金屬機身 + 自動開機黑科技，1680 元重新定義「高級感咖啡秤」！" loading="lazy">
-        <div class="card-body">
-          <time>2025-04-25</time>
-          <h2>【AD Cafe 實測推薦】Matrix G1 FlowBar電子秤開箱｜全金屬機身 + 自動開機黑科技，1680 元重新定義「高級感咖啡秤」！</h2>
-          <div class="tags">"手沖咖啡","matrix電子秤","matrix G1","G1 FlowBar","咖啡秤","G1電子秤"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/ /article2024112501">
-        <img src=" https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/BoQZq74kYmayqe7JY5PMywAK/original.jpg?auto=compress" alt="中華隊奪冠！世界棒球12強賽冠軍精神，Matrix黑色星期五特惠致敬英雄" loading="lazy">
-        <div class="card-body">
-          <time>2024-11-25</time>
-          <h2>中華隊奪冠！世界棒球12強賽冠軍精神，Matrix黑色星期五特惠致敬英雄</h2>
-          <div class="tags">"手沖咖啡","智能電子秤","黑色星期五","中華隊","咖啡秤","12強賽冠軍"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/ /article2024112201">
-        <img src=" https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/A7dLy5pv31nV669rlXg0QzKr/original.jpg?auto=compress" alt="2024咖啡展俊元專訪：一鍵搞定咖啡數據！「Matrix M1 PRO 智能電子秤」帶你精準掌控每一滴美味！" loading="lazy">
-        <div class="card-body">
-          <time>2024-11-22</time>
-          <h2>2024咖啡展俊元專訪：一鍵搞定咖啡數據！「Matrix M1 PRO 智能電子秤」帶你精準掌控每一滴美味！</h2>
-          <div class="tags">"手沖咖啡","智能電子秤","咖啡數據化","居家沖煮","咖啡秤","元食俊元"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/ /article2024112101">
-        <img src=" https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/Xno5Qb1D3Mwa1DE1N67ZWPv9/original.jpg?auto=compress" alt="為什麼手沖冠軍都要用蛋糕濾杯？2024咖啡展VV Cafe學長解析蛋糕濾杯" loading="lazy">
-        <div class="card-body">
-          <time>2024-11-21</time>
-          <h2>為什麼手沖冠軍都要用蛋糕濾杯？2024咖啡展VV Cafe學長解析蛋糕濾杯</h2>
-          <div class="tags">"蛋糕濾杯","手沖技巧","手沖咖啡","蛋糕濾杯 推薦"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/ /article2024082801">
-        <img src=" https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/nMRpQ02P3XVy6baoNr7BkJaE/original.jpg?auto=compress" alt="如何選擇中秋送禮？試試Matrix M1 PRO咖啡秤與Stopover咖啡豆組合" loading="lazy">
-        <div class="card-body">
-          <time>2024-08-28</time>
-          <h2>如何選擇中秋送禮？試試Matrix M1 PRO咖啡秤與Stopover咖啡豆組合</h2>
-          <div class="tags">"matrix", "m1 pro", "咖啡秤", "咖啡豆", "stopover", "手沖"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/ /2024yuancoffee ">
-        <img src=" https://img.fnte.com.tw/product/1shop/matrix/yu07112.jpg?auto=compress" alt="三年等待值不值得？元食咖啡俊元揭曉Matrix M1 Pro電子秤" loading="lazy">
-        <div class="card-body">
-          <time>2024-07-12</time>
-          <h2>三年等待值不值得？元食咖啡俊元揭曉Matrix M1 Pro電子秤</h2>
-          <div class="tags">"matrix", "m1 pro", "咖啡秤", "電子秤", "元食", "手沖"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/2023coffee">
-        <img src=" https://img.fnte.com.tw/product/1shop/matrix/blog/2023coffee/2023coffee bn-99.jpg?auto=compress" alt="2023台灣國際咖啡展" loading="lazy">
-        <div class="card-body">
-          <time>2023-11-20</time>
-          <h2>2023台灣國際咖啡展</h2>
-          <div class="tags">"台灣咖啡展", "南港咖啡展", "matrix", "goat story"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/ /2023goodman">
-        <img src=" https://img.fnte.com.tw/product/1shop/matrix/blog/2023goodman bn-99.jpg?auto=compress" alt="伊藤篤臣 親切又仔細的開箱 Matrix M1 PRO新手馬上能掌握的多功能手沖秤" loading="lazy">
-        <div class="card-body">
-          <time>2023-09-29</time>
-          <h2>伊藤篤臣 親切又仔細的開箱 Matrix M1 PRO新手馬上能掌握的多功能手沖秤</h2>
-          <div class="tags">"matrix", "goodman", "m1 pro", "咖啡秤", "電子秤", "手沖"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/ /2023yuancoffee">
-        <img src=" https://img.fnte.com.tw/product/1shop/matrix/blog/2023yuancoffee bn-99.jpg?auto=compress" alt="元食cafe推薦M1 Pro咖啡秤開箱" loading="lazy">
-        <div class="card-body">
-          <time>2023-05-26</time>
-          <h2>元食cafe推薦M1 Pro咖啡秤開箱</h2>
-          <div class="tags">"matrix", "m1 pro", "咖啡秤", "電子秤", "元食", "手沖"</div>
-        </div>
-      </a>
-    </article>
-    <article class="card">
-      <a href="/article/ /2023vvcafe">
-        <img src=" https://img.fnte.com.tw/product/1shop/matrix/blog/2023vvcafe bn-99.jpg?auto=compress" alt=" VVCafe推薦M1 Pro咖啡秤開箱" loading="lazy">
-        <div class="card-body">
-          <time>2023-05-25</time>
-          <h2> VVCafe推薦M1 Pro咖啡秤開箱</h2>
-          <div class="tags">"matrix", "m1 pro", "咖啡秤", "電子秤", "vv cafe", "學長", "手沖"</div>
-        </div>
-      </a>
-    </article>
-    </div>
-  </main>
+      </div>
+    </article>`).join('');
+}
+</script>
 </body>
 </html>
