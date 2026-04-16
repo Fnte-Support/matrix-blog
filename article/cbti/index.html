@@ -151,6 +151,12 @@
     <h1 class="intro-label">咖啡人格測驗</h1>
     <p class="intro-sub">COFFEE PERSONALITY TEST</p>
     <h2 class="intro-title">你是什麼樣的<br><span>咖啡控？</span></h2>
+    <div style="text-align:center; margin-bottom:28px">
+      <div class="counter-badge">
+        <span class="dot"></span>
+        <span id="intro-counter-text">已有 0 人測驗</span>
+      </div>
+    </div>
     <p class="intro-desc">20道靈魂拷問 · 4個維度 · 16種人格<br><small>測驗結果可能引發咖啡信仰戰爭</small></p>
     <div class="dim-grid" id="dim-grid"></div>
     <button class="start-btn" id="start-btn">開始測驗</button>
@@ -357,19 +363,21 @@ function formatCount(n) {
 }
 
 function calculateResult(allAnswers) {
+  // Each dimension has 5 questions, each scored -3 to +3
+  // Positive scores = first letter (B/H/D/F), negative = second letter (L/C/S/E)
   const dimTotals = [0,0,0,0];
-  const dimCounts = [0,0,0,0];
   allAnswers.forEach(({dimension, score}) => {
     dimTotals[dimension] += score;
-    dimCounts[dimension]++;
   });
+  // Max per dimension = 5 questions * 3 = 15 (if all answers score +3)
+  // Score range: -15 to +15, so midpoint (0) = 50%, positive = first letter
   const dimLabels = [["B","L"],["H","C"],["D","S"],["F","E"]];
   let type = "";
   const dimScores = [];
   dimLabels.forEach((pair, i) => {
-    const total = dimTotals[i];
-    const maxPossible = dimCounts[i] * 3;
-    const normalized = maxPossible > 0 ? total / maxPossible : 0;
+    const total = dimTotals[i]; // Range: -15 to +15
+    const absMax = 15;
+    const normalized = absMax > 0 ? total / absMax : 0; // -1 to +1
     const aPercent = Math.min(95, Math.max(5, Math.round((normalized + 1) / 2 * 100)));
     const bPercent = 100 - aPercent;
     type += aPercent >= 50 ? pair[0] : pair[1];
@@ -421,9 +429,17 @@ function renderResult(resultData) {
   // Update share URLs with real result
   const shareTitle = '我是#' + result.type + '「' + result.title + '」！咖啡人格測驗你也來測測看';
   const shareText = '20道題目測出你的咖啡人格，你是哪一型？';
+  const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
   const lineBtn = document.getElementById('line-share-btn');
-  if (lineBtn) lineBtn.href = 'https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(SHARE_URL) + '&text=' + encodeURIComponent(shareTitle);
-  document.querySelectorAll('.share-btn.threads').forEach(b => b.href = 'https://www.threads.net/intent/post?text=' + encodeURIComponent(shareTitle + ' ' + SHARE_URL));
+  if (lineBtn) {
+    if (isMobile) {
+      lineBtn.href = 'line://msg/text/' + encodeURIComponent(shareTitle + ' ' + shareText + ' ' + SHARE_URL);
+    } else {
+      lineBtn.href = 'https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(SHARE_URL) + '&text=' + encodeURIComponent(shareTitle + ' ' + shareText);
+    }
+  }
+  const threadsBtn = document.getElementById('threads-share-btn');
+  if (threadsBtn) threadsBtn.href = 'https://www.threads.net/intent/post?text=' + encodeURIComponent(shareTitle + ' ' + SHARE_URL);
 
   document.getElementById('scores-container').innerHTML = dimScores.map((s, i) => `
     <div class="score-row">
@@ -490,8 +506,14 @@ if (navigator.share) {
 // Update LINE share with dynamic message
 const lineBtn = document.getElementById('line-share-btn');
 if (lineBtn) {
-  const lineUrl = 'https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(SHARE_URL) + '&text=' + encodeURIComponent(SHARE_TITLE + ' ' + SHARE_TEXT);
-  lineBtn.href = lineUrl;
+  // Use line:// scheme on mobile for native LINE app share, fallback to web on desktop
+  const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+  if (isMobile) {
+    const text = encodeURIComponent(SHARE_TITLE + ' ' + SHARE_TEXT + ' ' + SHARE_URL);
+    lineBtn.href = 'line://msg/text/' + text;
+  } else {
+    lineBtn.href = 'https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(SHARE_URL) + '&text=' + encodeURIComponent(SHARE_TITLE + ' ' + SHARE_TEXT);
+  }
 }
 
 // Update Threads share
@@ -625,6 +647,7 @@ document.getElementById('restart-btn').addEventListener('click', () => {
 
 // Init
 renderIntro();
+document.getElementById('intro-counter-text').textContent = '已有 ' + formatCount(getCount()) + ' 人測驗';
 </script>
 </body>
 </html>
