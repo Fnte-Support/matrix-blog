@@ -1,0 +1,9 @@
+{
+  "name": "matrix-blog",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Matrix 咖啡專欄部落格 — 靜態站 + Vercel Functions",
+  "dependencies": {
+    "@vercel/kv": "^2.0.0"
+  }
+}
