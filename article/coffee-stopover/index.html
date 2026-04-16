@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>COFFEE STOPOVER — 台中咖啡地圖</title>
+  <meta name="description" content="2015年成立的台中自家烘焙精品咖啡，兩間分店風格各異，手衝與義式各有千秋。">
+  <meta property="og:title" content="COFFEE STOPOVER — 台中咖啡地圖">
+  <meta property="og:description" content="2015年成立的台中自家烘焙精品咖啡，兩間分店風格各異，手衝與義式各有千秋。">
+  <meta property="og:image" content="https://dailycoffee.matrix.com.tw/article/coffee-stopover/hero.jpg">
+  <meta property="og:type" content="article">
+  <style>
+    :root { --bg:#1A0E08; --card:#2C1810; --warm:#3E2215; --gold:#D4A574; --cream:#F5E6D3; --amber:#E8C07A; --muted:rgba(245,230,211,.55); --border:rgba(212,165,116,.18); }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:var(--bg); color:var(--cream); font-family:"Noto Sans TC",sans-serif; line-height:1.8; min-height:100vh; }
+    .container { max-width:720px; margin:0 auto; padding:0 24px; }
+    .hero { position:relative; height:420px; overflow:hidden; margin-bottom:48px; border-radius:0 0 20px 20px; }
+    .hero img { width:100%; height:100%; object-fit:cover; display:block; }
+    .hero-overlay { position:absolute; bottom:0; left:0; right:0; padding:60px 28px 28px; background:linear-gradient(transparent,rgba(26,14,8,.9)); }
+    .cat-badge { display:inline-block; background:var(--gold); color:var(--bg); font-size:11px; font-weight:700; letter-spacing:2px; padding:4px 14px; border-radius:50px; margin-bottom:14px; }
+    .hero h1 { font-size:clamp(24px,5vw,34px); font-weight:700; line-height:1.3; color:var(--cream); }
+    .article-meta { display:flex; gap:20px; font-size:13px; color:var(--muted); margin-top:12px; flex-wrap:wrap; }
+    .logo-stamp { position:absolute; top:20px; right:20px; width:56px; height:56px; border-radius:12px; object-fit:cover; border:2px solid rgba(212,165,116,.4); opacity:.92; }
+    .content { padding-bottom:80px; }
+    .content h2 { font-size:20px; font-weight:700; color:var(--gold); margin:40px 0 16px; }
+    .content p { color:var(--cream); opacity:.85; margin-bottom:20px; font-size:16px; }
+    .info-grid { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:28px; margin:32px 0; }
+    .info-row { display:flex; gap:12px; margin-bottom:16px; font-size:15px; align-items:flex-start; }
+    .info-row:last-child { margin-bottom:0; }
+    .info-icon { font-size:18px; flex-shrink:0; }
+    .info-label { color:var(--gold); font-weight:600; width:72px; flex-shrink:0; }
+    .info-value { color:var(--cream); opacity:.8; }
+    .info-value a { color:var(--amber); text-decoration:none; }
+    .info-value a:hover { text-decoration:underline; }
+    .tag-row { display:flex; gap:8px; flex-wrap:wrap; margin:24px 0; }
+    .tag { background:rgba(212,165,116,.12); border:1px solid rgba(212,165,116,.25); color:var(--gold); font-size:13px; padding:5px 14px; border-radius:50px; }
+    .spotlight { background:var(--card); border-left:3px solid var(--gold); padding:20px 24px; margin:28px 0; border-radius:0 12px 12px 0; }
+    .spotlight-title { color:var(--gold); font-weight:700; font-size:15px; margin-bottom:8px; }
+    .spotlight p { margin:0; font-size:15px; }
+    .shop-card { background:var(--warm); border:1px solid var(--border); border-radius:14px; padding:22px; margin:20px 0; }
+    .shop-name { font-size:17px; font-weight:700; color:var(--amber); margin-bottom:12px; }
+    .review-card { background:var(--warm); border:1px solid var(--border); border-radius:14px; padding:22px; margin:20px 0; }
+    .reviewer { font-size:13px; color:var(--gold); margin-bottom:10px; display:flex; align-items:center; gap:8px; }
+    .review p { font-size:15px; color:var(--cream); opacity:.85; margin:0; font-style:italic; }
+    .social-row { display:flex; gap:10px; flex-wrap:wrap; margin:24px 0; }
+    .social-btn { display:inline-flex; align-items:center; gap:6px; padding:9px 18px; border-radius:50px; font-size:13px; font-weight:600; text-decoration:none; background:rgba(212,165,116,.15); border:1px solid rgba(212,165,116,.3); color:var(--gold); transition:opacity .2s; }
+    .social-btn:hover { opacity:.75; }
+    .social-btn svg { width:16px; height:16px; }
+    .map-link { display:inline-flex; align-items:center; gap:8px; background:var(--gold); color:var(--bg); padding:12px 24px; border-radius:50px; text-decoration:none; font-size:14px; font-weight:700; margin-top:12px; transition:opacity .2s; }
+    .map-link:hover { opacity:.85; }
+    .back-link { display:inline-flex; align-items:center; gap:8px; color:var(--gold); text-decoration:none; font-size:14px; margin-top:48px; opacity:.7; transition:opacity .2s; }
+    .back-link:hover { opacity:1; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="hero">
+    <img src="https://dailycoffee.matrix.com.tw/article/coffee-stopover/hero.jpg" alt="COFFEE STOPOVER 咖啡店">
+    <img class="logo-stamp" src="https://dailycoffee.matrix.com.tw/article/coffee-stopover/logo.jpg" alt="COFFEE STOPOVER Logo">
+    <div class="hero-overlay">
+      <div class="cat-badge">咖啡地圖</div>
+      <h1>COFFEE STOPOVER</h1>
+      <div class="article-meta">
+        <span>☕ 2015 自家烘焙</span>
+        <span>📍 台中市西區</span>
+        <span>🏭 兩間分店</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <h2>一號店｜COFFEE STOPOVER</h2>
+    <div class="info-grid">
+      <div class="info-row">
+        <span class="info-icon">🕐</span>
+        <span class="info-label">營業時間</span>
+        <span class="info-value">週一 ~ 週六 11:00–20:00（週日公休）</span>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">📍</span>
+        <span class="info-label">地址</span>
+        <span class="info-value">
+          <a href="https://www.google.com/maps/search/?api=1&query=COFFEE+STOPOVER+台中市西區民權路217巷24號" target="_blank" rel="noopener">
+            台中市西區民權路 217 巷 24 號
+          </a>
+        </span>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">☎️</span>
+        <span class="info-label">電話</span>
+        <span class="info-value"><a href="tel:+886-4-2305-5388">04-2305-5388</a></span>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">☕</span>
+        <span class="info-label">萃取方式</span>
+        <span class="info-value">手衝 · 義式濃縮</span>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">🛒</span>
+        <span class="info-label">販售商品</span>
+        <span class="info-value">單品豆 · 配方豆 · 茶咖啡濾掛 · 特殊配方豆</span>
+      </div>
+    </div>
+
+    <h2>二號店｜COFFEE STOPOVER BLACK</h2>
+    <div class="info-grid">
+      <div class="info-row">
+        <span class="info-icon">🕐</span>
+        <span class="info-label">營業時間</span>
+        <span class="info-value">週二 ~ 週六 14:00–19:00（週日週一公休）</span>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">📍</span>
+        <span class="info-label">地址</span>
+        <span class="info-value">
+          <a href="https://www.google.com/maps/search/?api=1&query=COFFEE+STOPOVER+BLACK+台中市西區福龍街7號" target="_blank" rel="noopener">
+            台中市西區福龍街 7 號
+          </a>
+        </span>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">☎️</span>
+        <span class="info-label">電話</span>
+        <span class="info-value"><a href="tel:+886-4-2208-0580">04-2208-0580</a></span>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">☕</span>
+        <span class="info-label">萃取方式</span>
+        <span class="info-value">拉霸式義式濃縮 · 愛樂壓 · 法國壓 · 賽風</span>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">🛒</span>
+        <span class="info-label">販售商品</span>
+        <span class="info-value">單品豆 · 配方豆 · 茶咖啡濾掛 · 特殊配方豆 · 咖啡選物</span>
+      </div>
+    </div>
+
+    <div class="social-row">
+      <a class="social-btn" href="https://www.coffeestopover.com" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+        官方網站
+      </a>
+      <a class="social-btn" href="https://www.instagram.com/coffeestopover" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg>
+        @coffeestopover
+      </a>
+    </div>
+
+    <div class="tag-row">
+      <span class="tag">#自家烘焙</span>
+      <span class="tag">#台中咖啡</span>
+      <span class="tag">#精品咖啡</span>
+      <span class="tag">#單品豆</span>
+      <span class="tag">#配方豆</span>
+      <span class="tag">#咖啡選物</span>
+      <span class="tag">#街區咖啡</span>
+    </div>
+
+    <h2>為什麼值得專程來</h2>
+    <p>COFFEE STOPOVER 起站於 2015 年夏末，是台中具代表性的自家烘焙精品咖啡品牌。兩間分店風格各異——一號店走低調悠閒的街區工業風，手充吧檯直面客人；二號店 BLACK 走濃黑系實驗風，結合烘豆基地，萃取方式從義式到賽風應有盡有。</p>
+    <p>品牌精神是「打破常規」，菜單上可以自由選擇咖啡豆、焙度、濾杯與沖煮方式，由咖啡師為你量身訂做專屬咖啡。這種高度客製化的體驗，是許多咖啡愛好者一再回訪的原因。</p>
+
+    <div class="spotlight">
+      <div class="spotlight-title">☕ 這裡適合什麼人</div>
+      <p>想自由度高一點、願意跟咖啡師討論風味偏好、喜歡動手玩咖啡的人。一號店適合悠閒坐坐，二號店 BLACK 則適合對咖啡有更深度研究興趣的玩家。</p>
+    </div>
+
+    <h2>推薦品項</h2>
+    <p>兩間店各有擅場：<b>一號店</b>推薦手充單品，可以品嚐到明亮的水果調性與發酵香；<b>二號店 BLACK</b>則推薦用愛樂壓或賽風沖煮的浸泡式咖啡，厚實沉穩、風味集中。別忘了逛逛二號店的咖啡選物區，品牌聯名周邊時有驚喜。</p>
+
+    <h2>遊客回饋</h2>
+    <div class="review-card">
+      <div class="reviewer">咖啡探索者</div>
+      <p>「第一次來的時候被菜單搞懵了——可以選豆子、焙度、濾杯！後來跟咖啡師聊了一下，他推薦了一支中焙的配方豆，做成手充非常好喝，從此成了常客。」</p>
+    </div>
+    <div class="review-card">
+      <div class="reviewer">咖啡器材迷</div>
+      <p>「二號店 BLACK 超適合我，濃黑系裝潢、烘豆機就在旁邊，還可以買到各種咖啡器材。周邊聯名商品也很有創意，買過一次濾掛禮盒送朋友。」</p>
+    </div>
+
+    <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=COFFEE+STOPOVER+台中市西區民權路217巷24號" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+      Google Maps 開啟地圖
+    </a>
+
+    <a class="back-link" href="https://dailycoffee.matrix.com.tw">← 返回首頁</a>
+  </div>
+
+</div>
+</body>
+</html>

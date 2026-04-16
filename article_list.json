@@ -1,5 +1,20 @@
 [
   {
+    "slug": "coffee-stopover",
+    "title": "COFFEE STOPOVER — 台中自家烘焙精品咖啡",
+    "category": "map",
+    "status": "published",
+    "date": "2026-04-16",
+    "hero": "https://dailycoffee.matrix.com.tw/article/coffee-stopover/hero.jpg",
+    "excerpt": "2015年成立的台中自家烘焙精品咖啡，兩間分店風格各異，手衝與義式各有千秋。",
+    "tags": [
+      "咖啡地圖",
+      "台中",
+      "自家烘焙",
+      "精品咖啡"
+    ]
+  },
+  {
     "title": "你是什麼樣的咖啡控？CBTI 咖啡人格測驗",
     "image": "https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=1400&q=80",
     "slug": "cbti",
