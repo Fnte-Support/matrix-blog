@@ -10,12 +10,13 @@
   },
   {
     "title": "興波咖啡 Simple Kaffa — 台北冠軍咖啡店推薦",
-    "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1400&q=80",
+    "image": "https://dailycoffee.matrix.com.tw/article/simple-kaffa/hero.jpg",
     "slug": "simple-kaffa",
     "date": "2026-04-16",
     "category": "map",
     "url": "/article/simple-kaffa/",
-    "tags": "\"興波咖啡\",\"Simple Kaffa\",\"吳則霖\",\"台北咖啡\",\"手沖咖啡\",\"冠軍咖啡\",\"東區咖啡\""
+    "tags": "\"興波咖啡\",\"Simple Kaffa\",\"吳則霖\",\"台北咖啡\",\"手沖咖啡\",\"冠軍咖啡\",\"東區咖啡\"",
+    "og_image": "https://dailycoffee.matrix.com.tw/article/simple-kaffa/hero.jpg"
   },
   {
     "title": "水質如何影響咖啡風味？軟水、硬水、TDS 完整解析",
