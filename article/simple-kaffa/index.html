@@ -19,17 +19,18 @@
     .hero-overlay { position:absolute; bottom:0; left:0; right:0; padding:80px 24px 32px; background:linear-gradient(transparent,rgba(26,14,8,.95)); }
     .cat-badge { display:inline-block; background:var(--gold); color:var(--bg); font-size:11px; font-weight:700; letter-spacing:2px; padding:4px 14px; border-radius:50px; margin-bottom:14px; }
     .hero h1 { font-size:clamp(26px,5vw,38px); font-weight:700; line-height:1.3; color:var(--cream); }
-    .article-meta { display:flex; gap:20px; font-size:13px; color:var(--muted); margin-top:12px; }
+    .article-meta { display:flex; gap:20px; font-size:13px; color:var(--muted); margin-top:12px; flex-wrap:wrap; }
     .content { padding-bottom:80px; }
     .content h2 { font-size:20px; font-weight:700; color:var(--gold); margin:40px 0 16px; }
     .content p { color:var(--cream); opacity:.85; margin-bottom:20px; font-size:16px; }
     .info-grid { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:28px; margin:32px 0; }
-    .info-row { display:flex; gap:12px; margin-bottom:16px; font-size:15px; }
+    .info-row { display:flex; gap:12px; margin-bottom:16px; font-size:15px; align-items:flex-start; }
     .info-row:last-child { margin-bottom:0; }
     .info-icon { font-size:18px; flex-shrink:0; }
     .info-label { color:var(--gold); font-weight:600; width:72px; flex-shrink:0; }
     .info-value { color:var(--cream); opacity:.8; }
     .info-value a { color:var(--amber); text-decoration:none; }
+    .info-value a:hover { text-decoration:underline; }
     .tag-row { display:flex; gap:8px; flex-wrap:wrap; margin:24px 0; }
     .tag { background:rgba(212,165,116,.12); border:1px solid rgba(212,165,116,.25); color:var(--gold); font-size:13px; padding:5px 14px; border-radius:50px; }
     .spotlight { background:var(--card); border-left:3px solid var(--gold); padding:20px 24px; margin:28px 0; border-radius:0 12px 12px 0; }
@@ -37,9 +38,16 @@
     .spotlight p { margin:0; font-size:15px; }
     .review-card { background:var(--warm); border:1px solid var(--border); border-radius:14px; padding:22px; margin:20px 0; }
     .reviewer { font-size:13px; color:var(--gold); margin-bottom:10px; display:flex; align-items:center; gap:8px; }
-    .reviewer::before { content:''; display:inline-block; width:28px; height:28px; border-radius:50%; background:var(--gold); opacity:.3; }
     .review p { font-size:15px; color:var(--cream); opacity:.85; margin:0; font-style:italic; }
-    .map-embed { width:100%; height:320px; border:0; border-radius:14px; margin:24px 0; display:block; filter:invert(0.85) hue-rotate(180deg); }
+    .social-row { display:flex; gap:10px; flex-wrap:wrap; margin:24px 0; }
+    .social-btn { display:inline-flex; align-items:center; gap:6px; padding:9px 18px; border-radius:50px; font-size:13px; font-weight:600; text-decoration:none; transition:opacity .2s; }
+    .social-btn:hover { opacity:.8; }
+    .social-btn.website { background:rgba(212,165,116,.15); border:1px solid rgba(212,165,116,.3); color:var(--gold); }
+    .social-btn.ig { background:rgba(212,165,116,.15); border:1px solid rgba(212,165,116,.3); color:var(--gold); }
+    .social-btn.fb { background:rgba(212,165,116,.15); border:1px solid rgba(212,165,116,.3); color:var(--gold); }
+    .social-btn svg { width:16px; height:16px; }
+    .map-link { display:inline-flex; align-items:center; gap:8px; background:var(--gold); color:var(--bg); padding:12px 24px; border-radius:50px; text-decoration:none; font-size:14px; font-weight:700; margin-top:12px; transition:opacity .2s; }
+    .map-link:hover { opacity:.85; }
     .back-link { display:inline-flex; align-items:center; gap:8px; color:var(--gold); text-decoration:none; font-size:14px; margin-top:48px; opacity:.7; transition:opacity .2s; }
     .back-link:hover { opacity:1; }
   </style>
@@ -48,12 +56,13 @@
 <div class="container">
 
   <div class="hero">
-    <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1400&q=80" alt="興波咖啡手沖咖啡">
+    <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1400&q=80" alt="興波咖啡 Simple Kaffa">
     <div class="hero-overlay">
       <div class="cat-badge">咖啡地圖</div>
       <h1>興波咖啡 Simple Kaffa</h1>
       <div class="article-meta">
-        <span>📍 台北市大安區忠孝東路四段 101 號</span>
+        <span>🏆 2019 世界最棒咖啡館第一名</span>
+        <span>📍 台北中正區</span>
       </div>
     </div>
   </div>
@@ -68,40 +77,65 @@
       <div class="info-row">
         <span class="info-icon">📍</span>
         <span class="info-label">地址</span>
-        <span class="info-value">台北市大安區忠孝東路四段 101 號（明曜百貨後方）</span>
+        <span class="info-value">
+          <a href="https://www.google.com/maps/search/?api=1&query=興波咖啡+Simple+Kaffa+忠孝東路二段27號" target="_blank" rel="noopener">
+            100013 台灣台北市中正區忠孝東路二段 27 號
+          </a>
+        </span>
       </div>
       <div class="info-row">
         <span class="info-icon">🚇</span>
         <span class="info-label">交通</span>
-        <span class="info-value">捷運忠孝敦化站 3 號出口，步行約 3 分鐘</span>
+        <span class="info-value">捷運忠孝新生站 1 號出口，步行約 5 分鐘</span>
       </div>
       <div class="info-row">
         <span class="info-icon">💰</span>
         <span class="info-label">價位</span>
         <span class="info-value">手沖單品 NT$160–280／義式 NT$130–180</span>
       </div>
+      <div class="info-row">
+        <span class="info-icon">☎️</span>
+        <span class="info-label">電話</span>
+        <span class="info-value"><a href="tel:+886-2-3322-1888">+886-2-3322-1888</a></span>
+      </div>
+    </div>
+
+    <div class="social-row">
+      <a class="social-btn website" href="https://simplekaffa.com" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+        官方網站
+      </a>
+      <a class="social-btn ig" href="https://www.instagram.com/simplekaffa/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg>
+        @simplekaffa
+      </a>
+      <a class="social-btn fb" href="https://www.facebook.com/simplekaffaflagship/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        Facebook
+      </a>
     </div>
 
     <div class="tag-row">
       <span class="tag">#安靜工作</span>
       <span class="tag">#認真喝咖啡</span>
       <span class="tag">#手沖愛好者</span>
+      <span class="tag">#華山</span>
+      <span class="tag">#世界冠軍</span>
       <span class="tag">#東區</span>
-      <span class="tag">#冠軍咖啡</span>
     </div>
 
     <h2>為什麼值得專程來</h2>
-    <p>興波咖啡的創辦人吳則霖，是台灣首位奪下世界咖啡師大賽（WBC）冠軍的咖啡師。這間店，從吧台設計到豆單選擇，都帶著一股「用冠軍標準定義每一杯」的軸勁。</p>
-    <p>菜單上少說有十支以上的手沖單品，產區涵蓋衣索比亞、肯亞、瓜地馬拉、、巴拿馬……豆子由自家烘焙，焙度偏淺，善於表達水果調與發酵香。</p>
+    <p>興波咖啡的創辦人吳則霖，是台灣首位奪下世界咖啡師大賽（WBC）冠軍的咖啡師。2019 年更被 Big 7 Travel 評選為「世界最棒的 50 家咖啡館」第一名，讓台灣正式成為全球咖啡版圖上不可忽視的存在。</p>
+    <p>旗艦店位於華山文創園區旁，空間挑高三層，吧台開闊，烘豆機就在眼前。豆單選擇豐富，產區涵蓋衣索比亞、肯亞、巴拿馬、瓜地馬拉……自家烘焙，焙度偏淺，善於表達水果調與發酵香。</p>
 
     <div class="spotlight">
       <div class="spotlight-title">☕ 這裡適合什麼人</div>
-      <p>想認真喝一杯好咖啡、不趕時間、願意聽咖啡師聊聊這支豆子的來歷——這裡就是你的主场。約商務談事情也適合，空間足夠安靜。</p>
+      <p>想認真喝一杯好咖啡、不趕時間、願意跟咖啡師聊聊這支豆子的來歷——這裡就是你的主場。帶筆電工作也適合，插座充足，背景音樂舒適。</p>
     </div>
 
     <h2>推薦品項</h2>
-    <p>首推<b>手沖單品</b>，可以跟咖啡師說你想要什麼調性——喜歡發酵感就點藝伎，喜歡水果甜就選非洲豆。咖啡師通常會主動讓你聞乾香，這裡的風味描述也寫得很誠實。</p>
-    <p>如果偏好義式，<b>招牌拿鐵</b>是基本盤，濃郁厚實，奶泡打得細，CP值在東區算很高的。</p>
+    <p>首推<b>手沖單品</b>，可以跟咖啡師說你想要什麼調性——喜歡發酵感就點藝伎，喜歡水果甜就選非洲豆。咖啡師通常會主動讓你聞乾香，風味描述也寫得很誠實。</p>
+    <p>如果偏好義式，<b>招牌拿鐵</b>是基本盤，濃郁厚實，CP值在台北市中心算很高的。</p>
 
     <h2>遊客回饋</h2>
     <div class="review-card">
@@ -113,7 +147,10 @@
       <p>「在這裡工作過一個下午，插座充足，背景音樂舒適，重點是——點一杯手沖坐三小時不會有人趕你。CP值爆表。」</p>
     </div>
 
-    <iframe class="map-embed" src="https://www.openstreetmap.org/export/embed.html?bbox=121.5470%2C25.0390%2C121.5530%2C25.0440&layer=mapnik&marker=25.0416%2C121.5500" loading="lazy"></iframe>
+    <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=興波咖啡+Simple+Kaffa+忠孝東路二段27號" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+      Google Maps 開啟地圖
+    </a>
 
     <a class="back-link" href="https://dailycoffee.matrix.com.tw">← 返回首頁</a>
   </div>
