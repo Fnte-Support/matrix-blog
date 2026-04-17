@@ -1,6 +1,14 @@
 # DailyCoffee 咖啡用具專欄 — 專案規範
 
-> 所有 Claude agent 在修改本專案時，必須遵守以下規範。
+> 所有 AI agent（Claude、OpenClaw、ChatGPT 等）或人類編輯在修改本專案時，必須遵守以下規範。
+
+---
+
+## 🚨 新 session 必讀（順序重要）
+
+1. **先讀 `dailycoffee-HANDOFF.md`** — 了解目前網站狀態、近期工作、待辦事項
+2. **本檔案（CLAUDE.md）** — 通用行為規範和設計原則
+3. **`dailycoffee-ARTICLE-SOP.md`** — 新增文章時必讀，逐條照做
 
 ---
 
@@ -36,74 +44,167 @@
 ### 4. 目標驅動（Goal-Driven Execution）
 - 把任務轉成可驗證的目標再動手
 - 改完要確認結果正確才算完成
-- 多步驟任務先列計畫，每步附驗證方式：
-  ```
-  1. [步驟] → 驗證：[檢查方式]
-  2. [步驟] → 驗證：[檢查方式]
-  3. [步驟] → 驗證：[檢查方式]
-  ```
-- 明確的成功標準讓你能獨立迭代；模糊的標準（「讓它能動」）需要不斷確認
+- 多步驟任務先列計畫，每步附驗證方式
 
 ---
 
-**這些規範有效的指標：** diff 裡不必要的改動變少、因過度設計而重寫的次數變少、釐清問題發生在動手之前而非犯錯之後。
+## ⛔ AI agent 絕對不可擅自修改的內容
+
+> 這條規則是因為本專案曾被 OpenClaw 擅自改動過，造成設計一致性破壞。
+> 任何 AI agent（包括 OpenClaw、Claude）接手後，**不經使用者同意**不可變更以下：
+
+### 首頁 `index.html`
+- **Header** 固定為單純 logo（`☕ Daily Coffee`），不可加副標、tagline、E-E-A-T 字樣、認證標誌
+- **Footer** 固定 3 欄結構：
+  - 分類（6 個固定連結）
+  - 關於（關於我們 / 聯絡我們 / Matrix 官網）
+  - 社群（Threads / Instagram / Facebook — 直連 URL）
+  - **不可**加「矩陣世紀官網」「🌸 櫻花出行」或其他非 Matrix 品牌之連結
+
+### JSON-LD publisher name
+- 固定 `"name": "Daily Coffee"`，**不可**改為「Matrix 矩陣世紀」或其他字串
+
+### `article_list.json`
+- 保留 147 筆（7 本地 + 140 外連）為基準
+- 新增文章時**追加**，不可批次改寫或「清理」
+- 新增必須符合 `dailycoffee-ARTICLE-SOP.md` 的欄位規範
+
+### `sitemap.xml`
+- 只能含 `dailycoffee.matrix.com.tw` 網域的 URL
+- **嚴禁**加入 `www.matrix.com.tw`、`gosakurajp.com` 或其他外部網域（子網域在 SEO 上為獨立網站）
+
+### `robots.txt`
+- 保留 AI crawler 白名單（GPTBot / ClaudeBot / OAI-SearchBot / PerplexityBot 等）
+
+### 本地文章的 `/article/<slug>/` 資料夾
+- 不可未經使用者同意新增或刪除
+- 新增必須經使用者確認內容題材
+
+### 社群連結（Footer）
+直連 URL 固定：
+```
+Threads:   https://www.threads.com/@matrix.tw
+Instagram: https://www.instagram.com/matrix.tw/
+Facebook:  https://www.facebook.com/matrixscale.tw
+```
+不可改回 `matrix.com.tw/threads` 這類轉址網址。
 
 ---
 
 ## 專案基本資訊
 
-- **品牌名稱**：DailyCoffee（暫定，依實際品牌調整）
+- **品牌名稱**：Daily Coffee
 - **網域**：https://dailycoffee.matrix.com.tw
-- **類型**：咖啡用具文章專欄網站
+- **類型**：咖啡用具與咖啡知識文章專欄網站
 - **語言**：繁體中文（zh-TW）
-- **技術棧**：純靜態 HTML + Tailwind CSS v3（本地預編譯）
+- **技術棧**：**純靜態 HTML + 原生 CSS**（無 build step、無框架）
+  - ⚠️ 舊版文件提過 Tailwind v3，**實際並未使用**（誤植）
+  - 每頁自帶 `<style>` 區塊，色票用 CSS variables（`--coffee-dark` 等）
 - **部署**：GitHub → Vercel 自動部署（push main 後自動上線）
 
 ---
 
 ## Git 工作流程
 
-1. **每次操作前必須 `git pull origin main`**
-2. commit message 用繁體中文描述
+1. **每次開始操作前必須 `git pull origin main`**
+2. commit message 用**繁體中文**描述（說明「為什麼」，不只是「做了什麼」）
 3. 推送到 `main` 分支即自動部署
-4. 避免 force push
+4. 避免 force push、不要 `--no-verify` 跳過 hooks
 5. **不要 commit 任何 API key、token、密碼**
+
+### Commit message 格式建議
+```
+<類型>: <描述>
+
+類型：
+  feat       — 新功能、新文章
+  fix        — 修 bug / 還原錯誤變動
+  refactor   — 重構、重寫
+  docs       — 文件更新
+  chore      — 雜項
+  revert     — 還原特定 commit
+```
+
+---
+
+## GitHub 協作注意事項
+
+`Fnte-Support` 是**共用 GitHub 帳號**：人類使用者 + OpenClaw AI 都會以此身份 push。
+
+看 commit log 分辨誰推的：
+- `Jessie_Macmini <jessie_macmini@...>` = 使用者本機
+- `Fnte Support <support@fnte.com.tw>` = OpenClaw AI
+
+**如果看到未授權變動**（例如 footer 被改、publisher name 被改）→ 先告訴使用者，不要擅自還原或繼續蓋寫。
 
 ---
 
 ## SEO 規範
 
-### Meta 標籤
-- 每個頁面必須有 `<title>`、`<meta name="description">`、`<meta name="keywords">`
-- OG / Twitter Card meta 必須完整（title, description, image, type）
-- `<link rel="canonical">` 使用完整 URL
+### Meta 標籤（每個頁面必備）
+- `<title>`（格式：`標題 | Daily Coffee`）
+- `<meta name="description">`（120-160 字）
+- `<meta name="keywords">`
+- `<meta name="author">` = "Daily Coffee"
+- `<link rel="canonical">`（完整 URL）
+
+### Open Graph / Twitter Card（完整）
+- og:title / og:description / og:image / og:url / og:type / og:site_name / og:locale
+- article:published_time / article:section（文章頁）
+- twitter:card="summary_large_image" + title / description / image
+
+### JSON-LD Article schema（文章頁必備）
+- headline / description / image / datePublished / dateModified
+- author / publisher（publisher 固定 "Daily Coffee"）
+- mainEntityOfPage
+- keywords
 
 ### HTML 語義化
 - 單一 `<h1>` per page
 - 使用 `<main>`, `<section>`, `<nav>`, `<footer>`, `<article>`
-- 外部連結加 `rel="noopener noreferrer"`
+- 外部連結必加 `rel="noopener noreferrer"`
 - 圖片必須有 `alt` 屬性（繁體中文描述）
 
 ### sitemap.xml
-- 新增/刪除文章時必須同步更新
-- lastmod 格式 YYYY-MM-DD
+- 新增／刪除文章時必須同步更新
+- `lastmod` 格式 `YYYY-MM-DD`
+- **只能包含 dailycoffee.matrix.com.tw 網域**
 
 ---
 
 ## 設計系統
 
-### CSS
-- 使用 Tailwind CSS **v3**（不是 v4）
-- ❌ 不要安裝 `@tailwindcss/cli`（v4），會覆蓋 v3
+### 色票（CSS variables）
+```css
+--coffee-dark:  #2C1810   /* 深咖啡：header / footer / 主文字 */
+--coffee-mid:   #6B4226   /* 中咖啡：nav bar / h2 */
+--coffee-light: #C07A3E   /* 淺咖啡：hover / 強調色 */
+--coffee-cream: #F5EDE0   /* 奶色：文章頁背景、標籤底 */
+--coffee-bg:    #FDFBF8   /* 米白：首頁背景 */
+--gray-light:   #f0ede8   /* 淺灰：分隔線 */
+```
+
+### 分類標籤色
+| 分類 | key | 底色 / 文字 |
+|---|---|---|
+| 最新消息 | `news` | `#FFF3E0` / `#E65100` 橘 |
+| 咖啡小學堂 | `knowledge` | `#E8F5E9` / `#2E7D32` 綠 |
+| 咖啡活動 | `events` | `#E3F2FD` / `#1565C0` 藍 |
+| 咖啡地圖 | `map` | `#F3E5F5` / `#6A1B9A` 紫 |
+| 達人實測 | `kol` | `#FFEBEE` / `#C62828` 紅 |
+| CBTJ | `cbtj` | `#FFF8E1` / `#F57F17` 黃 |
 
 ### 字型
-- Noto Sans TC（Google Fonts）或依實際設定調整
-- Google Fonts 用 `media="print" onload="this.media='all'"` 非阻塞載入
+- Noto Sans TC（Google Fonts）或系統預設
+- Google Fonts 用非阻塞載入：`media="print" onload="this.media='all'"`
 
 ### 圖片
-- 格式優先 WebP，寬度 800px，quality 72
-- 所有 `<img>` 必須有 `width` 和 `height` 屬性（防止 CLS）
+- 格式優先 JPG / WebP（PNG 僅用於需透明 logo）
+- hero.jpg 1200×630，檔案 ≤ 300KB
+- 所有 `<img>` 必須有 `width` 和 `height`（防止 CLS）
 - 首屏以下圖片加 `loading="lazy"` + `decoding="async"`
+- **嚴禁使用會過期的臨時 URL**（如 `?Expires=` 參數）
+- AI 產圖（MiniMax / DALL-E 等）必須立即下載為本地 `hero.jpg`
 
 ---
 
@@ -117,16 +218,28 @@
 
 ## 安全性
 
-- JS 用 `textContent`（不用 `innerHTML`）
+- JS 用 `textContent`（不用 `innerHTML`，防 XSS）
 - 外部連結加 `rel="noopener noreferrer"`
-- **絕不 commit API key / token / 密碼**
+- **絕不 commit** API key / token / 密碼
+- 表單不要用 `GET` 提交使用者資料
 
 ---
 
-## 文章規範
+## 文章發布
+
+完整規範見 **`dailycoffee-ARTICLE-SOP.md`**，簡版：
+
+1. Slug 用小寫連字號（`my-new-article`）
+2. `article/<slug>/` 放 `index.html` + `hero.jpg`
+3. HTML `<head>` 含完整 SEO meta + JSON-LD
+4. HTML `<body>` 含 `.dc-header` + `.dc-footer`
+5. `article_list.json` 新增條目
+6. `sitemap.xml` 加新 URL
+7. commit（繁中訊息）+ push
 
 ### 寫作風格
 - 像在跟朋友分享咖啡經驗，專業但不生硬
+- 第二人稱（你/妳）比第三人稱親切
 - 自然帶入關鍵字，不硬塞
 - 標題包含主題關鍵字
 
@@ -134,4 +247,22 @@
 
 ## 關聯專案
 
-- **櫻花出行 gosakurajp**（gosakurajp.com）— 同一位擁有者的旅遊包車網站，技術棧相同
+- **櫻花出行 gosakurajp**（gosakurajp.com）— 同一位擁有者的旅遊包車網站
+  - 技術棧相同（純靜態 HTML）
+  - 共用 `Fnte-Support` GitHub 帳號
+  - **與本專案獨立，不可將兩專案連結混入**（例如此專案 footer 不該出現「🌸 櫻花出行」連結）
+
+---
+
+## 其他重要檔案
+
+| 檔案 | 用途 |
+|---|---|
+| `dailycoffee-HANDOFF.md` | Session 交接紀錄（每次結束更新） |
+| `dailycoffee-ARTICLE-SOP.md` | 文章發布規範（新增文章必讀） |
+| `article_list.json` | 文章索引（147 筆） |
+| `article_list.json.bak` | 舊版備份（本地保留，不 push） |
+| `old_site_full_inventory.json` | 舊站完整清單（本地參考，不 push） |
+| `sitemap.xml` | XML sitemap（只有 dailycoffee 網域） |
+| `robots.txt` | 爬蟲規則（含 AI crawler 白名單） |
+| `.gitignore` | 排除本地工作檔案 |
