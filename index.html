@@ -104,7 +104,8 @@
     .card:hover .card-img-wrap img { transform: scale(1.03); }
     .ext-badge { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.65); color: #fff; font-size: 0.7rem; font-weight: 600; padding: 3px 8px; border-radius: 20px; display: flex; align-items: center; gap: 3px; backdrop-filter: blur(4px); }
     .card-body { padding: 1rem 1.1rem; flex: 1; display: flex; flex-direction: column; }
-    .card .cat-tag { display: inline-block; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 0.2rem 0.6rem; border-radius: 20px; margin-bottom: 0.5rem; align-self: flex-start; }
+    .card .cat-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.5rem; }
+    .card .cat-tag { display: inline-block; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 0.2rem 0.6rem; border-radius: 20px; }
     .cat-news { background: #FFF3E0; color: #E65100; }
     .cat-knowledge { background: #E8F5E9; color: #2E7D32; }
     .cat-events { background: #E3F2FD; color: #1565C0; }
@@ -272,14 +273,26 @@ document.getElementById('searchInput').addEventListener('input', e => {
   render();
 });
 
+function hasCategory(a, cat) {
+  if (!a.category) return false;
+  if (Array.isArray(a.category)) return a.category.includes(cat);
+  return a.category === cat;
+}
+
+function primaryCategory(a) {
+  if (!a.category) return '';
+  if (Array.isArray(a.category)) return a.category[0] || '';
+  return a.category;
+}
+
 function getFiltered() {
   return articles.filter(a => {
-    const matchCat = currentCat === 'all' || a.category === currentCat;
+    const matchCat = currentCat === 'all' || hasCategory(a, currentCat);
     const q = searchQuery;
     const matchSearch = !q ||
       a.title.toLowerCase().includes(q) ||
       (Array.isArray(a.tags) ? a.tags.join(' ') : (a.tags || '')).toLowerCase().includes(q) ||
-      (a.excerpt || '').toLowerCase().includes(q);
+      (a.description || a.excerpt || '').toLowerCase().includes(q);
     return matchCat && matchSearch;
   });
 }
@@ -375,7 +388,13 @@ function render() {
         </div>
       </a>
       <div class="card-body">
-        ${a.category ? `<span class="cat-tag ${catClass(a.category)}">${catLabel(a.category)}</span>` : ''}
+        ${a.category ? (function(){
+          const cats = Array.isArray(a.category) ? a.category : [a.category];
+          // 過濾某分類時：只顯示該分類（強調關聯性）
+          // 全部文章時：顯示所有分類（讓使用者看到多分類歸屬）
+          const showList = (currentCat !== 'all' && cats.includes(currentCat)) ? [currentCat] : cats;
+          return `<div class="cat-tags">${showList.map(c => `<span class="cat-tag ${catClass(c)}">${catLabel(c)}</span>`).join('')}</div>`;
+        })() : ''}
         <h2><a href="${href}" ${ext ? 'target="_blank" rel="noopener noreferrer"' : ''}>${a.title}</a></h2>
         ${tagsHtml ? `<div class="card-tags">${tagsHtml}</div>` : ''}
         <div class="card-meta">
