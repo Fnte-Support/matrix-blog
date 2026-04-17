@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO -->
+  <title>咖啡人真實分享 | Daily Coffee</title>
+  <meta name="description" content="來自 Threads 和 Instagram 的咖啡職人真實分享，第一手的咖啡店心得、器材評測、沖煮技巧。">
+  <meta name="keywords" content="咖啡分享,咖啡社群,咖啡人,Threads,Instagram,咖啡職人">
+  <meta name="author" content="Daily Coffee">
+  <link rel="canonical" href="https://dailycoffee.matrix.com.tw/socialmedia/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="咖啡人真實分享 | Daily Coffee">
+  <meta property="og:description" content="來自 Threads 和 Instagram 的咖啡職人真實分享，第一手的咖啡店心得、器材評測、沖煮技巧。">
+  <meta property="og:url" content="https://dailycoffee.matrix.com.tw/socialmedia/">
+  <meta property="og:image" content="https://dailycoffee.matrix.com.tw/og-default.jpg">
+  <meta property="og:site_name" content="Daily Coffee">
+  <meta property="og:locale" content="zh_TW">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="咖啡人真實分享 | Daily Coffee">
+  <meta name="twitter:description" content="來自 Threads 和 Instagram 的咖啡職人真實分享。">
+  <meta name="twitter:image" content="https://dailycoffee.matrix.com.tw/og-default.jpg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☕</text></svg>">
+
+  <style>
+    :root {
+      --coffee-dark: #2C1810;
+      --coffee-mid: #6B4226;
+      --coffee-light: #C07A3E;
+      --coffee-cream: #F5EDE0;
+      --coffee-bg: #FDFBF8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif; background: var(--coffee-bg); color: var(--coffee-dark); line-height: 1.6; }
+
+    /* ── 頁面主體 ── */
+    main { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+    .page-head {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .page-head h1 {
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      color: var(--coffee-dark);
+      margin-bottom: 0.5rem;
+    }
+    .page-head p {
+      color: var(--coffee-mid);
+      font-size: 0.95rem;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    /* ── Tabs ── */
+    .sm-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .sm-tab {
+      padding: 0.65rem 1.5rem;
+      border: 2px solid var(--coffee-cream);
+      background: #fff;
+      color: var(--coffee-mid);
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: all .2s;
+    }
+    .sm-tab:hover { border-color: var(--coffee-light); color: var(--coffee-dark); }
+    .sm-tab.active { background: var(--coffee-dark); color: #fff; border-color: var(--coffee-dark); }
+
+    /* ── Panels ── */
+    .sm-panel { display: none; }
+    .sm-panel.active { display: block; }
+
+    /* ── Threads Grid ── */
+    .threads-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      align-items: start;
+    }
+    @media (max-width: 980px) { .threads-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 640px) { .threads-grid { grid-template-columns: 1fr; } }
+
+    .tp-item {
+      transform: translateY(0);
+      transition: transform .22s ease, filter .22s ease;
+    }
+    .tp-item:hover {
+      transform: translateY(-6px);
+      filter: drop-shadow(0 12px 26px rgba(17,17,20,.10));
+    }
+    .tp-item .text-post-media {
+      margin: 0 auto !important;
+      width: 100% !important;
+      max-width: 540px !important;
+      min-width: 270px !important;
+    }
+    .tp-item blockquote { display: block; width: 100%; }
+
+    /* ── IG Grid ── */
+    .ig-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+    @media (max-width: 980px) { .ig-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 640px) { .ig-grid { grid-template-columns: 1fr; } }
+
+    .ig-item {
+      background: #fff;
+      border: 1px solid rgba(17,17,20,.10);
+      box-shadow: 0 10px 30px rgba(17,17,20,.06);
+      overflow: hidden;
+      transform: translateY(0);
+      transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+    }
+    .ig-item:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 44px rgba(17,17,20,.14);
+      border-color: rgba(17,17,20,.16);
+    }
+    .ig-frame {
+      aspect-ratio: 4 / 5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      background: linear-gradient(180deg, rgba(17,17,20,.02), rgba(17,17,20,.00));
+    }
+    .ig-frame .instagram-media {
+      width: 100% !important;
+      max-width: 360px !important;
+      min-width: 0 !important;
+      margin: 0 !important;
+    }
+
+    /* ── 空狀態 / 載入提示 ── */
+    .sm-empty {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: #999;
+    }
+    .sm-empty .icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="dc-header">
+    <a href="/" class="dc-logo">☕ Daily <span>Coffee</span></a>
+    <a href="/" class="dc-back">← 回首頁</a>
+  </header>
+  <style>
+    .dc-header { background: #2C1810; color: #fff; padding: 0 1.5rem; height: 56px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+    .dc-header .dc-logo { color: #fff; text-decoration: none; font-weight: 700; font-size: 1.1rem; letter-spacing: 0.5px; }
+    .dc-header .dc-logo span { color: #C07A3E; }
+    .dc-header .dc-back { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.9rem; }
+    .dc-header .dc-back:hover { color: #C07A3E; }
+  </style>
+
+  <main>
+    <div class="page-head">
+      <h1>💬 咖啡人真實分享</h1>
+      <p>來自咖啡職人、咖啡店家、咖啡愛好者的第一手分享——器材實測、沖煮心得、咖啡店推薦，都在這裡。</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="sm-tabs" role="tablist">
+      <button class="sm-tab active" data-panel="threads" role="tab" aria-selected="true">Threads</button>
+      <button class="sm-tab" data-panel="instagram" role="tab" aria-selected="false">Instagram</button>
+    </div>
+
+    <!-- Threads Panel -->
+    <section class="sm-panel active" id="panel-threads" role="tabpanel">
+      <div class="threads-grid">
+        <div class="tp-item">
+          <blockquote class="text-post-media"
+            data-text-post-permalink="https://www.threads.com/@migos_coffee_corner/post/DOtSbOPEpv9"
+            data-text-post-version="0"></blockquote>
+        </div>
+        <div class="tp-item">
+          <blockquote class="text-post-media"
+            data-text-post-permalink="https://www.threads.com/@discovercoffee88/post/DOKIIoikkC5"
+            data-text-post-version="0"></blockquote>
+        </div>
+        <div class="tp-item">
+          <blockquote class="text-post-media"
+            data-text-post-permalink="https://www.threads.com/@brewinpanama/post/DMcy72IxoIG"
+            data-text-post-version="0"></blockquote>
+        </div>
+        <div class="tp-item">
+          <blockquote class="text-post-media"
+            data-text-post-permalink="https://www.threads.com/@kiwe_lin/post/DMIBCM9vuvx"
+            data-text-post-version="0"></blockquote>
+        </div>
+        <div class="tp-item">
+          <blockquote class="text-post-media"
+            data-text-post-permalink="https://www.threads.com/@vvcafetw/post/DLkEMVZzB3r"
+            data-text-post-version="0"></blockquote>
+        </div>
+        <div class="tp-item">
+          <blockquote class="text-post-media"
+            data-text-post-permalink="https://www.threads.com/@kiwe_lin/post/C7Vf9awvQgt"
+            data-text-post-version="0"></blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- Instagram Panel -->
+    <section class="sm-panel" id="panel-instagram" role="tabpanel" hidden>
+      <div class="ig-grid">
+        <div class="ig-item">
+          <div class="ig-frame">
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DR_JRrOgXn2/?utm_source=ig_embed&utm_campaign=loading" data-instgrm-version="14"></blockquote>
+          </div>
+        </div>
+        <div class="ig-item">
+          <div class="ig-frame">
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DSpgQZuD1mJ/?utm_source=ig_embed&utm_campaign=loading" data-instgrm-version="14"></blockquote>
+          </div>
+        </div>
+        <div class="ig-item">
+          <div class="ig-frame">
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DLCAZTwTM1j/?utm_source=ig_embed&utm_campaign=loading" data-instgrm-version="14"></blockquote>
+          </div>
+        </div>
+        <div class="ig-item">
+          <div class="ig-frame">
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/C-mwyPHsOUz/?utm_source=ig_embed&utm_campaign=loading" data-instgrm-version="14"></blockquote>
+          </div>
+        </div>
+        <div class="ig-item">
+          <div class="ig-frame">
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DObd_z0jSM_/?utm_source=ig_embed&utm_campaign=loading" data-instgrm-version="14"></blockquote>
+          </div>
+        </div>
+        <div class="ig-item">
+          <div class="ig-frame">
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DOOLOPwguQh/?utm_source=ig_embed&utm_campaign=loading" data-instgrm-version="14"></blockquote>
+          </div>
+        </div>
+        <div class="ig-item">
+          <div class="ig-frame">
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DOHMN2XjYKC/?utm_source=ig_embed&utm_campaign=loading" data-instgrm-version="14"></blockquote>
+          </div>
+        </div>
+        <div class="ig-item">
+          <div class="ig-frame">
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DNpdjFSS5Va/?utm_source=ig_embed&utm_campaign=loading" data-instgrm-version="14"></blockquote>
+          </div>
+        </div>
+        <div class="ig-item">
+          <div class="ig-frame">
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DMd7cOkuniq/?utm_source=ig_embed&utm_campaign=loading" data-instgrm-version="14"></blockquote>
+          </div>
+        </div>
+        <div class="ig-item">
+          <div class="ig-frame">
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DMauSa_qfv6/?utm_source=ig_embed&utm_campaign=loading" data-instgrm-version="14"></blockquote>
+          </div>
+        </div>
+        <div class="ig-item">
+          <div class="ig-frame">
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DMaYaqMOSbZ/?utm_source=ig_embed&utm_campaign=loading" data-instgrm-version="14"></blockquote>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="dc-footer">
+    <div class="dc-footer-inner">
+      <div class="dc-footer-col">
+        <h4>分類</h4>
+        <ul>
+          <li><a href="/?cat=news">📢 最新消息</a></li>
+          <li><a href="/?cat=knowledge">📖 咖啡小學堂</a></li>
+          <li><a href="/?cat=events">🎪 咖啡活動</a></li>
+          <li><a href="/?cat=map">🗺️ 咖啡地圖</a></li>
+          <li><a href="/?cat=kol">⭐ 達人實測</a></li>
+          <li><a href="/?cat=cbtj">🧪 CBTJ</a></li>
+        </ul>
+      </div>
+      <div class="dc-footer-col">
+        <h4>關於</h4>
+        <ul>
+          <li><a href="https://www.matrix.com.tw/about-us" target="_blank" rel="noopener">關於我們</a></li>
+          <li><a href="https://www.matrix.com.tw/contact" target="_blank" rel="noopener">聯絡我們</a></li>
+          <li><a href="https://www.matrix.com.tw" target="_blank" rel="noopener">Matrix 官網</a></li>
+        </ul>
+      </div>
+      <div class="dc-footer-col">
+        <h4>社群</h4>
+        <ul>
+          <li><a href="https://www.threads.com/@matrix.tw" target="_blank" rel="noopener">Threads</a></li>
+          <li><a href="https://www.instagram.com/matrix.tw/" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://www.facebook.com/matrixscale.tw" target="_blank" rel="noopener">Facebook</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="dc-footer-bottom">
+      <p>© 2026 Daily Coffee · Matrix 咖啡專欄 · <a href="https://dailycoffee.matrix.com.tw">dailycoffee.matrix.com.tw</a></p>
+      <p class="dc-footer-meta"><a href="/sitemap.xml">sitemap</a>·<a href="/robots.txt">robots</a></p>
+    </div>
+  </footer>
+  <style>
+    .dc-footer { background: #2C1810; color: rgba(255,255,255,0.6); font-size: 0.88rem; margin-top: 3rem; }
+    .dc-footer-inner { max-width: 1200px; margin: 0 auto; padding: 2.5rem 1.5rem 1.5rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .dc-footer-col h4 { color: #C07A3E; font-size: 0.95rem; font-weight: 600; margin-bottom: 0.75rem; letter-spacing: 0.5px; }
+    .dc-footer-col ul { list-style: none; padding: 0; margin: 0; }
+    .dc-footer-col li { margin-bottom: 0.5rem; }
+    .dc-footer-col a { color: rgba(255,255,255,0.7); text-decoration: none; transition: color .2s; }
+    .dc-footer-col a:hover { color: #C07A3E; }
+    .dc-footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding: 1.2rem 1.5rem 1.5rem; text-align: center; font-size: 0.8rem; color: rgba(255,255,255,0.5); }
+    .dc-footer-bottom a { color: rgba(255,255,255,0.6); text-decoration: none; }
+    .dc-footer-bottom a:hover { color: #C07A3E; }
+    .dc-footer-meta { margin-top: 0.4rem; font-size: 0.72rem; color: rgba(255,255,255,0.35); }
+    .dc-footer-meta a { color: rgba(255,255,255,0.4); margin: 0 0.4rem; }
+    @media (max-width: 640px) { .dc-footer-inner { grid-template-columns: 1fr; gap: 1.5rem; } }
+  </style>
+
+  <!-- Tab 切換邏輯 -->
+  <script>
+    document.querySelectorAll('.sm-tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const panelId = btn.dataset.panel;
+        // 更新 tab 狀態
+        document.querySelectorAll('.sm-tab').forEach(b => {
+          b.classList.toggle('active', b === btn);
+          b.setAttribute('aria-selected', b === btn);
+        });
+        // 更新 panel 顯示
+        document.querySelectorAll('.sm-panel').forEach(p => {
+          const isActive = p.id === 'panel-' + panelId;
+          p.classList.toggle('active', isActive);
+          if (isActive) p.removeAttribute('hidden');
+          else p.setAttribute('hidden', '');
+        });
+        // 切到 IG tab 時，提醒 IG embed 重新處理
+        if (panelId === 'instagram' && window.instgrm && window.instgrm.Embeds) {
+          window.instgrm.Embeds.process();
+        }
+      });
+    });
+
+    // IG embed.js 載入後的備援處理
+    window.addEventListener('load', () => {
+      if (window.instgrm && window.instgrm.Embeds && window.instgrm.Embeds.process) {
+        window.instgrm.Embeds.process();
+      }
+    });
+  </script>
+
+  <!-- Threads embed -->
+  <script async src="https://www.threads.com/embed.js"></script>
+  <!-- Instagram embed -->
+  <script async src="//www.instagram.com/embed.js"></script>
+
+</body>
+</html>

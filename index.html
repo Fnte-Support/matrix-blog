@@ -162,6 +162,7 @@
     <button class="cat-btn" data-cat="map">🗺️ 咖啡地圖</button>
     <button class="cat-btn" data-cat="kol">⭐ 達人實測</button>
     <button class="cat-btn" data-cat="cbtj">🧪 CBTJ</button>
+    <a class="cat-btn cat-link" href="/socialmedia/">💬 咖啡人分享</a>
   </div>
 </nav>
 
@@ -251,7 +252,9 @@ let currentPage = 1;
 
 // ── Category tab ──
 document.getElementById('catNav').addEventListener('click', e => {
-  if (e.target.classList.contains('cat-btn')) {
+  // 外連（<a>）讓瀏覽器自然處理，不觸發過濾
+  if (e.target.classList.contains('cat-link')) return;
+  if (e.target.classList.contains('cat-btn') && e.target.dataset.cat) {
     document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
     e.target.classList.add('active');
     currentCat = e.target.dataset.cat;
