@@ -1,5 +1,63 @@
 [
   {
+    "slug": "coffee-water-chemistry-2026",
+    "title": "水佔咖啡成分 98%：2026 年最被低估的咖啡沖煮關鍵",
+    "tags": [
+      "水質",
+      "TDS",
+      "礦物質",
+      "手衝",
+      "萃取"
+    ],
+    "prompt_en": "Crystal clear water being poured over coffee grounds in V60 dripper, slow motion droplets, backlit photography, water droplets sparkle, minimal clean aesthetic, laboratory precision feel, photorealistic",
+    "category": "knowledge",
+    "meta_desc": "你知道嗎？你沖咖啡的水，決定了 98% 的風味。2026 年 SCA 認證水質標準、MG值、TDS 控制完整解析。",
+    "sections": [
+      [
+        "水：咖啡最大的單一成分",
+        "一杯咖啡的成分組成：大約 98% 是水，只有 2% 是咖啡的可溶性物質。這意味著無論你用多好的豆子、多精準的沖煮參數，如果水的品質不對，最終的咖啡風味就會大打折扣。\n\n這個事實在咖啡產業中長期被忽視——大多數咖啡愛好者會研究研磨度、水溫、萃取時間，卻很少有人會去分析自己用的水。但根據 SCA 的研究，水質對咖啡風味的影響可以佔到最終風味的 30-40%。"
+      ],
+      [
+        "TDS：看懂水質的第一步",
+        "TDS（Total Dissolved Solids，總溶解固體量）是水的最重要的單一指標，單位是 ppm（parts per million，百萬分之一）。\n\nSCA 建議的咖啡沖煮水標準：\n- TDS：75-250 ppm（理想範圍 100-150 ppm）\n- pH 值：7.0-8.0（輕微鹼性）\n- 硬度（Hardness）：50-150 ppm（碳酸鈣計算）\n- 氯化物：< 30 ppm\n\n低於 75 ppm 的「軟水」萃取效率過高，會萃出過多苦味物質。高於 250 ppm 的「硬水」則可能含有過多礦物質，與咖啡中的單寧酸產生反應，產生令人不適的金屬味或澀味。"
+      ],
+      [
+        "水中的關鍵礦物質",
+        "對咖啡萃取有正面幫助的礦物質：\n\n鎂離子（Mg²⁺）：咖啡師的秘密武器\n鎂離子是萃取咖啡風味物質最重要的離子。根據 2024 年 SCA 與加州大學 Davis 分校的聯合研究，鎂離子能夠有效地與咖啡中的綠原酸（CGA）和蔗糖結合，幫助這些關鍵風味前驅物更完整地溶解到水中。\n\n鈣離子（Ca²⁺）：輔助角色\n鈣離子有助於提升咖啡的 body（醇厚度）和甜度，適量的鈣離子可以讓咖啡的結構感更完整。但過量會導致水垢問題和不良的澀味。\n\n碳酸氫根離子（HCO₃⁻）：酸鹼平衡的關鍵\n又被稱為「臨時硬度」。這個離子會中和咖啡中的酸性物質（檸檬酸、蘋果酸），降低咖啡的酸質。高HCO₃⁻的水適合搭配深焙豆，高酸質的淺焙豆則需要低 HCO₃⁻的水才能呈現明亮的酸質。"
+      ],
+      [
+        "2026 年台灣自來水水質地圖",
+        "台灣自來水的水質因地區差異極大：\n\n台北市（翡翠水庫）：TDS 約 50-80 ppm，屬於軟水，適合手衝但需要加礦物質\n新北市：TDS 約 80-120 ppm，軟硬適中，多數豆子表現佳\n桃竹苗：TDS 約 100-150 ppm，硬度偏高，可能需要RO濾水\n中南部的地下水：TDS 可能超過 250 ppm，普遍不建議直接使用\n\n2026 年，越來越多精品咖啡店開始使用「客製化配方水」——根據自家豆子的特性，調配最適合的礦物質比例，而不是用統一的自來水。"
+      ],
+      [
+        "如何改善家用手衝水質？",
+        "改善家庭沖煮水質的方法（依成本排序）：\n\n1. 最省錢：煮沸冷卻\n將自來水煮沸 1-2 分鐘，去除大部分氯氣和部分碳酸鹽。冷卻後使用，可以讓氯臭味消失，風味更乾淨。缺點是無法降低 TDS。\n\n2. 經濟實惠：Brita 濾水壺\n可去除氯氣和部分硬度，TDS 從 150 降到約 80-100 ppm。約每 1-2 個月換一次濾芯。\n\n3. 精準控制：蒸餾水 + 礦物質包\n購買蒸餾水或 RO 純水，然後自己添加礦物質（硫酸鎂、碳酸氫鉀等）。這是 2026 年最被推薦的家庭方案，可以精準控制 TDS 和礦物質組成。\n\n4. 頂級方案：商業咖啡水\n如 Third Wave Water 配方包（一盒 12 包，約 NT$800），每包加入 1 公升蒸餾水，10 秒調出完美沖煮水。"
+      ]
+    ],
+    "faq": [
+      [
+        "Q: 我可以直接用 RO 純水（0 TDS）衝咖啡嗎？",
+        "不行。RO 純水的 TDS 接近 0，萃取時缺乏作為溶劑的礦物質，咖啡的風味物質無法有效溶解，會導致萃取不足、口感平淡、缺乏甜味和層次。建議在純水中添加礦物質，使 TDS 達到 100-150 ppm。"
+      ],
+      [
+        "Q: 逆滲透（RO）水和蒸餾水有什麼差別？",
+        "RO 水是透過高壓讓自來水通過半透膜，去除 95-99% 的溶解固體，保留少量礦物質。蒸餾水則是透過煮沸再凝結，完全去除所有礦物質。兩者都接近無礦物質狀態，需要添加礦物質後再使用，但 RO 水的 pH 值通常比蒸餾水更穩定。"
+      ],
+      [
+        "Q: 市售礦泉水可以拿來衝咖啡嗎？",
+        "可以，但要注意標示。每個人喜歡的品牌礦泉水成分差異很大——有些 TDS 過高（如 Evian 約 300 ppm），有些則剛好（如 Vittel 約 200 ppm）。建議查看背面營養標示，選擇鎂離子含量高、TDS 在 100-200 ppm 之間的礦泉水。"
+      ],
+      [
+        "Q: 咖啡機需要除水垢，是否代表水質越軟越好？",
+        "不是。咖啡機除水垢（Fur.）是因為水中的碳酸鈣在高溫下會沉積在鍋爐內壁。選擇軟水可以保護設備，但太軟的水（< 50 ppm）用於萃取時會導致萃取不足。理想的平衡方案是：入口處使用軟水或經過軟化處理的水，進入鍋爐前再適量添加礦物質。"
+      ]
+    ],
+    "date": "2026-04-17",
+    "status": "draft",
+    "image": "https://dailycoffee.matrix.com.tw/article/coffee-water-chemistry-2026/hero.jpg",
+    "description": "你知道嗎？你沖咖啡的水，決定了 98% 的風味。2026 年 SCA 認證水質標準、MG值、TDS 控制完整解析。"
+  },
+  {
     "slug": "functional-coffee",
     "title": "功能性咖啡是什麼？2026 年最火爆的咖啡趨勢全面解析",
     "category": "knowledge",
@@ -951,7 +1009,8 @@
     "hero": "https://hailuo-image-algeng-data.oss-cn-wulanchabu.aliyuncs.com/image_inference_output%2Ftalkie%2Fprod%2Fimg%2F2026-04-17%2Fe8af9316-1914-4e0a-be46-94a2839fc8bf_aigc.jpeg?Expires=1776491483&OSSAccessKeyId=LTAI5tB2SwrRwAtD23etQUbC&Signature=BGkJlt3n7R%2FzWPjbbi%2FpOX4UkpM%3D",
     "date": "2026-04-17",
     "status": "draft",
-    "excerpt": "精品咖啡的「酸味」不是壞事——深入解析咖啡酸質的來源、等級與如何品嚐。了解 SCA 評分標準裡的酸質分數，做出有根據的選擇。"
+    "excerpt": "精品咖啡的「酸味」不是壞事——深入解析咖啡酸質的來源、等級與如何品嚐。了解 SCA 評分標準裡的酸質分數，做出有根據的選擇。",
+    "image": "https://dailycoffee.matrix.com.tw/article/coffee-acidity-guide-2026/hero.jpg"
   },
   {
     "slug": "altitude-coffee-quality-2026",
@@ -978,7 +1037,8 @@
     "hero": "https://hailuo-image-algeng-data.oss-cn-wulanchabu.aliyuncs.com/image_inference_output%2Ftalkie%2Fprod%2Fimg%2F2026-04-17%2Fb762118a-17a6-4ab4-a5bd-869e20dffdce_aigc.jpeg?Expires=1776494953&OSSAccessKeyId=LTAI5tB2SwrRwAtD23etQUbC&Signature=4V8kPKoAEddIUy39PqPaE6AeoNQ%3D",
     "date": "2026-04-17",
     "status": "draft",
-    "excerpt": "海拔每上升100公尺，咖啡風味就翻轉一次。從200m到2000m，溫差、降水、土壤如何聯手雕刻出截然不同的咖啡風味？"
+    "excerpt": "海拔每上升100公尺，咖啡風味就翻轉一次。從200m到2000m，溫差、降水、土壤如何聯手雕刻出截然不同的咖啡風味？",
+    "image": "https://dailycoffee.matrix.com.tw/article/altitude-coffee-quality-2026/hero.jpg"
   },
   {
     "slug": "espresso-extraction-science-2026",
@@ -1005,6 +1065,7 @@
     "hero": "https://hailuo-image-algeng-data.oss-cn-wulanchabu.aliyuncs.com/image_inference_output%2Ftalkie%2Fprod%2Fimg%2F2026-04-17%2F6dc9bae6-ebab-493b-9513-28d200d87822_aigc.jpeg?Expires=1776495190&OSSAccessKeyId=LTAI5tB2SwrRwAtD23etQUbC&Signature=dYaj%2B1jlvy69%2BY05JdIwDFuqduQ%3D",
     "date": "2026-04-17",
     "status": "draft",
-    "excerpt": "9 bar 壓力、25 秒萃取、30ml 液體——背後是數百種化學反應的即時協同。2026 年科學研究怎麼說？"
+    "excerpt": "9 bar 壓力、25 秒萃取、30ml 液體——背後是數百種化學反應的即時協同。2026 年科學研究怎麼說？",
+    "image": "https://dailycoffee.matrix.com.tw/article/espresso-extraction-science-2026/hero.jpg"
   }
 ]
