@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>你是什麼樣的咖啡控？CBTI 咖啡人格測驗</title>
   <meta name="description" content="20道靈魂拷問，4個維度，16種咖啡人格。測驗結果可能引發咖啡信仰戰爭。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -79,10 +82,14 @@
     .quiz-question-wrap { animation: slideIn 0.35s ease; padding-top: 24px; }
     .quiz-question { font-size: 21px; font-weight: 700; line-height: 1.6; margin-bottom: 24px; }
     .options-list { display: flex; flex-direction: column; gap: 10px; }
-    .opt-btn { background: rgba(212,165,116,.05); border: 1px solid rgba(212,165,116,.15); border-radius: 14px; padding: 15px 16px; font-size: 15px; color: #F5E6D3; text-align: left; line-height: 1.5; cursor: pointer; transition: all .25s cubic-bezier(.25,.46,.45,.94); font-family: inherit; animation: fadeInUp 0.3s ease both; position: relative; overflow: hidden; }
+    .opt-btn { background: rgba(212,165,116,.05); border: 1px solid rgba(212,165,116,.15); border-radius: 14px; padding: 15px 16px; font-size: 15px; color: #F5E6D3; text-align: left; line-height: 1.5; cursor: pointer; transition: all .25s cubic-bezier(.25,.46,.45,.94); font-family: inherit; animation: fadeInUp 0.3s ease both; position: relative; overflow: hidden; pointer-events: none; }
+    .opt-btn.ready { pointer-events: auto; }
     .opt-btn:hover { transform: translateY(-2px); border-color: rgba(212,165,116,.35); }
     .opt-btn:active { transform: scale(.98); }
     .opt-btn.selected { border-color: #D4A574 !important; background: rgba(212,165,116,.18) !important; }
+    .back-btn { display: block; margin: 18px auto 0; background: none; border: 1px solid rgba(212,165,116,.2); border-radius: 50px; padding: 9px 24px; font-size: 13px; color: rgba(212,165,116,.6); cursor: pointer; font-family: inherit; transition: all .25s ease; }
+    .back-btn:hover { border-color: rgba(212,165,116,.5); color: #D4A574; }
+    .back-btn.hidden { display: none; }
 
     /* ── RESULT ── */
     .result { animation: fadeInUp 0.8s ease; padding-top: 24px; }
@@ -193,6 +200,7 @@
     <div id="question-wrap" class="quiz-question-wrap">
       <h2 class="quiz-question" id="question-text"></h2>
       <div class="options-list" id="options-list"></div>
+      <button class="back-btn hidden" id="back-btn">← 上一題</button>
     </div>
   </div>
 
@@ -530,6 +538,14 @@ function renderQuestion() {
     <button class="opt-btn" data-score="${opt.score}" data-dim="${q.dimension}" data-idx="${i}" style="animation-delay:${.03+i*.05}s">
       ${opt.text}
     </button>`).join('');
+  // 動畫跑完才允許點擊（防止浮動誤觸）
+  setTimeout(() => {
+    document.querySelectorAll('.opt-btn').forEach(b => b.classList.add('ready'));
+  }, 350);
+  // 上一題按鈕：第 1 題隱藏
+  const backBtn = document.getElementById('back-btn');
+  if (currentQ > 0) backBtn.classList.remove('hidden');
+  else backBtn.classList.add('hidden');
 }
 
 function renderResult(resultData, options = {}) {
@@ -590,6 +606,18 @@ function renderResult(resultData, options = {}) {
 document.getElementById('start-btn').addEventListener('click', () => {
   hide('intro-stage');
   show('quiz-stage');
+  renderQuestion();
+});
+
+// 上一題
+document.getElementById('back-btn').addEventListener('click', () => {
+  if (currentQ <= 0 || animating) return;
+  currentQ--;
+  answers.pop(); // 移除上一題的答案
+  const wrap = document.getElementById('question-wrap');
+  wrap.style.animation = 'none';
+  void wrap.offsetWidth;
+  wrap.style.animation = 'slideIn 0.35s ease';
   renderQuestion();
 });
 
