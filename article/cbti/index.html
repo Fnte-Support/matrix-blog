@@ -118,16 +118,7 @@
     .result-share p { font-size: 12px; color: rgba(245,230,211,.35); margin-bottom: 14px; }
     .restart-btn { -webkit-appearance: none; appearance: none; background: transparent; border: 1px solid rgba(212,165,116,.25); border-radius: 50px; padding: 13px 36px; font-size: 14px; color: #D4A574; cursor: pointer; font-family: inherit; letter-spacing: 2px; transition: all .3s ease; }
     .restart-btn:hover { background: rgba(212,165,116,.12) !important; }
-    /* ── 分享按鈕 2x2 + 1 grid（對齊 JPTI）── */
-    .share-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; width: 100%; }
-    .share-btn { -webkit-appearance: none; appearance: none; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 13px 16px; border-radius: 14px; font-size: 14px; font-weight: 700; letter-spacing: .5px; cursor: pointer; font-family: inherit; transition: all .25s ease; text-decoration: none; border: 1px solid transparent; width: 100%; min-height: 48px; }
-    .share-btn:hover { transform: translateY(-2px); filter: brightness(1.08); }
-    .share-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
-    .share-btn.save { background: rgba(212,165,116,.18); color: #F5E6D3; border-color: rgba(212,165,116,.4); }
-    .share-btn.threads { background: #000; color: #fff; border-color: rgba(255,255,255,.2); }
-    .share-btn.instagram { background: linear-gradient(135deg,#FEDA75 0%,#FA7E1E 25%,#D62976 50%,#962FBF 75%,#4F5BD5 100%); color: #fff; }
-    .share-btn.line { background: #06C755; color: #fff; }
-    .share-btn.copy { grid-column: 1 / -1; background: rgba(245,230,211,.06); color: rgba(245,230,211,.85); border-color: rgba(212,165,116,.22); }
+    /* share buttons: inline styles only (Safari iOS compat) */
     .share-section-label { text-align: center; font-size: 12px; color: rgba(212,165,116,.55); letter-spacing: 2px; margin-bottom: 10px; font-weight: 500; }
     .result-footer { text-align: center; margin-top: 36px; padding-top: 16px; border-top: 1px solid rgba(212,165,116,.15); }
     .result-footer-text { font-size: 9px; color: rgba(212,165,116,.25); letter-spacing: 2px; }
@@ -186,7 +177,7 @@
     <p class="intro-desc">20道靈魂拷問 · 4個維度 · 16種人格<br><small>測驗結果可能引發咖啡信仰戰爭</small></p>
     <div class="dim-grid" id="dim-grid"></div>
     <button class="start-btn" id="start-btn">開始測驗</button>
-    <div style="text-align:center;margin-top:24px;font-size:9px;color:rgba(212,165,116,.25);letter-spacing:2px;">v7</div>
+    <div style="text-align:center;margin-top:24px;font-size:9px;color:rgba(212,165,116,.25);letter-spacing:2px;">v8</div>
   </div>
 
   <!-- ══ QUIZ ══ -->
@@ -257,29 +248,22 @@
     </div>
     <div class="result-share">
       <div class="share-section-label">分享你的 CBTI 結果</div>
-      <div class="share-grid">
-        <button class="share-btn save" id="download-btn">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zm-8 2V5h2v6h1.17L12 13.17 9.83 11H11zm-6 7h14v2H5v-2z"/></svg>
-          下載到相簿
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+        <button id="download-btn" style="padding:13px 8px;background:rgba(212,165,116,.18);border:1px solid rgba(212,165,116,.4);border-radius:11px;cursor:pointer;font-size:13px;font-weight:600;color:#F5E6D3;font-family:'Noto Sans TC',sans-serif;display:flex;align-items:center;justify-content:center;gap:6px;">
+          <span>📥</span> 下載到相簿
         </button>
-        <button class="share-btn threads" id="threads-share-btn">
-          <svg viewBox="0 0 192 192" fill="currentColor"><path d="M141.537 88.988c-.732-.352-1.476-.69-2.234-1.014-1.32-24.316-14.604-38.235-36.912-38.377-.103-.001-.205-.001-.308-.001-13.342 0-24.438 5.696-31.273 16.066l12.264 8.413c5.106-7.748 13.121-9.399 19.013-9.399.069 0 .138 0 .207.001 7.34.047 12.881 2.18 16.472 6.34 2.614 3.029 4.361 7.215 5.228 12.499-6.531-1.109-13.592-1.451-21.139-1.018-21.25 1.223-34.914 13.615-33.996 30.827.466 8.732 4.815 16.244 12.247 21.152 6.283 4.15 14.376 6.179 22.79 5.722 11.111-.608 19.831-4.848 25.916-12.603 4.62-5.89 7.54-13.52 8.832-23.083 5.302 3.2 9.23 7.41 11.4 12.47 3.69 8.6 3.91 22.73-7.63 34.26-10.11 10.1-22.26 14.47-40.63 14.61-20.38-.15-35.79-6.69-45.81-19.43C34.17 141.15 29 122.1 28.8 96.5c.2-25.6 5.37-44.64 15.38-56.81 10.02-12.74 25.43-19.28 45.81-19.43 20.51.15 36.19 6.72 46.63 19.52 5.11 6.28 8.97 14.18 11.53 23.38l14.88-3.97c-3.1-11.32-7.98-21.1-14.59-29.22C134.87 14.46 115.51 6.05 90.04 5.9h-.1C64.52 6.05 45.38 14.49 33.02 30.6 22.02 44.94 16.34 64.88 16.15 96.44v.11c.19 31.56 5.87 51.5 16.87 65.84 12.36 16.11 31.5 24.55 56.92 24.7h.1c22.61-.15 38.59-6.1 51.76-19.2 17.21-17.16 16.69-38.66 11.01-51.89-4.07-9.45-11.84-17.17-22.27-22.01zm-38.23 39.32c-9.31.52-18.98-3.64-19.45-12.55-.35-6.61 4.72-14.05 20.04-14.93 1.73-.1 3.43-.15 5.1-.15 5.58 0 10.83.54 15.55 1.58-1.72 21.49-11.82 25.39-21.24 25.95z"/></svg>
-          Threads
+        <button id="threads-share-btn" style="padding:13px 8px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.12);border-radius:11px;cursor:pointer;font-size:13px;font-weight:600;color:#fff;font-family:'Noto Sans TC',sans-serif;display:flex;align-items:center;justify-content:center;gap:6px;">
+          <span>📸</span> Threads
         </button>
-        <button class="share-btn instagram" id="instagram-share-btn">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.849.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.849.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-          Instagram
+        <button id="instagram-share-btn" style="padding:13px 8px;background:linear-gradient(135deg,#FEDA75,#FA7E1E,#D62976,#962FBF,#4F5BD5);border:none;border-radius:11px;cursor:pointer;font-size:13px;font-weight:700;color:#fff;font-family:'Noto Sans TC',sans-serif;display:flex;align-items:center;justify-content:center;gap:6px;">
+          <span>📷</span> Instagram
         </button>
-        <button class="share-btn line" id="line-share-btn">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.976C23.176 14.393 24 12.458 24 10.314"/></svg>
-          LINE
-        </button>
-        <button class="share-btn copy" id="copy-btn">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
-          複製文字與連結
+        <button id="line-share-btn" style="padding:13px 8px;background:#06C755;border:none;border-radius:11px;cursor:pointer;font-size:13px;font-weight:700;color:#fff;font-family:'Noto Sans TC',sans-serif;display:flex;align-items:center;justify-content:center;gap:6px;">
+          <span>💬</span> LINE
         </button>
       </div>
-      <button class="restart-btn" id="restart-btn">再測一次</button>
+      <button id="copy-btn" style="width:100%;padding:10px;margin-top:4px;background:transparent;border:1px solid rgba(212,165,116,.15);border-radius:10px;cursor:pointer;font-size:12px;color:rgba(245,230,211,.55);font-family:'Noto Sans TC',sans-serif;">🔗 複製文字與連結</button>
+      <button class="restart-btn" id="restart-btn" style="margin-top:16px;">再測一次</button>
     </div>
     <div class="result-footer">
       <div class="result-footer-text">CBTI — Coffee Beverage Type Indicator · v6</div>
