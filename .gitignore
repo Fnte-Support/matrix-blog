@@ -1,0 +1,14 @@
+# Local working files (不需要推到 GitHub)
+*.bak
+article_list_new.json
+old_site_full_inventory.json
+
+# Claude Code local settings (個人機器設定)
+.claude/settings.local.json
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/settings.json
+.idea/

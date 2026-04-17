@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>你是什麼樣的咖啡控？CBTI 咖啡人格測驗</title>
   <meta name="description" content="20道靈魂拷問，4個維度，16種咖啡人格。測驗結果可能引發咖啡信仰戰爭。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -79,10 +82,14 @@
     .quiz-question-wrap { animation: slideIn 0.35s ease; padding-top: 24px; }
     .quiz-question { font-size: 21px; font-weight: 700; line-height: 1.6; margin-bottom: 24px; }
     .options-list { display: flex; flex-direction: column; gap: 10px; }
-    .opt-btn { background: rgba(212,165,116,.05); border: 1px solid rgba(212,165,116,.15); border-radius: 14px; padding: 15px 16px; font-size: 15px; color: #F5E6D3; text-align: left; line-height: 1.5; cursor: pointer; transition: all .25s cubic-bezier(.25,.46,.45,.94); font-family: inherit; animation: fadeInUp 0.3s ease both; position: relative; overflow: hidden; }
+    .opt-btn { background: rgba(212,165,116,.05); border: 1px solid rgba(212,165,116,.15); border-radius: 14px; padding: 15px 16px; font-size: 15px; color: #F5E6D3; text-align: left; line-height: 1.5; cursor: pointer; transition: all .25s cubic-bezier(.25,.46,.45,.94); font-family: inherit; animation: fadeInUp 0.3s ease both; position: relative; overflow: hidden; pointer-events: none; }
+    .opt-btn.ready { pointer-events: auto; }
     .opt-btn:hover { transform: translateY(-2px); border-color: rgba(212,165,116,.35); }
     .opt-btn:active { transform: scale(.98); }
     .opt-btn.selected { border-color: #D4A574 !important; background: rgba(212,165,116,.18) !important; }
+    .back-btn { display: block; margin: 18px auto 0; background: none; border: 1px solid rgba(212,165,116,.2); border-radius: 50px; padding: 9px 24px; font-size: 13px; color: rgba(212,165,116,.6); cursor: pointer; font-family: inherit; transition: all .25s ease; }
+    .back-btn:hover { border-color: rgba(212,165,116,.5); color: #D4A574; }
+    .back-btn.hidden { display: none; }
 
     /* ── RESULT ── */
     .result { animation: fadeInUp 0.8s ease; padding-top: 24px; }
@@ -101,33 +108,43 @@
     .result-tip-text { font-size: 14px; line-height: 1.8; color: rgba(245,230,211,.65); font-weight: 300; }
     .result-scores { background: rgba(212,165,116,.04); border: 1px solid rgba(212,165,116,.15); border-radius: 18px; padding: 20px 18px; margin-bottom: 28px; }
     .result-scores-label { font-size: 10px; color: #D4A574; letter-spacing: 3px; margin-bottom: 16px; font-weight: 600; }
-    .score-row { margin-bottom: 16px; }
+    .score-row { margin-bottom: 18px; }
     .score-row:last-child { margin-bottom: 0; }
-    .score-labels { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 13px; font-weight: 600; }
-    .score-bar { height: 6px; background: rgba(245,230,211,.06); border-radius: 10px; overflow: hidden; display: flex; }
+    .score-labels { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; font-weight: 700; letter-spacing: .5px; }
+    .score-bar { height: 10px; background: rgba(245,230,211,.08); border-radius: 10px; overflow: hidden; display: flex; box-shadow: inset 0 1px 2px rgba(0,0,0,.3); }
     .score-fill-a { height: 100%; border-radius: 10px 0 0 10px; animation: growIn 1s ease both; }
     .score-fill-b { height: 100%; border-radius: 0 10px 10px 0; animation: growIn 1s ease both; }
     .result-share { text-align: center; }
     .result-share p { font-size: 12px; color: rgba(245,230,211,.35); margin-bottom: 14px; }
-    .restart-btn { background: transparent; border: 1px solid rgba(212,165,116,.25); border-radius: 50px; padding: 13px 36px; font-size: 14px; color: #D4A574; cursor: pointer; font-family: inherit; letter-spacing: 2px; transition: all .3s ease; }
+    .restart-btn { -webkit-appearance: none; appearance: none; background: transparent; border: 1px solid rgba(212,165,116,.25); border-radius: 50px; padding: 13px 36px; font-size: 14px; color: #D4A574; cursor: pointer; font-family: inherit; letter-spacing: 2px; transition: all .3s ease; }
     .restart-btn:hover { background: rgba(212,165,116,.12) !important; }
-    .share-btns { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
-    .share-btn { display: flex; align-items: center; gap: 6px; padding: 11px 20px; border-radius: 50px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all .25s ease; text-decoration: none; border: none; }
-    .share-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
-    .share-btn.line { background: #00B900; color: #fff; }
-    .share-btn.threads { background: #000; color: #fff; border: 1px solid rgba(255,255,255,.3); }
-    .share-btn.website { background: rgba(212,165,116,.15); color: #D4A574; border: 1px solid rgba(212,165,116,.3); }
-    .share-btn svg { width: 16px; height: 16px; }
+    /* share buttons: inline styles only (Safari iOS compat) */
+    .share-section-label { text-align: center; font-size: 12px; color: rgba(212,165,116,.55); letter-spacing: 2px; margin-bottom: 10px; font-weight: 500; }
     .result-footer { text-align: center; margin-top: 36px; padding-top: 16px; border-top: 1px solid rgba(212,165,116,.15); }
     .result-footer-text { font-size: 9px; color: rgba(212,165,116,.25); letter-spacing: 2px; }
-    .result-actions { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
-    .action-btn { display: flex; align-items: center; gap: 6px; padding: 11px 18px; border-radius: 50px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all .25s ease; border: none; text-decoration: none; }
-    .action-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
-    .action-btn.download { background: rgba(212,165,116,.15); color: #D4A574; border: 1px solid rgba(212,165,116,.3); }
-    .action-btn.copy { background: rgba(212,165,116,.1); color: #E8C07A; border: 1px solid rgba(232,192,122,.3); }
-    .action-btn svg { width: 15px; height: 15px; }
     .counter-badge { display: inline-flex; align-items: center; gap: 5px; background: rgba(212,165,116,.08); border: 1px solid rgba(212,165,116,.2); border-radius: 20px; padding: 5px 14px; font-size: 12px; color: rgba(212,165,116,.7); margin-bottom: 20px; }
     .counter-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: #D4A574; animation: pulse 1.8s ease infinite; }
+
+    /* ── 「這是別人的結果」banner ── */
+    .shared-banner { background: linear-gradient(135deg, rgba(212,165,116,.18), rgba(232,192,122,.08)); border: 1px solid rgba(212,165,116,.35); border-radius: 14px; padding: 14px 18px; margin-bottom: 18px; text-align: center; animation: fadeInUp .6s ease; }
+    .shared-banner-title { font-size: 13px; color: #E8C07A; letter-spacing: 1px; margin-bottom: 4px; font-weight: 600; }
+    .shared-banner-text { font-size: 12px; color: rgba(245,230,211,.7); margin-bottom: 10px; line-height: 1.6; }
+    .shared-banner-cta { display: inline-block; background: linear-gradient(135deg, #D4A574, #C08B5C); color: #1A0E08; border: none; border-radius: 50px; padding: 9px 24px; font-size: 13px; font-weight: 700; letter-spacing: 1px; cursor: pointer; font-family: inherit; text-decoration: none; transition: all .3s ease; }
+    .shared-banner-cta:hover { transform: translateY(-1px); filter: brightness(1.08); }
+
+    /* ── 咖啡伴卡片（最佳 / 要當心）── */
+    .compat-section { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+    .compat-card { background: rgba(212,165,116,.05); border: 1px solid rgba(212,165,116,.15); border-radius: 14px; padding: 14px 12px; position: relative; }
+    .compat-card.best { border-color: rgba(232,192,122,.35); background: linear-gradient(135deg, rgba(232,192,122,.08), rgba(212,165,116,.04)); }
+    .compat-card.worst { border-color: rgba(192,80,77,.25); background: linear-gradient(135deg, rgba(192,80,77,.08), rgba(212,165,116,.02)); }
+    .compat-label { font-size: 9px; letter-spacing: 2px; margin-bottom: 8px; font-weight: 600; }
+    .compat-card.best .compat-label { color: #E8C07A; }
+    .compat-card.worst .compat-label { color: rgba(232,130,120,.7); }
+    .compat-emoji { font-size: 32px; margin-bottom: 6px; }
+    .compat-name { font-size: 13px; font-weight: 800; margin-bottom: 3px; line-height: 1.3; }
+    .compat-type { font-size: 10px; color: rgba(212,165,116,.55); letter-spacing: 2px; font-family: 'Playfair Display', serif; margin-bottom: 8px; }
+    .compat-desc { font-size: 11px; line-height: 1.6; color: rgba(245,230,211,.6); font-weight: 300; }
+
     .hidden { display: none !important; }
 
     @media (max-width: 480px) {
@@ -161,6 +178,7 @@
     <p class="intro-desc">20道靈魂拷問 · 4個維度 · 16種人格<br><small>測驗結果可能引發咖啡信仰戰爭</small></p>
     <div class="dim-grid" id="dim-grid"></div>
     <button class="start-btn" id="start-btn">開始測驗</button>
+    <div style="text-align:center;margin-top:24px;font-size:9px;color:rgba(212,165,116,.25);letter-spacing:2px;">v9</div>
   </div>
 
   <!-- ══ QUIZ ══ -->
@@ -175,11 +193,17 @@
     <div id="question-wrap" class="quiz-question-wrap">
       <h2 class="quiz-question" id="question-text"></h2>
       <div class="options-list" id="options-list"></div>
+      <button class="back-btn hidden" id="back-btn">← 上一題</button>
     </div>
   </div>
 
   <!-- ══ RESULT ══ -->
   <div id="result-stage" class="result hidden">
+    <div id="shared-banner" class="shared-banner hidden">
+      <div class="shared-banner-title">☕ 這是別人的咖啡人格</div>
+      <div class="shared-banner-text">你朋友測出來的結果。你也想知道自己是什麼咖啡人嗎？</div>
+      <button class="shared-banner-cta" id="shared-banner-cta">我也要測</button>
+    </div>
     <div style="text-align:center; margin-bottom:10px">
       <div class="counter-badge">
         <span class="dot"></span>
@@ -254,40 +278,58 @@
       <div class="result-scores-label">你的咖啡維度分數</div>
       <div id="scores-container"></div>
     </div>
-    <div class="result-share">
-      <div class="result-actions">
-        <button class="action-btn download" id="download-btn">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zm-8 2V5h2v6h1.17L12 13.17 9.83 11H11zm-6 7h14v2H5v-2z"/></svg>
-          下載結果圖
-        </button>
-        <button class="action-btn copy" id="copy-btn">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-          複製結果
-        </button>
+    <div class="compat-section" id="compat-section">
+      <div class="compat-card best">
+        <div class="compat-label">☕ 最佳咖啡伴</div>
+        <div class="compat-emoji" id="best-emoji"></div>
+        <div class="compat-name" id="best-name"></div>
+        <div class="compat-type" id="best-type"></div>
+        <div class="compat-desc" id="best-desc"></div>
       </div>
-      <p>分享你的咖啡人格</p>
-      <div class="share-btns">
-        <button class="share-btn website" id="native-share-btn" style="display:none">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.53.57 1.2.96 1.95.96 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
-          分享
-        </button>
-        <a class="share-btn line" id="line-share-btn" href="https://lin.ee/62G0tor" target="_blank">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.976C23.176 14.393 24 12.458 24 10.314"/></svg>
-          LINE
-        </a>
-        <a class="share-btn threads" id="threads-share-btn" href="https://www.threads.net/intent/post" target="_blank">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5.5-2.5l7.51-3.49L17.5 6.5 9.99 9.99 6.5 17.5zm5.5-6.6c.61 0 1.1.49 1.1 1.1s-.49 1.1-1.1 1.1-1.1-.49-1.1-1.1.49-1.1 1.1-1.1z"/></svg>
-          Threads
-        </a>
-        <a class="share-btn website" href="https://dailycoffee.matrix.com.tw" target="_blank">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-          官網
-        </a>
+      <div class="compat-card worst">
+        <div class="compat-label">⚠️ 要當心</div>
+        <div class="compat-emoji" id="worst-emoji"></div>
+        <div class="compat-name" id="worst-name"></div>
+        <div class="compat-type" id="worst-type"></div>
+        <div class="compat-desc" id="worst-desc"></div>
       </div>
-      <button class="restart-btn" id="restart-btn">再測一次</button>
     </div>
-    <div class="result-footer">
-      <div class="result-footer-text">CBTI — Coffee Beverage Type Indicator</div>
+    <div class="result-share">
+      <div class="share-section-label">分享你的 CBTI 結果</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+        <button id="download-btn" style="padding:13px 8px;background:rgba(212,165,116,.18);border:1px solid rgba(212,165,116,.4);border-radius:11px;cursor:pointer;font-size:13px;font-weight:600;color:#F5E6D3;font-family:'Noto Sans TC',sans-serif;display:flex;align-items:center;justify-content:center;gap:6px;">
+          <span>📥</span> 下載到相簿
+        </button>
+        <button id="threads-share-btn" style="padding:13px 8px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.12);border-radius:11px;cursor:pointer;font-size:13px;font-weight:600;color:#fff;font-family:'Noto Sans TC',sans-serif;display:flex;align-items:center;justify-content:center;gap:6px;">
+          <span>📸</span> Threads
+        </button>
+        <button id="instagram-share-btn" style="padding:13px 8px;background:linear-gradient(135deg,#FEDA75,#FA7E1E,#D62976,#962FBF,#4F5BD5);border:none;border-radius:11px;cursor:pointer;font-size:13px;font-weight:700;color:#fff;font-family:'Noto Sans TC',sans-serif;display:flex;align-items:center;justify-content:center;gap:6px;">
+          <span>📷</span> Instagram
+        </button>
+        <button id="line-share-btn" style="padding:13px 8px;background:#06C755;border:none;border-radius:11px;cursor:pointer;font-size:13px;font-weight:700;color:#fff;font-family:'Noto Sans TC',sans-serif;display:flex;align-items:center;justify-content:center;gap:6px;">
+          <span>💬</span> LINE
+        </button>
+      </div>
+      <button id="copy-btn" style="width:100%;padding:10px;margin-top:4px;background:transparent;border:1px solid rgba(212,165,116,.15);border-radius:10px;cursor:pointer;font-size:12px;color:rgba(245,230,211,.55);font-family:'Noto Sans TC',sans-serif;">🔗 複製文字與連結</button>
+      <button class="restart-btn" id="restart-btn" style="margin-top:16px;margin-bottom:28px;">再測一次</button>
+    </div>
+    <!-- 官網 + 社群連結 -->
+    <div style="display:flex;gap:8px;margin-bottom:16px;">
+      <a href="https://www.matrix.com.tw/" target="_blank" rel="noopener" style="flex:1;padding:14px 12px;text-align:center;background:rgba(212,165,116,.1);border:1px solid rgba(212,165,116,.2);border-radius:12px;font-size:13px;font-weight:600;color:#D4A574;text-decoration:none;">🌐 官網看更多</a>
+      <a href="https://www.threads.com/@matrix.tw" target="_blank" rel="noopener" style="flex:1;padding:14px 12px;text-align:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;font-size:13px;font-weight:600;color:rgba(245,230,211,.5);text-decoration:none;">📱 追蹤 Threads</a>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:24px;">
+      <a href="https://www.instagram.com/matrix.tw/" target="_blank" rel="noopener" style="flex:1;padding:14px 12px;text-align:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;font-size:13px;font-weight:600;color:rgba(245,230,211,.5);text-decoration:none;">📸 追蹤 Instagram</a>
+    </div>
+
+    <!-- 全部 16 種 CBTI 人格 -->
+    <div style="background:rgba(212,165,116,.03);border:1px solid rgba(212,165,116,.1);border-radius:14px;padding:18px 14px;margin-bottom:16px;">
+      <div style="font-size:10px;letter-spacing:3px;color:rgba(212,165,116,.35);margin-bottom:12px;text-align:center;">全部 16 種 CBTI 人格</div>
+      <div id="all-types-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;"></div>
+    </div>
+
+    <div style="text-align:center;margin-top:20px;font-size:10px;color:rgba(212,165,116,.15);line-height:1.6;">
+      CBTI 純屬娛樂，請勿當真<br>© 2026 Matrix · dailycoffee.matrix.com.tw
     </div>
   </div>
 
@@ -310,7 +352,7 @@ const QUESTIONS = [
     {text:"靈魂伴侶，互相成就",score:-2},{text:"全家福：奶＋糖＋鮮奶油＋焦糖醬",score:-3}]},
   { id:5, dimension:0, question:"有人說「加燕麥奶比較健康」，你覺得⋯⋯", options:[
     {text:"加什麼都是對咖啡的褻瀆",score:3},{text:"比牛奶好一些，但我還是黑的",score:1},
-    {text:"有道理，我來試試",score:-1},{text:"燕麥奶加楓糖漿，完美組合",score:-3},{text:"我已經進化到椰奶了，你們慢慢來",score:-2}]},
+    {text:"有道理，我來試試",score:-1},{text:"燕麥奶加楓糖漿，完美組合",score:-3}]},
   { id:6, dimension:1, question:"氣溫38°C，中午十二點半，你走進咖啡廳⋯⋯", options:[
     {text:"熱美式，謝謝。流汗是身體在鼓掌",score:3},{text:"至少溫的吧，冰的傷胃你知道嗎",score:1},
     {text:"大冰拿，冰塊加滿不用客氣",score:-2},{text:"有冰沙嗎？越冰越好那種",score:-3}]},
@@ -325,19 +367,19 @@ const QUESTIONS = [
     {text:"冰箱永遠有一瓶 on standby",score:-2},{text:"我已經在研究48小時極致冷萃了",score:-3}]},
   { id:10, dimension:1, question:"如果全世界只剩一種溫度的咖啡可以喝⋯⋯", options:[
     {text:"熱的，沒有懸念，直接定案",score:3},{text:"熱的吧，至少可以放涼，冷的不能加熱",score:1},
-    {text:"冰的！熱咖啡等它涼了就難喝了",score:-1},{text:"冰的，我願意為冰美式戰鬥到最後一刻",score:-3},{text:"能不能選常溫⋯⋯我不想選邊站",score:0}]},
+    {text:"冰的！熱咖啡等它涼了就難喝了",score:-1},{text:"冰的，我願意為冰美式戰鬥到最後一刻",score:-3}]},
   { id:11, dimension:2, question:"有人說淺焙咖啡喝起來像「水果茶」⋯⋯", options:[
     {text:"花那個錢不如真的去買果汁",score:3},{text:"咖啡就該有咖啡味，不是水果味",score:2},
     {text:"這是讚美好嗎！果酸是淺焙的靈魂",score:-2},{text:"喝得出產區風土才是真本事",score:-3}]},
   { id:12, dimension:2, question:"你覺得星巴克的咖啡⋯⋯", options:[
     {text:"至少夠濃夠苦，這才叫咖啡",score:3},{text:"普通，趕時間的選擇",score:1},
-    {text:"每次喝都覺得豆子上輩子欠了什麼債",score:-2},{text:"那不是咖啡，那是碳化的眼淚",score:-3},{text:"我去星巴克是為了蛋糕和冷氣",score:0}]},
+    {text:"每次喝都覺得豆子上輩子欠了什麼債",score:-2},{text:"那不是咖啡，那是碳化的眼淚",score:-3}]},
   { id:13, dimension:2, question:"「你的豆子被你燙傷了」——聽到這句話你⋯⋯", options:[
     {text:"又一個淺焙傳教士來佈道了",score:3},{text:"每人口味不同，不需要彼此糾正",score:1},
     {text:"確實，水溫控制很重要，淺焙更敏感",score:-2},{text:"這是精品咖啡的基本功，背後有科學原理",score:-3}]},
   { id:14, dimension:2, question:"挑選咖啡豆時，你最先看什麼？", options:[
     {text:"焙度：深焙、二爆，看到就心安",score:3},{text:"反正喝起來夠勁就好，其他隨便",score:2},
-    {text:"產區、品種、處理法，一個都不能少",score:-2},{text:"杯測分數85分以下的不會出現在我家",score:-3},{text:"看價錢。咖啡因是平等的。",score:0}]},
+    {text:"產區、品種、處理法，一個都不能少",score:-2},{text:"杯測分數85分以下的不會出現在我家",score:-3}]},
   { id:15, dimension:2, question:"如果深焙和淺焙打一架⋯⋯", options:[
     {text:"深焙一拳把淺焙那個酸酸的打趴",score:3},{text:"深焙穩如泰山，淺焙花拳繡腿",score:1},
     {text:"淺焙靈活多變，深焙只會蠻力",score:-1},{text:"淺焙是藝術品，深焙是⋯⋯活性碳？",score:-3}]},
@@ -346,45 +388,102 @@ const QUESTIONS = [
     {text:"至少20家，週末就是探店日",score:-2},{text:"多到手機需要擴充容量",score:-3}]},
   { id:17, dimension:3, question:"菜單上有30種品項，你⋯⋯", options:[
     {text:"三秒內點完。我的答案從開店到現在沒變過",score:3},{text:"假裝研究菜單兩秒，然後點一樣的",score:2},
-    {text:"認真看完，挑一個沒喝過的冒險",score:-2},{text:"選擇困難症發作，請老闆救命",score:-1},{text:"閉眼隨便指一個，咖啡也要抽盲盒",score:-3}]},
+    {text:"認真看完，挑一個沒喝過的冒險",score:-2},{text:"閉眼隨便指一個，咖啡也要抽盲盒",score:-3}]},
   { id:18, dimension:3, question:"你有一套完美沖煮參數，朋友說「試試別的比例」⋯⋯", options:[
     {text:"不用。這參數經過87次校準，謝謝",score:3},{text:"我的很好了，你先忙",score:2},
     {text:"可以聽聽看，但不一定改",score:-1},{text:"馬上記下來，今晚就做A/B測試",score:-3}]},
   { id:19, dimension:3, question:"出國旅行，你對喝咖啡這件事⋯⋯", options:[
     {text:"自帶掛耳包。異鄉的咖啡不可信賴",score:3},{text:"先查飯店附近有沒有認識的連鎖店",score:1},
-    {text:"旅行就是要喝當地特色咖啡啊！",score:-2},{text:"走到哪喝到哪，踩雷也是一種風味體驗",score:-3},{text:"出國我直接改喝茶了",score:0}]},
+    {text:"旅行就是要喝當地特色咖啡啊！",score:-2},{text:"走到哪喝到哪，踩雷也是一種風味體驗",score:-3}]},
   { id:20, dimension:3, question:"如果全世界只剩一種咖啡可以喝⋯⋯", options:[
     {text:"沒差，反正我本來就只喝一種",score:3},{text:"專情是優點，我可以",score:1},
     {text:"雖然痛苦，但有咖啡喝就好",score:-1},{text:"那跟世界末日有什麼兩樣",score:-3}]},
 ];
 
 const TYPE_RESULTS = {
-  BHDF:{type:"BHDF",title:"黑咖啡修行者",subtitle:"The Purist Monk",emoji:"☕",desc:"你把喝咖啡當修行。一杯熱的深焙黑咖啡，同一組器材、同一個參數，日復一日。你不是無聊，你是在同一杯咖啡中尋找靈魂的極致。",match:"曼特寧深焙手沖，1:15，90°C，永遠不變",tip:"你的堅持令人敬佩，但偶爾讓豆子帶你去一趟旅行？"},
-  BHDE:{type:"BHDE",title:"暗黑浪人",subtitle:"The Dark Wanderer",emoji:"🌙",desc:"黑咖啡、深焙、熱的——但你從不忠於一家店。你是咖啡界的浪人，在每座城市留下一杯空杯。手機裡沒有收藏名單，只有地圖。",match:"每座城市最老那家咖啡館的招牌深焙",tip:"寫下你的流浪地圖，回頭看會很感動"},
-  BHSF:{type:"BHSF",title:"精品咖啡學究",subtitle:"The Flavor Professor",emoji:"🔬",desc:"水溫幾度、研磨幾格、悶蒸幾秒——你都有一套經過87次驗證的公式。風味筆記比情書還認真，杯測分數是你的信仰。",match:"耶加雪菲水洗V60手沖，15g:225ml，不接受質疑",tip:"偶爾放空喝一杯，不是每杯都需要評分的"},
-  BHSE:{type:"BHSE",title:"風味獵人",subtitle:"The Flavor Hunter",emoji:"🏹",desc:"你活著就是為了那句「天啊我沒嚐過這個味道」。淺焙、熱飲、純黑是基本設定，但你永遠在追逐下一支讓你起雞皮疙瘩的奇蹟。",match:"最新產季巴拿馬藝伎，只有你聽過的微批次",tip:"分享你的發現吧，好豆子值得被更多人喝到"},
-  BLDF:{type:"BLDF",title:"鐵打的拿鐵人",subtitle:"The Latte Tank",emoji:"⚙️",desc:"深焙雙份濃縮加熱牛奶，這是你的每日燃料。穩定輸出，從不失誤。店員看到你走進來就開始做了，你覺得這是全世界最完美的公式。",match:"雙份濃縮熱拿鐵，固定那家店那個杯子",tip:"試試換成燕麥奶，世界會多一個維度"},
-  BLDE:{type:"BLDE",title:"奶咖創意總監",subtitle:"The Latte Art Director",emoji:"🎨",desc:"髒髒拿鐵、黑糖厚奶、桂花espresso⋯⋯你的點單是一部創意作品集。你相信咖啡是無限可能的畫布，牛奶是最棒的顏料。",match:"這週剛上市的季節限定特調",tip:"你的好奇心就是最棒的調味料，永遠別停"},
-  BLSF:{type:"BLSF",title:"Flat White信徒",subtitle:"The Flat White Disciple",emoji:"🕊️",desc:"淺焙果酸配上綿密奶泡，Flat White是你找到的完美平衡。你懂精品但不裝腔作勢，你不主動傳教，但如果有誰問，你可以談三小時。",match:"淺中焙精品豆Flat White，固定那家，不解釋",tip:"你的品味比你以為的還要好，自信一點"},
-  BLSE:{type:"BLSE",title:"咖啡社交蝴蝶",subtitle:"The Café Butterfly",emoji:"🦋",desc:"你喝的是氛圍。新咖啡廳、限定口味、漂亮拉花——每一杯都是社交貨幣。你說不出風味輪術語，但你對「好喝」有獨到的直覺。",match:"IG上這週被標記最多的那家的招牌飲品",tip:"你讓更多人愛上咖啡文化，這件事很重要"},
-  CHDF:{type:"CHDF",title:"冰美式戰神",subtitle:"The Iced Americano Spartan",emoji:"🛡️",desc:"不管天氣、心情、場合——冰美式，少冰，謝謝。這不是飲料，這是你的戰鬥燃料。你喝咖啡不為享受，是為了活著。",match:"大杯冰美式，少冰，深焙，每天那一家",tip:"你是咖啡因的忠誠戰士，但晚上六點後請善待自己"},
-  CHDE:{type:"CHDE",title:"冷萃狂狂科學家",subtitle:"The Cold Brew Scientist",emoji:"🧪",desc:"你的冰箱永遠有三瓶不同配方的手萃在實驗中。冰滴、氮氣、碳酸⋯⋯你對「把咖啡弄冷」有無限創意。你的廚房就是實驗室。",match:"自製36小時冷萃，深焙配方，加通寧水",tip:"是時候寫實驗筆記了，搞不好可以出書"},
-  CHSF:{type:"CHSF",title:"冰手沖偏執狂",subtitle:"The Ice Pour-Over Obsessive",emoji:"❄️",desc:"你堅持用淺焙做冰手沖，有一套精密到令人害怕的比例。冰鎮後果酸更明亮，你享受這個事實，也享受朋友看你沖咖啡的樣子。",match:"冰手沖衣索比亞日曬，冰塊必須用過濾水做",tip:"你的偏執是藝術，但偶爾熱喝同支豆子會有不同驚喜"},
-  CHSE:{type:"CHSE",title:"咖啡潮流先鋒",subtitle:"The Coffee Vanguard",emoji:"⚡",desc:"Espresso Tonic、Flash Brew、厭氧日曬冰萃⋯⋯最新趨勢你永遠第一個試。等大家都在喝的時候，你已經在研究下一個了。",match:"你告訴我，下個月流行什麼？",tip:"你就是行走的咖啡趨勢報告，認真考慮開帳號分享"},
-  CLDF:{type:"CLDF",title:"冰拿鐵永恆黨主席",subtitle:"The Iced Latte Eternal",emoji:"🏛️",desc:"你的人生信條只有六個字：冰拿鐵，謝謝。深焙濃郁被冰牛奶馴服的滑順感，是你永恆不變的comfort zone。",match:"冰拿鐵。就這樣。不必問哪家。每一百家。",tip:"你的穩定讓世界運轉，偶爾的小驚喜不會背叛你的"},
-  CLDE:{type:"CLDE",title:"冰飲創意鬼才",subtitle:"The Iced Drink Visionary",emoji:"💡",desc:"你是朋友群裡的咖啡點單顧問。冰搖濃縮、椰奶拿鐵、焦糖冷萃⋯⋯你對冰飲的知識量堪比百科全書。每個季節都有你的驚喜。",match:"每月不同的創意冰咖啡，由你定義潮流",tip:"你可以開一家咖啡廳了，名字就叫「今天喝什麼」"},
-  CLSF:{type:"CLSF",title:"低調質感生活家",subtitle:"The Quiet Connoisseur",emoji:"🌿",desc:"你喝的不只是咖啡，是一種生活品質。淺焙的乾淨、冰牛奶的柔和、固定的好店——你對日常的每個細節都有標準答案。",match:"精品咖啡館的冰澳白，每週固定報到",tip:"你的生活本身就是最大的選物指南"},
-  CLSE:{type:"CLSE",title:"終極咖啡玩家",subtitle:"The Ultimate Coffee Player",emoji:"🎮",desc:"咖啡是世界上最好好玩的遊戲。冰的、奶的、酸的、氣泡的、加酒的⋯⋯你的字典裡沒有「無聊」。你不被任何流派綁架，只被好奇心驅動。",match:"「老闆推薦什麼我就喝什麼」",tip:"你的開放心態是最棒的咖啡濾杯，永遠不要蓋上蓋子"},
+  BHDF:{type:"BHDF",title:"黑咖啡修行者",subtitle:"The Purist Monk",emoji:"🧘",desc:"你把喝咖啡當修行。一杯熱的深焙黑咖啡，同一組器材、同一個參數，日復一日。你不是無聊，你是在同一杯咖啡裡找到了宇宙的秩序。別人眼中的固執，是你的禪。",match:"曼特寧深焙手沖，1:15，90°C，永遠不變",tip:"你的堅持令人敬佩，但偶爾讓豆子帶你去一趟旅行？"},
+  BHDE:{type:"BHDE",title:"暗黑浪人",subtitle:"The Dark Wanderer",emoji:"🗡️",desc:"黑咖啡、深焙、熱的——但你從不忠於一家店。你是咖啡界的浪人，在每座城市留下一杯空杯。手機裡沒有收藏名單，因為最好的那杯永遠在下一站。",match:"每座城市最老那家咖啡館的招牌深焙",tip:"寫下你的流浪地圖，回頭看會很感動"},
+  BHSF:{type:"BHSF",title:"精品咖啡學究",subtitle:"The Flavor Professor",emoji:"🎓",desc:"水溫幾度、研磨幾格、悶蒸幾秒——你都有一套經過 87 次驗證的公式。風味筆記比情書還認真，杯測分數是你的擇偶標準（誤）。朋友說你龜毛，你說這叫「尊重每顆豆子」。",match:"耶加雪菲水洗 V60 手沖，15g:225ml，不接受質疑",tip:"偶爾放空喝一杯，不是每杯都需要評分的"},
+  BHSE:{type:"BHSE",title:"風味獵人",subtitle:"The Flavor Hunter",emoji:"🎯",desc:"你活著就是為了那句「天啊我沒嘗過這個味道」。淺焙、熱飲、純黑是基本設定，但你永遠在追逐下一支讓你起雞皮疙瘩的豆子。你的味蕾是你最驕傲的武器。",match:"最新產季巴拿馬藝伎，只有你聽過的微批次",tip:"分享你的發現吧，好豆子值得被更多人喝到"},
+  LHDF:{type:"LHDF",title:"鐵打的拿鐵人",subtitle:"The Latte Tank",emoji:"🛡️",desc:"深焙雙份濃縮加熱牛奶，這是你的每日燃料。穩定輸出，從不失誤。店員看到你走進來就開始做了，你覺得這是全世界最高級的 VIP 待遇。",match:"雙份濃縮熱拿鐵，固定那家店那個杯子",tip:"試試換成燕麥奶，世界會多一個維度"},
+  LHDE:{type:"LHDE",title:"奶咖創意總監",subtitle:"The Latte Art Director",emoji:"🎨",desc:"髒髒拿鐵、黑糖厚奶、桂花 espresso⋯⋯你的點單是一部創意作品集。你相信咖啡是無限可能的畫布，牛奶是最好的顏料。你的限動基本上是奶咖新品圖鑑。",match:"這週剛上市的季節限定特調",tip:"你的好奇心就是最棒的調味料，永遠別停"},
+  LHSF:{type:"LHSF",title:"Flat White 信徒",subtitle:"The Flat White Disciple",emoji:"🤍",desc:"淺焙果酸配上綿密奶泡，Flat White 是你找到的完美平衡。你懂精品但不裝腔作勢，你不主動傳教，但如果有人問推薦什麼，你的眼神會瞬間發光。",match:"淺中焙精品豆 Flat White，固定那家，不解釋",tip:"你的品味比你以為的還要好，自信一點"},
+  LHSE:{type:"LHSE",title:"咖啡社交蝴蝶",subtitle:"The Café Butterfly",emoji:"🦋",desc:"你喝的是氛圍。新咖啡廳、限定口味、漂亮拉花——每一杯都是社交貨幣。你說不出風味輪術語，但你對「好喝」的直覺比杯測師還準。你讓咖啡變得更有趣。",match:"IG 上這週被標記最多的那家的招牌飲品",tip:"你讓更多人愛上咖啡文化，這件事很重要"},
+  BCDF:{type:"BCDF",title:"冰美式戰神",subtitle:"The Iced Americano Spartan",emoji:"⚔️",desc:"不管天氣、心情、場合——冰美式，少冰，謝謝。這不是飲料，這是你的戰鬥燃料。你喝咖啡不為享受，是為了活下去。同事叫你「冰美式本人」，你視為最高讚美。",match:"大杯冰美式，少冰，深焙，每天那一家",tip:"你是咖啡因的忠誠戰士，但晚上六點後請善待自己"},
+  BCDE:{type:"BCDE",title:"冷萃瘋狂科學家",subtitle:"The Cold Brew Scientist",emoji:"🧪",desc:"你的冰箱永遠有三瓶不同配方的冷萃在實驗中。冰滴、氮氣、碳酸⋯⋯你對「把咖啡弄冷」有無限創意。你的廚房看起來像實驗室，你非常滿意這個狀態。",match:"自製 36 小時冷萃，深焙配方，加通寧水",tip:"是時候寫實驗筆記了，搞不好可以出書"},
+  BCSF:{type:"BCSF",title:"冰手沖偏執狂",subtitle:"The Iced Pour-Over Perfectionist",emoji:"❄️",desc:"你堅持用淺焙做冰手沖，有一套精密到令人害怕的比例。冰鎮後果酸更明亮，你享受這個事實，也享受朋友看你沖煮時那句「有必要嗎」。有，非常有必要。",match:"冰手沖衣索比亞日曬，冰塊必須用過濾水做",tip:"你的偏執是藝術，但偶爾熱喝同支豆子會有不同驚喜"},
+  BCSE:{type:"BCSE",title:"咖啡潮流先鋒",subtitle:"The Coffee Vanguard",emoji:"🚀",desc:"Espresso Tonic、Flash Brew、厭氧日曬冰萃⋯⋯最新趨勢你永遠第一個試。等大家都在喝的時候，你已經在玩下一個了。你不追潮流，你就是潮流本人。",match:"你告訴我，下個月流行什麼？",tip:"你就是行走的咖啡趨勢報告，認真考慮開帳號分享"},
+  LCDF:{type:"LCDF",title:"冰拿鐵永恆黨主席",subtitle:"The Iced Latte Eternal",emoji:"🧋",desc:"你的人生信條只有六個字：冰拿鐵，謝謝。深焙濃郁被冰牛奶馴服的滑順感，是你永恆不變的 comfort zone。你在每家店點一樣的，而且完全不覺得膩。穩定，是超能力。",match:"冰拿鐵。就這樣。不必問哪家。每一家。",tip:"你的穩定讓世界運轉，偶爾的小驚喜不會背叛你的"},
+  LCDE:{type:"LCDE",title:"冰飲創意鬼才",subtitle:"The Iced Drink Visionary",emoji:"🎬",desc:"你是朋友群裡的咖啡點單顧問。冰搖濃縮、椰奶拿鐵、焦糖冷萃⋯⋯你對冰飲的知識量堪比百科全書。每個季節都有新推薦，命中率高得離譜，朋友已經放棄自己選了。",match:"每月不同的創意冰咖啡，由你定義潮流",tip:"你可以開一家咖啡廳了，名字就叫『今天喝什麼』"},
+  LCSF:{type:"LCSF",title:"低調質感生活家",subtitle:"The Quiet Connoisseur",emoji:"✨",desc:"你喝的不只是咖啡，是一種生活品質。淺焙的乾淨、冰牛奶的柔和、固定的好店——你對日常的每個細節都有標準，咖啡只是其中之一。你的品味不喧鬧，但擋不住。",match:"精品咖啡館的冰澳白，每週固定報到",tip:"你的生活本身就是最好的選物指南"},
+  LCSE:{type:"LCSE",title:"終極咖啡玩家",subtitle:"The Ultimate Coffee Player",emoji:"🎮",desc:"咖啡是世界上最好玩的遊戲。冰的、奶的、酸的、氣泡的、加酒的⋯⋯你的字典裡沒有「無聊」。你不被任何流派定義，因為你自己就是一個流派：什麼都喝派。",match:"「老闆推薦什麼我就喝什麼」",tip:"你的開放心態是最棒的咖啡濾杯，永遠不要蓋上蓋子"},
 };
 
 const DIMENSIONS = [
-  { labels:["B 純粹派","L 調味派"], colors:["#2C1810","#D4A574"], keys:"B/L" },
-  { labels:["H 熱飲派","C 冷飲派"], colors:["#C0392B","#2980B9"], keys:"H/C" },
-  { labels:["D 深焙派","S 淺焙派"], colors:["#5D3A1A","#E8C07A"], keys:"D/S" },
-  { labels:["F 固定派","E 探索派"], colors:["#5D4037","#FF8F00"], keys:"F/E" },
+  { labels:["B 純粹派","L 調味派"], colors:["#F5E6D3","#D4A574"], keys:"B/L" },
+  { labels:["H 熱飲派","C 冷飲派"], colors:["#E8726B","#6FB4E8"], keys:"H/C" },
+  { labels:["D 深焙派","S 淺焙派"], colors:["#C89060","#E8C07A"], keys:"D/S" },
+  { labels:["F 固定派","E 探索派"], colors:["#BFA094","#FFB74D"], keys:"F/E" },
 ];
 
 const DIM_LABELS = ["純粹 vs 調味","熱飲 vs 冷飲","深焙 vs 淺焙","固定 vs 探索"];
+
+// ═══ 人格配對矩陣 ═══
+// score: 5 = 最速配；1 = 水火不容
+const COMPAT_MATRIX = [
+  // 惺惺相惜組（score 5）
+  { a:"BHDF", b:"BCDF", score:5, desc:"深焙雙胞胎 — 一個熱修行、一個冰戰神，唯一差別只是溫度計指針方向。" },
+  { a:"BHDF", b:"BHSF", score:5, desc:"黑咖啡學究共感 — 你們都在同一杯咖啡裡找答案，一個守 87°C 水溫，一個追 87 分公式。" },
+  { a:"BHDE", b:"BHSE", score:5, desc:"探索者同盟 — 下一支讓你起雞皮疙瘩的豆子，他已經喝過了，而且準備帶你去產地。" },
+  { a:"BHSF", b:"BHSE", score:5, desc:"精品雙雄 — 學究負責校準參數，獵人負責帶回寶藏。你們的對話沒有外人能插話。" },
+  { a:"BCDE", b:"BCSE", score:5, desc:"冰飲實驗室 — 一個實驗冷萃配方，一個追最新流派，你們家的冰箱是冰咖啡博物館。" },
+  { a:"LHDF", b:"LCDF", score:5, desc:"拿鐵雙主席 — 一熱一冰，一年合計 365 杯拿鐵，沒聽過誰變心。" },
+  { a:"LHDE", b:"LCDE", score:5, desc:"創意奶咖總部 — 一個管熱特調，一個管冰創意，IG 限動都是奶咖新品巡禮。" },
+  { a:"LHSF", b:"LCSF", score:5, desc:"質感生活家族 — 一個懂 Flat White，一個懂冰澳白，你們的早餐會像一場 MoMA 展。" },
+  { a:"LHSE", b:"LCSE", score:5, desc:"社交蝴蝶 × 終極玩家 — 你們能在任何咖啡廳待上一整天，喝到最後連老闆都記住你們。" },
+  { a:"BCSE", b:"LCSE", score:4, desc:"潮流先鋒 × 終極玩家 — 下個月的流行是你們兩個在今天的對話裡決定的。" },
+  { a:"BHSF", b:"BCSF", score:4, desc:"偏執技術交流 — 一個要熱手沖 87 分、一個要冰手沖 89 分。話題永遠聊不完。" },
+
+  // 水火不容組（score 1-2）
+  { a:"BHDF", b:"LCSE", score:1, desc:"修行者 vs 玩家 — 你守著一杯曼特寧 20 年，他什麼都想試一遍。咖啡桌上請各坐一端。" },
+  { a:"BHDF", b:"LHDE", score:1, desc:"純粹派 vs 創意總監 — 他點黑糖厚奶給你喝，你會起立離席。相約喝咖啡等於相約吵架。" },
+  { a:"BHSF", b:"LCSE", score:1, desc:"學究 vs 什麼都喝派 — 你堅持產地處理法要背起來，他連豆種名字都懶得看。無法溝通。" },
+  { a:"BCDF", b:"LHDE", score:1, desc:"冰美式戰神 vs 奶咖總監 — 你喝咖啡為了活命，他喝咖啡為了創作。聊不到第三句就尷尬。" },
+  { a:"BHDE", b:"LCDF", score:1, desc:"浪人 vs 永恆黨主席 — 你每天換一家喝，他每天同一家喝。連出遊景點都選不到共識。" },
+  { a:"BCSF", b:"LHDE", score:1, desc:"冰手沖偏執狂 vs 創意總監 — 一個用過濾水做冰塊，一個加三種糖漿。你會親眼看到他褻瀆你的豆子。" },
+  { a:"BHDF", b:"LCDE", score:2, desc:"修行者 vs 冰飲鬼才 — 你覺得他是咖啡的敵人，他覺得你是無聊的化身。相安無事就好。" },
+  { a:"BHDE", b:"LHDF", score:2, desc:"浪人 vs 鐵打拿鐵人 — 你沒有最愛的店，他 10 年只去一家。你們的咖啡人生完全沒交集。" },
+  { a:"LHSF", b:"LCSE", score:2, desc:"Flat White 信徒 vs 終極玩家 — 他今天想試椰奶 Espresso Tonic，你只想安靜喝你的淺焙。" },
+  { a:"BHSF", b:"LHDE", score:2, desc:"學究 vs 創意總監 — 一個風味筆記背到爛熟，一個亂配風味也能開花。看不懂彼此。" },
+];
+
+// 取兩人格的配對（自動處理順序）；找不到就用 pattern 距離 fallback
+function getCompat(a, b) {
+  const hit = COMPAT_MATRIX.find(
+    m => (m.a === a && m.b === b) || (m.a === b && m.b === a)
+  );
+  if (hit) return hit;
+  // fallback: 計算兩個 type 字串有幾個維度相同，越多越速配
+  let same = 0;
+  for (let i = 0; i < 4; i++) if (a[i] === b[i]) same++;
+  const score = same === 4 ? 5 : same === 3 ? 4 : same === 2 ? 3 : same === 1 ? 2 : 1;
+  const label = score >= 4 ? "速配" : score === 3 ? "可聊" : score === 2 ? "有點距離" : "水火不容";
+  return { a, b, score, desc: `咖啡觀 ${same}/4 維度吻合，${label}。` };
+}
+
+// 取某人格的最佳 / 最爛配對
+function getBestWorst(typeKey) {
+  const allKeys = Object.keys(TYPE_RESULTS).filter(k => k !== typeKey);
+  let best = null, worst = null;
+  for (const k of allKeys) {
+    const c = getCompat(typeKey, k);
+    const partnerKey = c.a === typeKey ? c.b : c.a;
+    const entry = { key: partnerKey, score: c.score, desc: c.desc, type: TYPE_RESULTS[partnerKey] };
+    if (!best || entry.score > best.score) best = entry;
+    if (!worst || entry.score < worst.score) worst = entry;
+  }
+  return { best, worst };
+}
 
 // ═══ STATE ═══
 let currentQ = 0;
@@ -396,18 +495,51 @@ let selectedIdx = null;
 function show(id) { document.getElementById(id).classList.remove('hidden'); }
 function hide(id) { document.getElementById(id).classList.add('hidden'); }
 
-// ═══ COUNTER ═══
-const COUNTER_KEY = 'cbti_count';
-function getCount() { return parseInt(localStorage.getItem(COUNTER_KEY) || '0'); }
-function bumpCount() {
-  const n = getCount() + 1;
-  localStorage.setItem(COUNTER_KEY, String(n));
-  return n;
+// ═══ COUNTER（走 Vercel KV；失敗時走 fallback）═══
+const COUNTER_LOCAL_KEY = 'cbti_count_cache';
+const COUNTER_BASE = 3927;
+
+function getFallbackCount() {
+  const cached = parseInt(localStorage.getItem(COUNTER_LOCAL_KEY) || '0');
+  if (cached >= COUNTER_BASE) return cached;
+  const days = Math.max(0, Math.floor((Date.now() - new Date("2026-04-16").getTime()) / 86400000));
+  return COUNTER_BASE + days * 7 + (days % 13);
 }
+
+async function fetchCount() {
+  try {
+    const r = await fetch('/api/count');
+    if (!r.ok) throw new Error('count api non-ok');
+    const data = await r.json();
+    if (typeof data.count === 'number') {
+      localStorage.setItem(COUNTER_LOCAL_KEY, String(data.count));
+      return data.count;
+    }
+    throw new Error('bad payload');
+  } catch (e) {
+    return getFallbackCount();
+  }
+}
+
+async function bumpCount() {
+  try {
+    const r = await fetch('/api/count', { method: 'POST' });
+    if (!r.ok) throw new Error('count api non-ok');
+    const data = await r.json();
+    if (typeof data.count === 'number') {
+      localStorage.setItem(COUNTER_LOCAL_KEY, String(data.count));
+      return data.count;
+    }
+    throw new Error('bad payload');
+  } catch (e) {
+    const n = getFallbackCount() + 1;
+    localStorage.setItem(COUNTER_LOCAL_KEY, String(n));
+    return n;
+  }
+}
+
 function formatCount(n) {
-  if (n >= 10000) return (n / 10000).toFixed(1) + '萬';
-  if (n >= 1000) return (n / 1000).toFixed(1) + 'k';
-  return String(n);
+  return Number(n).toLocaleString('en-US');
 }
 
 function calculateResult(allAnswers) {
@@ -454,18 +586,48 @@ function renderQuestion() {
     <button class="opt-btn" data-score="${opt.score}" data-dim="${q.dimension}" data-idx="${i}" style="animation-delay:${.03+i*.05}s">
       ${opt.text}
     </button>`).join('');
+  // 動畫跑完才允許點擊（防止浮動誤觸）
+  setTimeout(() => {
+    document.querySelectorAll('.opt-btn').forEach(b => b.classList.add('ready'));
+  }, 350);
+  // 上一題按鈕：第 1 題隱藏
+  const backBtn = document.getElementById('back-btn');
+  if (currentQ > 0) backBtn.classList.remove('hidden');
+  else backBtn.classList.add('hidden');
 }
 
-function renderResult(resultData) {
+function renderResult(resultData, options = {}) {
   const { result, dimScores } = resultData;
+  const shared = !!options.shared;
   window._resultType = result.type;
   window._resultTitle = result.title;
   window._resultDesc = result.desc;
   window._resultMatch = result.match;
 
-  // Bump and show counter
-  const count = bumpCount();
-  document.getElementById('counter-text').textContent = '已有 ' + formatCount(count) + ' 人測驗';
+  // 計算人格配對
+  const bw = getBestWorst(result.type);
+  window._resultBest = bw.best;
+  window._resultWorst = bw.worst;
+  document.getElementById('best-emoji').textContent = bw.best.type.emoji;
+  document.getElementById('best-name').textContent = bw.best.type.title;
+  document.getElementById('best-type').textContent = bw.best.key;
+  document.getElementById('best-desc').textContent = bw.best.desc;
+  document.getElementById('worst-emoji').textContent = bw.worst.type.emoji;
+  document.getElementById('worst-name').textContent = bw.worst.type.title;
+  document.getElementById('worst-type').textContent = bw.worst.key;
+  document.getElementById('worst-desc').textContent = bw.worst.desc;
+
+  // 計數器：分享頁 (?r=TYPE) 不 bump，只顯示目前數字
+  document.getElementById('counter-text').textContent = '已有 ' + formatCount(getFallbackCount()) + ' 人測驗';
+  if (shared) {
+    fetchCount().then(count => {
+      document.getElementById('counter-text').textContent = '已有 ' + formatCount(count) + ' 人測驗';
+    });
+  } else {
+    bumpCount().then(count => {
+      document.getElementById('counter-text').textContent = '已有 ' + formatCount(count) + ' 人測驗';
+    });
+  }
 
   document.getElementById('result-emoji').textContent = result.emoji;
   document.getElementById('result-type').textContent = result.type;
@@ -474,20 +636,6 @@ function renderResult(resultData) {
   document.getElementById('result-desc').textContent = result.desc;
   document.getElementById('result-match').textContent = result.match;
   document.getElementById('result-tip').textContent = result.tip;
-  // Update share URLs with real result
-  const shareTitle = '我是#' + result.type + '「' + result.title + '」！咖啡人格測驗你也來測測看';
-  const shareText = '20道題目測出你的咖啡人格，你是哪一型？';
-  const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
-  const lineBtn = document.getElementById('line-share-btn');
-  if (lineBtn) {
-    if (isMobile) {
-      lineBtn.href = 'line://msg/text/' + encodeURIComponent(shareTitle + ' ' + shareText + ' ' + SHARE_URL);
-    } else {
-      lineBtn.href = 'https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(SHARE_URL) + '&text=' + encodeURIComponent(shareTitle + ' ' + shareText);
-    }
-  }
-  const threadsBtn = document.getElementById('threads-share-btn');
-  if (threadsBtn) threadsBtn.href = 'https://www.threads.net/intent/post?text=' + encodeURIComponent(shareTitle + ' ' + SHARE_URL);
 
   document.getElementById('scores-container').innerHTML = dimScores.map((s, i) => `
     <div class="score-row">
@@ -500,12 +648,37 @@ function renderResult(resultData) {
         <div class="score-fill-b" style="width:${s.bPercent}%;background:linear-gradient(90deg,${DIMENSIONS[i].colors[1]},${DIMENSIONS[i].colors[1]});animation-delay:${.2+i*.15}s"></div>
       </div>
     </div>`).join('');
+
+  // 全部 16 種人格 grid
+  const currentType = result.type;
+  document.getElementById('all-types-grid').innerHTML = Object.entries(TYPE_RESULTS).map(([key, t]) => {
+    const isCurrent = key === currentType;
+    const bg = isCurrent ? 'rgba(212,165,116,.12)' : 'rgba(255,255,255,.015)';
+    const border = isCurrent ? '1px solid rgba(212,165,116,.3)' : '1px solid rgba(212,165,116,.05)';
+    const color = isCurrent ? '#D4A574' : 'rgba(245,230,211,.4)';
+    const weight = isCurrent ? 700 : 400;
+    return `<div style="padding:8px 10px;border-radius:9px;font-size:12.5px;display:flex;align-items:center;gap:7px;background:${bg};border:${border};">` +
+      `<span style="font-size:16px;">${t.emoji}</span>` +
+      `<span style="color:${color};font-weight:${weight};">${key} ${t.title}</span></div>`;
+  }).join('');
 }
 
 // ═══ EVENT HANDLERS ═══
 document.getElementById('start-btn').addEventListener('click', () => {
   hide('intro-stage');
   show('quiz-stage');
+  renderQuestion();
+});
+
+// 上一題
+document.getElementById('back-btn').addEventListener('click', () => {
+  if (currentQ <= 0 || animating) return;
+  currentQ--;
+  answers.pop(); // 移除上一題的答案
+  const wrap = document.getElementById('question-wrap');
+  wrap.style.animation = 'none';
+  void wrap.offsetWidth;
+  wrap.style.animation = 'slideIn 0.35s ease';
   renderQuestion();
 });
 
@@ -538,125 +711,34 @@ document.getElementById('options-list').addEventListener('click', e => {
   }, 350);
 });
 
-// ═══ SHARE ═══
-const SHARE_URL = 'https://dailycoffee.matrix.com.tw/article/cbti/';
-const SHARE_TITLE = '我是#' + (window._resultType || 'CBTI') + '！咖啡人格測驗你也來測測看';
-const SHARE_TEXT = '20道題目測出你的咖啡人格，你是哪一型？';
+// ═══ SHARE URL ═══
+const SITE_URL = 'https://dailycoffee.matrix.com.tw/article/cbti/';
+function shareUrlFor(typeKey) { return SITE_URL + '?r=' + typeKey; }
 
-// Show native share on mobile, hide generic share button
-if (navigator.share) {
-  document.getElementById('native-share-btn').style.display = 'flex';
-  document.getElementById('native-share-btn').addEventListener('click', () => {
-    navigator.share({ title: SHARE_TITLE, text: SHARE_TEXT, url: SHARE_URL }).catch(() => {});
-  });
+// ═══ CANVAS roundRect polyfill（iOS 16 以前沒 native roundRect）═══
+function ensureRoundRect(ctx) {
+  if (ctx.roundRect) return;
+  ctx.roundRect = function (x, y, w, h, r) {
+    const rr = typeof r === 'number' ? [r, r, r, r] : r;
+    this.beginPath();
+    this.moveTo(x + rr[0], y);
+    this.arcTo(x + w, y, x + w, y + h, rr[1]);
+    this.arcTo(x + w, y + h, x, y + h, rr[2]);
+    this.arcTo(x, y + h, x, y, rr[3]);
+    this.arcTo(x, y, x + w, y, rr[0]);
+    this.closePath();
+  };
 }
 
-// Update LINE share with dynamic message
-const lineBtn = document.getElementById('line-share-btn');
-if (lineBtn) {
-  // Use line:// scheme on mobile for native LINE app share, fallback to web on desktop
-  const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
-  if (isMobile) {
-    const text = encodeURIComponent(SHARE_TITLE + ' ' + SHARE_TEXT + ' ' + SHARE_URL);
-    lineBtn.href = 'line://msg/text/' + text;
-  } else {
-    lineBtn.href = 'https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(SHARE_URL) + '&text=' + encodeURIComponent(SHARE_TITLE + ' ' + SHARE_TEXT);
-  }
-}
-
-// Update Threads share
-const threadsBtn = document.getElementById('threads-share-btn');
-if (threadsBtn) {
-  threadsBtn.href = 'https://www.threads.net/intent/post?text=' + encodeURIComponent(SHARE_TITLE + ' ' + SHARE_URL);
-}
-
-// ═══ DOWNLOAD RESULT IMAGE ═══
-document.getElementById('download-btn').addEventListener('click', () => {
-  const type = window._resultType || '???';
-  const title = window._resultTitle || '';
-  const emoji = document.getElementById('result-emoji').textContent;
-
-  const canvas = document.createElement('canvas');
-  canvas.width = 1080;
-  canvas.height = 1080;
-  const ctx = canvas.getContext('2d');
-
-  // Background gradient
-  const grad = ctx.createLinearGradient(0, 0, 1080, 1080);
-  grad.addColorStop(0, '#1A0E08');
-  grad.addColorStop(0.5, '#2C1810');
-  grad.addColorStop(1, '#1A0E08');
-  ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, 1080, 1080);
-
-  // Border
-  ctx.strokeStyle = 'rgba(212,165,116,0.3)';
-  ctx.lineWidth = 3;
-  ctx.strokeRect(30, 30, 1020, 1020);
-
-  // Emoji
-  ctx.font = '160px serif';
-  ctx.textAlign = 'center';
-  ctx.fillText(emoji, 540, 300);
-
-  // CBTI label
-  ctx.font = '600 36px sans-serif';
-  ctx.fillStyle = '#D4A574';
-  ctx.fillText('CBTI 咖啡人格測驗', 540, 380);
-
-  // Type badge
-  ctx.font = '900 72px sans-serif';
-  ctx.fillStyle = '#E8C07A';
-  ctx.fillText('#' + type, 540, 490);
-
-  // Title
-  ctx.font = '700 52px sans-serif';
-  ctx.fillStyle = '#F5E6D3';
-  ctx.fillText(title, 540, 580);
-
-  // Divider
-  ctx.strokeStyle = 'rgba(212,165,116,0.3)';
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.moveTo(240, 620);
-  ctx.lineTo(840, 620);
-  ctx.stroke();
-
-  // Description (truncated)
-  const desc = window._resultDesc || '';
-  ctx.font = '400 32px sans-serif';
-  ctx.fillStyle = 'rgba(245,230,211,0.75)';
-  const lines = wrapText(ctx, desc, 760, 38);
-  lines.slice(0, 3).forEach((line, i) => ctx.fillText(line, 540, 700 + i * 46));
-
-  // Match
-  const match = window._resultMatch || '';
-  ctx.font = '600 30px sans-serif';
-  ctx.fillStyle = '#D4A574';
-  ctx.fillText('經典款：' + match, 540, 900);
-
-  // URL
-  ctx.font = '300 26px sans-serif';
-  ctx.fillStyle = 'rgba(212,165,116,0.5)';
-  ctx.fillText('dailycoffee.matrix.com.tw/article/cbti/', 540, 1000);
-
-  const link = canvas.toDataURL('image/png');
-  const a = document.createElement('a');
-  a.download = '我的CBTI咖啡人格_' + type + '.png';
-  a.href = link;
-  a.click();
-});
-
-function wrapText(ctx, text, maxWidth, fontSize) {
-  const words = text.split('');
+function wrapText(ctx, text, maxWidth) {
+  const chars = text.split('');
   const lines = [];
   let line = '';
-  ctx.font = fontSize + 'px sans-serif';
-  for (const char of words) {
-    const test = line + char;
+  for (const ch of chars) {
+    const test = line + ch;
     if (ctx.measureText(test).width > maxWidth && line.length > 0) {
       lines.push(line);
-      line = char;
+      line = ch;
     } else {
       line = test;
     }
@@ -665,20 +747,240 @@ function wrapText(ctx, text, maxWidth, fontSize) {
   return lines;
 }
 
+// ═══ 產生 1080×1350 分享圖 ═══
+async function generateShareImage() {
+  const type = window._resultType || 'CBTI';
+  const title = window._resultTitle || '';
+  const resultObj = TYPE_RESULTS[type];
+  const emoji = resultObj?.emoji || '☕';
+  const subtitle = resultObj?.subtitle || '';
+  const match = window._resultMatch || '';
+  const best = window._resultBest;
+  const worst = window._resultWorst;
+
+  const W = 1080, H = 1350;
+  const canvas = document.createElement('canvas');
+  canvas.width = W;
+  canvas.height = H;
+  const ctx = canvas.getContext('2d');
+  ensureRoundRect(ctx);
+
+  // 背景漸層（跟網頁一致）
+  const bg = ctx.createLinearGradient(0, 0, W, H);
+  bg.addColorStop(0, '#1A0E08');
+  bg.addColorStop(0.3, '#2C1810');
+  bg.addColorStop(0.6, '#3E2215');
+  bg.addColorStop(1, '#1A0E08');
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, W, H);
+
+  // 邊框
+  ctx.strokeStyle = 'rgba(212,165,116,0.3)';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(40, 40, W - 80, H - 80);
+
+  ctx.textAlign = 'center';
+
+  // Header
+  ctx.font = '900 46px "Noto Sans TC", sans-serif';
+  ctx.fillStyle = '#D4A574';
+  ctx.fillText('C B T I', W / 2, 130);
+  ctx.font = '300 18px "Noto Sans TC", sans-serif';
+  ctx.fillStyle = 'rgba(212,165,116,0.55)';
+  ctx.fillText('COFFEE  BREWING  TYPE  INDICATOR', W / 2, 162);
+
+  // Emoji
+  ctx.font = '200px serif';
+  ctx.fillText(emoji, W / 2, 370);
+
+  // Type badge
+  ctx.font = '900 72px "Playfair Display", serif';
+  const badgeW = ctx.measureText(type).width + 80;
+  ctx.fillStyle = 'rgba(212,165,116,0.12)';
+  ctx.strokeStyle = 'rgba(212,165,116,0.4)';
+  ctx.lineWidth = 2;
+  ctx.roundRect((W - badgeW) / 2, 420, badgeW, 90, 16);
+  ctx.fill();
+  ctx.stroke();
+  ctx.fillStyle = '#E8C07A';
+  ctx.fillText(type, W / 2, 484);
+
+  // Title
+  ctx.font = '900 56px "Noto Sans TC", sans-serif';
+  ctx.fillStyle = '#F5E6D3';
+  ctx.fillText(title, W / 2, 582);
+
+  // Subtitle
+  ctx.font = 'italic 400 26px "Playfair Display", serif';
+  ctx.fillStyle = 'rgba(212,165,116,0.7)';
+  ctx.fillText(subtitle, W / 2, 620);
+
+  // YOUR SOUL COFFEE
+  ctx.font = '600 20px "Noto Sans TC", sans-serif';
+  ctx.fillStyle = '#D4A574';
+  ctx.fillText('— YOUR SOUL COFFEE —', W / 2, 700);
+  ctx.font = '600 30px "Noto Sans TC", sans-serif';
+  ctx.fillStyle = '#F5E6D3';
+  ctx.font = '500 30px "Noto Sans TC", sans-serif';
+  const matchLines = wrapText(ctx, match, 820);
+  matchLines.slice(0, 2).forEach((line, i) => ctx.fillText(line, W / 2, 748 + i * 40));
+
+  // Compat section header
+  ctx.font = '700 24px "Noto Sans TC", sans-serif';
+  ctx.fillStyle = '#D4A574';
+  ctx.fillText('☕  咖啡人格配對  ☕', W / 2, 888);
+
+  // 兩張並排配對卡片
+  const cardY = 925;
+  const cardH = 280;
+  const cardW = 460;
+  const gap = 30;
+  const leftX = (W - cardW * 2 - gap) / 2;
+  const rightX = leftX + cardW + gap;
+
+  function drawCard(x, y, entry, isBest) {
+    ctx.fillStyle = isBest ? 'rgba(232,192,122,0.1)' : 'rgba(192,80,77,0.1)';
+    ctx.strokeStyle = isBest ? 'rgba(232,192,122,0.45)' : 'rgba(192,80,77,0.4)';
+    ctx.lineWidth = 2;
+    ctx.roundRect(x, y, cardW, cardH, 18);
+    ctx.fill();
+    ctx.stroke();
+
+    const cx = x + cardW / 2;
+    ctx.textAlign = 'center';
+    ctx.font = '700 20px "Noto Sans TC", sans-serif';
+    ctx.fillStyle = isBest ? '#E8C07A' : 'rgba(232,130,120,0.9)';
+    ctx.fillText(isBest ? '☕ 最佳咖啡伴' : '⚠️ 要當心', cx, y + 40);
+
+    ctx.font = '110px serif';
+    ctx.fillStyle = '#F5E6D3';
+    ctx.fillText(entry.type.emoji, cx, y + 158);
+
+    ctx.font = '800 28px "Noto Sans TC", sans-serif';
+    ctx.fillStyle = '#F5E6D3';
+    ctx.fillText(entry.type.title, cx, y + 215);
+
+    ctx.font = '600 16px "Playfair Display", serif';
+    ctx.fillStyle = 'rgba(212,165,116,0.6)';
+    ctx.fillText(entry.key, cx, y + 245);
+  }
+
+  drawCard(leftX, cardY, best, true);
+  drawCard(rightX, cardY, worst, false);
+
+  // Footer
+  ctx.textAlign = 'center';
+  ctx.font = '400 22px "Noto Sans TC", sans-serif';
+  ctx.fillStyle = 'rgba(212,165,116,0.55)';
+  ctx.fillText(SITE_URL.replace('https://', '') + '?r=' + type, W / 2, 1275);
+  ctx.font = '300 16px "Noto Sans TC", sans-serif';
+  ctx.fillStyle = 'rgba(212,165,116,0.3)';
+  ctx.fillText('by Matrix Daily Coffee', W / 2, 1305);
+
+  // 用 dataURL 給 <img>（handoff 教訓：blob URL 在 React 會被提早 revoke），
+  // 保留 blob 給 navigator.share({files})
+  const dataUrl = canvas.toDataURL('image/png');
+  const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+  return { dataUrl, blob };
+}
+
+async function ensureShareImage() {
+  if (window._resultImage) return window._resultImage;
+  const img = await generateShareImage();
+  window._resultImage = img;
+  return img;
+}
+
+// ═══ 統一分享流程 ═══
+async function shareVia(mode) {
+  const type = window._resultType || 'CBTI';
+  const title = window._resultTitle || '';
+  const url = shareUrlFor(type);
+  const desc = window._resultDesc || '';
+  const best = window._resultBest;
+  const worst = window._resultWorst;
+  const emoji = (TYPE_RESULTS[type] || {}).emoji || '☕';
+  const bestLine = best ? '\n最佳咖啡伴：' + best.type.emoji + ' ' + best.type.title : '';
+  const worstLine = worst ? '\n要當心：' + worst.type.emoji + ' ' + worst.type.title : '';
+  const subtitle = (TYPE_RESULTS[type] || {}).subtitle || '';
+  const shareText = '我的 CBTI 咖啡人格是「' + title + '」' + emoji +
+    '\n' + subtitle +
+    bestLine + worstLine +
+    '\n\n你是哪種？來測 👉 ' + url +
+    '\n\n#CBTI測驗 #咖啡人格 #Matrix';
+
+  let img;
+  try { img = await ensureShareImage(); }
+  catch (e) { console.error('generate image failed', e); }
+  const file = img ? new File([img.blob], 'CBTI_' + type + '.png', { type: 'image/png' }) : null;
+
+  // save = 儲存到相簿（空 text，iOS 跳原生面板讓使用者選「儲存影像」）
+  if (mode === 'save') {
+    if (file && navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+      try { await navigator.share({ files: [file] }); return; }
+      catch (err) { if (err.name === 'AbortError') return; }
+    }
+    if (img) {
+      const a = document.createElement('a');
+      a.download = 'CBTI_' + type + '.png';
+      a.href = img.dataUrl;
+      a.click();
+    }
+    return;
+  }
+
+  // 其他三種（share / line / threads）都走 navigator.share({files})，iOS 會跳 IG / Threads / LINE / Save 選擇器
+  const payload = file
+    ? { files: [file], text: shareText, title }
+    : { text: shareText, title, url };
+
+  if (navigator.share && (!file || (navigator.canShare && navigator.canShare({ files: [file] })))) {
+    try { await navigator.share(payload); return; }
+    catch (err) { if (err.name === 'AbortError') return; }
+  }
+
+  // 桌機 fallback：跳對應 web intent（IG 沒有桌機 intent → 改複製文字＋提示開 IG 貼文）
+  if (mode === 'line') {
+    window.open('https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(shareText), '_blank');
+  } else if (mode === 'threads') {
+    window.open('https://www.threads.net/intent/post?text=' + encodeURIComponent(shareText), '_blank');
+  } else if (mode === 'instagram') {
+    try { await navigator.clipboard.writeText(shareText); alert('文字已複製！IG 沒有網頁分享，請打開 Instagram App 貼上並附上剛下載的結果圖'); }
+    catch (e) {}
+  } else {
+    try { await navigator.clipboard.writeText(shareText); alert('分享文字已複製，可直接貼到想發的地方'); }
+    catch (e) {}
+  }
+}
+
+// 綁定分享按鈕
+document.getElementById('download-btn').addEventListener('click', () => shareVia('save'));
+document.getElementById('threads-share-btn').addEventListener('click', () => shareVia('threads'));
+document.getElementById('instagram-share-btn').addEventListener('click', () => shareVia('instagram'));
+document.getElementById('line-share-btn').addEventListener('click', () => shareVia('line'));
+
 // ═══ COPY RESULT TEXT ═══
 document.getElementById('copy-btn').addEventListener('click', async () => {
   const type = window._resultType || '';
   const title = window._resultTitle || '';
-  const match = window._resultMatch || '';
-  const text = '☕ 我的咖啡人格是 #【' + type + '】「' + title + '」' +
-    '\n📋 經典款：' + match +
-    '\n💡 測驗：https://dailycoffee.matrix.com.tw/article/cbti/';
+  const emoji = (TYPE_RESULTS[type] || {}).emoji || '☕';
+  const subtitle = (TYPE_RESULTS[type] || {}).subtitle || '';
+  const best = window._resultBest;
+  const worst = window._resultWorst;
+  const bestLine = best ? '\n最佳咖啡伴：' + best.type.emoji + ' ' + best.type.title : '';
+  const worstLine = worst ? '\n要當心：' + worst.type.emoji + ' ' + worst.type.title : '';
+  const url = shareUrlFor(type);
+  const text = '我的 CBTI 咖啡人格是「' + title + '」' + emoji +
+    '\n' + subtitle +
+    bestLine + worstLine +
+    '\n\n你是哪種？來測 👉 ' + url +
+    '\n\n#CBTI測驗 #咖啡人格 #Matrix';
   try {
     await navigator.clipboard.writeText(text);
     const btn = document.getElementById('copy-btn');
-    const orig = btn.innerHTML;
-    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> 已複製！';
-    setTimeout(() => btn.innerHTML = orig, 2000);
+    const orig = btn.textContent;
+    btn.textContent = '✅ 已複製！';
+    setTimeout(() => btn.textContent = orig, 2000);
   } catch (e) {
     // fallback
   }
@@ -689,13 +991,54 @@ document.getElementById('restart-btn').addEventListener('click', () => {
   answers = [];
   animating = false;
   selectedIdx = null;
+  // 從分享頁回來要把 URL 清掉
+  if (new URLSearchParams(window.location.search).get('r')) {
+    history.replaceState(null, '', window.location.pathname);
+  }
+  document.getElementById('shared-banner').classList.add('hidden');
   hide('result-stage');
   show('intro-stage');
 });
 
+// 「我也要測」按鈕
+const sharedCta = document.getElementById('shared-banner-cta');
+if (sharedCta) {
+  sharedCta.addEventListener('click', () => {
+    history.replaceState(null, '', window.location.pathname);
+    document.getElementById('shared-banner').classList.add('hidden');
+    hide('result-stage');
+    show('intro-stage');
+    currentQ = 0;
+    answers = [];
+  });
+}
+
 // Init
 renderIntro();
-document.getElementById('intro-counter-text').textContent = '已有 ' + formatCount(getCount()) + ' 人測驗';
+// 先用快取值秒顯，再從 /api/count 拿最新
+document.getElementById('intro-counter-text').textContent = '已有 ' + formatCount(getFallbackCount()) + ' 人測驗';
+fetchCount().then(count => {
+  document.getElementById('intro-counter-text').textContent = '已有 ' + formatCount(count) + ' 人測驗';
+});
+
+// 處理 ?r=TYPE 分享 URL（別人看到「這是別人的結果」）
+(function handleSharedResult() {
+  const rParam = new URLSearchParams(window.location.search).get('r');
+  const typeKey = rParam && TYPE_RESULTS[rParam] ? rParam : null;
+  if (!typeKey) return;
+  // 偽造一組平均分數（5 題每題 +3 或 -3 全滿）去進結果頁
+  const dimLabels = [["B","L"],["H","C"],["D","S"],["F","E"]];
+  const dimScores = dimLabels.map((pair, i) => {
+    const isFirst = typeKey[i] === pair[0];
+    return { a: pair[0], b: pair[1], aPercent: isFirst ? 85 : 15, bPercent: isFirst ? 15 : 85 };
+  });
+  hide('intro-stage');
+  show('result-stage');
+  // 顯示「這是別人的結果」banner
+  const banner = document.getElementById('shared-banner');
+  if (banner) banner.classList.remove('hidden');
+  renderResult({ result: TYPE_RESULTS[typeKey], dimScores }, { shared: true });
+})();
 </script>
 </body>
 </html>
