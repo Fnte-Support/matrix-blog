@@ -68,25 +68,63 @@ article/<slug>/
 
 ## 3. 圖片規範
 
+### 3.1 圖片產生來源（允許）
+
+AI 產圖服務都可以用，但**產完必須立即下載到本地，不可直接引用臨時 URL**：
+
+| 來源 | 允許用途 | 必要步驟 |
+|---|---|---|
+| **MiniMax / 海螺 (hailuo)** | 產 hero、內文插圖 | 產完立即下載為 `article/<slug>/hero.jpg` |
+| **DALL-E / Midjourney / SDXL** | 同上 | 同上 |
+| **Unsplash / Pexels** | 手上真的找不到原創圖時的備援 | 下載為本地檔案（不可直接 hotlink） |
+| **自家拍攝 / 設計** | 首選 | 直接放 `article/<slug>/` |
+
+### 3.2 規格要求
+
 | 欄位 | 尺寸 | 格式 | 大小 | 備註 |
 |---|---|---|---|---|
-| hero.jpg | 1200×630（OG 標準） | JPG / WebP | ≤ 300KB | 絕不可用會過期的 CDN URL |
+| hero.jpg | 1200×630（OG 標準） | JPG / WebP | ≤ 300KB | **必須是本地檔案** |
 | 內文圖 | 寬度 ≤ 1000px | JPG / WebP | ≤ 200KB | quality 72 足夠 |
 | logo | 方形 400×400 | JPG / PNG | ≤ 100KB | 透明背景用 PNG |
 
-### ❌ 嚴禁使用的圖片來源
-- `hailuo-image-algeng-data.oss-cn-wulanchabu.aliyuncs.com` — 有 `Expires` 參數，幾天後就失效
-- 任何含 `?Expires=` 或 `?Signature=` 的臨時簽章 URL
-- `images.unsplash.com` 當 hero（可當 placeholder 備援，但 hero 必須本地化）
+### 3.3 ❌ 嚴禁的做法（會讓圖片幾天後掛掉）
 
-### ✅ 允許的圖片來源
-- 本地 `/article/<slug>/*.jpg`
-- `/assets/*.jpg`
-- 自有 CDN（matrix.com.tw 網域）
+**任何含下列特徵的 URL 都不可**出現在上線的 `index.html`、文章頁 HTML 或 `article_list.json` 裡：
 
-### 所有 `<img>` 標籤必要屬性
+- 含 `?Expires=` 或 `?Signature=` 的臨時簽章 URL
+- `hailuo-image-algeng-data.oss-cn-wulanchabu.aliyuncs.com/*` — MiniMax 的臨時 URL
+- `oaidalleapiprodscus.blob.core.windows.net/*` — DALL-E 的臨時 URL
+- `replicate.delivery/*` 帶簽章參數的變體
+- 任何 CDN 平台的「預簽章」URL（presigned URL / signed URL）
+
+**這些 URL 只能用在「產圖 → 下載到本地」的中間步驟，不能留在 commit 裡。**
+
+### 3.4 正確流程（以 MiniMax 為例）
+
+```
+1. 呼叫 MiniMax API 產圖
+   → 拿到: https://hailuo-image-algeng-data...?Expires=1776356438
+2. 立即下載到本地:
+   curl -o article/<slug>/hero.jpg "<上面那個 URL>"
+3. 壓到 ≤300KB:
+   （用 ImageMagick 或其他工具壓縮到 1200×630 / quality 72）
+4. HTML / JSON 引用本地路徑:
+   "image": "https://dailycoffee.matrix.com.tw/article/<slug>/hero.jpg"
+5. 原始的 hailuo URL 只出現在步驟 1-2 之間的記憶體中，
+   不可寫進任何 commit 的檔案。
+```
+
+### 3.5 ✅ 允許出現在 commit 裡的圖片 URL
+
+- `https://dailycoffee.matrix.com.tw/article/<slug>/<檔名>.jpg` ← 本地圖
+- `https://dailycoffee.matrix.com.tw/assets/<檔名>.jpg` ← 共用素材
+- `https://www.matrix.com.tw/...` 的圖片 ← 自家 CDN
+- `https://images.unsplash.com/photo-xxxxxx?w=1400&q=80`（**去除 `?Expires=`** 的穩定 URL 可以暫用，但優先下載成本地）
+
+### 3.6 所有 `<img>` 標籤必要屬性
+
 ```html
-<img src="/article/slug/hero.jpg"
+<img src="/article/<slug>/hero.jpg"
      alt="描述文字（繁中）"
      width="1200"
      height="630"
@@ -96,6 +134,16 @@ article/<slug>/
 
 > `width` 和 `height` **必填**，避免 CLS（頁面跳動）。  
 > 首屏第一張圖不加 `loading="lazy"`，其餘都加。
+
+### 3.7 發布前圖片自檢
+
+commit 前務必跑一次：
+
+```bash
+# 檢查是否有殘留的臨時簽章 URL
+grep -rE "Expires=|Signature=|hailuo-image-algeng-data|oaidalleapiprodscus" article/ article_list.json index.html
+# 沒輸出 = 乾淨；有輸出 = 還有臨時 URL 沒本地化，禁止 commit
+```
 
 ---
 
