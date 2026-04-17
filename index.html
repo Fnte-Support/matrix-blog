@@ -3,8 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daily Coffee | Matrix 咖啡專欄</title>
-  <meta name="description" content="每日咖啡美學探索：產區知識、沖煮技巧、咖啡活動、全球咖啡店地圖，與咖啡人一起成長。">
+  <title>Daily Coffee | Matrix 咖啡專欄 — 每日深度咖啡內容</title>
+  <meta name="description" content="每日咖啡美學探索：產區知識、沖煮技巧、咖啡活動、全球咖啡店地圖。每日更新，專業 E-E-A-T 內容，與咖啡人一起成長。">
+  <meta name="keywords" content="咖啡,精品咖啡,手沖,咖啡知識,產區咖啡,咖啡活動,咖啡地圖,台灣咖啡">
+  <link rel="canonical" href="https://dailycoffee.matrix.com.tw/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://dailycoffee.matrix.com.tw/">
+  <meta property="og:title" content="Daily Coffee | Matrix 咖啡專欄">
+  <meta property="og:description" content="每日咖啡美學探索：產區知識、沖煮技巧、咖啡活動、全球咖啡店地圖。">
+  <meta property="og:image" content="https://dailycoffee.matrix.com.tw/og-default.jpg">
+  <meta property="og:site_name" content="Daily Coffee">
+  <meta property="og:locale" content="zh_TW">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Daily Coffee | Matrix 咖啡專欄">
+  <meta name="twitter:description" content="每日咖啡美學探索：產區知識、沖煮技巧、咖啡活動、全球咖啡店地圖。">
+  <meta name="twitter:image" content="https://dailycoffee.matrix.com.tw/og-default.jpg">
+
+  <!-- JSON-LD: Website -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Daily Coffee",
+    "alternateName": "每日咖啡",
+    "url": "https://dailycoffee.matrix.com.tw/",
+    "description": "每日咖啡美學探索：產區知識、沖煮技巧、咖啡活動、全球咖啡店地圖。",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Matrix 矩陣世紀",
+      "url": "https://www.matrix.com.tw"
+    },
+    "inLanguage": "zh-TW"
+  }
+  </script>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☕</text></svg>">
+
   <style>
     :root {
       --coffee-dark: #2C1810;
@@ -15,18 +54,20 @@
       --gray-light: #f0ede8;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--coffee-bg); color: var(--coffee-dark); line-height: 1.6; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif; background: var(--coffee-bg); color: var(--coffee-dark); line-height: 1.6; }
 
     /* ── Header ── */
-    header { background: var(--coffee-dark); color: #fff; padding: 0; position: sticky; top: 0; z-index: 100; }
+    header { background: var(--coffee-dark); color: #fff; position: sticky; top: 0; z-index: 100; }
     .header-inner { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; height: 64px; }
     .site-logo { font-size: 1.3rem; font-weight: 700; color: #fff; text-decoration: none; letter-spacing: 0.5px; }
     .site-logo span { color: var(--coffee-light); }
+    .site-desc { font-size: 0.8rem; color: rgba(255,255,255,0.5); display: none; }
+    @media (min-width: 600px) { .site-desc { display: block; } }
 
     /* ── Category Nav ── */
     .cat-nav { background: var(--coffee-mid); overflow-x: auto; scrollbar-width: none; }
     .cat-nav::-webkit-scrollbar { display: none; }
-    .cat-nav-inner { max-width: 1200px; margin: 0 auto; display: flex; padding: 0 1.5rem; gap: 0; }
+    .cat-nav-inner { max-width: 1200px; margin: 0 auto; display: flex; padding: 0 1.5rem; }
     .cat-btn { flex-shrink: 0; padding: 0.75rem 1.2rem; color: rgba(255,255,255,0.75); font-size: 0.9rem; font-weight: 500; border: none; background: none; cursor: pointer; border-bottom: 3px solid transparent; transition: all .2s; white-space: nowrap; }
     .cat-btn:hover { color: #fff; background: rgba(255,255,255,0.08); }
     .cat-btn.active { color: #fff; border-bottom-color: var(--coffee-light); font-weight: 600; }
@@ -39,14 +80,29 @@
     .search-wrap .search-icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); font-size: 1.1rem; opacity: 0.5; }
     #search-results-count { text-align: center; font-size: 0.85rem; color: #888; margin-top: 0.5rem; min-height: 1.2em; }
 
-    /* ── Main Grid ── */
+    /* ── Main Content ── */
     main { max-width: 1200px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
     .section-title { font-size: 1.1rem; font-weight: 600; color: var(--coffee-mid); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--gray-light); display: flex; align-items: center; justify-content: space-between; }
     .section-title .count { font-weight: 400; color: #aaa; font-size: 0.85rem; }
+
+    /* ── Article Grid ── */
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
-    .card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.07); transition: box-shadow .2s, transform .2s; display: flex; flex-direction: column; }
+
+    /* ── Pagination ── */
+    .pagination { display: flex; justify-content: center; align-items: center; gap: 0.5rem; margin-top: 2.5rem; flex-wrap: wrap; }
+    .page-btn { min-width: 40px; height: 40px; border: 2px solid var(--gray-light); background: #fff; border-radius: 10px; font-size: 0.9rem; font-weight: 600; color: var(--coffee-mid); cursor: pointer; transition: all .2s; display: flex; align-items: center; justify-content: center; padding: 0 0.5rem; }
+    .page-btn:hover { border-color: var(--coffee-light); color: var(--coffee-light); }
+    .page-btn.active { background: var(--coffee-dark); color: #fff; border-color: var(--coffee-dark); }
+    .page-btn:disabled { opacity: 0.35; cursor: default; }
+    .page-ellipsis { color: #aaa; font-size: 0.9rem; padding: 0 0.25rem; }
+
+    /* ── Article Card ── */
+    .card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.07); transition: box-shadow .2s, transform .2s; display: flex; flex-direction: column; position: relative; }
     .card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.13); transform: translateY(-2px); }
-    .card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+    .card-img-wrap { position: relative; overflow: hidden; }
+    .card-img-wrap img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; transition: transform .3s; }
+    .card:hover .card-img-wrap img { transform: scale(1.03); }
+    .ext-badge { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.65); color: #fff; font-size: 0.7rem; font-weight: 600; padding: 3px 8px; border-radius: 20px; display: flex; align-items: center; gap: 3px; backdrop-filter: blur(4px); }
     .card-body { padding: 1rem 1.1rem; flex: 1; display: flex; flex-direction: column; }
     .card .cat-tag { display: inline-block; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 0.2rem 0.6rem; border-radius: 20px; margin-bottom: 0.5rem; align-self: flex-start; }
     .cat-news { background: #FFF3E0; color: #E65100; }
@@ -58,14 +114,26 @@
     .card-body h2 { font-size: 1rem; font-weight: 600; line-height: 1.4; margin-bottom: 0.5rem; flex: 1; }
     .card-body h2 a { color: var(--coffee-dark); text-decoration: none; }
     .card-body h2 a:hover { color: var(--coffee-light); }
-    .card-meta { display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; color: #aaa; margin-top: auto; padding-top: 0.5rem; }
-    .card-meta time {}
+    /* Tag row on card */
+    .card-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 0.5rem; }
+    .card-tag { font-size: 0.68rem; background: var(--gray-light); color: #888; padding: 2px 7px; border-radius: 20px; }
+    .card-meta { display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; color: #aaa; margin-top: auto; padding-top: 0.5rem; border-top: 1px solid var(--gray-light); }
     .card-empty { grid-column: 1/-1; text-align: center; padding: 4rem 0; color: #bbb; }
     .card-empty .icon { font-size: 3rem; margin-bottom: 1rem; }
 
     /* ── Footer ── */
-    footer { background: var(--coffee-dark); color: rgba(255,255,255,0.5); text-align: center; padding: 2rem; font-size: 0.85rem; }
-    footer a { color: rgba(255,255,255,0.7); text-decoration: none; }
+    footer { background: var(--coffee-dark); color: rgba(255,255,255,0.5); padding: 3rem 1.5rem 2rem; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    @media (max-width: 640px) { .footer-inner { grid-template-columns: 1fr; } }
+    .footer-col h4 { color: rgba(255,255,255,0.8); font-size: 0.9rem; font-weight: 700; margin-bottom: 1rem; letter-spacing: 1px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 0.5rem; }
+    .footer-col a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.85rem; transition: color .2s; }
+    .footer-col a:hover { color: var(--coffee-light); }
+    .footer-bottom { max-width: 1200px; margin: 2rem auto 0; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; font-size: 0.8rem; }
+    .footer-bottom a { color: rgba(255,255,255,0.4); text-decoration: none; }
+    .footer-bottom a:hover { color: rgba(255,255,255,0.7); }
+    .footer-links { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
 
     /* ── Responsive ── */
     @media (max-width: 600px) {
@@ -81,6 +149,7 @@
 <header>
   <div class="header-inner">
     <a href="/" class="site-logo">☕ Daily <span>Coffee</span></a>
+    <span class="site-desc">Matrix 咖啡專欄｜E-E-A-T 認證內容</span>
   </div>
 </header>
 
@@ -110,10 +179,50 @@
     <span class="count" id="articleCount">—</span>
   </div>
   <div class="grid" id="articleGrid"></div>
+
+  <div class="pagination" id="pagination"></div>
 </main>
 
 <footer>
-  <p>© 2026 Daily Coffee · Matrix 咖啡專欄 · <a href="https://dailycoffee.matrix.com.tw">dailycoffee.matrix.com.tw</a></p>
+  <div class="footer-inner">
+    <div class="footer-col">
+      <h4>📂 分類</h4>
+      <ul>
+        <li><a href="/?cat=news">📢 最新消息</a></li>
+        <li><a href="/?cat=knowledge">📖 咖啡小學堂</a></li>
+        <li><a href="/?cat=events">🎪 咖啡活動</a></li>
+        <li><a href="/?cat=map">🗺️ 咖啡地圖</a></li>
+        <li><a href="/?cat=kol">⭐ 達人實測</a></li>
+        <li><a href="/?cat=cbtj">🧪 CBTJ</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>☕ 關於</h4>
+      <ul>
+        <li><a href="https://www.matrix.com.tw" target="_blank" rel="noopener">Matrix 矩陣世紀</a></li>
+        <li><a href="https://dailycoffee.matrix.com.tw" rel="noopener">Daily Coffee</a></li>
+        <li><a href="https://www.matrix.com.tw/tools" target="_blank" rel="noopener">免費工具</a></li>
+        <li><a href="https://www.matrix.com.tw" target="_blank" rel="noopener">官方網站</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>🔗 快速連結</h4>
+      <ul>
+        <li><a href="https://dailycoffee.matrix.com.tw/sitemap.xml">Sitemap</a></li>
+        <li><a href="https://dailycoffee.matrix.com.tw/robots.txt">robots.txt</a></li>
+        <li><a href="https://www.matrix.com.tw" target="_blank" rel="noopener">矩陣世紀官網</a></li>
+        <li><a href="https://gosakurajp.com" target="_blank" rel="noopener">🌸 櫻花出行</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-links">
+      <a href="https://dailycoffee.matrix.com.tw/sitemap.xml">Sitemap</a>
+      <a href="https://www.matrix.com.tw" target="_blank" rel="noopener">矩陣世紀</a>
+      <a href="https://gosakurajp.com" target="_blank" rel="noopener">櫻花出行</a>
+    </div>
+    <p>© 2026 Daily Coffee · Matrix 咖啡專欄 · <a href="https://dailycoffee.matrix.com.tw">dailycoffee.matrix.com.tw</a></p>
+  </div>
 </footer>
 
 <script>
@@ -121,15 +230,28 @@ const CAT_LABELS = {
   all: '全部文章', news: '📢 最新消息', knowledge: '📖 咖啡小學堂',
   events: '🎪 咖啡活動', map: '🗺️ 咖啡地圖', kol: '⭐ 達人實測', cbtj: '🧪 CBTJ'
 };
-
+const PAGE_SIZE = 9;
 let articles = [];
 let currentCat = 'all';
 let searchQuery = '';
+let currentPage = 1;
 
-// ── Load article list ──
+// ── Load ──
 (async () => {
   const res = await fetch('/article_list.json');
   articles = await res.json();
+
+  // Parse ?cat= from URL
+  const params = new URLSearchParams(location.search);
+  const urlCat = params.get('cat');
+  if (urlCat && CAT_LABELS[urlCat]) {
+    currentCat = urlCat;
+    document.querySelectorAll('.cat-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.cat === urlCat);
+    });
+    document.getElementById('sectionLabel').textContent = CAT_LABELS[urlCat];
+  }
+
   render();
 })();
 
@@ -139,7 +261,13 @@ document.getElementById('catNav').addEventListener('click', e => {
     document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
     e.target.classList.add('active');
     currentCat = e.target.dataset.cat;
+    currentPage = 1;
     document.getElementById('sectionLabel').textContent = CAT_LABELS[currentCat];
+    // Update URL
+    const url = new URL(location);
+    if (currentCat === 'all') { url.searchParams.delete('cat'); }
+    else { url.searchParams.set('cat', currentCat); }
+    history.replaceState(null, '', url);
     render();
   }
 });
@@ -147,6 +275,7 @@ document.getElementById('catNav').addEventListener('click', e => {
 // ── Search ──
 document.getElementById('searchInput').addEventListener('input', e => {
   searchQuery = e.target.value.trim().toLowerCase();
+  currentPage = 1;
   render();
 });
 
@@ -156,7 +285,7 @@ function getFiltered() {
     const q = searchQuery;
     const matchSearch = !q ||
       a.title.toLowerCase().includes(q) ||
-      (a.tags || '').toLowerCase().includes(q) ||
+      (Array.isArray(a.tags) ? a.tags.join(' ') : (a.tags || '')).toLowerCase().includes(q) ||
       (a.excerpt || '').toLowerCase().includes(q);
     return matchCat && matchSearch;
   });
@@ -167,36 +296,101 @@ function catLabel(cat) {
   return {news:'最新消息',knowledge:'咖啡小學堂',events:'咖啡活動',map:'咖啡地圖',kol:'達人實測',cbtj:'CBTJ'}[cat] || cat || '';
 }
 
+function isExternal(a) {
+  const url = a.url || a.link || '';
+  return url.startsWith('http') && !url.includes('dailycoffee.matrix.com.tw');
+}
+
+function getCardHref(a) {
+  if (isExternal(a)) return a.url || a.link || '#';
+  return '/article/' + encodeURIComponent(a.slug) + '/';
+}
+
+function getImgSrc(a) {
+  return a.hero || a.image || '';
+}
+
+function getTags(a) {
+  const tags = Array.isArray(a.tags) ? a.tags : [];
+  return tags.slice(0, 4);
+}
+
+function renderPagination(totalItems) {
+  const totalPages = Math.max(1, Math.ceil(totalItems / PAGE_SIZE));
+  const pag = document.getElementById('pagination');
+  if (totalPages <= 1) { pag.innerHTML = ''; return; }
+
+  let html = '';
+  html += `<button class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="goPage(${currentPage - 1})">‹</button>`;
+
+  const pages = [];
+  if (totalPages <= 7) {
+    for (let i = 1; i <= totalPages; i++) pages.push(i);
+  } else {
+    pages.push(1);
+    if (currentPage > 3) pages.push('...');
+    for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) pages.push(i);
+    if (currentPage < totalPages - 2) pages.push('...');
+    pages.push(totalPages);
+  }
+
+  for (const p of pages) {
+    if (p === '...') { html += '<span class="page-ellipsis">…</span>'; continue; }
+    html += `<button class="page-btn ${p === currentPage ? 'active' : ''}" onclick="goPage(${p})">${p}</button>`;
+  }
+
+  html += `<button class="page-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="goPage(${currentPage + 1})">›</button>`;
+  pag.innerHTML = html;
+}
+
+function goPage(n) {
+  currentPage = n;
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function render() {
   const grid = document.getElementById('articleGrid');
   const filtered = getFiltered();
   document.getElementById('articleCount').textContent = filtered.length + ' 篇';
 
   const countEl = document.getElementById('search-results-count');
-  if (searchQuery) {
-    countEl.textContent = searchQuery ? `找到 ${filtered.length} 篇「${searchQuery}」相關文章` : '';
-  } else {
-    countEl.textContent = '';
-  }
+  countEl.textContent = searchQuery ? `找到 ${filtered.length} 篇「${searchQuery}」相關文章` : '';
+
+  const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+  renderPagination(filtered.length);
 
   if (filtered.length === 0) {
     grid.innerHTML = `<div class="card-empty"><div class="icon">☕</div><p>這個分類還沒有文章</p><p style="font-size:0.85rem;color:#ccc;margin-top:0.5rem;">敬請期待即將推出的內容</p></div>`;
     return;
   }
 
-  grid.innerHTML = filtered.slice(0, 50).map(a => `
-    <article class="card">
-      <a href="${a.url || '/article/' + encodeURIComponent(a.slug)}">
-        <img src="${a.image}" alt="${a.title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=70'">
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const pageItems = filtered.slice(start, start + PAGE_SIZE);
+
+  grid.innerHTML = pageItems.map(a => {
+    const href = getCardHref(a);
+    const ext = isExternal(a);
+    const img = getImgSrc(a);
+    const tags = getTags(a);
+    const tagsHtml = tags.map(t => `<span class="card-tag">${t}</span>`).join('');
+    return `<article class="card">
+      <a href="${href}" ${ext ? 'target="_blank" rel="noopener noreferrer"' : ''}>
+        <div class="card-img-wrap">
+          <img src="${img}" alt="${a.title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=70'">
+          ${ext ? '<span class="ext-badge">↗ 外部</span>' : ''}
+        </div>
       </a>
       <div class="card-body">
         ${a.category ? `<span class="cat-tag ${catClass(a.category)}">${catLabel(a.category)}</span>` : ''}
-        <h2><a href="${a.url || '/article/' + encodeURIComponent(a.slug)}">${a.title}</a></h2>
+        <h2><a href="${href}" ${ext ? 'target="_blank" rel="noopener noreferrer"' : ''}>${a.title}</a></h2>
+        ${tagsHtml ? `<div class="card-tags">${tagsHtml}</div>` : ''}
         <div class="card-meta">
           <time>${a.date || ''}</time>
         </div>
       </div>
-    </article>`).join('');
+    </article>`;
+  }).join('');
 }
 </script>
 </body>
