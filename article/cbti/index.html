@@ -177,7 +177,7 @@
     <p class="intro-desc">20道靈魂拷問 · 4個維度 · 16種人格<br><small>測驗結果可能引發咖啡信仰戰爭</small></p>
     <div class="dim-grid" id="dim-grid"></div>
     <button class="start-btn" id="start-btn">開始測驗</button>
-    <div style="text-align:center;margin-top:24px;font-size:9px;color:rgba(212,165,116,.25);letter-spacing:2px;">v8</div>
+    <div style="text-align:center;margin-top:24px;font-size:9px;color:rgba(212,165,116,.25);letter-spacing:2px;">v9</div>
   </div>
 
   <!-- ══ QUIZ ══ -->
@@ -265,8 +265,23 @@
       <button id="copy-btn" style="width:100%;padding:10px;margin-top:4px;background:transparent;border:1px solid rgba(212,165,116,.15);border-radius:10px;cursor:pointer;font-size:12px;color:rgba(245,230,211,.55);font-family:'Noto Sans TC',sans-serif;">🔗 複製文字與連結</button>
       <button class="restart-btn" id="restart-btn" style="margin-top:16px;">再測一次</button>
     </div>
-    <div class="result-footer">
-      <div class="result-footer-text">CBTI — Coffee Beverage Type Indicator · v6</div>
+    <!-- 官網 + 社群連結 -->
+    <div style="display:flex;gap:8px;margin-bottom:16px;">
+      <a href="https://www.matrix.com.tw/" target="_blank" rel="noopener" style="flex:1;padding:14px 12px;text-align:center;background:rgba(212,165,116,.1);border:1px solid rgba(212,165,116,.2);border-radius:12px;font-size:13px;font-weight:600;color:#D4A574;text-decoration:none;">🌐 官網看更多</a>
+      <a href="https://www.threads.com/@matrix.tw" target="_blank" rel="noopener" style="flex:1;padding:14px 12px;text-align:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;font-size:13px;font-weight:600;color:rgba(245,230,211,.5);text-decoration:none;">📱 追蹤 Threads</a>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:24px;">
+      <a href="https://www.instagram.com/matrix.tw/" target="_blank" rel="noopener" style="flex:1;padding:14px 12px;text-align:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;font-size:13px;font-weight:600;color:rgba(245,230,211,.5);text-decoration:none;">📸 追蹤 Instagram</a>
+    </div>
+
+    <!-- 全部 16 種 CBTI 人格 -->
+    <div style="background:rgba(212,165,116,.03);border:1px solid rgba(212,165,116,.1);border-radius:14px;padding:18px 14px;margin-bottom:16px;">
+      <div style="font-size:10px;letter-spacing:3px;color:rgba(212,165,116,.35);margin-bottom:12px;text-align:center;">全部 16 種 CBTI 人格</div>
+      <div id="all-types-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;"></div>
+    </div>
+
+    <div style="text-align:center;margin-top:20px;font-size:10px;color:rgba(212,165,116,.15);line-height:1.6;">
+      CBTI 純屬娛樂，請勿當真<br>© 2026 Matrix · dailycoffee.matrix.com.tw
     </div>
   </div>
 
@@ -585,6 +600,19 @@ function renderResult(resultData, options = {}) {
         <div class="score-fill-b" style="width:${s.bPercent}%;background:linear-gradient(90deg,${DIMENSIONS[i].colors[1]},${DIMENSIONS[i].colors[1]});animation-delay:${.2+i*.15}s"></div>
       </div>
     </div>`).join('');
+
+  // 全部 16 種人格 grid
+  const currentType = result.type;
+  document.getElementById('all-types-grid').innerHTML = Object.entries(TYPE_RESULTS).map(([key, t]) => {
+    const isCurrent = key === currentType;
+    const bg = isCurrent ? 'rgba(212,165,116,.12)' : 'rgba(255,255,255,.015)';
+    const border = isCurrent ? '1px solid rgba(212,165,116,.3)' : '1px solid rgba(212,165,116,.05)';
+    const color = isCurrent ? '#D4A574' : 'rgba(245,230,211,.4)';
+    const weight = isCurrent ? 700 : 400;
+    return `<div style="padding:8px 10px;border-radius:9px;font-size:12.5px;display:flex;align-items:center;gap:7px;background:${bg};border:${border};">` +
+      `<span style="font-size:16px;">${t.emoji}</span>` +
+      `<span style="color:${color};font-weight:${weight};">${key} ${t.title}</span></div>`;
+  }).join('');
 }
 
 // ═══ EVENT HANDLERS ═══
@@ -820,7 +848,18 @@ async function shareVia(mode) {
   const type = window._resultType || 'CBTI';
   const title = window._resultTitle || '';
   const url = shareUrlFor(type);
-  const shareText = '我是 #' + type + '「' + title + '」！20 道題目測出你的咖啡人格，你是哪一型？';
+  const desc = window._resultDesc || '';
+  const best = window._resultBest;
+  const worst = window._resultWorst;
+  const emoji = (TYPE_RESULTS[type] || {}).emoji || '☕';
+  const bestLine = best ? '\n最佳咖啡伴：' + best.type.emoji + ' ' + best.type.title : '';
+  const worstLine = worst ? '\n要當心：' + worst.type.emoji + ' ' + worst.type.title : '';
+  const subtitle = (TYPE_RESULTS[type] || {}).subtitle || '';
+  const shareText = '我的 CBTI 咖啡人格是「' + title + '」' + emoji +
+    '\n' + subtitle +
+    bestLine + worstLine +
+    '\n\n你是哪種？來測 👉 ' + url +
+    '\n\n#CBTI測驗 #咖啡人格 #Matrix';
 
   let img;
   try { img = await ensureShareImage(); }
@@ -844,8 +883,8 @@ async function shareVia(mode) {
 
   // 其他三種（share / line / threads）都走 navigator.share({files})，iOS 會跳 IG / Threads / LINE / Save 選擇器
   const payload = file
-    ? { files: [file], text: shareText + '\n' + url, title }
-    : { text: shareText + '\n' + url, title, url };
+    ? { files: [file], text: shareText, title }
+    : { text: shareText, title, url };
 
   if (navigator.share && (!file || (navigator.canShare && navigator.canShare({ files: [file] })))) {
     try { await navigator.share(payload); return; }
@@ -856,12 +895,12 @@ async function shareVia(mode) {
   if (mode === 'line') {
     window.open('https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(shareText), '_blank');
   } else if (mode === 'threads') {
-    window.open('https://www.threads.net/intent/post?text=' + encodeURIComponent(shareText + ' ' + url), '_blank');
+    window.open('https://www.threads.net/intent/post?text=' + encodeURIComponent(shareText), '_blank');
   } else if (mode === 'instagram') {
-    try { await navigator.clipboard.writeText(shareText + '\n' + url); alert('文字已複製！IG 沒有網頁分享，請打開 Instagram App 貼上並附上剛下載的結果圖'); }
+    try { await navigator.clipboard.writeText(shareText); alert('文字已複製！IG 沒有網頁分享，請打開 Instagram App 貼上並附上剛下載的結果圖'); }
     catch (e) {}
   } else {
-    try { await navigator.clipboard.writeText(shareText + '\n' + url); alert('分享文字已複製，可直接貼到想發的地方'); }
+    try { await navigator.clipboard.writeText(shareText); alert('分享文字已複製，可直接貼到想發的地方'); }
     catch (e) {}
   }
 }
@@ -876,16 +915,24 @@ document.getElementById('line-share-btn').addEventListener('click', () => shareV
 document.getElementById('copy-btn').addEventListener('click', async () => {
   const type = window._resultType || '';
   const title = window._resultTitle || '';
-  const match = window._resultMatch || '';
-  const text = '☕ 我的咖啡人格是 #【' + type + '】「' + title + '」' +
-    '\n📋 經典款：' + match +
-    '\n💡 測驗：https://dailycoffee.matrix.com.tw/article/cbti/';
+  const emoji = (TYPE_RESULTS[type] || {}).emoji || '☕';
+  const subtitle = (TYPE_RESULTS[type] || {}).subtitle || '';
+  const best = window._resultBest;
+  const worst = window._resultWorst;
+  const bestLine = best ? '\n最佳咖啡伴：' + best.type.emoji + ' ' + best.type.title : '';
+  const worstLine = worst ? '\n要當心：' + worst.type.emoji + ' ' + worst.type.title : '';
+  const url = shareUrlFor(type);
+  const text = '我的 CBTI 咖啡人格是「' + title + '」' + emoji +
+    '\n' + subtitle +
+    bestLine + worstLine +
+    '\n\n你是哪種？來測 👉 ' + url +
+    '\n\n#CBTI測驗 #咖啡人格 #Matrix';
   try {
     await navigator.clipboard.writeText(text);
     const btn = document.getElementById('copy-btn');
-    const orig = btn.innerHTML;
-    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> 已複製！';
-    setTimeout(() => btn.innerHTML = orig, 2000);
+    const orig = btn.textContent;
+    btn.textContent = '✅ 已複製！';
+    setTimeout(() => btn.textContent = orig, 2000);
   } catch (e) {
     // fallback
   }
