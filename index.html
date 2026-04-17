@@ -58,14 +58,36 @@
     .card-body h2 { font-size: 1rem; font-weight: 600; line-height: 1.4; margin-bottom: 0.5rem; flex: 1; }
     .card-body h2 a { color: var(--coffee-dark); text-decoration: none; }
     .card-body h2 a:hover { color: var(--coffee-light); }
+    .card-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0.5rem 0 0.25rem; }
+    .card-tags .kw { display: inline-block; font-size: 0.72rem; color: var(--coffee-mid); background: var(--coffee-cream); padding: 0.15rem 0.55rem; border-radius: 12px; line-height: 1.4; }
+    /* ── Pagination ── */
+    .pager { display: flex; justify-content: center; align-items: center; gap: 0.3rem; margin-top: 2.5rem; flex-wrap: wrap; }
+    .pager button { padding: 0.45rem 0.8rem; border: 1px solid var(--gray-light); background: #fff; color: var(--coffee-mid); border-radius: 8px; cursor: pointer; font-size: 0.9rem; min-width: 38px; transition: all .2s; font-weight: 500; }
+    .pager button:hover:not(:disabled) { background: var(--coffee-cream); border-color: var(--coffee-light); }
+    .pager button.active { background: var(--coffee-mid); color: #fff; border-color: var(--coffee-mid); }
+    .pager button:disabled { opacity: 0.4; cursor: not-allowed; }
+    .pager .ellipsis { padding: 0.4rem 0.3rem; color: #aaa; font-size: 0.9rem; }
+    .pager-info { text-align: center; color: #aaa; font-size: 0.8rem; margin-top: 0.75rem; }
     .card-meta { display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; color: #aaa; margin-top: auto; padding-top: 0.5rem; }
     .card-meta time {}
+    .card-meta .ext { font-size: 0.72rem; color: #bbb; }
     .card-empty { grid-column: 1/-1; text-align: center; padding: 4rem 0; color: #bbb; }
     .card-empty .icon { font-size: 3rem; margin-bottom: 1rem; }
 
     /* ── Footer ── */
-    footer { background: var(--coffee-dark); color: rgba(255,255,255,0.5); text-align: center; padding: 2rem; font-size: 0.85rem; }
-    footer a { color: rgba(255,255,255,0.7); text-decoration: none; }
+    footer { background: var(--coffee-dark); color: rgba(255,255,255,0.6); font-size: 0.88rem; margin-top: 3rem; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; padding: 2.5rem 1.5rem 1.5rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .footer-col h4 { color: var(--coffee-light); font-size: 0.95rem; font-weight: 600; margin-bottom: 0.75rem; letter-spacing: 0.5px; }
+    .footer-col ul { list-style: none; padding: 0; margin: 0; }
+    .footer-col li { margin-bottom: 0.5rem; }
+    .footer-col a { color: rgba(255,255,255,0.7); text-decoration: none; transition: color .2s; }
+    .footer-col a:hover { color: var(--coffee-light); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding: 1.2rem 1.5rem 1.5rem; text-align: center; font-size: 0.8rem; color: rgba(255,255,255,0.5); }
+    .footer-bottom a { color: rgba(255,255,255,0.6); text-decoration: none; }
+    .footer-bottom a:hover { color: var(--coffee-light); }
+    .footer-meta { margin-top: 0.4rem; font-size: 0.72rem; color: rgba(255,255,255,0.35); }
+    .footer-meta a { color: rgba(255,255,255,0.4); margin: 0 0.4rem; }
+    @media (max-width: 640px) { .footer-inner { grid-template-columns: 1fr; gap: 1.5rem; } }
 
     /* ── Responsive ── */
     @media (max-width: 600px) {
@@ -110,10 +132,44 @@
     <span class="count" id="articleCount">—</span>
   </div>
   <div class="grid" id="articleGrid"></div>
+  <nav class="pager" id="pager" aria-label="分頁導航"></nav>
+  <div class="pager-info" id="pagerInfo"></div>
 </main>
 
 <footer>
-  <p>© 2026 Daily Coffee · Matrix 咖啡專欄 · <a href="https://dailycoffee.matrix.com.tw">dailycoffee.matrix.com.tw</a></p>
+  <div class="footer-inner">
+    <div class="footer-col">
+      <h4>分類</h4>
+      <ul>
+        <li><a href="/?cat=news">📢 最新消息</a></li>
+        <li><a href="/?cat=knowledge">📖 咖啡小學堂</a></li>
+        <li><a href="/?cat=events">🎪 咖啡活動</a></li>
+        <li><a href="/?cat=map">🗺️ 咖啡地圖</a></li>
+        <li><a href="/?cat=kol">⭐ 達人實測</a></li>
+        <li><a href="/?cat=cbtj">🧪 CBTJ</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>關於</h4>
+      <ul>
+        <li><a href="https://www.matrix.com.tw/about-us" target="_blank" rel="noopener">關於我們</a></li>
+        <li><a href="https://www.matrix.com.tw/contact" target="_blank" rel="noopener">聯絡我們</a></li>
+        <li><a href="https://www.matrix.com.tw" target="_blank" rel="noopener">Matrix 官網</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>社群</h4>
+      <ul>
+        <li><a href="https://www.matrix.com.tw/threads" target="_blank" rel="noopener">Threads</a></li>
+        <li><a href="https://www.matrix.com.tw/instagram" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="https://www.matrix.com.tw/facebook" target="_blank" rel="noopener">Facebook</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Daily Coffee · Matrix 咖啡專欄 · <a href="https://dailycoffee.matrix.com.tw">dailycoffee.matrix.com.tw</a></p>
+    <p class="footer-meta"><a href="/sitemap.xml">sitemap</a>·<a href="/robots.txt">robots</a></p>
+  </div>
 </footer>
 
 <script>
@@ -122,12 +178,24 @@ const CAT_LABELS = {
   events: '🎪 咖啡活動', map: '🗺️ 咖啡地圖', kol: '⭐ 達人實測', cbtj: '🧪 CBTJ'
 };
 
+const PAGE_SIZE = 9;
 let articles = [];
 let currentCat = 'all';
 let searchQuery = '';
+let currentPage = 1;
 
 // ── Load article list ──
 (async () => {
+  // Apply ?cat= URL parameter on load
+  const params = new URLSearchParams(location.search);
+  const catParam = params.get('cat');
+  if (catParam && CAT_LABELS[catParam]) {
+    currentCat = catParam;
+    document.querySelectorAll('.cat-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.cat === catParam);
+    });
+    document.getElementById('sectionLabel').textContent = CAT_LABELS[catParam];
+  }
   const res = await fetch('/article_list.json');
   articles = await res.json();
   render();
@@ -140,6 +208,7 @@ document.getElementById('catNav').addEventListener('click', e => {
     e.target.classList.add('active');
     currentCat = e.target.dataset.cat;
     document.getElementById('sectionLabel').textContent = CAT_LABELS[currentCat];
+    currentPage = 1;
     render();
   }
 });
@@ -147,8 +216,24 @@ document.getElementById('catNav').addEventListener('click', e => {
 // ── Search ──
 document.getElementById('searchInput').addEventListener('input', e => {
   searchQuery = e.target.value.trim().toLowerCase();
+  currentPage = 1;
   render();
 });
+
+// ── Pagination click ──
+document.getElementById('pager').addEventListener('click', e => {
+  const btn = e.target.closest('button[data-page]');
+  if (!btn || btn.disabled) return;
+  currentPage = Number(btn.dataset.page);
+  render();
+  document.querySelector('main').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+function tagsText(t) {
+  if (!t) return '';
+  if (Array.isArray(t)) return t.join(' ');
+  return String(t);
+}
 
 function getFiltered() {
   return articles.filter(a => {
@@ -156,8 +241,8 @@ function getFiltered() {
     const q = searchQuery;
     const matchSearch = !q ||
       a.title.toLowerCase().includes(q) ||
-      (a.tags || '').toLowerCase().includes(q) ||
-      (a.excerpt || '').toLowerCase().includes(q);
+      tagsText(a.tags).toLowerCase().includes(q) ||
+      (a.description || a.excerpt || '').toLowerCase().includes(q);
     return matchCat && matchSearch;
   });
 }
@@ -165,6 +250,32 @@ function getFiltered() {
 function catClass(cat) { return 'cat-' + (cat || 'knowledge'); }
 function catLabel(cat) {
   return {news:'最新消息',knowledge:'咖啡小學堂',events:'咖啡活動',map:'咖啡地圖',kol:'達人實測',cbtj:'CBTJ'}[cat] || cat || '';
+}
+
+function renderPager(totalPages) {
+  const pager = document.getElementById('pager');
+  const info = document.getElementById('pagerInfo');
+  if (totalPages <= 1) {
+    pager.innerHTML = '';
+    info.textContent = '';
+    return;
+  }
+  const p = currentPage;
+  const btn = (n, label, opts = {}) => `<button data-page="${n}" ${opts.disabled ? 'disabled' : ''} ${opts.active ? 'class="active"' : ''} aria-label="${label}">${opts.text || n}</button>`;
+  const parts = [];
+  parts.push(btn(p - 1, '上一頁', { disabled: p <= 1, text: '‹' }));
+  // Generate page numbers with ellipsis
+  const pages = new Set([1, totalPages, p, p - 1, p + 1]);
+  const sorted = [...pages].filter(n => n >= 1 && n <= totalPages).sort((a, b) => a - b);
+  let prev = 0;
+  for (const n of sorted) {
+    if (n - prev > 1) parts.push('<span class="ellipsis">…</span>');
+    parts.push(btn(n, `第 ${n} 頁`, { active: n === p }));
+    prev = n;
+  }
+  parts.push(btn(p + 1, '下一頁', { disabled: p >= totalPages, text: '›' }));
+  pager.innerHTML = parts.join('');
+  info.textContent = `第 ${p} / ${totalPages} 頁`;
 }
 
 function render() {
@@ -181,22 +292,41 @@ function render() {
 
   if (filtered.length === 0) {
     grid.innerHTML = `<div class="card-empty"><div class="icon">☕</div><p>這個分類還沒有文章</p><p style="font-size:0.85rem;color:#ccc;margin-top:0.5rem;">敬請期待即將推出的內容</p></div>`;
+    document.getElementById('pager').innerHTML = '';
+    document.getElementById('pagerInfo').textContent = '';
     return;
   }
 
-  grid.innerHTML = filtered.slice(0, 50).map(a => `
+  const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+  if (currentPage > totalPages) currentPage = totalPages;
+  if (currentPage < 1) currentPage = 1;
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const pageItems = filtered.slice(start, start + PAGE_SIZE);
+
+  grid.innerHTML = pageItems.map(a => {
+    const href = a.url || '/article/' + encodeURIComponent(a.slug);
+    const isExternal = a.source === 'external' || /^https?:\/\//.test(href);
+    const linkAttrs = isExternal ? 'target="_blank" rel="noopener noreferrer"' : '';
+    const tagList = Array.isArray(a.tags) ? a.tags : (a.tags ? String(a.tags).split(',') : []);
+    const tagsHtml = tagList.slice(0, 4).map(t => `<span class="kw">${String(t).replace(/^"|"$/g, '').trim()}</span>`).join('');
+    return `
     <article class="card">
-      <a href="${a.url || '/article/' + encodeURIComponent(a.slug)}">
+      <a href="${href}" ${linkAttrs}>
         <img src="${a.image}" alt="${a.title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=70'">
       </a>
       <div class="card-body">
         ${a.category ? `<span class="cat-tag ${catClass(a.category)}">${catLabel(a.category)}</span>` : ''}
-        <h2><a href="${a.url || '/article/' + encodeURIComponent(a.slug)}">${a.title}</a></h2>
+        <h2><a href="${href}" ${linkAttrs}>${a.title}</a></h2>
+        ${tagsHtml ? `<div class="card-tags">${tagsHtml}</div>` : ''}
         <div class="card-meta">
           <time>${a.date || ''}</time>
+          ${isExternal ? '<span class="ext">↗ 外部連結</span>' : ''}
         </div>
       </div>
-    </article>`).join('');
+    </article>`;
+  }).join('');
+
+  renderPager(totalPages);
 }
 </script>
 </body>

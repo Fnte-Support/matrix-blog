@@ -1,669 +1,2524 @@
 [
   {
-    "slug": "functional-coffee",
-    "title": "功能性咖啡是什麼？2026 年最火爆的咖啡趨勢全面解析",
-    "category": "knowledge",
-    "status": "published",
+    "title": "你是什麼樣的咖啡控？CBTI 咖啡人格測驗",
+    "slug": "cbti",
+    "category": "cbtj",
     "date": "2026-04-16",
-    "hero": "https://dailycoffee.matrix.com.tw/article/functional-coffee/hero.jpg",
-    "excerpt": "添加蛋白質、維生素、MCT、益生菌……咖啡不再只是提神飲品。帶你認識 2026 年最熱門的功能性咖啡浪潮。",
+    "image": "https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=1400&q=80",
+    "description": "",
     "tags": [
-      "功能性咖啡",
-      "2026趨勢",
-      "健康咖啡",
-      "咖啡創新"
-    ]
+      "CBTI",
+      "咖啡人格",
+      "測驗",
+      "16種人格",
+      "咖啡類型"
+    ],
+    "url": "/article/cbti/",
+    "source": "local"
   },
   {
-    "slug": "coffee-stopover",
     "title": "COFFEE STOPOVER — 台中自家烘焙精品咖啡",
+    "slug": "coffee-stopover",
     "category": "map",
-    "status": "published",
     "date": "2026-04-16",
-    "hero": "https://dailycoffee.matrix.com.tw/article/coffee-stopover/hero.jpg",
-    "excerpt": "2015年成立的台中自家烘焙精品咖啡，兩間分店風格各異，手衝與義式各有千秋。",
+    "image": "https://dailycoffee.matrix.com.tw/article/coffee-stopover/hero.jpg",
+    "description": "2015年成立的台中自家烘焙精品咖啡，兩間分店風格各異，手衝與義式各有千秋。",
     "tags": [
       "咖啡地圖",
       "台中",
       "自家烘焙",
       "精品咖啡"
-    ]
+    ],
+    "url": "/article/coffee-stopover/",
+    "source": "local"
   },
   {
-    "title": "你是什麼樣的咖啡控？CBTI 咖啡人格測驗",
-    "image": "https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=1400&q=80",
-    "slug": "cbti",
+    "title": "功能性咖啡是什麼？2026 年最火爆的咖啡趨勢全面解析",
+    "slug": "functional-coffee",
+    "category": "knowledge",
     "date": "2026-04-16",
-    "category": "cbtj",
-    "url": "/article/cbti/",
-    "tags": "\"CBTI\",\"咖啡人格\",\"測驗\",\"16種人格\",\"咖啡類型\""
+    "image": "https://dailycoffee.matrix.com.tw/article/functional-coffee/hero.jpg",
+    "description": "添加蛋白質、維生素、MCT、益生菌……咖啡不再只是提神飲品。帶你認識 2026 年最熱門的功能性咖啡浪潮。",
+    "tags": [
+      "功能性咖啡",
+      "2026趨勢",
+      "健康咖啡",
+      "咖啡創新"
+    ],
+    "url": "/article/functional-coffee/",
+    "source": "local"
   },
   {
     "title": "興波咖啡 Simple Kaffa — 台北冠軍咖啡店推薦",
-    "image": "https://dailycoffee.matrix.com.tw/article/simple-kaffa/hero.jpg",
     "slug": "simple-kaffa",
-    "date": "2026-04-16",
     "category": "map",
+    "date": "2026-04-16",
+    "image": "https://dailycoffee.matrix.com.tw/article/simple-kaffa/hero.jpg",
+    "description": "",
+    "tags": [
+      "興波咖啡",
+      "Simple Kaffa",
+      "吳則霖",
+      "台北咖啡",
+      "手沖咖啡",
+      "冠軍咖啡",
+      "東區咖啡"
+    ],
     "url": "/article/simple-kaffa/",
-    "tags": "\"興波咖啡\",\"Simple Kaffa\",\"吳則霖\",\"台北咖啡\",\"手沖咖啡\",\"冠軍咖啡\",\"東區咖啡\"",
-    "og_image": "https://dailycoffee.matrix.com.tw/article/simple-kaffa/hero.jpg"
-  },
-  {
-    "title": "水質如何影響咖啡風味？軟水、硬水、TDS 完整解析",
-    "image": "https://dailycoffee.matrix.com.tw/assets/water-quality-coffee-flavor-cover.jpg",
-    "link": "https://dailycoffee.matrix.com.tw/article/water-quality-coffee-flavor",
-    "slug": "water-quality-coffee-flavor",
-    "date": "2026-04-15",
-    "tags": "\"水質\",\"TDS\",\"手沖咖啡\",\"咖啡知識\",\"SCAA\",\"軟水\",\"硬水\"",
-    "category": "knowledge",
-    "url": "https://dailycoffee.matrix.com.tw/article/water-quality-coffee-flavor"
+    "source": "local"
   },
   {
     "title": "衣索比亞咖啡：站在咖啡發源地，品一杯千年風土",
-    "image": "https://hailuo-image-algeng-data.oss-cn-wulanchabu.aliyuncs.com/image_inference_output%2Ftalkie%2Fprod%2Fimg%2F2026-04-16%2F381ffc90-d7ba-4b8b-a20c-0773db045193_aigc.jpeg?Expires=1776356310&OSSAccessKeyId=LTAI5tB2SwrRwAtD23etQUbC&Signature=PPlpuKrbLHa8V77nA%2F%2BKxCb%2Bqoc%3D",
     "slug": "ethiopia-coffee-origin",
-    "date": "2026-04-15",
     "category": "knowledge",
+    "date": "2026-04-15",
+    "image": "https://hailuo-image-algeng-data.oss-cn-wulanchabu.aliyuncs.com/image_inference_output%2Ftalkie%2Fprod%2Fimg%2F2026-04-16%2F381ffc90-d7ba-4b8b-a20c-0773db045193_aigc.jpeg?Expires=1776356310&OSSAccessKeyId=LTAI5tB2SwrRwAtD23etQUbC&Signature=PPlpuKrbLHa8V77nA%2F%2BKxCb%2Bqoc%3D",
+    "description": "",
+    "tags": [
+      "衣索比亞",
+      "Yirgacheffe",
+      "日曬處理",
+      "水洗處理",
+      "精品咖啡",
+      "咖啡產區"
+    ],
     "url": "/article/ethiopia-coffee-origin/",
-    "tags": "\"衣索比亞\",\"Yirgacheffe\",\"日曬處理\",\"水洗處理\",\"精品咖啡\",\"咖啡產區\""
+    "source": "local"
   },
   {
     "title": "手沖咖啡黃金比例：V60 研磨、粉水比、溫度完整攻略",
-    "image": "https://hailuo-image-algeng-data.oss-cn-wulanchabu.aliyuncs.com/image_inference_output%2Ftalkie%2Fprod%2Fimg%2F2026-04-16%2Ffc3ed2ef-4bdf-4e1b-b212-c9d70a0a8edb_aigc.jpeg?Expires=1776356438&OSSAccessKeyId=LTAI5tB2SwrRwAtD23etQUbC&Signature=XGVZn4M6rg42jufZFJqjSc7i49A%3D",
     "slug": "v60-brewing-ratio",
-    "date": "2026-04-15",
     "category": "knowledge",
+    "date": "2026-04-15",
+    "image": "https://hailuo-image-algeng-data.oss-cn-wulanchabu.aliyuncs.com/image_inference_output%2Ftalkie%2Fprod%2Fimg%2F2026-04-16%2Ffc3ed2ef-4bdf-4e1b-b212-c9d70a0a8edb_aigc.jpeg?Expires=1776356438&OSSAccessKeyId=LTAI5tB2SwrRwAtD23etQUbC&Signature=XGVZn4M6rg42jufZFJqjSc7i49A%3D",
+    "description": "",
+    "tags": [
+      "V60",
+      "手沖",
+      "粉水比",
+      "研磨",
+      "咖啡教學",
+      "基礎知識"
+    ],
     "url": "/article/v60-brewing-ratio/",
-    "tags": "\"V60\",\"手沖\",\"粉水比\",\"研磨\",\"咖啡教學\",\"基礎知識\""
+    "source": "local"
+  },
+  {
+    "title": "水質如何影響咖啡風味？軟水、硬水、TDS 完整解析",
+    "slug": "water-quality-coffee-flavor",
+    "category": "knowledge",
+    "date": "2026-04-15",
+    "image": "https://dailycoffee.matrix.com.tw/assets/water-quality-coffee-flavor-cover.jpg",
+    "description": "",
+    "tags": [
+      "水質",
+      "TDS",
+      "手沖咖啡",
+      "咖啡知識",
+      "SCAA",
+      "軟水",
+      "硬水"
+    ],
+    "url": "/article/water-quality-coffee-flavor/",
+    "source": "local"
   },
   {
     "title": "舊秤換新秤｜Matrix M2 PRO 咖啡電子秤專屬折抵優惠",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/ZOaL8DPWY6LRe0vbl92ExyG0/original.jpg",
-    "link": "https://www.matrix.com.tw/%E8%88%8A%E7%A7%A4%E6%8F%9B%E6%96%B0%E7%A7%A4-TradeIn-Matrix-M2PRO-Coffee-Scale",
-    "slug": "%E8%88%8A%E7%A7%A4%E6%8F%9B%E6%96%B0%E7%A7%A4-TradeIn-Matrix-M2PRO-Coffee-Scale",
+    "slug": "舊秤換新秤-tradein-matrix-m2pro-coffee-scale",
+    "category": "news",
     "date": "2026-04-14",
-    "tags": "\"Matrix\",\"台中咖啡展\",\"咖啡展\",\"專屬優惠\",\"M2Pro\",\"2026\"",
-    "category": "news",
-    "url": "https://www.matrix.com.tw/%E8%88%8A%E7%A7%A4%E6%8F%9B%E6%96%B0%E7%A7%A4-TradeIn-Matrix-M2PRO-Coffee-Scale"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/ZOaL8DPWY6LRe0vbl92ExyG0/original-2.min.jpg",
+    "description": "你以為是技術問題，其實是工具問題，同一支豆子，有人沖出花香，有人只喝到苦味。差別不在手法，而在「你看不到的數據誤差」。持任一品牌咖啡秤購買憑證現場選購 MATRIX 電子秤享 NT$200 折抵。",
+    "tags": [
+      "Matrix",
+      "台中咖啡展",
+      "咖啡展",
+      "專屬優惠",
+      "M2Pro",
+      "2026"
+    ],
+    "url": "https://www.matrix.com.tw/%E8%88%8A%E7%A7%A4%E6%8F%9B%E6%96%B0%E7%A7%A4-TradeIn-Matrix-M2PRO-Coffee-Scale",
+    "source": "external"
   },
   {
-    "title": "2026 台中國際精品咖啡展｜中台灣咖啡盛會，Matrix M2 PRO 亮相展出＆社群抽獎活動熱烈進行中",
-    "image": " https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/a1A4ovQm3KXPE4A1lDxz6OWE/original.jpg",
-    "link": " https://www.matrix.com.tw/2025-Taichung-International-Specialty-Coffee",
-    "slug": " /2025-Taichung-International-Specialty-Coffee",
+    "title": "2026 台中國際精品咖啡展（2025場次）",
+    "slug": "2025-taichung-international-specialty-coffee",
+    "category": "news",
     "date": "2026-04-10",
-    "tags": "\"M2PRO\",\"台中國際精品咖啡展\",\"Matrix攤位\",\"沖煮體驗\",\"體驗送禮\",\"電子秤\"",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/W4d5DeM03xj570o1NpOKbqkB/1200x-2.min.jpg",
+    "description": "2026 台中國際精品咖啡展登場！Matrix帶來 M2 PRO AI 大師咖啡電子秤，現場體驗、限定優惠、社群抽獎活動熱烈進行中。展覽交通資訊與參觀方式一次掌握。",
+    "tags": [
+      "M2PRO",
+      "台中國際精品咖啡展",
+      "Matrix攤位",
+      "沖煮體驗",
+      "體驗送禮",
+      "電子秤"
+    ],
+    "url": "https://www.matrix.com.tw/2025-Taichung-International-Specialty-Coffee",
+    "source": "external"
+  },
+  {
+    "title": "2026 台中國際精品咖啡展",
+    "slug": "2026-taichung-international-specialty-coffee",
     "category": "news",
-    "url": "/article/ /2025-Taichung-International-Specialty-Coffee/"
-  },
-  {
-    "title": "2026 台中國際精品咖啡展｜春秋兩季・臺中國際會展中心・40＋精品咖啡品牌齊聚",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/Kyg9vWx8NyKy8e703GJP14Zm/original.jpg",
-    "link": "https://www.matrix.com.tw/2026-Taichung-International-Specialty-Coffee",
-    "slug": "2026-Taichung-International-Specialty-Coffee",
     "date": "2026-04-09",
-    "tags": "\"台中咖啡展\",\"台灣咖啡活動\",\"咖啡展\",\"攻略整理\",\"一次看\",\"2026\"",
-    "category": "events",
-    "url": "https://www.matrix.com.tw/2026-Taichung-International-Specialty-Coffee"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/zXOMxVeg3Vbvvdrq38aGjDkP/original-2.min.png",
+    "description": "2026 台中咖啡展於 4/24-27 在臺中國際會展中心登場！40+ 精品咖啡品牌齊聚，Matrix M2 PRO 咖啡電子秤現場展出。免費索票、交通攻略、參展品牌一次看。",
+    "tags": [
+      "台中咖啡展",
+      "台灣咖啡活動",
+      "咖啡展",
+      "攻略整理",
+      "一次看",
+      "2026"
+    ],
+    "url": "https://www.matrix.com.tw/2026-Taichung-International-Specialty-Coffee",
+    "source": "external"
   },
   {
-    "title": "2026咖啡展限定｜親手體驗真正懂你的咖啡電子秤──「Matrix M2 Pro AI大師咖啡秤」深度體驗",
-    "image": " https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/wx1WRpGD38JogqZ6NJnad4eb/original.png",
-    "link": "https://www.matrix.com.tw/news-2025coffeemaniafestival-guest",
+    "title": "2026 咖啡展限定｜親手體驗真正懂你的咖啡電子秤",
     "slug": "news-2025coffeemaniafestival-guest",
-    "date": "2026-04-09",
-    "tags": "\"matrix M2 PRO\",\"咖啡展\",\"手沖體驗\",\"免費體驗\",\"M2PRO體驗\",\"預約登記\"",
     "category": "news",
-    "url": "https://www.matrix.com.tw/news-2025coffeemaniafestival-guest"
+    "date": "2026-04-09",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/LWx9yMqPlG7QPwMRlEpb1wO7/1200x-2.min.jpg",
+    "description": "如果你也是追求手沖咖啡的「新手」，卻被秤重與注水瓶頸困擾，那麼「親手體驗真正懂你的咖啡電子秤──M2 PRO 深度體驗」將是為你量身打造的最佳機會。以下詳細介紹本次體驗活動的緣由、流程、亮點與常見問答，讓你搶先掌握最專業、最貼心的咖啡沖煮工具──Matrix M2 PRO。",
+    "tags": [
+      "matrix M2 PRO",
+      "咖啡展",
+      "手沖體驗",
+      "免費體驗",
+      "M2PRO體驗",
+      "預約登記"
+    ],
+    "url": "https://www.matrix.com.tw/news-2025coffeemaniafestival-guest",
+    "source": "external"
   },
   {
-    "title": "「請支援『咖啡秤』！」2026咖啡展店家限定免費體驗計畫」",
-    "image": " https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/0nMRz1wGlRwwn9MyNV9Kjv6E/original-1.png.avif?auto=compress",
-    "link": "https://www.matrix.com.tw/news-2026coffeemaniafestival-coffeeshop",
+    "title": "「請支援『咖啡秤』！」2026 咖啡展店家限定免費體驗計畫",
     "slug": "news-2026coffeemaniafestival-coffeeshop",
-    "date": "2026-04-09",
-    "tags": "\"matrix M2 PRO\",\"咖啡展\",\"攤位限定\",\"免費體驗\",\"請支援咖啡秤\",\"M2PRO體驗\",\"咖啡店家限定\"",
     "category": "news",
-    "url": "https://www.matrix.com.tw/news-2026coffeemaniafestival-coffeeshop"
+    "date": "2026-04-09",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/Gr1Lb8a63ZLL1r2QNEAXx24D/original-1.min.png",
+    "description": "2026 咖啡展、Matrix M2 PRO 體驗、G1 FlowBar 免費體驗、咖啡展攤位、咖啡電子秤優惠立即前往報名，讓「請支援『咖啡秤』」成為您最安心的數據夥伴，與 Matrix 一同刷新沖煮精準新紀元！",
+    "tags": [
+      "matrix M2 PRO",
+      "咖啡展",
+      "攤位限定",
+      "免費體驗",
+      "請支援咖啡秤",
+      "M2PRO體驗",
+      "咖啡店家限定"
+    ],
+    "url": "https://www.matrix.com.tw/news-2026coffeemaniafestival-coffeeshop",
+    "source": "external"
   },
   {
-    "title": "2026 台灣咖啡節與咖啡展完整指南｜展覽、市集、比賽一次整理（持續更新）",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/DPq15dgL3PqLDr1MlrBbJ2am/original.jpg",
-    "link": "https://www.matrix.com.tw/2026-taiwan-coffee-expo",
+    "title": "2026 台灣咖啡節與咖啡展完整指南｜展覽、市集、比賽一次整理",
     "slug": "2026-taiwan-coffee-expo",
+    "category": "news",
     "date": "2026-04-07",
-    "tags": "\"Matrix\",\"台灣咖啡活動\",\"咖啡展\",\"攻略整理\",\"一次看\",\"2026\"",
-    "category": "events",
-    "url": "https://www.matrix.com.tw/2026-taiwan-coffee-expo"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/DPq15dgL3PqLDr1MlrBbJ2am/original-2.min.jpg",
+    "description": "2026 台灣咖啡展覽＋咖啡市集全年行事曆：北中南重點咖啡展（南港、世貿、台中、台南、高雄）＋國際展（WOC Bangkok、首爾咖啡展），並把市集活動納入 1–12 月月份時間軸，附官方/索票連結與行程建議。",
+    "tags": [
+      "Matrix",
+      "台灣咖啡活動",
+      "咖啡展",
+      "攻略整理",
+      "一次看",
+      "2026"
+    ],
+    "url": "https://www.matrix.com.tw/2026-taiwan-coffee-expo",
+    "source": "external"
   },
   {
     "title": "粕谷哲最新手沖法「絕對犯規」？新混合萃取配方完整解析",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/Wqybvx25N9yRZM9gNREOMVPo/original.jpg",
-    "link": "https://www.matrix.com.tw/tetsu-kasuya-new-hybrid-brewing",
     "slug": "tetsu-kasuya-new-hybrid-brewing",
+    "category": "news",
     "date": "2026-04-01",
-    "tags": "\"粕谷哲\",\"新混合萃取\",\"惡魔手沖\",\"手沖教學\",\"一次看\",\"粉水比\"",
-    "category": "knowledge",
-    "url": "https://www.matrix.com.tw/tetsu-kasuya-new-hybrid-brewing"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/EM7nvrbJlqV0vZmPNBpxVwjP/original-2.min.jpg",
+    "description": "粕谷哲最新公開的新混合手沖法完整解析，含悶蒸步驟、20g/300ml 完整配方、與 4:6 法風味比較，以及適合搭配的帶閥濾杯推薦。",
+    "tags": [
+      "粕谷哲",
+      "新混合萃取",
+      "惡魔手沖",
+      "手沖教學",
+      "一次看",
+      "粉水比"
+    ],
+    "url": "https://www.matrix.com.tw/tetsu-kasuya-new-hybrid-brewing",
+    "source": "external"
   },
   {
     "title": "播音 ft. 博恩╳劉博仁醫師：你的喝咖啡時機，可能一直都錯了!?",
-    "image": "https://img.1shop.tw/e2mJZnvrG0rg7v5AKPba5qkd/kEyLdZjRNLmLw1RqY8pWbz6O/original.jpg",
-    "link": "https://www.matrix.com.tw/caffeine-timing-metabolism",
     "slug": "caffeine-timing-metabolism",
+    "category": "news",
     "date": "2026-03-11",
-    "tags": "\"咖啡時機\",\"咖啡\",\"咖啡因\",\"一次看\",\"2026\"",
-    "category": "knowledge",
-    "url": "https://www.matrix.com.tw/caffeine-timing-metabolism"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/EM7nvrbJlqV0O1kjNBpxVwjP/original-2.min.jpg",
+    "description": "《播音》EP215 曾博恩邀請劉博仁醫師深聊咖啡因代謝。起床馬上喝咖啡為什麼不好？台灣五成人咖啡因代謝較慢？完整解析喝咖啡最佳時機與健康影響。",
+    "tags": [
+      "咖啡時機",
+      "咖啡",
+      "咖啡因",
+      "一次看",
+      "2026"
+    ],
+    "url": "https://www.matrix.com.tw/caffeine-timing-metabolism",
+    "source": "external"
   },
   {
-    "title": "一鍵抽真空，為什麼改變了「保存」這件事？｜Matrix V7 BLACKAIR 電動真空密封罐新品",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/Wqybvx25N9yDJWXwNREOMVPo/original.jpg",
-    "link": "https://www.matrix.com.tw/matrix-v7-blackair-new",
+    "title": "一鍵抽真空，為什麼改變了「保存」這件事？",
     "slug": "matrix-v7-blackair-new",
-    "date": "2026-02-04",
-    "tags": "\"Matrix\",\"真空\",\"真空保存\",\"密封罐\",\"真空密封罐\",\"V7 BLACKAIR\"",
     "category": "news",
-    "url": "https://www.matrix.com.tw/matrix-v7-blackair-new"
+    "date": "2026-02-04",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/kEyLdZjRNLmqRXyXY8pWbz6O/1200x-2.min.jpg",
+    "description": "Matrix 致力於成為生活美學專家，藉由生活實用經驗，不用改變使用者習慣，又可提升生活運用及美感。這樣的運用不僅止只適用一種，還可多方面使用，這是我們團隊努力的目標！",
+    "tags": [
+      "Matrix",
+      "真空",
+      "真空保存",
+      "密封罐",
+      "真空密封罐",
+      "V7 BLACKAIR"
+    ],
+    "url": "https://www.matrix.com.tw/matrix-v7-blackair-new",
+    "source": "external"
   },
   {
     "title": "抽真空的好處是什麼？為什麼咖啡豆、茶葉、堅果、乾糧越來越多人選擇真空保存？",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/BoQZq74kYmWJezX2l5PMywAK/original.jpg",
-    "link": "https://www.matrix.com.tw/benefits-of-vacuuming",
     "slug": "benefits-of-vacuuming",
+    "category": "news",
     "date": "2026-02-02",
-    "tags": "\"Matrix\",\"真空\",\"真空保存\",\"密封罐\",\"真空密封罐\",\"V7 BLACKAIR\"",
-    "category": "knowledge",
-    "url": "https://www.matrix.com.tw/benefits-of-vacuuming"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/kEyLdZjRNLd61MdnN8pWbz6O/original-2.min.jpg",
+    "description": "Matrix 致力於成為生活美學專家，藉由生活實用經驗，不用改變使用者習慣，又可提升生活運用及美感。這樣的運用不僅止只適用一種，還可多方面使用，這是我們團隊努力的目標！",
+    "tags": [
+      "Matrix",
+      "真空",
+      "真空保存",
+      "密封罐",
+      "真空密封罐",
+      "V7 BLACKAIR"
+    ],
+    "url": "https://www.matrix.com.tw/benefits-of-vacuuming",
+    "source": "external"
   },
   {
-    "title": "HARIO Alpha Switch 濾杯是什麼？浸漬式 × V60 手沖二合一完整解析與選購指南",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/Kyg9vWx8NyKJBXZn3GJP14Zm/original.jpg",
-    "link": "https://www.matrix.com.tw/hario-alpha-switch-dripper-review-2026 ",
-    "slug": "hario-alpha-switch-dripper-review-2026 ",
+    "title": "HARIO Alpha Switch 濾杯是什麼？浸漬式 × V60 手沖二合一",
+    "slug": "hario-alpha-switch-dripper-review-2026",
+    "category": "news",
     "date": "2026-01-05",
-    "tags": "\"Matrix\",\"Hario\",\"手沖咖啡\",\"聰明濾杯\",\"凹肋 Switch濾杯\",\"新品預購\"",
-    "category": "knowledge",
-    "url": "https://www.matrix.com.tw/hario-alpha-switch-dripper-review-2026 "
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/eKP9MRgBYr8xWOx7lOvLWZrn/1200x-2.min.jpg",
+    "description": "HARIO Alpha Switch 濾杯結合浸漬式與手沖式雙重萃取，搭載凹肋設計，一個開關切換風味。陶瓷材質耐熱保溫，新手也能沖出穩定好咖啡。本篇整理功能解析、使用技巧與選購比較一次看懂。",
+    "tags": [
+      "Matrix",
+      "Hario",
+      "手沖咖啡",
+      "聰明濾杯",
+      "凹肋 Switch濾杯",
+      "新品預購"
+    ],
+    "url": "https://www.matrix.com.tw/hario-alpha-switch-dripper-review-2026",
+    "source": "external"
   },
   {
-    "title": "咖啡電子秤推薦 2026｜0.1g 精準度、計時與流速控制完整選購指南",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/g1JZGpdVYBmgAJBVN0onavMR/original.jpg",
-    "link": "https://www.matrix.com.tw/coffee-scale-guide-2026",
+    "title": "咖啡電子秤推薦 2026｜0.1g 精準度、計時與流速控制",
     "slug": "coffee-scale-guide-2026",
+    "category": "news",
     "date": "2025-12-24",
-    "tags": "\"咖啡秤推薦\",\"人氣電子秤\",\"matrix M2 PRO\",\"Matrix\",\"G1 FlowBar\",\"咖啡電子秤\",\"手沖咖啡\"",
-    "category": "knowledge",
-    "url": "https://www.matrix.com.tw/coffee-scale-guide-2026"
-  },
-  {
-    "title": "Switch 濾杯進階攻略：把浸漬時間調到「更準」",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/rAW85emGlnzoEz8nlyok6vBL/original.jpg",
-    "link": "https://www.matrix.com.tw/SWITCH_IMMERSION_CONTROL",
-    "slug": "SWITCH_IMMERSION_CONTROL",
-    "date": "2025-12-16",
-    "tags": "\"Matrix\",\"Hario\",\"Switch 濾杯\",\"濾杯\",\"浸漬式開關\",\"新品介紹\"",
-    "category": "knowledge",
-    "url": "https://www.matrix.com.tw/SWITCH_IMMERSION_CONTROL"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/g1JZGpdVYBmgAJBVN0onavMR/original-2.min.jpg",
+    "description": "2026 咖啡電子秤怎麼選？整理 0.1g 精準度、反應速度、計時器、扣重、防塵/防潑濺設計與螢幕可讀性等 5 大選購標準，並解析流速顯示、粉水比/粉液比與 AI 多模式。新手到專業一次選到適合的咖啡秤。",
+    "tags": [
+      "咖啡秤推薦",
+      "人氣電子秤",
+      "matrix M2 PRO",
+      "Matrix",
+      "G1 FlowBar",
+      "咖啡電子秤",
+      "手沖咖啡"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-scale-guide-2026",
+    "source": "external"
   },
   {
     "title": "Switch 濾杯是什麼？為什麼很多人一用就回不去一般濾杯",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/AZajx5K9lEmvPmv2lPJR4Wd2/original.jpg",
-    "link": "https://www.matrix.com.tw/BREWING_BASICS_SWITCH_IMMERSION_DRIPPER",
-    "slug": "BREWING_BASICS_SWITCH_IMMERSION_DRIPPER",
+    "slug": "brewing-basics-switch-immersion-dripper",
+    "category": "news",
     "date": "2025-12-16",
-    "tags": "\"Matrix\",\"Hario\",\"Switch 濾杯\",\"濾杯\",\"浸漬式開關\",\"新品介紹\"",
-    "category": "knowledge",
-    "url": "https://www.matrix.com.tw/BREWING_BASICS_SWITCH_IMMERSION_DRIPPER"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/7b8Wmjk2l59J5bd8lvD1VZrP/original-2.min.jpg",
+    "description": "Switch 濾杯用「可開關浸泡」降低控水門檻，甜感更明顯、風味更穩定、每天更好複製。本篇用最直覺方式說清楚 Switch 與一般濾杯差別，附新手用法、快速對照表與 FAQ。",
+    "tags": [
+      "Matrix",
+      "Hario",
+      "Switch 濾杯",
+      "濾杯",
+      "浸漬式開關",
+      "新品介紹"
+    ],
+    "url": "https://www.matrix.com.tw/BREWING_BASICS_SWITCH_IMMERSION_DRIPPER",
+    "source": "external"
+  },
+  {
+    "title": "Switch 濾杯進階攻略：把浸漬時間調到「更準」",
+    "slug": "switch-immersion-control",
+    "category": "news",
+    "date": "2025-12-16",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/w560gEeAloXqgge4NOqrx1ab/1200x-1.min.jpg",
+    "description": "Switch 濾杯進階玩家怎麼用浸漬時間做出可重現的風味？本篇提供焙度×浸漬時間參數卡、浸漬×釋放曲線、風味故障診斷表與FAQ，協助你把甜感、厚度、尾韻調得更精準。",
+    "tags": [
+      "Matrix",
+      "Hario",
+      "Switch 濾杯",
+      "濾杯",
+      "浸漬式開關",
+      "新品介紹"
+    ],
+    "url": "https://www.matrix.com.tw/SWITCH_IMMERSION_CONTROL",
+    "source": "external"
   },
   {
     "title": "咖啡啜飲券是什麼？為什麼咖啡節都用這種制度",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/dqpOVABK324xkALONrkRwEv7/original.jpg",
-    "link": "https://www.matrix.com.tw/coffee-tasting-coupons-guide",
     "slug": "coffee-tasting-coupons-guide",
+    "category": "news",
     "date": "2025-12-15",
-    "tags": "\"Matrix\",\"台北咖\",\"東京咖啡節\",\"攻略整理\",\"一次看\",\"咖啡市集\"",
-    "category": "events",
-    "url": "https://www.matrix.com.tw/coffee-tasting-coupons-guide"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/dqpOVABK324xkALONrkRwEv7/original-2.min.jpg",
+    "description": "第一次逛咖啡節一定會遇到『咖啡啜飲券』制度：不能直接付現買咖啡、要先換券再品飲。本文完整解釋啜飲券是什麼、為什麼要用、怎麼用、沒用完怎麼辦。",
+    "tags": [
+      "Matrix",
+      "台北咖",
+      "東京咖啡節",
+      "攻略整理",
+      "一次看",
+      "咖啡市集"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-tasting-coupons-guide",
+    "source": "external"
   },
   {
     "title": "東京咖啡節是什麼？為何被視為日本最重要的咖啡市集",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/Gr1Lb8a63ZLA5wgrNEAXx24D/original.jpg",
-    "link": "https://www.matrix.com.tw/tokyo-coffee-festival-what-is",
     "slug": "tokyo-coffee-festival-what-is",
+    "category": "news",
     "date": "2025-12-15",
-    "tags": "\"Matrix\",\"台北咖\",\"東京咖啡節\",\"攻略整理\",\"一次看\",\"咖啡市集\"",
-    "category": "events",
-    "url": "https://www.matrix.com.tw/tokyo-coffee-festival-what-is"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/Gr1Lb8a63ZLA5wgrNEAXx24D/original-2.min.jpg",
+    "description": "東京咖啡節（Tokyo Coffee Festival）不靠規模取勝，卻長年被視為日本最重要的咖啡市集之一。本文從啜飲券制度、選店風格門檻、城市空間與產業影響，讀懂它為何成為日本咖啡文化指標。",
+    "tags": [
+      "Matrix",
+      "台北咖",
+      "東京咖啡節",
+      "攻略整理",
+      "一次看",
+      "咖啡市集"
+    ],
+    "url": "https://www.matrix.com.tw/tokyo-coffee-festival-what-is",
+    "source": "external"
   },
   {
-    "title": "Matrix 會員抽獎活動辦法｜忠實會員回饋＋新會員加入抽台北咖x東京咖啡節票",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/rAW85emGlnzoVEqZlyok6vBL/original.gif",
-    "link": "https://www.matrix.com.tw/tokyo-coffee-festival-giveaway-rules",
+    "title": "2025 臺北咖 X 東京咖啡節完整攻略",
+    "slug": "coffeeculture-taipei-tokyo",
+    "category": "news",
+    "date": "2025-12-12",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/Kyg9vWx8NyK8OAgb3GJP14Zm/original-2.min.jpg",
+    "description": "東京咖啡節首度海外登台！2025 臺北咖 X 東京咖啡節於 12/19–12/21 在花博圓山廣場登場，整理票券制度、啜飲券玩法與 40+ 台日人氣品牌名單（含官方連結），一次規劃你的咖啡市集行程。",
+    "tags": [
+      "Matrix",
+      "台北咖",
+      "東京咖啡節",
+      "攻略整理",
+      "一次看",
+      "咖啡市集"
+    ],
+    "url": "https://www.matrix.com.tw/COFFEECULTURE_TAIPEI_TOKYO",
+    "source": "external"
+  },
+  {
+    "title": "Matrix 會員抽獎活動辦法｜忠實會員回饋＋新會員加入抽台北咖啡",
     "slug": "tokyo-coffee-festival-giveaway-rules",
-    "date": "2025-12-12",
-    "tags": "\"Matrix\",\"台北咖\",\"東京咖啡節\",\"抽獎\",\"會員限定\",\"咖啡市集\"",
     "category": "news",
-    "url": "https://www.matrix.com.tw/tokyo-coffee-festival-giveaway-rules"
-  },
-  {
-    "title": "2025 臺北咖 X 東京咖啡節完整攻略｜時間地點票券、40+ 台日咖啡名店一次逛",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/Gr1Lb8a63ZLAoZ2bNEAXx24D/original.jpg",
-    "link": "https://www.matrix.com.tw/COFFEECULTURE_TAIPEI_TOKYO",
-    "slug": "COFFEECULTURE_TAIPEI_TOKYO",
     "date": "2025-12-12",
-    "tags": "\"Matrix\",\"台北咖\",\"東京咖啡節\",\"攻略整理\",\"一次看\",\"咖啡市集\"",
-    "category": "events",
-    "url": "https://www.matrix.com.tw/COFFEECULTURE_TAIPEI_TOKYO"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/Gr1Lb8a63ZLAoowqNEAXx24D/original-2.min.gif",
+    "description": "Matrix 會員抽獎活動辦法，2025/12/12–12/15忠實會員回饋＋新會員加入抽 臺北咖啡 × 東京咖啡節 公關票。",
+    "tags": [
+      "Matrix",
+      "台北咖",
+      "東京咖啡節",
+      "抽獎",
+      "會員限定",
+      "咖啡市集"
+    ],
+    "url": "https://www.matrix.com.tw/tokyo-coffee-festival-giveaway-rules",
+    "source": "external"
   },
   {
-    "title": "HARIO V60 NEO隱藏技能曝光！加個Switch配件立刻升級浸泡式｜咖啡新手也能沖出大師級風味",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/eKP9MRgBYr8xmaLRlOvLWZrn/original.jpg ",
-    "link": "https://www.matrix.com.tw/Hario-V60-NEO-SWITCH-IMMERSION-MODE ",
-    "slug": "Hario-V60-NEO-SWITCH-IMMERSION-MODE ",
+    "title": "HARIO V60 NEO 隱藏技能曝光！加個 Switch 配件立刻升級浸泡式",
+    "slug": "hario-v60-neo-switch-immersion-mode",
+    "category": "news",
     "date": "2025-12-02",
-    "tags": "\"Matrix\",\"Hario\",\"手沖咖啡\",\"V60 NEO\",\"V60 NEO 樹脂濾杯\",\"新品開箱\"",
-    "category": "knowledge",
-    "url": "https://www.matrix.com.tw/Hario-V60-NEO-SWITCH-IMMERSION-MODE "
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/LWx9yMqPlG7QyBgBlEpb1wO7/original-2.min.jpg",
+    "description": "HARIO V60 NEO 搭配 Switch 浸入式模組，一顆濾杯即可在滴濾與浸泡之間切換。完整解析五大優勢、浸泡式與混合萃取教學、適合的咖啡豆與 VDN-01/02 尺寸選擇，讓咖啡新手也能沖出大師級風味。",
+    "tags": [
+      "Matrix",
+      "Hario",
+      "手沖咖啡",
+      "V60 NEO",
+      "V60 NEO 樹脂濾杯",
+      "新品開箱"
+    ],
+    "url": "https://www.matrix.com.tw/Hario-V60-NEO-SWITCH-IMMERSION-MODE",
+    "source": "external"
   },
   {
-    "title": "HARIO α 阿爾法錐形凹肋 Switch 浸漬式聰明濾杯｜手沖界的「變形金剛」新品預購開跑！",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/zRo4LO6m3AmL7B013pr2d90e/original.jpg ",
-    "link": "https://www.matrix.com.tw/hario-alpha-switch-immersion-dripper-review-2025 ",
-    "slug": "hario-alpha-switch-immersion-dripper-review-2025 ",
+    "title": "HARIO α 阿爾法錐形凹肋 Switch 浸漬式聰明濾杯",
+    "slug": "hario-alpha-switch-immersion-dripper-review-2025",
+    "category": "news",
     "date": "2025-11-27",
-    "tags": "\"Matrix\",\"Hario\",\"手沖咖啡\",\"聰明濾杯\",\"凹肋 Switch濾杯\",\"新品預購\"",
-    "category": "news",
-    "url": "https://www.matrix.com.tw/hario-alpha-switch-immersion-dripper-review-2025 "
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/eKP9MRgBYr8xWOx7lOvLWZrn/1200x-2.min.jpg",
+    "description": "HARIO Alpha 錐形凹肋 Switch 浸漬式聰明濾杯新品預購中！結合凹肋設計與開關裝置，一杯咖啡雙重風味。適合新手到進階玩家，附 V60 濾紙 100 張。深度解析功能差異、使用技巧與選購指南。",
+    "tags": [
+      "Matrix",
+      "Hario",
+      "手沖咖啡",
+      "聰明濾杯",
+      "凹肋 Switch濾杯",
+      "新品預購"
+    ],
+    "url": "https://www.matrix.com.tw/hario-alpha-switch-immersion-dripper-review-2025",
+    "source": "external"
   },
   {
-    "title": "【2025濾杯選購指南】精品玩家年度推薦總整理｜HARIO、KADOU、zeroHero 三大品牌實測",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/a1A4ovQm3KXraqR5lDxz6OWE/original.jpg ",
-    "link": "https://www.matrix.com.tw/2025-coffee-dripper-guide ",
-    "slug": "2025-coffee-dripper-guide ",
+    "title": "【2025濾杯選購指南】精品玩家年度推薦",
+    "slug": "2025-coffee-dripper-guide",
+    "category": "news",
     "date": "2025-11-22",
-    "tags": "\"Matrix\",\"Hario\",\"手沖咖啡\",\"V60 NEO\",\"V60 NEO 樹脂濾杯\",\"2025濾杯推薦\"",
-    "category": "kol",
-    "url": "https://www.matrix.com.tw/2025-coffee-dripper-guide "
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/a1A4ovQm3KXraqR5lDxz6OWE/original-2.min.jpg",
+    "description": "2025 濾杯推薦清單出爐！從 HARIO 經典升級到 KADOU 手工藝再到 zeroHero 創新設計，這篇年度總整理帶你一次看懂風味差異、手感偏好與選購重點，幫你找到最懂你的手沖夥伴。",
+    "tags": [
+      "Matrix",
+      "Hario",
+      "手沖咖啡",
+      "V60 NEO",
+      "V60 NEO 樹脂濾杯",
+      "2025濾杯推薦"
+    ],
+    "url": "https://www.matrix.com.tw/2025-coffee-dripper-guide",
+    "source": "external"
   },
   {
-    "title": "2025 台北國際咖啡展｜四天的相遇與交流，讓我們再次確認：好的咖啡器材，來自真實使用者的定義",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/eKP9MRgBYr8x9pkylOvLWZrn/original.jpg",
-    "link": "https://www.matrix.com.tw/taipei-coffee-expo-2025-m2pro-review",
+    "title": "2025 台北國際咖啡展｜四天的相遇與交流",
     "slug": "taipei-coffee-expo-2025-m2pro-review",
+    "category": "news",
     "date": "2025-11-19",
-    "tags": "\"Matrix\",\"咖啡職人\",\"手沖冠軍\",\"咖啡師\",\"matrix M2 PRO\",\"臺灣國際咖啡展\",\"最新咖啡消息\"",
-    "category": "events",
-    "url": "https://www.matrix.com.tw/taipei-coffee-expo-2025-m2pro-review"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/nMRpQ02P3XEAx62plr7BkJaE/1200x-2.min.png",
+    "description": "2025台北咖啡展四天展期，M2 Pro智能手沖咖啡秤接受來自台灣、日本、香港專業咖啡師深度體驗。世界冠軍山口淳一、GABEE創辦人林東源等咖啡師實測AI引導介面、三色流速條、粉水比切換等功能，驗證提升出杯效率的真實價值。",
+    "tags": [
+      "Matrix",
+      "咖啡職人",
+      "手沖冠軍",
+      "咖啡師",
+      "matrix M2 PRO",
+      "臺灣國際咖啡展",
+      "最新咖啡消息"
+    ],
+    "url": "https://www.matrix.com.tw/taipei-coffee-expo-2025-m2pro-review",
+    "source": "external"
   },
   {
-    "title": "當世界級咖啡職人遇見M2 PRO 咖啡電子秤──2025台灣國際咖啡展Matrix攤位紀實",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/v5zx6meKY4vKd9d4l0DVkLyo/original.jpg",
-    "link": "https://www.matrix.com.tw/m2pro-world-baristas-taiwan-coffee-show",
+    "title": "當世界級咖啡職人遇見 M2 PRO 咖啡電子秤",
     "slug": "m2pro-world-baristas-taiwan-coffee-show",
+    "category": "news",
     "date": "2025-11-19",
-    "tags": "\"Matrix\",\"咖啡職人\",\"手沖冠軍\",\"咖啡師\",\"matrix M2 PRO\",\"臺灣國際咖啡展\",\"最新咖啡消息\"",
-    "category": "news",
-    "url": "https://www.matrix.com.tw/m2pro-world-baristas-taiwan-coffee-show"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/1LPZao453vJ0Oz5R3QAR86mM/1200x-2.min.jpg",
+    "description": "2025台灣國際咖啡展Matrix攤位直擊，集結林東源、山口淳一、本間啓介、飯髙亘、CHACHA、Zenki Ho 等10位海內外咖啡職人，實測Matrix M2 Pro AI大師咖啡電子秤，即時流速、粉水比與AI引導如何重新定義精品咖啡沖煮，帶來專業認可的智能沖煮新標準。",
+    "tags": [
+      "Matrix",
+      "咖啡職人",
+      "手沖冠軍",
+      "咖啡師",
+      "matrix M2 PRO",
+      "臺灣國際咖啡展",
+      "最新咖啡消息"
+    ],
+    "url": "https://www.matrix.com.tw/m2pro-world-baristas-taiwan-coffee-show",
+    "source": "external"
   },
   {
-    "title": "2025台北咖啡展精彩回顧｜四天與咖啡愛好者的深度交流｜M2 Pro AI大師咖啡電子秤展演亮點",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/GBnwbKdx3dve4kPgNW7954ej/original.jpg",
-    "link": "https://www.matrix.com.tw/taipei-coffee-expo-2025-recap",
+    "title": "2025台北咖啡展精彩回顧",
     "slug": "taipei-coffee-expo-2025-recap",
+    "category": "news",
     "date": "2025-11-18",
-    "tags": "\"Matrix\",\"咖啡職人\",\"手沖教學\",\"咖啡師\",\"matrix M2 PRO\",\"臺灣國際咖啡展\",\"最新咖啡消息\"",
-    "category": "news",
-    "url": "https://www.matrix.com.tw/taipei-coffee-expo-2025-recap"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/nMRpQ02P3XEAx6nQlr7BkJaE/1200x-2.min.jpg",
+    "description": "2025台北咖啡展圓滿落幕！回顧四天展會精彩時刻，感謝AD Cafe阿迪、VV Cafe學長、熊爸、金杯萃取師Elaine等展演嘉賓，以及M2 Pro AI大師咖啡電子秤的現場示範。",
+    "tags": [
+      "Matrix",
+      "咖啡職人",
+      "手沖教學",
+      "咖啡師",
+      "matrix M2 PRO",
+      "臺灣國際咖啡展",
+      "最新咖啡消息"
+    ],
+    "url": "https://www.matrix.com.tw/taipei-coffee-expo-2025-recap",
+    "source": "external"
   },
   {
-    "title": "台北咖啡展體驗 Matrix M2 Pro｜用 AI 智能咖啡秤精準萃取手沖精品咖啡，將風味發揮到極致",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/BoQZq74kYmW0ARAkl5PMywAK/original.jpg ",
-    "link": "https://www.matrix.com.tw/taipei-coffee-show-matrix-m2-pro ",
-    "slug": "taipei-coffee-show-matrix-m2-pro ",
+    "title": "台北咖啡展體驗 Matrix M2 Pro",
+    "slug": "taipei-coffee-show-matrix-m2-pro",
+    "category": "news",
     "date": "2025-11-12",
-    "tags": "\"Matrix\",\"咖啡展\",\"台北咖啡展\",\"手沖咖啡\",\"matrix M2 PRO\",\"臺灣國際咖啡展\",\"最新咖啡消息\"",
-    "category": "news",
-    "url": "https://www.matrix.com.tw/taipei-coffee-show-matrix-m2-pro "
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/o4a0bwXWNWbpBmB9lGgE1yzv/original-2.min.jpg",
+    "description": "Matrix M2 Pro 智能咖啡秤以 AI 引導式沖煮模式精準掌控粉量、水量、流速與時間，幫你穩定重現精品手沖咖啡風味。2025 台灣咖啡展現場同步體驗。",
+    "tags": [
+      "Matrix",
+      "咖啡展",
+      "台北咖啡展",
+      "手沖咖啡",
+      "matrix M2 PRO",
+      "臺灣國際咖啡展",
+      "最新咖啡消息"
+    ],
+    "url": "https://www.matrix.com.tw/taipei-coffee-show-matrix-m2-pro",
+    "source": "external"
   },
   {
-    "title": "台灣國際咖啡展展前必看｜用 Matrix M2 PRO打造完美手沖咖啡｜咖啡師秘訣展會現場體驗 N1122",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/ZLjRK1AGl0AZg226NV6DPJEw/original.jpg ",
-    "link": "https://www.matrix.com.tw/matrix-coffee-scale-taiwan-expo ",
-    "slug": "matrix-coffee-scale-taiwan-expo ",
+    "title": "台灣國際咖啡展展前必看｜用 Matrix M2 PRO打造完美手沖咖啡",
+    "slug": "matrix-coffee-scale-taiwan-expo",
+    "category": "news",
     "date": "2025-11-10",
-    "tags": "\"Matrix\",\"咖啡展\",\"台北咖啡展\",\"手沖咖啡\",\"matrix M2 PRO\",\"臺灣國際咖啡展\",\"最新咖啡消息\"",
-    "category": "news",
-    "url": "https://www.matrix.com.tw/matrix-coffee-scale-taiwan-expo "
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/ZLjRK1AGl0AZg226NV6DPJEw/original-2.min.jpg",
+    "description": "展前四天必看！來台灣國際咖啡展 N1122 攤位體驗 Matrix M2 PRO AI大師咖啡秤：精準粉水比、三色流速條、AI 引導手沖操作，掌握咖啡師秘訣。元食與沐萃咖啡開箱示範，五大沖煮模式滿足手沖、義式及特殊器材，現場互動體驗與限時優惠，打造每一杯完美咖啡！",
+    "tags": [
+      "Matrix",
+      "咖啡展",
+      "台北咖啡展",
+      "手沖咖啡",
+      "matrix M2 PRO",
+      "臺灣國際咖啡展",
+      "最新咖啡消息"
+    ],
+    "url": "https://www.matrix.com.tw/matrix-coffee-scale-taiwan-expo",
+    "source": "external"
   },
   {
-    "title": "Goodman Roaster 精品咖啡體驗！從士林到京都的咖啡旅程｜2025 臺灣國際咖啡展 ｜Matrix N1122",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/dqpOVABK324x1ryqNrkRwEv7/original.jpg ",
-    "link": "https://www.matrix.com.tw/2025-taiwan-coffee-show-goodman-roaster-experience ",
-    "slug": "2025-taiwan-coffee-show-goodman-roaster-experience ",
+    "title": "Goodman Roaster 精品咖啡體驗",
+    "slug": "2025-taiwan-coffee-show-goodman-roaster-experience",
+    "category": "news",
     "date": "2025-11-05",
-    "tags": "\"Matrix\",\"咖啡展\",\"台北咖啡展\",\"手沖咖啡\",\"Goodman\",\"Matrix\",\"最新咖啡消息\"",
-    "category": "news",
-    "url": "https://www.matrix.com.tw/2025-taiwan-coffee-show-goodman-roaster-experience "
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/dqpOVABK324x1ryqNrkRwEv7/original-2.min.jpg",
+    "description": "在 2025 台灣國際咖啡展 N1122 攤位，品味由Goodman Roaster 伊藤篤臣師傅親自監製，呈現衣索比亞 耶加雪菲 春樹與肯亞 涅里 Thuti 處理廠兩支世界級豆款。四天限定免費試飲，體驗台日咖啡文化交流與北歐式淺焙風味。",
+    "tags": [
+      "Matrix",
+      "咖啡展",
+      "台北咖啡展",
+      "手沖咖啡",
+      "Goodman",
+      "Matrix",
+      "最新咖啡消息"
+    ],
+    "url": "https://www.matrix.com.tw/2025-taiwan-coffee-show-goodman-roaster-experience",
+    "source": "external"
   },
   {
-    "title": "Matrix 品牌盛大參展 2025 臺灣國際咖啡展｜N1122 攤位精彩展演與互動體驗",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/v5zx6meKY4vKLnxbl0DVkLyo/original.jpg ",
-    "link": "https://www.matrix.com.tw/2025-taiwan-coffee-show ",
-    "slug": "2025-taiwan-coffee-show ",
+    "title": "Matrix 品牌盛大參展 2025 臺灣國際咖啡展",
+    "slug": "2025-taiwan-coffee-show",
+    "category": "news",
     "date": "2025-11-03",
-    "tags": "\"Matrix\",\"咖啡展\",\"台北咖啡展\",\"手沖咖啡\",\"matrix M2 PRO\",\"臺灣國際咖啡展\",\"最新咖啡消息\"",
-    "category": "news",
-    "url": "https://www.matrix.com.tw/2025-taiwan-coffee-show "
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/AZajx5K9lEmvWMWQlPJR4Wd2/1200x-2.min.jpg",
+    "description": "Matrix 參展 2025 台灣國際咖啡展，N1122 攤位展示 M2 PRO 咖啡秤，邀請 AD Café、VV Café、熊爸等知名咖啡人現場展演。免費體驗預約、限定好禮、經銷合作洽談。展期 11/14-17 台北南港展覽館1館。",
+    "tags": [
+      "Matrix",
+      "咖啡展",
+      "台北咖啡展",
+      "手沖咖啡",
+      "matrix M2 PRO",
+      "臺灣國際咖啡展",
+      "最新咖啡消息"
+    ],
+    "url": "https://www.matrix.com.tw/2025-taiwan-coffee-show",
+    "source": "external"
   },
   {
-    "title": "2025 台北國際咖啡展｜首都咖啡狂潮來襲，Matrix M2 PRO 重磅登場＆限時優惠活動火熱開跑",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/ZOaL8DPWY6LG4bzKl92ExyG0/original.jpg",
-    "link": "https://www.matrix.com.tw/Taiwan-International-Coffee-Show",
-    "slug": "Taiwan-International-Coffee-Show",
+    "title": "2025 台北國際咖啡展｜首都咖啡狂潮來襲",
+    "slug": "taiwan-international-coffee-show",
+    "category": "news",
     "date": "2025-10-31",
-    "tags": "\"台北咖啡展\",\"matrix M2 PRO\",\"Matrix\",\"咖啡消息\",\"咖啡電子秤\"",
-    "category": "news",
-    "url": "https://www.matrix.com.tw/Taiwan-International-Coffee-Show"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/AZajx5K9lEmvWMWQlPJR4Wd2/1200x-2.min.jpg",
+    "description": "2025 台北國際咖啡展！Matrix 帶來 M2 PRO AI 大師咖啡電子秤，現場體驗、限定優惠、社群抽獎活動熱烈進行中。展覽交通資訊與參觀方式一次掌握。",
+    "tags": [
+      "台北咖啡展",
+      "matrix M2 PRO",
+      "Matrix",
+      "咖啡消息",
+      "咖啡電子秤"
+    ],
+    "url": "https://www.matrix.com.tw/Taiwan-International-Coffee-Show",
+    "source": "external"
   },
   {
-    "title": "不用花錢就能拿！追蹤IG就送Matrix專業咖啡秤？台北咖啡展這波也太大方了吧！",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/wAjo1QaDle4BzMn7390xLGMJ/original.jpg ",
-    "link": "https://www.matrix.com.tw/coffee-giveaway-2025 ",
-    "slug": "coffee-giveaway-2025 ",
-    "date": "2025-10-30",
-    "tags": "\"Matrix\",\"咖啡展\",\"台北咖啡展\",\"手沖咖啡\",\"matrix M2 PRO\",\"Matrix\",\"最新咖啡消息\"",
-    "category": "news",
-    "url": "https://www.matrix.com.tw/coffee-giveaway-2025 "
-  },
-  {
-    "title": "2025下半年咖啡展覽市集懶人包：台北 & 台中重點展會總覽",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/ZOaL8DPWY6LGAEA5l92ExyG0/original.jpg",
-    "link": "https://www.matrix.com.tw/2025-taiwan-coffee-expo-taipei-taichung",
+    "title": "2025 下半年咖啡展覽市集懶人包",
     "slug": "2025-taiwan-coffee-expo-taipei-taichung",
-    "date": "2025-10-30",
-    "tags": "\"咖啡展\",\"matrix M2 PRO\",\"Matrix\",\"咖啡消息\",\"咖啡電子秤\"",
-    "category": "events",
-    "url": "https://www.matrix.com.tw/2025-taiwan-coffee-expo-taipei-taichung"
-  },
-  {
-    "title": "當日出落入杯中：HARIO Switch Sunrise × 坂口憲二咖啡美學的極致演繹",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/EM7nvrbJlqVO9jA8NBpxVwjP/original.jpg ",
-    "link": "https://www.matrix.com.tw/hario-switch-sunrise-unboxing-review ",
-    "slug": "hario-switch-sunrise-unboxing-review ",
-    "date": "2025-10-29",
-    "tags": "\"Matrix\",\"Hario\",\"Hario Switch Sunrise\",\"手沖咖啡\",\"Switch Sunrise\",\"坂口憲二\",\"2025濾杯推薦\"",
-    "category": "knowledge",
-    "url": "https://www.matrix.com.tw/hario-switch-sunrise-unboxing-review "
-  },
-  {
-    "title": "Matrix 搶先報｜HARIO V60 NEO 濾杯早鳥預購開放！新會員最高享9折｜老朋友回購75折，最低到手價$338！",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/LWx9yMqPlG7Qa8v8lEpb1wO7/original.jpg ",
-    "link": "https://www.matrix.com.tw/news-hario-v60-neo-resin-dripper ",
-    "slug": "news-hario-v60-neo-resin-dripper ",
-    "date": "2025-10-27",
-    "tags": "\"Matrix\",\"Hario\",\"手沖咖啡\",\"V60 NEO\",\"V60 NEO 樹脂濾杯\",\"新品預購\"",
     "category": "news",
-    "url": "https://www.matrix.com.tw/news-hario-v60-neo-resin-dripper "
+    "date": "2025-10-30",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/ZOaL8DPWY6LGAEA5l92ExyG0/original-2.min.jpg",
+    "description": "2025下半年咖啡展覽懶人包！重點聚焦台北&amp;台中咖啡展，完整活動時間、地點、亮點攻略及參觀FAQ，一次掌握!!",
+    "tags": [
+      "咖啡展",
+      "matrix M2 PRO",
+      "Matrix",
+      "咖啡消息",
+      "咖啡電子秤"
+    ],
+    "url": "https://www.matrix.com.tw/2025-taiwan-coffee-expo-taipei-taichung",
+    "source": "external"
   },
   {
-    "title": "【最新 HARIO V60濾杯登場】V60 NEO 樹脂濾杯 ｜72 條肋條設計，開啟新一代手沖體驗",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/wP6vpqMBNgzK8nebld7DaZ0y/original.jpg ",
-    "link": "https://www.matrix.com.tw/hario-v60-neo-resin-dripper-review ",
-    "slug": "hario-v60-neo-resin-dripper-review ",
+    "title": "不用花錢就能拿！追蹤 IG 就送 Matrix 專業咖啡秤？",
+    "slug": "coffee-giveaway-2025",
+    "category": "news",
+    "date": "2025-10-30",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/wAjo1QaDle4BzMn7390xLGMJ/original-2.min.jpg",
+    "description": "2025臺灣國際咖啡展IG抽獎活動！追蹤留言就有機會抽中價值NT$1,880的Matrix M2 Pro AI大師 義式手沖 LED四顯流速粉水比咖啡秤及多項咖啡好禮。活動至11/3，快來參加！",
+    "tags": [
+      "Matrix",
+      "咖啡展",
+      "台北咖啡展",
+      "手沖咖啡",
+      "matrix M2 PRO",
+      "Matrix",
+      "最新咖啡消息"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-giveaway-2025",
+    "source": "external"
+  },
+  {
+    "title": "當日出落入杯中：HARIO Switch Sunrise",
+    "slug": "hario-switch-sunrise-unboxing-review",
+    "category": "news",
+    "date": "2025-10-29",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/7QBw2oEnYzJ47oRRYxAP0vM9/1200x-2.min.jpg",
+    "description": "HARIO Switch Sunrise 評測深度解析!從銀幕巨星到咖啡職人,坂口憲二監製的有田燒濾杯如何重新定義手沖美學?功能、設計、選購完整指南",
+    "tags": [
+      "Matrix",
+      "Hario",
+      "Hario Switch Sunrise",
+      "手沖咖啡",
+      "Switch Sunrise",
+      "坂口憲二",
+      "2025濾杯推薦"
+    ],
+    "url": "https://www.matrix.com.tw/hario-switch-sunrise-unboxing-review",
+    "source": "external"
+  },
+  {
+    "title": "Matrix 搶先報｜HARIO V60 NEO 濾杯早鳥預購",
+    "slug": "news-hario-v60-neo-resin-dripper",
+    "category": "news",
+    "date": "2025-10-27",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/v5zx6meKY4vK1L71l0DVkLyo/1200x-2.min.jpg",
+    "description": "Matrix 搶先報｜HARIO V60 NEO 濾杯新品開賣！新會員最高享9折｜老朋友回購75折，最低到手價$338！經典的 V60 系列迎來全新世代！HARIO V60 NEO 濾杯採用 72 條肋條結構 與 底部 9 條導流線， 讓熱水能沿濾紙壁面快速排流，實現乾淨、平衡又層次分明的風味。",
+    "tags": [
+      "Matrix",
+      "Hario",
+      "手沖咖啡",
+      "V60 NEO",
+      "V60 NEO 樹脂濾杯",
+      "新品預購"
+    ],
+    "url": "https://www.matrix.com.tw/news-hario-v60-neo-resin-dripper",
+    "source": "external"
+  },
+  {
+    "title": "【最新 HARIO V60 濾杯登場】V60 NEO 樹脂濾杯",
+    "slug": "hario-v60-neo-resin-dripper-review",
+    "category": "news",
     "date": "2025-10-22",
-    "tags": "\"Matrix\",\"Hario\",\"手沖咖啡\",\"V60 NEO\",\"V60 NEO 樹脂濾杯\",\"新品開箱\"",
-    "category": "kol",
-    "url": "https://www.matrix.com.tw/hario-v60-neo-resin-dripper-review "
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/rAW85emGlnzoLgRdlyok6vBL/original-2.min.jpg",
+    "description": "全新 HARIO V60 NEO 樹脂濾杯 01 以 72 條肋條與底部導流設計重塑經典手沖濾杯，流速更穩、風味更乾淨。V60 NEO 讓新手到職人都能輕鬆掌握完美萃取技巧。把握預購名額與專屬優惠，讓你的手沖角落率先升級。",
+    "tags": [
+      "Matrix",
+      "Hario",
+      "手沖咖啡",
+      "V60 NEO",
+      "V60 NEO 樹脂濾杯",
+      "新品開箱"
+    ],
+    "url": "https://www.matrix.com.tw/hario-v60-neo-resin-dripper-review",
+    "source": "external"
   },
   {
     "title": "精品咖啡保存全攻略｜中秋過後剩下的咖啡豆怎麼辦？",
-    "image": "https://img.1shop.tw/e2mJZnvrG0rg7v5AKPba5qkd/Xno5Qb1D3MVmkp91l67ZWPv9/original.jpg ",
-    "link": "https://www.matrix.com.tw/matrix-vacuum-coffee-storage ",
-    "slug": "matrix-vacuum-coffee-storage ",
+    "slug": "matrix-vacuum-coffee-storage",
+    "category": "news",
     "date": "2025-10-21",
-    "tags": "\"Matrix\",\"咖啡豆\",\"手沖咖啡\",\"精品咖啡\",\"密封罐\",\"咖啡學問\"",
-    "category": "knowledge",
-    "url": "https://www.matrix.com.tw/matrix-vacuum-coffee-storage "
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/j7m6e8BLYJAwk8gPNaG5RKMX/1200x-2.min.jpg",
+    "description": "中秋後剩下的咖啡豆如何保存？從科學原理到專業咖啡師建議，解析各種保存方式優缺點，並介紹 Matrix 自動抽真空密封罐，延長咖啡鮮度。",
+    "tags": [
+      "Matrix",
+      "咖啡豆",
+      "手沖咖啡",
+      "精品咖啡",
+      "密封罐",
+      "咖啡學問"
+    ],
+    "url": "https://www.matrix.com.tw/matrix-vacuum-coffee-storage",
+    "source": "external"
   },
   {
-    "title": "Matrix 鑽紋便攜式除塵吹球 PRO 開箱評測｜磨豆機刀盤清潔神器：解決咖啡苦味原因，還原純粹風味",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/5yxD7ZmWlk1WL2WaYXgBqvRQ/original.jpg",
-    "link": "https://www.matrix.com.tw/matrix-pro-coffee-blower-review",
+    "title": "Matrix 鑽紋便攜式除塵吹球 PRO 開箱評測",
     "slug": "matrix-pro-coffee-blower-review",
+    "category": "news",
     "date": "2025-10-03",
-    "tags": "\"Matrix\",\"鑽紋便攜式除塵吹球 PRO\",\"開箱評測\",\"咖啡消息\",\"咖啡電子秤\"",
-    "category": "news",
-    "url": "https://www.matrix.com.tw/matrix-pro-coffee-blower-review"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/7QBw2oEnYzJ45WeqYxAP0vM9/original-2.min.jpg",
+    "description": "咖啡越喝越苦？問題常來自磨豆機清潔不徹底！Matrix 鑽紋便攜式除塵吹球PRO 專為磨豆機刀盤清潔與咖啡器具保養設計，解決油耗味、殘粉苦味問題，讓你的每杯咖啡回到最純粹風味。附清潔步驟、保養日曆、常見QA與搭配指南。",
+    "tags": [
+      "Matrix",
+      "鑽紋便攜式除塵吹球 PRO",
+      "開箱評測",
+      "咖啡消息",
+      "咖啡電子秤"
+    ],
+    "url": "https://www.matrix.com.tw/matrix-pro-coffee-blower-review",
+    "source": "external"
   },
   {
-    "title": "Matrix 自動抽真空密封罐｜新品前測問卷正式開放，邀請您一起參與！",
-    "image": " https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/41brG7JDYpJbya2plxW5ywvg/original.jpg",
-    "link": " https://www.matrix.com.tw/news-matrix-vacuum-container-survey",
-    "slug": " /news-matrix-vacuum-container-survey",
+    "title": "Matrix 自動抽真空密封罐｜新品前測問卷正式開放",
+    "slug": "news-matrix-vacuum-container-survey",
+    "category": "news",
     "date": "2025-09-25",
-    "tags": "\"真空密封罐\",\"抽真空\",\"密封罐\",\"咖啡豆保存\",\"保鮮盒\",\"食物保鮮\"",
-    "category": "news",
-    "url": "/article/ /news-matrix-vacuum-container-survey/"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/xQdpkWj03aePB49439by6aRo/1200x-2.min.jpg",
+    "description": "Matrix 自動抽真空密封罐新品問卷開放中！一鍵自動抽真空、智能保鮮、Type-C 充電設計。誠摯邀請您參與調查，搶先掌握上市時間與早鳥優惠。",
+    "tags": [
+      "真空密封罐",
+      "抽真空",
+      "密封罐",
+      "咖啡豆保存",
+      "保鮮盒",
+      "食物保鮮"
+    ],
+    "url": "https://www.matrix.com.tw/news-matrix-vacuum-container-survey",
+    "source": "external"
   },
   {
-    "title": "您的咖啡故事，值得被聽見 — Matrix M2 PRO 體驗分享邀請",
-    "image": " https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/w560gEeAlo0erAwxNOqrx1ab/original.png",
-    "link": " https://www.matrix.com.tw/m2pro-user-stories",
-    "slug": " /m2pro-user-stories",
+    "title": "KADOU 珈堂星芒濾杯隼 3 代目評測",
+    "slug": "hand-drip-filter-kadou-arita-review",
+    "category": "news",
     "date": "2025-09-23",
-    "tags": "\"M2PRO\",\"募集開箱\",\"使用心得\",\"社群分享\",\"開箱測評\"",
-    "category": "news",
-    "url": "/article/ /m2pro-user-stories/"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/rAW85emGlnzorkDplyok6vBL/original-2.min.jpg",
+    "description": "2025最新實測｜1~2人手沖濾杯推薦首選！KADOU 珈堂星芒濾杯隼 3 代目採日本有田燒白瓷製成，結合穩定流速與高質感設計，適合新手與日常精品咖啡沖煮。解析有田燒白瓷工藝、穩定流速設計。",
+    "tags": [
+      "KADOU",
+      "星芒濾杯",
+      "星芒濾杯隼 3 代目",
+      "有田燒白瓷",
+      "開箱測評"
+    ],
+    "url": "https://www.matrix.com.tw/hand-drip-filter-kadou-arita-review",
+    "source": "external"
   },
   {
-    "title": "KADOU 珈堂星芒濾杯隼 3 代目評測：日本有田燒白瓷手沖咖啡濾杯推薦【2025最新開箱實測】",
-    "image": " https://img.1shop.tw/e2mJZnvrG0rg7v5AKPba5qkd/xQdpkWj03aePnypR39by6aRo/original.jpg ",
-    "link": " https://www.matrix.com.tw/hand-drip-filter-kadou-arita-review ",
-    "slug": " /hand-drip-filter-kadou-arita-review ",
+    "title": "您的咖啡故事，值得被聽見",
+    "slug": "m2pro-user-stories",
+    "category": "news",
     "date": "2025-09-23",
-    "tags": "\"KADOU\",\"星芒濾杯\",\"星芒濾杯隼 3 代目\",\"有田燒白瓷\",\"開箱測評\"",
-    "category": "news",
-    "url": "/article/ /hand-drip-filter-kadou-arita-review /"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/w560gEeAlo0erAwxNOqrx1ab/original-2.min.png",
+    "description": "分享你的 M2 PRO 使用心得，成為我們的用戶故事！完成公開投稿並授權，即可獲得價值 NT$1,599 電動牙刷。立即上傳你的流速、粉水比或 MD1 教學實測，讓更多手沖愛好者看見你的進步。",
+    "tags": [
+      "M2PRO",
+      "募集開箱",
+      "使用心得",
+      "社群分享",
+      "開箱測評"
+    ],
+    "url": "https://www.matrix.com.tw/m2pro-user-stories",
+    "source": "external"
   },
   {
-    "title": "Matrix 首次參加咖啡爽節心得分享｜交流熱烈，M2 PRO AI手沖電子秤大獲好評",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/7QBw2oEnYzJ44wn8YxAP0vM9/original.jpg",
-    "link": "https://www.matrix.com.tw/matrix-m2-pro-coffee-mania-festival",
+    "title": "Matrix 首次參加咖啡爽節心得分享",
     "slug": "matrix-m2-pro-coffee-mania-festival",
+    "category": "news",
     "date": "2025-09-09",
-    "tags": "\"咖啡爽節\",\"matrix M2 PRO\",\"Matrix\",\"咖啡消息\",\"咖啡電子秤\"",
-    "category": "news",
-    "url": "https://www.matrix.com.tw/matrix-m2-pro-coffee-mania-festival"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/ZLjRK1AGl0AZZKXKNV6DPJEw/1200x-2.min.jpg",
+    "description": "手沖咖啡不僅是風味調控，也是一段儀式美感的展現。今年，Matrix 團隊首次踏上 咖啡爽節 的舞台，帶來全新一代 Matrix M2 Pro AI 大師咖啡秤，與現場的咖啡愛好者、專業職人及店家碰撞出滿滿共鳴與回饋。這次的首次亮相，遠超我們的期待——不論是功能展示還是品牌傳遞，都獲得高度肯定。",
+    "tags": [
+      "咖啡爽節",
+      "matrix M2 PRO",
+      "Matrix",
+      "咖啡消息",
+      "咖啡電子秤"
+    ],
+    "url": "https://www.matrix.com.tw/matrix-m2-pro-coffee-mania-festival",
+    "source": "external"
   },
   {
-    "title": "matrix生活美學專家展覽快報｜2025 台灣國際咖啡展全攻略",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/ZOaL8DPWY6LGLxWbl92ExyG0/original.jpg",
-    "link": "https://www.matrix.com.tw/2025coffeeshow",
+    "title": "matrix 生活美學專家展覽快報｜2025 台灣國際咖啡展全攻略",
     "slug": "2025coffeeshow",
+    "category": "news",
     "date": "2025-09-04",
-    "tags": "\"咖啡展\",\"matrix M2 PRO\",\"Matrix\",\"咖啡消息\",\"咖啡電子秤\"",
-    "category": "events",
-    "url": "https://www.matrix.com.tw/2025coffeeshow"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/41brG7JDYpJbJZx6lxW5ywvg/original-2.min.jpg",
+    "description": "2025 台灣國際咖啡展將於 11/14–11/17 在台北南港展覽館登場！精品咖啡、器材試用、拉花教學、冠軍演示與展場限定優惠全面回歸，Matrix M2 PRO 智能秤也將現場公開操作，帶來精準沖煮體驗。",
+    "tags": [
+      "咖啡展",
+      "matrix M2 PRO",
+      "Matrix",
+      "咖啡消息",
+      "咖啡電子秤"
+    ],
+    "url": "https://www.matrix.com.tw/2025coffeeshow",
+    "source": "external"
   },
   {
-    "title": "打造自己的精品手沖組合：精選咖啡秤 × 濾杯 × 手沖壺全攻略",
-    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/g1JZGpdVYBmmyVGAN0onavMR/original.jpg",
-    "link": "https://www.matrix.com.tw/build-your-pour-over-kit-guide",
+    "title": "打造自己的精品手沖組合",
     "slug": "build-your-pour-over-kit-guide",
+    "category": "news",
     "date": "2025-08-20",
-    "tags": "\"手沖組合\",\"matrix M2 PRO\",\"Matrix\",\"HARIO\",\"濾杯\",\"手沖壺\",\"咖啡電子秤\"",
-    "category": "knowledge",
-    "url": "https://www.matrix.com.tw/build-your-pour-over-kit-guide"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/Kyg9vWx8NyKKr2nP3GJP14Zm/original-2.min.jpg",
+    "description": "打造一組屬於自己的精品手沖器具組合，從咖啡秤、濾杯到手沖壺，掌握每個細節變數，喝出穩定風味。看懂風味節奏，從 Matrix M2 Pro 與 HARIO Alpha Snake 開始。",
+    "tags": [
+      "手沖組合",
+      "matrix M2 PRO",
+      "Matrix",
+      "HARIO",
+      "濾杯",
+      "手沖壺",
+      "咖啡電子秤"
+    ],
+    "url": "https://www.matrix.com.tw/build-your-pour-over-kit-guide",
+    "source": "external"
   },
   {
-    "title": "2025 咖啡秤推薦總整理｜精選 4 款人氣電子秤功能與選購指南",
-    "image": "https://img.1shop.tw/e2mJZnvrG0rg7v5AKPba5qkd/zRo4LO6m3AmmOje83pr2d90e/original.jpg",
-    "link": "https://www.matrix.com.tw/2025-coffee-scale-recommendations-guide",
+    "title": "2025 咖啡秤推薦總整理",
     "slug": "2025-coffee-scale-recommendations-guide",
+    "category": "news",
     "date": "2025-08-15",
-    "tags": "\"咖啡秤推薦\",\"人氣電子秤\",\"matrix M2 PRO\",\"HARIO\",\"Matrix\",\"ZeroHero\",\"咖啡電子秤\"",
-    "category": "knowledge",
-    "url": "https://www.matrix.com.tw/2025-coffee-scale-recommendations-guide"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/GBnwbKdx3dveevB6NW7954ej/original-2.min.jpg",
+    "description": "2025咖啡秤推薦總整理！解析咖啡秤對手沖風味影響，盤點Matrix、HARIO、ZeroHero人氣款，附功能對比表與選購要點，幫你選出專屬咖啡秤，精准掌控風味 。",
+    "tags": [
+      "咖啡秤推薦",
+      "人氣電子秤",
+      "matrix M2 PRO",
+      "HARIO",
+      "Matrix",
+      "ZeroHero",
+      "咖啡電子秤"
+    ],
+    "url": "https://www.matrix.com.tw/2025-coffee-scale-recommendations-guide",
+    "source": "external"
   },
   {
-    "title": "2025 咖啡爽節｜臺北最終站盛大開跑，首度 M2 PRO 深度體驗＆專屬小禮物就在 Matrix 攤位",
-    "image": " https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/g9M05D783DyyGzr2lRoA6Z1W/original-1.jpg.avif?auto=compress",
-    "link": "https://www.matrix.com.tw/news-2025coffeemaniafestival",
+    "title": "2025 咖啡爽節",
     "slug": "news-2025coffeemaniafestival",
+    "category": "news",
     "date": "2025-07-09",
-    "tags": "\"matrix M2 PRO\",\"咖啡爽節\",\"攤位\",\"快閃活動\",\"沖煮體驗\",\"打卡送禮\",\"電子秤\"",
-    "category": "news",
-    "url": "https://www.matrix.com.tw/news-2025coffeemaniafestival"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/g9M05D783DyyGzr2lRoA6Z1W/1200x-1.min.jpg",
+    "description": "2025 咖啡爽節台灣最終站將於 9 月 5 日至 9 月 7 日 在 臺北市客家文化主題公園 熱鬧登場（地址：台北市中正區汀州路三段2號）。每日 10:00–18:00（9/7 提前於 17:30 結束），超過 30 個來自緬甸、香港、馬來西亞、日本等國的咖啡與茶品牌，攜各國特色齊聚一堂，不僅有多場國際賽事，更有豐富美食專區，保證讓你一次品味到國際咖啡風貌與在地人氣小吃。",
+    "tags": [
+      "matrix M2 PRO",
+      "咖啡爽節",
+      "攤位",
+      "快閃活動",
+      "沖煮體驗",
+      "打卡送禮",
+      "電子秤"
+    ],
+    "url": "https://www.matrix.com.tw/news-2025coffeemaniafestival",
+    "source": "external"
   },
   {
-    "title": "一場專業與熱情交織的開箱體驗：「Coffee365 精緻呈現 Matrix M2 Pro AI 大師咖啡秤」",
-    "image": " https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/g1JZGpdVYBmmrJdMN0onavMR/original-1.jpg.avif?auto=compress",
-    "link": " https://www.matrix.com.tw/news-m2pro-coffee365",
-    "slug": " /news-m2pro-coffee365",
+    "title": "一場專業與熱情交織的開箱體驗：Coffee365",
+    "slug": "news-m2pro-coffee365",
+    "category": "news",
     "date": "2025-07-07",
-    "tags": "\"matrix M2 PRO\",\"Coffee365\",\"M2 PRO\",\"咖啡電子秤\",\"咖啡秤\",\"M2 PRO評價\",\"電子秤\"",
-    "category": "news",
-    "url": "/article/ /news-m2pro-coffee365/"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/xQdpkWj03aee0aQW39by6aRo/original-1.min.png",
+    "description": "Matrix 致力於成為生活美學專家，藉由生活實用經驗，不用改變使用者習慣，又可提升生活運用及美感。這樣的運用不僅止只適用一種，還可多方面使用，這是我們團隊努力的目標！",
+    "tags": [
+      "matrix M2 PRO",
+      "Coffee365",
+      "M2 PRO",
+      "咖啡電子秤",
+      "咖啡秤",
+      "M2 PRO評價",
+      "電子秤"
+    ],
+    "url": "https://www.matrix.com.tw/news-m2pro-coffee365",
+    "source": "external"
   },
   {
-    "title": "沐萃推薦：「為咖啡人而生的職人級進化」Matrix M2 PRO 電子秤的全新實戰體驗",
-    "image": " https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/Kyg9vWx8NyKK90KG3GJP14Zm/original-1.jpg.avif?auto=compress",
-    "link": " https://www.matrix.com.tw/news-m2pro-mucrafts",
-    "slug": " /news-m2pro-mucrafts",
+    "title": "沐萃推薦：Matrix M2 PRO",
+    "slug": "news-m2pro-mucrafts",
+    "category": "news",
     "date": "2025-07-03",
-    "tags": "\"matrix M2 PRO\",\"沐萃\",\"M2 PRO\",\"咖啡電子秤\",\"咖啡秤\",\"沐萃Mucrafts\",\"電子秤\"",
-    "category": "news",
-    "url": "/article/ /news-m2pro-mucrafts/"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/7b8Wmjk2l599je98lvD1VZrP/original-1.min.jpg",
+    "description": "在專業咖啡工具不斷進化的時代，Matrix 再次以「聽見使用者的聲音」為核心，推出 M2 PRO 電子秤——一款從職人實際需求出發，全面升級操作邏輯與功能的高精度沖煮夥伴。這不僅是一款電子秤，更是一台為新手與教學者而打造的精準訓練工具。",
+    "tags": [
+      "matrix M2 PRO",
+      "沐萃",
+      "M2 PRO",
+      "咖啡電子秤",
+      "咖啡秤",
+      "沐萃Mucrafts",
+      "電子秤"
+    ],
+    "url": "https://www.matrix.com.tw/news-m2pro-mucrafts",
+    "source": "external"
   },
   {
-    "title": "元食咖啡俊元推薦Matrix M2 PRO：「我認為這是一台目前市面上，最適合手沖咖啡來使用的電子秤。」完整開箱解析",
-    "image": " https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/EM7nvrbJlqVVzBOnNBpxVwjP/original-1.png.avif?auto=compress",
-    "link": " https://www.matrix.com.tw/news-m2pro-yuancoffee",
-    "slug": " /news-m2pro-yuancoffee",
+    "title": "元食咖啡俊元推薦 Matrix M2 PRO",
+    "slug": "news-m2pro-yuancoffee",
+    "category": "news",
     "date": "2025-06-10",
-    "tags": "\"matrix M2 PRO\",\"元食cafe\",\"M2 PRO\",\"咖啡電子秤\",\"咖啡秤\",\"元食俊元\",\"電子秤\"",
-    "category": "news",
-    "url": "/article/ /news-m2pro-yuancoffee/"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/Gr1Lb8a63ZLLvMdKNEAXx24D/original-1.min.png",
+    "description": "在咖啡的世界裡，手沖咖啡以其精緻的工藝和豐富的層次感，深受咖啡愛好者的喜愛。而一台優秀的咖啡電子秤，對於手沖咖啡的成敗至關重要。就如俊元所說：「我認為這是一台目前市面上，最適合手沖咖啡來使用的電子秤。」今天，我們就跟著俊元的腳步，一起來開箱這款備受矚目的 matrix M2 PRO 咖啡電子秤。",
+    "tags": [
+      "matrix M2 PRO",
+      "元食cafe",
+      "M2 PRO",
+      "咖啡電子秤",
+      "咖啡秤",
+      "元食俊元",
+      "電子秤"
+    ],
+    "url": "https://www.matrix.com.tw/news-m2pro-yuancoffee",
+    "source": "external"
   },
   {
-    "title": "Matrix 推出全新 M2 Pro AI大師 義式手沖LED四顯流速粉水比咖啡秤 突破性設計簡化咖啡沖煮體驗",
-    "image": " https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/wP6vpqMBNgzzWLxmld7DaZ0y/original.jpg?auto=compress",
-    "link": " https://www.matrix.com.tw/news-m2pro-ai-coffee-scale",
-    "slug": " /news-m2pro-ai-coffee-scale",
-    "date": "2025-06-09",
-    "tags": "\"matrix M2 PRO\",\"M1 PRO升級\",\"M2 PRO\",\"咖啡電子秤\",\"咖啡秤\",\"早鳥優惠\",\"電子秤\"",
+    "title": "Matrix 推出全新 M2 Pro AI 大師",
+    "slug": "news-m2pro-ai-coffee-scale",
     "category": "news",
-    "url": "/article/ /news-m2pro-ai-coffee-scale/"
+    "date": "2025-06-09",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/wP6vpqMBNgzzEEJpld7DaZ0y/1200x-1.min.jpg",
+    "description": "台灣精品咖啡器具品牌 Matrix 今日宣布將於6月10日正式發表全新第二代智能咖啡秤「Matrix M2 Pro AI大師 義式手沖LED四顯流速粉水比咖啡秤」（簡稱：Matrix M2 Pro AI大師 智能咖啡秤），以革命性的操作簡化設計和多項細節優化，為咖啡愛好者和專業咖啡師帶來前所未有的沖煮體驗。Matrix M2 Pro AI大師 智能咖啡秤不僅解決了前代產品操作複雜的問題，更整合了五大創新功能於一體，樹立智能咖啡秤的新標竿。",
+    "tags": [
+      "matrix M2 PRO",
+      "M1 PRO升級",
+      "M2 PRO",
+      "咖啡電子秤",
+      "咖啡秤",
+      "早鳥優惠",
+      "電子秤"
+    ],
+    "url": "https://www.matrix.com.tw/news-m2pro-ai-coffee-scale",
+    "source": "external"
   },
   {
     "title": "Matrix 搶先報｜M2 PRO 咖啡電子秤早鳥優惠",
-    "image": " https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/y8Rxg1qMlj88mVKRYbLe06wn/original.jpg?auto=compress",
-    "link": " https://www.matrix.com.tw/article2025050801",
-    "slug": " /article2025050801",
+    "slug": "article2025050801",
+    "category": "news",
     "date": "2025-05-08",
-    "tags": "\"matrix M1 PRO\",\"M1 PRO升級\",\"M2 PRO\",\"咖啡電子秤\",\"咖啡秤\",\"早鳥優惠\",\"電子秤\"",
-    "category": "news",
-    "url": "/article/ /article2025050801/"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/0nMRz1wGlRwwybgyNV9Kjv6E/1200x-1.min.jpg",
+    "description": "為了讓您搶先體驗這款強大新品，我們特別推出 早鳥優惠活動！只要 填寫簡短問卷，即可獲得早鳥專屬優惠碼，優先體驗 M2 PRO 的全新沖煮魅力！",
+    "tags": [
+      "matrix M1 PRO",
+      "M1 PRO升級",
+      "M2 PRO",
+      "咖啡電子秤",
+      "咖啡秤",
+      "早鳥優惠",
+      "電子秤"
+    ],
+    "url": "https://www.matrix.com.tw/article2025050801",
+    "source": "external"
   },
   {
-    "title": "【AD Cafe 實測推薦】Matrix G1 FlowBar電子秤開箱｜全金屬機身 + 自動開機黑科技，1680 元重新定義「高級感咖啡秤」！",
-    "image": " https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/kEyLdZjRNLmm1m6eY8pWbz6O/original.png?auto=compress",
-    "link": " https://www.matrix.com.tw/g1flowbar-unbox",
-    "slug": " /g1flowbar-unbox",
+    "title": "【AD Cafe 實測推薦】Matrix G1 FlowBar 電子秤",
+    "slug": "g1flowbar-unbox",
+    "category": "news",
     "date": "2025-04-25",
-    "tags": "\"手沖咖啡\",\"matrix電子秤\",\"matrix G1\",\"G1 FlowBar\",\"咖啡秤\",\"G1電子秤\"",
-    "category": "news",
-    "url": "/article/ /g1flowbar-unbox/"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/zRo4LO6m3Am4KAk03pr2d90e/1200x-1.min.jpg",
+    "description": "三面矽膠墊穩固升級、四種模式一鍵切換，跟著 AD Cafe 腳步解鎖「高顏值 × 高實用」的咖啡秤新標竿！AD Cafe 認證：「性價比天花板，買前不用再貨比三家！」",
+    "tags": [
+      "手沖咖啡",
+      "matrix電子秤",
+      "matrix G1",
+      "G1 FlowBar",
+      "咖啡秤",
+      "G1電子秤"
+    ],
+    "url": "https://www.matrix.com.tw/g1flowbar-unbox",
+    "source": "external"
   },
   {
-    "title": "中華隊奪冠！世界棒球12強賽冠軍精神，Matrix黑色星期五特惠致敬英雄",
-    "image": " https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/BoQZq74kYmayqe7JY5PMywAK/original.jpg?auto=compress",
-    "link": " https://www.matrix.com.tw/article2024112501",
-    "slug": " /article2024112501",
+    "title": "中華隊奪冠！世界棒球 12 強賽冠軍精神",
+    "slug": "article2024112501",
+    "category": "news",
     "date": "2024-11-25",
-    "tags": "\"手沖咖啡\",\"智能電子秤\",\"黑色星期五\",\"中華隊\",\"咖啡秤\",\"12強賽冠軍\"",
-    "category": "news",
-    "url": "/article/ /article2024112501/"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/zXOMxVeg3VXLRA09N8aGjDkP/original-1.min.jpg",
+    "description": "為了慶祝這次歷史性勝利，Matrix特別於黑色星期五推出限時優惠，讓咖啡愛好者與棒球迷一同在生活中傳承這份堅持與卓越的精神！黑五輸入折扣碼即可享受 150元折價優惠，將高質感咖啡精品帶回家！",
+    "tags": [
+      "手沖咖啡",
+      "智能電子秤",
+      "黑色星期五",
+      "中華隊",
+      "咖啡秤",
+      "12強賽冠軍"
+    ],
+    "url": "https://www.matrix.com.tw/article2024112501",
+    "source": "external"
   },
   {
-    "title": "2024咖啡展俊元專訪：一鍵搞定咖啡數據！「Matrix M1 PRO 智能電子秤」帶你精準掌控每一滴美味！",
-    "image": " https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/A7dLy5pv31nV669rlXg0QzKr/original.jpg?auto=compress",
-    "link": " https://www.matrix.com.tw/article2024112201",
-    "slug": " /article2024112201",
+    "title": "2024 咖啡展俊元專訪",
+    "slug": "article2024112201",
+    "category": "news",
     "date": "2024-11-22",
-    "tags": "\"手沖咖啡\",\"智能電子秤\",\"咖啡數據化\",\"居家沖煮\",\"咖啡秤\",\"元食俊元\"",
-    "category": "news",
-    "url": "/article/ /article2024112201/"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/o7KQGvx83ORp11y8YnVR9Xkj/original-1.min.jpg",
+    "description": "對於手沖咖啡愛好者來說，穩定與精準是沖煮過程中至關重要的兩大元素。而由富擎國際與咖啡職人俊元聯合開發的 Matrix M1 PRO 智能電子秤，正是為了解決傳統手沖中的繁瑣與不穩定問題，將沖煮過程全面數據化，讓每一杯咖啡都能被完美複製。",
+    "tags": [
+      "手沖咖啡",
+      "智能電子秤",
+      "咖啡數據化",
+      "居家沖煮",
+      "咖啡秤",
+      "元食俊元"
+    ],
+    "url": "https://www.matrix.com.tw/article2024112201",
+    "source": "external"
   },
   {
-    "title": "為什麼手沖冠軍都要用蛋糕濾杯？2024咖啡展VV Cafe學長解析蛋糕濾杯",
-    "image": " https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/Xno5Qb1D3Mwa1DE1N67ZWPv9/original.jpg?auto=compress",
-    "link": " https://www.matrix.com.tw/article2024112101",
-    "slug": " /article2024112101",
+    "title": "為什麼手沖冠軍都要用蛋糕濾杯？",
+    "slug": "article2024112101",
+    "category": "news",
     "date": "2024-11-21",
-    "tags": "\"蛋糕濾杯\",\"手沖技巧\",\"手沖咖啡\",\"蛋糕濾杯 推薦\"",
-    "category": "events",
-    "url": "/article/ /article2024112101/"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/ZLjRK1AGl0BX800xYV6DPJEw/1200x-1.min.jpg",
+    "description": "對於喜歡在家手沖咖啡的愛好者來說，一款好用的咖啡濾杯可以大幅提升沖煮的樂趣與成果。而 蛋糕濾杯 則是一款有別於其他濾杯的特殊性，專為簡化手沖過程、展現極致風味而設計。這款濾杯在2024台灣國際咖啡展上，由VV Cafe的學長專業演示後，迅速成為咖啡愛好者關注的焦點。",
+    "tags": [
+      "蛋糕濾杯",
+      "手沖技巧",
+      "手沖咖啡",
+      "蛋糕濾杯 推薦"
+    ],
+    "url": "https://www.matrix.com.tw/article2024112101",
+    "source": "external"
   },
   {
-    "title": "如何選擇中秋送禮？試試Matrix M1 PRO咖啡秤與Stopover咖啡豆組合",
-    "image": " https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/nMRpQ02P3XVy6baoNr7BkJaE/original.jpg?auto=compress",
-    "link": " https://www.matrix.com.tw/article2024082801",
-    "slug": " /article2024082801",
+    "title": "如何選擇中秋送禮？試試 Matrix M1 PRO",
+    "slug": "article2024082801",
+    "category": "news",
     "date": "2024-08-28",
-    "tags": "\"matrix\", \"m1 pro\", \"咖啡秤\", \"咖啡豆\", \"stopover\", \"手沖\"",
-    "category": "news",
-    "url": "/article/ /article2024082801/"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/0nMRz1wGlRVBRX98lV9Kjv6E/original-1.min.jpg",
+    "description": "中秋佳節即將來臨，Matrix與Stopover攜手推出一款小農創新精神的聯名禮盒，將Matrix M1 PRO咖啡電子秤與Stopover精選的特殊發酵咖啡豆完美結合，為喜愛手沖咖啡的人帶來更多不同體驗。這次的合作，不僅是對品質的堅持，更是對咖啡小農的致敬。",
+    "tags": [
+      "matrix",
+      "m1 pro",
+      "咖啡秤",
+      "咖啡豆",
+      "stopover",
+      "手沖"
+    ],
+    "url": "https://www.matrix.com.tw/article2024082801",
+    "source": "external"
   },
   {
-    "title": "三年等待值不值得？元食咖啡俊元揭曉Matrix M1 Pro電子秤",
-    "image": " https://img.fnte.com.tw/product/1shop/matrix/yu07112.jpg?auto=compress",
-    "link": " https://www.matrix.com.tw/2024yuancoffee ",
-    "slug": " /2024yuancoffee ",
+    "title": "三年等待值不值得？元食咖啡俊元揭曉 Matrix M1 Pro 電子秤",
+    "slug": "2024yuancoffee",
+    "category": "news",
     "date": "2024-07-12",
-    "tags": "\"matrix\", \"m1 pro\", \"咖啡秤\", \"電子秤\", \"元食\", \"手沖\"",
-    "category": "news",
-    "url": "/article/ /2024yuancoffee /"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/BoQZq74kYmaw64p2Y5PMywAK/1200x-1.min.jpg",
+    "description": "在咖啡愛好者中，精確的計量是提升沖煮技術的重要一環。今天，我們很榮幸邀請到知名YouTuber「元食咖啡」的俊元，來分享他對我們最新產品——Matrix M1 Pro咖啡電子秤的深刻見解和使用體驗。",
+    "tags": [
+      "matrix",
+      "m1 pro",
+      "咖啡秤",
+      "電子秤",
+      "元食",
+      "手沖"
+    ],
+    "url": "https://www.matrix.com.tw/2024yuancoffee",
+    "source": "external"
   },
   {
-    "title": "2023台灣國際咖啡展",
-    "image": " https://img.fnte.com.tw/product/1shop/matrix/blog/2023coffee/2023coffee bn-99.jpg?auto=compress",
-    "link": "https://www.matrix.com.tw/2023coffee",
+    "title": "2023 台灣國際咖啡展",
     "slug": "2023coffee",
+    "category": "news",
     "date": "2023-11-20",
-    "tags": "\"台灣咖啡展\", \"南港咖啡展\", \"matrix\", \"goat story\"",
-    "category": "events",
-    "url": "https://www.matrix.com.tw/2023coffee"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/w560gEeAloXqgge4NOqrx1ab/1200x-1.min.jpg",
+    "description": "Matrix 致力於成為生活美學專家，藉由生活實用經驗，不用改變使用者習慣，又可提升生活運用及美感。這樣的運用不僅止只適用一種，還可多方面使用，這是我們團隊努力的目標！",
+    "tags": [
+      "台灣咖啡展",
+      "南港咖啡展",
+      "matrix",
+      "goat story"
+    ],
+    "url": "https://www.matrix.com.tw/2023coffee",
+    "source": "external"
   },
   {
-    "title": "伊藤篤臣 親切又仔細的開箱 Matrix M1 PRO新手馬上能掌握的多功能手沖秤",
-    "image": " https://img.fnte.com.tw/product/1shop/matrix/blog/2023goodman bn-99.jpg?auto=compress",
-    "link": " https://www.matrix.com.tw/2023goodman",
-    "slug": " /2023goodman",
+    "title": "伊藤篤臣 親切又仔細的開箱 Matrix M1 PRO",
+    "slug": "2023goodman",
+    "category": "news",
     "date": "2023-09-29",
-    "tags": "\"matrix\", \"goodman\", \"m1 pro\", \"咖啡秤\", \"電子秤\", \"手沖\"",
-    "category": "news",
-    "url": "/article/ /2023goodman/"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/w560gEeAloXqgge4NOqrx1ab/1200x-1.min.jpg",
+    "description": "Matrix 致力於成為生活美學專家，藉由生活實用經驗，不用改變使用者習慣，又可提升生活運用及美感。這樣的運用不僅止只適用一種，還可多方面使用，這是我們團隊努力的目標！",
+    "tags": [
+      "matrix",
+      "goodman",
+      "m1 pro",
+      "咖啡秤",
+      "電子秤",
+      "手沖"
+    ],
+    "url": "https://www.matrix.com.tw/2023goodman",
+    "source": "external"
   },
   {
-    "title": "元食cafe推薦M1 Pro咖啡秤開箱",
-    "image": " https://img.fnte.com.tw/product/1shop/matrix/blog/2023yuancoffee bn-99.jpg?auto=compress",
-    "link": " https://www.matrix.com.tw/2023yuancoffee",
-    "slug": " /2023yuancoffee",
+    "title": "元食 cafe 推薦 M1 Pro 咖啡秤開箱",
+    "slug": "2023yuancoffee",
+    "category": "news",
     "date": "2023-05-26",
-    "tags": "\"matrix\", \"m1 pro\", \"咖啡秤\", \"電子秤\", \"元食\", \"手沖\"",
-    "category": "news",
-    "url": "/article/ /2023yuancoffee/"
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/w560gEeAloXqgge4NOqrx1ab/1200x-1.min.jpg",
+    "description": "Matrix 致力於成為生活美學專家，藉由生活實用經驗，不用改變使用者習慣，又可提升生活運用及美感。這樣的運用不僅止只適用一種，還可多方面使用，這是我們團隊努力的目標！",
+    "tags": [
+      "matrix",
+      "m1 pro",
+      "咖啡秤",
+      "電子秤",
+      "元食",
+      "手沖"
+    ],
+    "url": "https://www.matrix.com.tw/2023yuancoffee",
+    "source": "external"
   },
   {
-    "title": " VVCafe推薦M1 Pro咖啡秤開箱",
-    "image": " https://img.fnte.com.tw/product/1shop/matrix/blog/2023vvcafe bn-99.jpg?auto=compress",
-    "link": " https://www.matrix.com.tw/2023vvcafe",
-    "slug": " /2023vvcafe",
-    "date": "2023-05-25",
-    "tags": "\"matrix\", \"m1 pro\", \"咖啡秤\", \"電子秤\", \"vv cafe\", \"學長\", \"手沖\"",
+    "title": "VVCafe 推薦 M1 Pro 咖啡秤開箱",
+    "slug": "2023vvcafe",
     "category": "news",
-    "url": "/article/ /2023vvcafe/"
+    "date": "2023-05-25",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/w560gEeAloXqgge4NOqrx1ab/1200x-1.min.jpg",
+    "description": "Matrix 致力於成為生活美學專家，藉由生活實用經驗，不用改變使用者習慣，又可提升生活運用及美感。這樣的運用不僅止只適用一種，還可多方面使用，這是我們團隊努力的目標！",
+    "tags": [
+      "matrix",
+      "m1 pro",
+      "咖啡秤",
+      "電子秤",
+      "vv cafe",
+      "學長",
+      "手沖"
+    ],
+    "url": "https://www.matrix.com.tw/2023vvcafe",
+    "source": "external"
+  },
+  {
+    "title": "2026 台北燈節「咖啡首都嘉年華」攻略",
+    "slug": "2026-taipei-coffee-capital-carnival",
+    "category": "events",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/wP6vpqMBNgz1LgqLld7DaZ0y/1200x-2.min.jpg",
+    "description": "如果你每年都會逛燈節，但總覺得「拍完照就散場」少了一點記憶點——今年很適合把行程改成「一條有味道的走春路線」。 咖啡首都嘉年華把萬華站前廣場變成精品咖啡與點心的集散地：你可以先在開場時段把想喝的咖啡喝到位， 傍晚再用燈海與爵士樂把第二杯變成儀式感。",
+    "tags": [
+      "咖啡活動",
+      "台北",
+      "精品咖啡",
+      "2026"
+    ],
+    "url": "https://www.matrix.com.tw/2026_taipei_coffee_capital_carnival",
+    "source": "external"
+  },
+  {
+    "title": "2026 咖啡盛事全攻略｜World of Coffee 五大站＋SCAJ 東京展",
+    "slug": "coffee-2026-expo-guide",
+    "category": "events",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/Gr1Lb8a63ZLAP7LwNEAXx24D/original-2.min.jpg",
+    "description": "2026 咖啡展全攻略整理 World of Coffee 杜拜、聖地牙哥、曼谷、布魯塞爾、巴拿馬與 SCAJ 東京展最新日期與地點，並提供參展攻略、展會比較、預算與行程規劃，適合咖啡師、烘豆師與咖啡產業從業者。",
+    "tags": [
+      "咖啡活動",
+      "咖啡展覽",
+      "東京",
+      "烘焙",
+      "SCA",
+      "2026"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-2026-expo-guide",
+    "source": "external"
+  },
+  {
+    "title": "咖啡迷別錯過：2026 南投國姓咖啡節「橋見咖啡香」",
+    "slug": "guoxing-coffee-festival-2026",
+    "category": "events",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/v5zx6meKY4vAAJA2l0DVkLyo/original-2.min.jpg",
+    "description": "2026 南投國姓咖啡節（第11屆）1/24–1/25 登場，首度移師橋聳雲天綠雕園區親子樂園區。2.5m 2D 漫畫風手沖台、滿額互動、集點抽 3,000 獎項（黃金、iPhone 17 256G）、小小咖啡農與冬季農遊採果一次整理。",
+    "tags": [
+      "咖啡活動",
+      "手沖咖啡",
+      "咖啡展覽",
+      "2026"
+    ],
+    "url": "https://www.matrix.com.tw/guoxing-coffee-festival-2026",
+    "source": "external"
+  },
+  {
+    "title": "2025咖啡豆密封罐選購指南",
+    "slug": "best-way-to-store-coffee-beans",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/v5zx6meKY4vKEDnOl0DVkLyo/original-2.min.jpg",
+    "description": "咖啡豆保存不當一週內就會流失50%香氣！本篇完整指南帶你從材質、容量、密封方式到便利性，全面解析咖啡豆密封罐選購重點，讓每一杯咖啡都保持新鮮風味。",
+    "tags": [
+      "咖啡知識",
+      "咖啡保存",
+      "風味品鑑",
+      "新手入門",
+      "2025"
+    ],
+    "url": "https://www.matrix.com.tw/best-way-to-store-coffee-beans",
+    "source": "external"
+  },
+  {
+    "title": "2026最新咖啡研磨度對照表",
+    "slug": "coffee-grind-size-guide-2026",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/Kyg9vWx8NyKJBXv03GJP14Zm/original-2.min.jpg",
+    "description": "咖啡研磨度怎麼選？太酸太苦怎麼調？本篇用 5 大分級＋沖煮法對照表，教你用時間與風味快速校正研磨粗細，並附過萃/不足排除 SOP、細粉與通道效應對策、磨豆機選購與研磨筆記模板，新手也能穩定沖出咖啡館水準。",
+    "tags": [
+      "咖啡知識",
+      "研磨",
+      "沖煮技巧",
+      "風味品鑑",
+      "新手入門",
+      "2026"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-grind-size-guide-2026",
+    "source": "external"
+  },
+  {
+    "title": "PHILOCOFFEA 品牌介紹：菲洛塞菲亞的咖啡哲學與 46 沖煮法",
+    "slug": "philocoffea-46-guide",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/DoBrmR7VlwMzZDVJY8wbGZKL/original-2.min.jpg",
+    "description": "完整介紹日本精品咖啡品牌 PHILOCOFFEA、2016 World Brewers Cup（世界咖啡沖煮大賽）冠軍粕谷哲與經典 4:6 手沖法則。含新手快速版、步驟教學、參數調整、失敗排除、豆款建議與 FAQ",
+    "tags": [
+      "咖啡知識",
+      "手沖咖啡",
+      "沖煮技巧",
+      "新手入門",
+      "粕谷哲",
+      "咖啡冠軍",
+      "精品咖啡"
+    ],
+    "url": "https://www.matrix.com.tw/philocoffea-46-guide",
+    "source": "external"
+  },
+  {
+    "title": "SCA 杯測專業進階指南",
+    "slug": "sca-cupping-protocol-guide",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/y8Rxg1qMlj8XOOgpYbLe06wn/original-2.min.jpg",
+    "description": "SCA 杯測新手後的進階課程。水質為什麼影響評分、杯測室怎麼佈置、怎麼識別 10 種杯測缺陷、競賽和盲測怎麼進行、如何考取 SCA 認證。完整專業杯測知識。",
+    "tags": [
+      "咖啡知識",
+      "風味品鑑",
+      "新手入門",
+      "SCA"
+    ],
+    "url": "https://www.matrix.com.tw/sca-cupping-protocol-guide",
+    "source": "external"
+  },
+  {
+    "title": "SCA 杯測新手入門指南",
+    "slug": "sca-cupping-for-beginners-guide",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/kEyLdZjRNLmwPPMXY8pWbz6O/original-2.min.jpg",
+    "description": "什麼是 SCA 杯測？為什麼咖啡廳都在用？新手也能學！6個步驟從研磨、注水到評分，完整教學杯測流程，第一次就能評估咖啡品質。",
+    "tags": [
+      "咖啡知識",
+      "研磨",
+      "風味品鑑",
+      "新手入門",
+      "SCA"
+    ],
+    "url": "https://www.matrix.com.tw/sca-cupping-for-beginners-guide",
+    "source": "external"
+  },
+  {
+    "title": "V60濾杯使用教學｜完整沖煮參數指南",
+    "slug": "v60-brewing-guide-beginners",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/ZOaL8DPWY6LBq1PVl92ExyG0/original-2.min.jpg",
+    "description": "V60濾杯完整教學：器材、參數、步驟、進階技巧、排錯、保養。加碼焙度研磨對照、豆種實測、懶人總表與FAQ。",
+    "tags": [
+      "咖啡知識",
+      "V60",
+      "研磨",
+      "沖煮技巧",
+      "新手入門"
+    ],
+    "url": "https://www.matrix.com.tw/v60-brewing-guide-beginners",
+    "source": "external"
+  },
+  {
+    "title": "【獨家下載】咖啡沖煮參數速查表",
+    "slug": "coffee-brew-cheat-sheet",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/j7m6e8BLYJAwWvLwNaG5RKMX/original-2.min.jpg",
+    "description": "不用再查10篇文章也找不到答案。咖啡沖煮參數速查表一次整理所有豆子、工具、調整方法，新手進階者都適用。免費下載、可列印。",
+    "tags": [
+      "咖啡知識",
+      "沖煮技巧",
+      "新手入門"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-brew-cheat-sheet",
+    "source": "external"
+  },
+  {
+    "title": "一天喝多少咖啡最剛好？咖啡因攝取量的科學解析",
+    "slug": "coffee-caffeine-intake-guide",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/nMRpQ02P3XE7ERJ9lr7BkJaE/original-2.min.jpg",
+    "description": "每天喝多少咖啡才不傷身？本文以國際研究為基礎，解析成人、孕婦、青少年咖啡因建議攝取量，並教你聰明控制咖啡因、不影響睡眠與心臟健康。",
+    "tags": [
+      "咖啡知識",
+      "咖啡因"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-caffeine-intake-guide",
+    "source": "external"
+  },
+  {
+    "title": "三大密封技術完整解析",
+    "slug": "coffee-sealing-technologies-valve-air-tight-vacuum",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/Kyg9vWx8NyK8V9Zn3GJP14Zm/original-2.min.jpg",
+    "description": "想延長咖啡豆或食品的新鮮度？本文完整解析三大密封技術：單向排氣閥、氣密結構、真空應用，說明原理、優缺點與適用場合，幫助你根據需求選出最合適的保存方式，避免風味流失與浪費。",
+    "tags": [
+      "咖啡知識",
+      "咖啡保存",
+      "風味品鑑"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-sealing-technologies-valve-air-tight-vacuum",
+    "source": "external"
+  },
+  {
+    "title": "不同咖啡處理法 × 保存期 × 氧化速率",
+    "slug": "coffee-processing-storage-guide",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/5yxD7ZmWlk1WznmRYXgBqvRQ/original-2.min.jpg",
+    "description": "深入解析水洗、日曬、蜜處理、濕刨與厭氧發酵等五種咖啡處理法在保存期、氧化速率與真空時機上的差異。從化學機制、油脂分佈到實務建議，建立精品咖啡保存的完整科學指南。",
+    "tags": [
+      "咖啡知識",
+      "咖啡保存",
+      "處理法",
+      "新手入門",
+      "精品咖啡"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-processing-storage-guide",
+    "source": "external"
+  },
+  {
+    "title": "不同產地咖啡的最佳沖煮參數：非洲 vs 中南美 vs 亞洲",
+    "slug": "brewing-parameters-by-origin",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/w560gEeAloXqgge4NOqrx1ab/1200x-1.min.jpg",
+    "description": "掌握非洲、中南美、亞洲咖啡豆的最佳沖煮參數，從研磨度、水溫到粉水比，完整解析三大產區咖啡豆的結構差異與沖煮邏輯，避開常見萃取誤區，穩定提升每一杯咖啡的風味表現。",
+    "tags": [
+      "咖啡知識",
+      "研磨",
+      "沖煮技巧",
+      "風味品鑑",
+      "咖啡產地",
+      "粉水比"
+    ],
+    "url": "https://www.matrix.com.tw/brewing-parameters-by-origin",
+    "source": "external"
+  },
+  {
+    "title": "世界各地的咖啡文化比較",
+    "slug": "world-coffee-culture-espresso-japan-vietnam",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/kEyLdZjRNLmqmLeXY8pWbz6O/original-2.min.jpg",
+    "description": "義大利濃縮咖啡、日本手沖、越南冰咖啡差在哪？本篇再加入法壓壺與愛樂壓文化脈絡，從沖煮技法、風味取向到器具選擇一次看懂，找到最符合你生活節奏的咖啡方式。",
+    "tags": [
+      "咖啡知識",
+      "手沖咖啡",
+      "沖煮技巧",
+      "風味品鑑",
+      "咖啡產地",
+      "冰咖啡"
+    ],
+    "url": "https://www.matrix.com.tw/world-coffee-culture-espresso-japan-vietnam",
+    "source": "external"
+  },
+  {
+    "title": "中美洲咖啡豆產地深度解析",
+    "slug": "central-america-coffee-origins-guide",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/5yxD7ZmWlk1WLEORYXgBqvRQ/original-2.min.jpg",
+    "description": "中美洲咖啡產區全解析：瓜地馬拉煙燻巧克力的火山風味、哥斯大黎加的蜜處理革命、巴拿馬藝伎的花香極致。從火山帶微氣候到 SHB 分級制度與莊園認證，掌握精品咖啡選豆核心知識，烘焙師與進口商必讀指南。",
+    "tags": [
+      "咖啡知識",
+      "烘焙",
+      "風味品鑑",
+      "咖啡產地",
+      "處理法",
+      "新手入門",
+      "精品咖啡"
+    ],
+    "url": "https://www.matrix.com.tw/central-america-coffee-origins-guide",
+    "source": "external"
+  },
+  {
+    "title": "你了解你的咖啡怎麼處理的嗎？水洗、日曬、蜜處理與嫌氧發酵",
+    "slug": "coffee-processing-washed-natural-honey-anaerobic",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/Xno5Qb1D3MVmEKzql67ZWPv9/original-2.min.jpg",
+    "description": "深入解析咖啡處理法的科學原理與風味影響。從傳統水洗、日曬到創新厭氧發酵，專業剖析各種處理法的技術差異、適用產區與風味表現，助您選擇最適合的精品咖啡。",
+    "tags": [
+      "咖啡知識",
+      "風味品鑑",
+      "咖啡產地",
+      "處理法",
+      "精品咖啡"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-processing-washed-natural-honey-anaerobic",
+    "source": "external"
+  },
+  {
+    "title": "冰手沖與冷釀咖啡比例怎麼抓？",
+    "slug": "iced-pourover-coldbrew-ratio-m2pro",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/O5gwrR4GNQbgb4JJYBpn071e/original-2.min.jpg",
+    "description": "冰手沖與冷萃咖啡比例怎麼抓，才能穩定又好喝？本文完整解析 1:10、1:12、1:15 不同比例的風味差異，並深入說明冰塊、研磨度與時間的交互影響，搭配 M2 PRO 粉水比/粉液比與三色流速條，讓你在家也能精準複製咖啡館等級的夏日冰咖啡。",
+    "tags": [
+      "咖啡知識",
+      "手沖咖啡",
+      "M2 PRO",
+      "研磨",
+      "風味品鑑",
+      "冰咖啡",
+      "粉水比"
+    ],
+    "url": "https://www.matrix.com.tw/iced-pourover-coldbrew-ratio-m2pro",
+    "source": "external"
+  },
+  {
+    "title": "南美洲咖啡豆產地深度解析",
+    "slug": "south-america-coffee-beans-origin-processing-guide",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/wAjo1QaDle4BWbrZ390xLGMJ/original-2.min.jpg",
+    "description": "深度解析南美洲咖啡豆產地：巴西自然日曬的堅果甜感、哥倫比亞水洗的均衡風味、秘魯有機認證的生態優勢。了解半水洗處理、品種改良與莊園分級制度，掌握全球最大咖啡產區的採購關鍵。",
+    "tags": [
+      "咖啡知識",
+      "風味品鑑",
+      "咖啡產地",
+      "處理法"
+    ],
+    "url": "https://www.matrix.com.tw/south-america-coffee-beans-origin-processing-guide",
+    "source": "external"
+  },
+  {
+    "title": "印尼咖啡豆產地專業解析",
+    "slug": "indonesia-coffee-origins-giling-basah",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/0nMRz1wGlRwkEWEMNV9Kjv6E/original-2.min.jpg",
+    "description": "解析印尼咖啡四大產區：曼特寧濕刨法、爪哇陳年豆、托拉雅水洗、峇里精品。掌握 Giling Basah 工藝、分級制度與烘焙關鍵，深入亞洲咖啡獨特風土。",
+    "tags": [
+      "咖啡知識",
+      "烘焙",
+      "咖啡產地",
+      "處理法"
+    ],
+    "url": "https://www.matrix.com.tw/indonesia-coffee-origins-giling-basah",
+    "source": "external"
+  },
+  {
+    "title": "台灣專用｜咖啡磨豆機保養全攻略",
+    "slug": "taiwan-coffee-grinder-maintenance",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/ZOaL8DPWY6LGD5APl92ExyG0/original-2.min.jpg",
+    "description": "台灣咖啡愛好者必看！本文深度解析咖啡磨豆機保養原理，提供刀盤清潔步驟、潤滑頻率等專業知識，涵蓋家用磨豆機維護、商用磨豆機保養流程，教你解決研磨不均、異音問題，延長機器壽命並穩定萃取品質。",
+    "tags": [
+      "咖啡知識",
+      "研磨",
+      "沖煮技巧"
+    ],
+    "url": "https://www.matrix.com.tw/taiwan-coffee-grinder-maintenance",
+    "source": "external"
+  },
+  {
+    "title": "台灣產區咖啡入門：南投、雲林古坑、屏東風味差異",
+    "slug": "tw-coffee-origin-guide",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/LWx9yMqPlG78vEgZlEpb1wO7/original-2.min.jpg",
+    "description": "台灣產區咖啡怎麼選？一次比較南投、雲林古坑、屏東咖啡風味差異，整理處理法影響、選豆避坑與 30 分鐘對照喝法，讓你下次買台灣豆不踩雷、喝得出差別。",
+    "tags": [
+      "咖啡知識",
+      "風味品鑑",
+      "咖啡產地",
+      "處理法",
+      "新手入門"
+    ],
+    "url": "https://www.matrix.com.tw/tw-coffee-origin-guide",
+    "source": "external"
+  },
+  {
+    "title": "咖啡60秒蒸蒸判斷新鮮度",
+    "slug": "how-to-check-coffee-freshness",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/W4d5DeM03xjeqxZ1NpOKbqkB/original-2.min.jpg",
+    "description": "想知道手中的咖啡豆還新鮮嗎？本文教你3分鐘學會悶蒸判斷法，從冒泡劇烈度、膨脹形態、持續時間三個面向，教你不看烘焙日期也能避開過期咖啡豆，沖出更好喝的咖啡",
+    "tags": [
+      "咖啡知識",
+      "烘焙",
+      "悶蒸"
+    ],
+    "url": "https://www.matrix.com.tw/how-to-check-coffee-freshness",
+    "source": "external"
+  },
+  {
+    "title": "咖啡吹球是什麼？用途、好處與清理靜電全攻略",
+    "slug": "coffee-blower-anti-static-for-grinder",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/v5zx6meKY4vKyx12l0DVkLyo/original-2.min.jpg",
+    "description": "咖啡吹球是解決研磨機殘粉與靜電問題的關鍵工具。本篇教你正確使用方式、風味維護秘訣、露營與家用多場景應用，完整提升咖啡沖煮體驗。",
+    "tags": [
+      "咖啡知識",
+      "研磨",
+      "沖煮技巧",
+      "風味品鑑",
+      "吹球"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-blower-anti-static-for-grinder",
+    "source": "external"
+  },
+  {
+    "title": "咖啡品評指南：解析 Body、酸質、甜感與餘韻",
+    "slug": "coffee-body-acidity-sweetness-dimensions-guide",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/A7dLy5pv31voMDmPlXg0QzKr/original-2.min.jpg",
+    "description": "看懂風味輪後的下一步？Body 到底是什麼、酸質如何改變、甜感怎麼評分、餘韻為什麼重要。掌握咖啡四大維度，精準評價一杯咖啡的真實品質。",
+    "tags": [
+      "咖啡知識",
+      "風味品鑑",
+      "新手入門"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-body-acidity-sweetness-dimensions-guide",
+    "source": "external"
+  },
+  {
+    "title": "咖啡品鑑指南：從口感到風味的完整探索",
+    "slug": "coffee-tasting-guide",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/GBnwbKdx3dveKDa7NW7954ej/original-2.min.jpg",
+    "description": "咖啡喝起來像果汁或巧克力差在哪？用一套可練習、可累積的方法，讀懂咖啡的酸甜苦與醇厚（Body）、口感質地、產區風味輪廓與處理法差異；附新手訓練路線與FAQ。",
+    "tags": [
+      "咖啡知識",
+      "風味品鑑",
+      "咖啡產地",
+      "處理法",
+      "新手入門"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-tasting-guide",
+    "source": "external"
+  },
+  {
+    "title": "咖啡沖不好？物理學告訴你！水流×粉層×壺力，3大關鍵完全解析",
+    "slug": "coffee-extraction-physics-guide",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/rAW85emGlnz8op6Alyok6vBL/original-2.min.jpg",
+    "description": "咖啡萃取是什麼？完整解析水流速率、粉層結構與9bar壓力如何影響酸甜苦平衡。附實驗數據對照表與3分鐘自我診斷指南，學會避免過度萃取與萃取不足，在家煮出專業級風味。",
+    "tags": [
+      "咖啡知識",
+      "沖煮技巧",
+      "風味品鑑",
+      "新手入門"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-extraction-physics-guide",
+    "source": "external"
+  },
+  {
+    "title": "咖啡沖煮參數完整指南",
+    "slug": "coffee-brewing-parameters-guide",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/Wqybvx25N9ykvO46NREOMVPo/original-2.min.jpg",
+    "description": "同一支咖啡豆為什麼沖出來味道不一樣？水溫、時間、粉水比怎麼調？根據咖啡豆風格、沖煮工具快速找到最佳參數，不用再靠運氣。",
+    "tags": [
+      "咖啡知識",
+      "沖煮技巧",
+      "新手入門",
+      "粉水比"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-brewing-parameters-guide",
+    "source": "external"
+  },
+  {
+    "title": "咖啡濾紙怎麼選？濾紙種類、濾杯搭配與風味差異",
+    "slug": "coffee-filter-paper-guide",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/xQdpkWj03aeggEBG39by6aRo/original-2.min.jpg",
+    "description": "咖啡濾紙不只是耗材，而是影響萃取速度、香氣表現與口感乾淨度的關鍵。完整解析濾紙形狀、厚薄、孔隙與品牌差異，並附濾杯×濾紙快速對照表與V60三款濾紙實用配置，幫你用最低成本精準調味。",
+    "tags": [
+      "咖啡知識",
+      "V60",
+      "沖煮技巧",
+      "風味品鑑"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-filter-paper-guide",
+    "source": "external"
+  },
+  {
+    "title": "咖啡烘焙一爆、二爆與發展時間比（DTR）如何影響風味？",
+    "slug": "coffee-roasting-first-crack-second-crack",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/g1JZGpdVYBmgZ01AN0onavMR/original-2.min.jpg",
+    "description": "深入解析咖啡烘焙曲線設計關鍵技術—一爆二爆判別、DTR計算、梅納反應與焦糖化控制。掌握脫水期到風味發展期的溫度曲線,打造淺焙、中焙、深焙專業風味輪廓。",
+    "tags": [
+      "咖啡知識",
+      "烘焙",
+      "風味品鑑"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-roasting-first-crack-second-crack",
+    "source": "external"
+  },
+  {
+    "title": "咖啡烘焙的梅納反應與焦糖化：風味如何產生？",
+    "slug": "coffee-maillard-caramelization",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/0nMRz1wGlRw5wRnjNV9Kjv6E/original-2.min.jpg",
+    "description": "深入解析咖啡烘焙中的梅納反應與焦糖化：溫度區間、化學變化到風味特徵，教你辨識堅果香、可可香與焦糖甜感如何在烘焙曲線中被打造出來。",
+    "tags": [
+      "咖啡知識",
+      "烘焙",
+      "風味品鑑"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-maillard-caramelization",
+    "source": "external"
+  },
+  {
+    "title": "咖啡用水的學問｜pH、硬度、純度如何改變風味？",
+    "slug": "best-water-for-coffee",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/o4a0bwXWNWbp2MQdlGgE1yzv/original-2.min.jpg",
+    "description": "咖啡用水的學問｜探討礦物質、硬度、pH值與純度對咖啡萃取的影響，涵蓋水質檢測方法、改善方案與不同沖煮方式的理想用水標準，讓你沖出更穩定純淨的好咖啡。",
+    "tags": [
+      "咖啡知識",
+      "沖煮技巧",
+      "風味品鑑"
+    ],
+    "url": "https://www.matrix.com.tw/best-water-for-coffee",
+    "source": "external"
+  },
+  {
+    "title": "咖啡的抗氧化物質：綠原酸、多酚與健康益處",
+    "slug": "coffee-antioxidants-chlorogenic-polyphenols",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/0nMRz1wGlRw5wRnMNV9Kjv6E/original-2.min.jpg",
+    "description": "深入了解咖啡中的綠原酸、多酚等抗氧化物質，如何對抗自由基、支持代謝與心血管；並掌握烘焙度、水溫、沖煮與保存技巧，讓每杯咖啡發揮最大健康價值。",
+    "tags": [
+      "咖啡知識",
+      "烘焙",
+      "咖啡保存",
+      "沖煮技巧"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-antioxidants-chlorogenic-polyphenols",
+    "source": "external"
+  },
+  {
+    "title": "咖啡豆保存完全攻略",
+    "slug": "how-to-store-coffee-beans",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/w560gEeAlo0eBWo6NOqrx1ab/original-2.min.jpg",
+    "description": "咖啡豆保存完全攻略｜避開常見誤區，延長最佳賞味期。從四大敵人、黃金保存原則、容器材質、分裝與溫度管理，到常見保存迷思 Q&amp;A 與檢測方法，完整實用的咖啡豆保存教學。",
+    "tags": [
+      "咖啡知識",
+      "咖啡保存"
+    ],
+    "url": "https://www.matrix.com.tw/how-to-store-coffee-beans",
+    "source": "external"
+  },
+  {
+    "title": "咖啡豆保存指南：原袋、普通罐、真空罐怎麼選？",
+    "slug": "coffee-bean-storage-guide-bag-canister-vacuum",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/v5zx6meKY4vKGj7bl0DVkLyo/original-2.min.jpg",
+    "description": "精品咖啡豆要如何保存才能維持新鮮？從原廠袋、氣密罐到真空保存，本篇完整解析三大密封技術的差異，並提供實用選購指南，幫助你避免風味流失與浪費，讓每一杯咖啡都保持最佳狀態。",
+    "tags": [
+      "咖啡知識",
+      "咖啡保存",
+      "風味品鑑",
+      "新手入門",
+      "精品咖啡"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-bean-storage-guide-bag-canister-vacuum",
+    "source": "external"
+  },
+  {
+    "title": "咖啡豆學問大揭密｜新鮮度、保存與風味全解析",
+    "slug": "coffee-bean-storage-tips",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/y8Rxg1qMlj8XmGDJYbLe06wn/original-2.min.jpg",
+    "description": "咖啡豆新鮮度完整解析｜從咖啡豆品種、烘焙過程到保存技巧，教你如何判斷咖啡豆是否新鮮，延長保鮮並保留最佳風味。",
+    "tags": [
+      "咖啡知識",
+      "烘焙",
+      "咖啡保存",
+      "風味品鑑"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-bean-storage-tips",
+    "source": "external"
+  },
+  {
+    "title": "咖啡豆怎麼保存最好？放冰箱？",
+    "slug": "coffee-beans-fridge-freezer",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/wP6vpqMBNgzK5gWLld7DaZ0y/original-2.min.jpg",
+    "description": "想延長咖啡豆保存期限？咖啡豆要放冰箱保存嗎？本文完整解析咖啡豆保存方法，說明常溫、冷藏、冷凍的差異，並提供 6 大注意事項與實用技巧，避免結露、異味與風味流失，讓咖啡保持最佳鮮度。",
+    "tags": [
+      "咖啡知識",
+      "咖啡保存",
+      "風味品鑑"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-beans-fridge-freezer",
+    "source": "external"
+  },
+  {
+    "title": "咖啡豆怎麼選？新手必看選購指南",
+    "slug": "coffee-bean-roast-date-and-origin-guide",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/w560gEeAloXqgge4NOqrx1ab/1200x-1.min.jpg",
+    "description": "咖啡豆選購不用靠感覺！烘焙日期怎麼看？單向排氣閥要不要選？產地標示如何辨真偽？本文拆解包裝、品質、產地 3 大核心，新手也能輕鬆避開行銷話術，選到高品質精品咖啡豆，馬上收藏學起來！",
+    "tags": [
+      "咖啡知識",
+      "烘焙",
+      "咖啡產地",
+      "新手入門",
+      "精品咖啡"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-bean-roast-date-and-origin-guide",
+    "source": "external"
+  },
+  {
+    "title": "咖啡豆浪費計算器｜M2 PRO精準測量降低誤差",
+    "slug": "coffee-bean-waste-calculator-m2pro",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/DoBrmR7VlwMJJOXkY8wbGZKL/original-2.min.jpg",
+    "description": "咖啡豆浪費其實多半來自粉量誤差與重複試錯。本文用咖啡豆浪費計算器概念試算一年浪費量，並解析 M2 PRO 透過精準測量粉量與注水、數據化回顧流程，如何降低失敗率、減少咖啡粉浪費，讓每一克豆子都用在值得的風味上。",
+    "tags": [
+      "咖啡知識",
+      "M2 PRO",
+      "風味品鑑"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-bean-waste-calculator-m2pro",
+    "source": "external"
+  },
+  {
+    "title": "咖啡豆為何會排二氧化碳？搞懂排氣期",
+    "slug": "co2-release-coffee-beans",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/a1A4ovQm3KXrvjOJlDxz6OWE/original-2.min.jpg",
+    "description": "深入解析咖啡豆排二氧化碳的原理與階段，從烘焙過程、排氣週期、烘焙度差異到保存建議，完整解答咖啡豆排氣疑問，幫助你喝到最佳風味。",
+    "tags": [
+      "咖啡知識",
+      "烘焙",
+      "咖啡保存",
+      "風味品鑑"
+    ],
+    "url": "https://www.matrix.com.tw/co2-release-coffee-beans",
+    "source": "external"
+  },
+  {
+    "title": "咖啡豆烘焙度完整指南",
+    "slug": "coffee-roast-guide-flavor-brewing",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/wP6vpqMBNgzKoXObld7DaZ0y/original-2.min.jpg",
+    "description": "想知道如何分辨咖啡豆烘焙度嗎？從淺焙、中焙到深焙的完整辨識指南，教你從顏色、香氣判斷烘焙程度，找到最適合你的沖煮方式，讓每杯咖啡都香醇濃郁！",
+    "tags": [
+      "咖啡知識",
+      "烘焙",
+      "沖煮技巧",
+      "新手入門"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-roast-guide-flavor-brewing",
+    "source": "external"
+  },
+  {
+    "title": "咖啡豆等級完全指南 2025",
+    "slug": "coffee-bean-grades-guide",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/DPq15dgL3PqwoLXalrBbJ2am/original-2.min.jpg",
+    "description": "從基礎到專業！這篇指南拆解咖啡豆所有分級機制：衣索比亞G1/G2瑕疵率標準、肯亞AA 17-18目顆粒規格、瓜地馬拉SHB 1200公尺以上海拔要求，還有美洲、非洲、台灣產區特色體系，讓你秒懂等級與風味的關聯，選豆、辨豆不再憑感覺，掌握專業咖啡人的判斷邏輯。",
+    "tags": [
+      "咖啡知識",
+      "風味品鑑",
+      "咖啡產地",
+      "新手入門",
+      "2025"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-bean-grades-guide",
+    "source": "external"
+  },
+  {
+    "title": "咖啡豆能放多久才算「剛好」？烘焙後 7 天、30 天、90 天",
+    "slug": "coffee-bean-freshness-guide-roast-date",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/LWx9yMqPlG7QKagzlEpb1wO7/original-2.min.jpg",
+    "description": "咖啡豆新鮮度怎麼判斷？烘焙後多久最好喝？養豆期要幾天？透過科學數據完整解析咖啡豆保存期限、最佳賞味期與風味變化，教你精準掌握每顆豆子的黃金時機。",
+    "tags": [
+      "咖啡知識",
+      "烘焙",
+      "咖啡保存",
+      "風味品鑑"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-bean-freshness-guide-roast-date",
+    "source": "external"
+  },
+  {
+    "title": "咖啡豆能放多久？烘焙度保存期限+開封後保存全攻略",
+    "slug": "coffee-bean-preservation-strategy",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/7QBw2oEnYzJ4xjbqYxAP0vM9/original-2.min.jpg",
+    "description": "咖啡豆買回家能放多久？本篇完整解析淺焙、中焙、深焙咖啡豆的保存期限，並教你開封後如何用密封罐延長新鮮度。附冷凍保存建議與判斷新鮮3技巧，讓你喝到最香的那一杯。",
+    "tags": [
+      "咖啡知識",
+      "烘焙",
+      "咖啡保存"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-bean-preservation-Strategy",
+    "source": "external"
+  },
+  {
+    "title": "咖啡豆買回家就變味？原來是「這 3 個因素」",
+    "slug": "coffee-beans-storage-oxidation-moisture-light",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/7b8Wmjk2l59JAwKolvD1VZrP/original-2.min.jpg",
+    "description": "咖啡豆保存不當會快速變味？本文解析咖啡豆風味流失的3大原因：氧化、潮濕、光照，並提供正確的儲存技巧與密封罐選擇建議，讓你維持咖啡豆的新鮮與香氣。",
+    "tags": [
+      "咖啡知識",
+      "咖啡保存",
+      "風味品鑑"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-beans-storage-oxidation-moisture-light",
+    "source": "external"
+  },
+  {
+    "title": "咖啡豆選購保存完整指南｜2025",
+    "slug": "coffee-beans-buying-and-storage-guide",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/DoBrmR7VlwMzVw9XY8wbGZKL/original-2.min.jpg",
+    "description": "【2025最新】咖啡豆選購保存全攻略！教你從烘焙日期、產區風味到密封技巧，輕鬆挑選新鮮咖啡豆。專業咖啡豆購買指南，避開陳豆地雷，在家沖出咖啡館等級香醇風味！",
+    "tags": [
+      "咖啡知識",
+      "烘焙",
+      "咖啡保存",
+      "風味品鑑",
+      "咖啡產地",
+      "新手入門",
+      "2025"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-beans-buying-and-storage-guide",
+    "source": "external"
+  },
+  {
+    "title": "咖啡貿易史全解析：從衣索比亞到全球，500年產業擴張與精品革命",
+    "slug": "coffee-trade-history-500-years",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/o7KQGvx83OMVVpKvNnVR9Xkj/original-2.min.jpg",
+    "description": "探索咖啡貿易史 500 年演進軌跡，從衣索比亞發源地到全球三大產區，深入了解殖民擴張、貿易路線變遷與精品咖啡革命，掌握咖啡產業鏈的歷史脈絡與當代趨勢。",
+    "tags": [
+      "咖啡知識",
+      "咖啡產地",
+      "精品咖啡"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-trade-history-500-years",
+    "source": "external"
+  },
+  {
+    "title": "咖啡風味輪完全解析",
+    "slug": "coffee-flavor-wheel-guide",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/o7KQGvx83OMwdLv7NnVR9Xkj/original-2.min.jpg",
+    "description": "咖啡風味輪如何解讀？從花香、果酸到堅果調性，本篇完整解析咖啡風味輪的科學原理、品嚐方法與專業選購指南。幫助咖啡愛好者精準識別每支豆子的獨特風味！",
+    "tags": [
+      "咖啡知識",
+      "風味品鑑",
+      "新手入門"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-flavor-wheel-guide",
+    "source": "external"
+  },
+  {
+    "title": "如何第一次手沖咖啡就成功？",
+    "slug": "how-to-make-pour-over-coffee-for-beginners",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/v5zx6meKY4vK0Rmbl0DVkLyo/original-2.min.jpg",
+    "description": "第一次手沖咖啡不踩雷！完整教學從器具準備到萃取技巧，含水粉比例、研磨粗細、悶蒸與分段注水，搭配 Matrix M2 Pro 咖啡秤練習，新手也能沖出香醇咖啡。",
+    "tags": [
+      "咖啡知識",
+      "手沖咖啡",
+      "Matrix",
+      "M2 PRO",
+      "咖啡電子秤",
+      "研磨",
+      "沖煮技巧",
+      "新手入門"
+    ],
+    "url": "https://www.matrix.com.tw/how-to-make-pour-over-coffee-for-beginners",
+    "source": "external"
+  },
+  {
+    "title": "嫌氧發酵咖啡沖煮工具×參數模板",
+    "slug": "anaerobic-brewing-tools",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/o4a0bwXWNWbzzQ89lGgE1yzv/original-2.min.jpg",
+    "description": "厭氧發酵咖啡沖煮工具頁：整理 CO₂ 浸漬、乳酸菌發酵、厭氧日曬的起手式參數，提供可填寫沖煮紀錄表，並可一鍵匯出 TSV/CSV 直接貼到 Google Sheets，建立可重現的風味紀錄。",
+    "tags": [
+      "咖啡知識",
+      "Switch濾杯",
+      "沖煮技巧",
+      "風味品鑑",
+      "處理法"
+    ],
+    "url": "https://www.matrix.com.tw/anaerobic-brewing-tools",
+    "source": "external"
+  },
+  {
+    "title": "嫌氧發酵咖啡解密：CO₂浸漬、乳酸菌發酵如何改變風味？",
+    "slug": "anaerobic-fermentation-coffee",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/7QBw2oEnYzJnn6KpYxAP0vM9/original-2.min.jpg",
+    "description": "厭氧發酵咖啡正夯！深入解析 CO₂ 浸漬法與乳酸菌發酵如何創造獨特風味層次，從科學原理到選購與沖煮技巧，一篇帶你看懂精品咖啡新浪潮。",
+    "tags": [
+      "咖啡知識",
+      "Switch濾杯",
+      "沖煮技巧",
+      "風味品鑑",
+      "處理法",
+      "精品咖啡"
+    ],
+    "url": "https://www.matrix.com.tw/anaerobic-fermentation-coffee",
+    "source": "external"
+  },
+  {
+    "title": "手沖 vs 法壓 vs 愛樂壓",
+    "slug": "coffee-gear-comparison",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/kEyLdZjRNLmqmLJXY8pWbz6O/original-2.min.jpg",
+    "description": "手沖、法壓、愛樂壓完整比較！一次看懂三大咖啡器具的風味差異、濃度表現、操作難度與預算分析，新手到進階玩家都能在 5 分鐘內找到最適合自己的咖啡沖煮工具。",
+    "tags": [
+      "咖啡知識",
+      "手沖咖啡",
+      "沖煮技巧",
+      "風味品鑑",
+      "新手入門"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-gear-comparison",
+    "source": "external"
+  },
+  {
+    "title": "手沖咖啡必學：咖啡悶蒸完整教學",
+    "slug": "bloom-techniques-beginners-advanced",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/kEyLdZjRNLd61MdnN8pWbz6O/original-2.min.jpg",
+    "description": "Matrix 致力於成為生活美學專家，藉由生活實用經驗，不用改變使用者習慣，又可提升生活運用及美感。這樣的運用不僅止只適用一種，還可多方面使用，這是我們團隊努力的目標！",
+    "tags": [
+      "咖啡知識",
+      "手沖咖啡",
+      "Matrix",
+      "悶蒸"
+    ],
+    "url": "https://www.matrix.com.tw/bloom-techniques-beginners-advanced",
+    "source": "external"
+  },
+  {
+    "title": "掛耳包咖啡為什麼要磨得更細？",
+    "slug": "drip-bag-coffee-grind-size-guide",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/g1JZGpdVYBmgngqoN0onavMR/original-2.min.jpg",
+    "description": "掛耳包咖啡為什麼需要更細的研磨度？本文深入解析咖啡萃取科學、粉水比與流速控制，帶你了解掛耳包與手沖咖啡的研磨關鍵差異，從製程到風味一篇掌握。",
+    "tags": [
+      "咖啡知識",
+      "手沖咖啡",
+      "研磨",
+      "沖煮技巧",
+      "風味品鑑",
+      "粉水比"
+    ],
+    "url": "https://www.matrix.com.tw/drip-bag-coffee-grind-size-guide",
+    "source": "external"
+  },
+  {
+    "title": "新手必看：咖啡豆淺烘 vs 深烘差異",
+    "slug": "coffee-light-roast-vs-dark-roast",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/w560gEeAloXqgge4NOqrx1ab/1200x-1.min.jpg",
+    "description": "咖啡豆淺焙、深焙怎麼選？本篇用對照卡、風味雷達與情境選擇，整理淺焙與深焙在風味、酸度、咖啡因與沖煮應用上的關鍵差異，搭配選購指南與 FAQ，幫你找到最符合自己口味的咖啡豆。",
+    "tags": [
+      "咖啡知識",
+      "沖煮技巧",
+      "風味品鑑",
+      "新手入門",
+      "咖啡因"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-light-roast-vs-dark-roast",
+    "source": "external"
+  },
+  {
+    "title": "每天幾點喝咖啡最提神？安排你的喝咖啡最佳時間",
+    "slug": "best-coffee-time-circadian-rhythm",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/g9M05D783DyAO2PylRoA6Z1W/original-2.min.jpg",
+    "description": "你每天第一杯咖啡，真的喝對時間了嗎？依據睡眠科學與皮質醇週期，起床後 90 分鐘才是喝咖啡的黃金時間。本文提供完整生理時鐘飲用時程表，結合咖啡因代謝分型與各族群調整策略，幫你告別下午倦怠與夜間失眠！",
+    "tags": [
+      "咖啡知識",
+      "咖啡因"
+    ],
+    "url": "https://www.matrix.com.tw/best-coffee-time-circadian-rhythm",
+    "source": "external"
+  },
+  {
+    "title": "為什麼你的冰咖啡不好喝？90% 都是比例錯了",
+    "slug": "why-iced-coffee-tastes-bad-ratio",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/rAW85emGlnzJz8Gnlyok6vBL/original-2.min.jpg",
+    "description": "冰咖啡不好喝不是豆子問題，而是比例錯了！本文從冰手沖與冷萃咖啡常見失敗案例出發，解析粉水比、冰塊比例、研磨度與萃取時間的關鍵影響，教你用正確比例穩定沖出清爽不苦、香氣完整的好喝冰咖啡。",
+    "tags": [
+      "咖啡知識",
+      "手沖咖啡",
+      "研磨",
+      "沖煮技巧",
+      "冰咖啡",
+      "粉水比"
+    ],
+    "url": "https://www.matrix.com.tw/why-iced-coffee-tastes-bad-ratio",
+    "source": "external"
+  },
+  {
+    "title": "特殊處理法實驗：酒桶陳年、熱浸泡與冷浸泡",
+    "slug": "special-coffee-processing",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/Gr1Lb8a63ZLKKQWwNEAXx24D/original-2.min.jpg",
+    "description": "探索咖啡特殊處理法：酒桶陳年、熱浸泡（Thermal Shock）與冷浸泡如何塑造獨特風味。從技術原理、風味輪廓到選購與沖煮參數、保存方式一次拆解，帶你建立可用、可重現的品鑑框架。",
+    "tags": [
+      "咖啡知識",
+      "咖啡保存",
+      "沖煮技巧",
+      "風味品鑑",
+      "處理法"
+    ],
+    "url": "https://www.matrix.com.tw/special-coffee-processing",
+    "source": "external"
+  },
+  {
+    "title": "研磨度與咖啡因完整解析",
+    "slug": "grind-size-caffeine-extraction",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/7QBw2oEnYzJnJ8DWYxAP0vM9/original-2.min.jpg",
+    "description": "咖啡因攝取不只和咖啡豆有關，研磨度才是真正關鍵！完整解析研磨粗細如何影響咖啡因萃取、不同沖煮法的實際差異，教你用研磨調整咖啡刺激感，喝得清醒又不心悸。",
+    "tags": [
+      "咖啡知識",
+      "研磨",
+      "沖煮技巧",
+      "咖啡因"
+    ],
+    "url": "https://www.matrix.com.tw/grind-size-caffeine-extraction",
+    "source": "external"
+  },
+  {
+    "title": "研磨度調好後，為什麼味道還是不穩？",
+    "slug": "coffee-stability-3-missed-things-2026",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/o4a0bwXWNWbzD6yGlGgE1yzv/original-2.min.jpg",
+    "description": "研磨度明明已經調好，咖啡味道卻忽好忽壞？多數人真正忽略的是：注水結構、粉床狀態與水質/水溫穩定度。本篇帶你把風味穩定性拉回來。",
+    "tags": [
+      "咖啡知識",
+      "研磨",
+      "風味品鑑"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-stability-3-missed-things-2026",
+    "source": "external"
+  },
+  {
+    "title": "磨豆機圖解保養步驟",
+    "slug": "coffee-grinder-maintenance-checklist",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/Wqybvx25N9yk54OKNREOMVPo/original-2.min.jpg",
+    "description": "磨豆機保養圖解 Checklist｜家用與商用磨豆機完整保養步驟，避開常見錯誤、延長刀盤壽命、提升咖啡萃取穩定性，輕鬆維護每一杯咖啡風味。",
+    "tags": [
+      "咖啡知識",
+      "研磨",
+      "沖煮技巧",
+      "風味品鑑"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-grinder-maintenance-checklist",
+    "source": "external"
+  },
+  {
+    "title": "精品咖啡是什麼？第三波咖啡為何崛起",
+    "slug": "specialty-coffee-third-wave",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/Gr1Lb8a63ZLK8PyDNEAXx24D/original-2.min.jpg",
+    "description": "精品咖啡是什麼？第三波咖啡與一般咖啡差在哪？一次看懂產地、風味、沖煮與體驗，並附第一次進精品咖啡店不踩雷點單指南與FAQ。",
+    "tags": [
+      "咖啡知識",
+      "沖煮技巧",
+      "風味品鑑",
+      "咖啡產地",
+      "新手入門",
+      "精品咖啡"
+    ],
+    "url": "https://www.matrix.com.tw/specialty-coffee-third-wave",
+    "source": "external"
+  },
+  {
+    "title": "精準沖煮指南｜Matrix M2 Pro AI 大師咖啡秤",
+    "slug": "precision-coffee-brewing",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/Wqybvx25N9ykO2p6NREOMVPo/original-2.min.jpg",
+    "description": "想沖出穩定又美味的咖啡嗎？Matrix M2 Pro AI 大師咖啡秤，幫你精準掌握粉水比，避免咖啡粉浪費，提升風味與沖煮成功率，省錢又環保。",
+    "tags": [
+      "咖啡知識",
+      "Matrix",
+      "M2 PRO",
+      "咖啡電子秤",
+      "沖煮技巧",
+      "風味品鑑",
+      "新手入門",
+      "粉水比"
+    ],
+    "url": "https://www.matrix.com.tw/precision-coffee-brewing",
+    "source": "external"
+  },
+  {
+    "title": "義式咖啡黃金比例完整指南",
+    "slug": "espresso-golden-ratio-guide-m2-pro-coffee-scale",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/41brG7JDYpJb4W5dlxW5ywvg/original-2.min.jpg",
+    "description": "掌握義式濃縮咖啡 1:2 黃金比例與 25 秒萃取時間！使用 Matrix M2 PRO AI大師咖啡秤的 MD3 模式，精準控制粉量、時間、液量三大變數，穩定重現專業 Espresso 風味。附淺焙、中焙、深焙調整參數表與常見問題解答，新手也能沖出咖啡館等級濃縮咖啡。",
+    "tags": [
+      "咖啡知識",
+      "Matrix",
+      "M2 PRO",
+      "咖啡電子秤",
+      "沖煮技巧",
+      "風味品鑑",
+      "義式咖啡",
+      "新手入門"
+    ],
+    "url": "https://www.matrix.com.tw/espresso-golden-ratio-guide-m2-pro-coffee-scale",
+    "source": "external"
+  },
+  {
+    "title": "菲洛塞菲亞 46 法 vs 傳統手沖法",
+    "slug": "pour-over-46-vs-traditional",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/ZOaL8DPWY6LG1641l92ExyG0/original-2.min.jpg",
+    "description": "4:6 手沖法和傳統手沖法差在哪？本文拆解注水邏輯、風味差異、優缺點與選擇指南，並附實作配方與常見問題，幫你找到最適合自己的手沖方式。",
+    "tags": [
+      "咖啡知識",
+      "手沖咖啡",
+      "風味品鑑",
+      "新手入門"
+    ],
+    "url": "https://www.matrix.com.tw/pour-over-46-vs-traditional",
+    "source": "external"
+  },
+  {
+    "title": "越南咖啡豆產地深度解析",
+    "slug": "vietnam-coffee-beans-guide",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/0nMRz1wGlRwkEWEDNV9Kjv6E/original-2.min.jpg",
+    "description": "全面解析越南咖啡豆產地現況：全球第二大咖啡出口國的羅布斯塔優勢、中部高原的阿拉比卡轉型、滴漏咖啡文化與煉乳傳統。了解產區分布、品種改良與精品化策略，掌握亞洲咖啡產業新趨勢。",
+    "tags": [
+      "咖啡知識",
+      "咖啡產地"
+    ],
+    "url": "https://www.matrix.com.tw/vietnam-coffee-beans-guide",
+    "source": "external"
+  },
+  {
+    "title": "進階手沖咖啡悶蒸技巧",
+    "slug": "advanced-bloom-techniques",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/Gr1Lb8a63ZLAM1yKNEAXx24D/original-2.min.jpg",
+    "description": "先測口味再學技巧！3大進階咖啡悶蒸方法，兼顧原理與客製化：愛果酸用分段法、喜甜感調時間、怕苦澀學輕拍，附專業參數表+試誤指南+QA答疑，幫你沖出專屬風味。",
+    "tags": [
+      "咖啡知識",
+      "手沖咖啡",
+      "風味品鑑",
+      "新手入門",
+      "悶蒸"
+    ],
+    "url": "https://www.matrix.com.tw/advanced-bloom-techniques",
+    "source": "external"
+  },
+  {
+    "title": "防彈咖啡之後的下一個趨勢？蛋白質咖啡（Proffee）與功能性拿鐵完整解析",
+    "slug": "protein-coffee-guide",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/v5zx6meKY4vkKQL0l0DVkLyo/original-2.min.jpg",
+    "description": "防彈咖啡之後，健身族群開始轉向「蛋白質咖啡（Proffee）」。本文完整解析蛋白質咖啡的定義、熱量、減脂效果、每日建議攝取量與黃金配方比例，帶你掌握最新健康咖啡趨勢。",
+    "tags": [
+      "咖啡知識"
+    ],
+    "url": "https://www.matrix.com.tw/protein-coffee-guide",
+    "source": "external"
+  },
+  {
+    "title": "非洲咖啡豆產地深度解析",
+    "slug": "african-coffee-origin-guide",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/kEyLdZjRNLmwDAkoY8pWbz6O/original-2.min.jpg",
+    "description": "深入解析非洲咖啡豆產地特色：衣索比亞花果香、肯亞明亮酸質、盧安達複雜層次，了解海拔、品種、處理法如何影響風味，專業烘焙師必讀的產地知識指南。",
+    "tags": [
+      "咖啡知識",
+      "烘焙",
+      "風味品鑑",
+      "咖啡產地",
+      "處理法",
+      "新手入門"
+    ],
+    "url": "https://www.matrix.com.tw/african-coffee-origin-guide",
+    "source": "external"
+  },
+  {
+    "title": "顯微鏡下的咖啡革命：顆粒均勻度才是研磨完美的關鍵密碼",
+    "slug": "grind-uniformity-guide",
+    "category": "knowledge",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/o4a0bwXWNWb4pmKGlGgE1yzv/original-2.min.jpg",
+    "description": "咖啡苦澀或酸澀的元兇竟是研磨不均？透過顯微鏡對比數據+實測表格，解析顆粒結構如何影響萃取。手沖新手必學3招提升均勻度！",
+    "tags": [
+      "咖啡知識",
+      "手沖咖啡",
+      "研磨",
+      "沖煮技巧",
+      "新手入門"
+    ],
+    "url": "https://www.matrix.com.tw/grind-uniformity-guide",
+    "source": "external"
+  },
+  {
+    "title": "Matrix M2 PRO 咖啡電子秤評測｜伊藤篤臣實測",
+    "slug": "unboxing-m2pro-goodmanroaster-ito",
+    "category": "kol",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/Xno5Qb1D3MVmnGXRl67ZWPv9/original-2.min.jpg",
+    "description": "京都咖啡職人伊藤篤臣實測：MATRIX M2 PRO 不是堆規格，而是把沖煮關鍵（比例與流速）變得可見。本文從升級猶豫出發，深入解析即時粉水/粉液比與動態流速穩定區間，協助你做出是否升級的理性選擇。",
+    "tags": [
+      "達人實測",
+      "Matrix",
+      "M2 PRO",
+      "咖啡電子秤",
+      "沖煮技巧"
+    ],
+    "url": "https://www.matrix.com.tw/unboxing-m2pro-goodmanroaster_ito",
+    "source": "external"
+  },
+  {
+    "title": "Matrix M2 Pro vs M1 Pro｜虎咖啡實測",
+    "slug": "unboxing-m2pro-whocafe",
+    "category": "kol",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/j7m6e8BLYJAwXGqPNaG5RKMX/original-2.min.jpg",
+    "description": "Matrix 致力於成為生活美學專家，藉由生活實用經驗，不用改變使用者習慣，又可提升生活運用及美感。這樣的運用不僅止只適用一種，還可多方面使用，這是我們團隊努力的目標！",
+    "tags": [
+      "達人實測",
+      "Matrix",
+      "M2 PRO",
+      "M1 PRO"
+    ],
+    "url": "https://www.matrix.com.tw/unboxing-m2pro-whocafe",
+    "source": "external"
+  },
+  {
+    "title": "Matrix M2 Pro 開箱評價：VVcafe 學長實測",
+    "slug": "unboxing-m2pro-vvcafe",
+    "category": "kol",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/7b8Wmjk2l59JpEJ8lvD1VZrP/original-2.min.jpg",
+    "description": "Matrix 致力於成為生活美學專家，藉由生活實用經驗，不用改變使用者習慣，又可提升生活運用及美感。這樣的運用不僅止只適用一種，還可多方面使用，這是我們團隊努力的目標！",
+    "tags": [
+      "達人實測",
+      "Matrix",
+      "M2 PRO"
+    ],
+    "url": "https://www.matrix.com.tw/unboxing-m2pro-vvcafe",
+    "source": "external"
+  },
+  {
+    "title": "WBrC 1st｜徐詩雨",
+    "slug": "coffee-champions-hsu-shi-yuan-wbrc-2022",
+    "category": "map",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/Kyg9vWx8NyKyBox03GJP14Zm/original-2.min.jpg",
+    "description": "徐詩媛於 2022 年澳洲墨爾本 World Brewers Cup 奪冠，成為台灣首位 WBrC 世界咖啡沖煮冠軍。本文解析她如何在高壓舞台建立甜感控制、結構平衡與世界級沖煮邏輯。",
+    "tags": [
+      "咖啡地圖",
+      "沖煮技巧",
+      "咖啡冠軍"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-champions-hsu-shi-yuan-wbrc-2022",
+    "source": "external"
+  },
+  {
+    "title": "WBrC 1st｜王策（Chad Wang）",
+    "slug": "coffee-champions-chad-wang",
+    "category": "map",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/nMRpQ02P3XE7gMv9lr7BkJaE/original-2.min.jpg",
+    "description": "王策（Chad Wang）是台灣首位奪下 World Brewers Cup（WBrC）世界咖啡沖煮大賽冠軍的咖啡師。本文從他的判斷力、取捨能力與品牌實務出發，拆解他如何把手沖變成可被理解、可持續的專業。",
+    "tags": [
+      "咖啡地圖",
+      "手沖咖啡",
+      "沖煮技巧",
+      "咖啡冠軍"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-champions-chad-wang",
+    "source": "external"
+  },
+  {
+    "title": "WBrC 1st｜粕谷哲（Tetsu Kasuya）",
+    "slug": "coffee-champions-tetsu-kasuya",
+    "category": "map",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/w560gEeAloXqgge4NOqrx1ab/1200x-1.min.jpg",
+    "description": "2016 年 WBrC 世界手沖咖啡冠軍粕谷哲，以「可重現」為核心提出 4:6 手沖法，改變手沖咖啡的評鑑與實踐方式。本文解析粕谷哲理念、手沖參數與操作重點，讓新手也能穩定煮出好咖啡。",
+    "tags": [
+      "咖啡地圖",
+      "手沖咖啡",
+      "新手入門",
+      "粕谷哲",
+      "咖啡冠軍"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-champions-tetsu-kasuya",
+    "source": "external"
+  },
+  {
+    "title": "WCC 1st｜林東源",
+    "slug": "coffee-champions-lin-dong-yuan",
+    "category": "map",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/xQdpkWj03aegXzOW39by6aRo/original-2.min.jpg",
+    "description": "2004 首屆台灣咖啡大師比賽冠軍、2024 WCC 世界咖啡烈酒大賽台灣區冠軍，並在 2025 日內瓦奪下世界第三名—— 林東源不只用獎盃證明實力，更用咖啡館、教學與跨界創作，讓「專業」走進台灣的日常文化。",
+    "tags": [
+      "咖啡地圖",
+      "咖啡冠軍",
+      "2025"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-champions-lin-dong-yuan",
+    "source": "external"
+  },
+  {
+    "title": "台北｜GABEE.",
+    "slug": "coffee-shop-gabee",
+    "category": "map",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/w560gEeAloXqgge4NOqrx1ab/1200x-1.min.jpg",
+    "description": "GABEE. 由咖啡師林東源於 2004 年創立，位於台北民生社區。本文整理：品牌理念、咖啡與創意飲品特色、空間氛圍、選豆/零售與課程服務、適合族群與店家資訊，文末附 Google Map 位置。",
+    "tags": [
+      "咖啡地圖",
+      "台北"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-shop-gabee",
+    "source": "external"
+  },
+  {
+    "title": "台北｜VWI by CHADWANG",
+    "slug": "coffee-shop-vwi-by-chad-wang",
+    "category": "map",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/w560gEeAloXqgge4NOqrx1ab/1200x-1.min.jpg",
+    "description": "由台灣首位 World Brewers Cup 世界咖啡沖煮大賽冠軍——王策（Chad Wang）創立的精品咖啡品牌。 不以頭銜作為主打，而是將競賽中的沖煮理解，安靜落實在日常出杯裡。",
+    "tags": [
+      "咖啡地圖",
+      "台北",
+      "沖煮技巧",
+      "咖啡冠軍",
+      "精品咖啡"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-shop-vwi-by-chad-wang",
+    "source": "external"
+  },
+  {
+    "title": "東京｜PHILOCOFFEA",
+    "slug": "coffee-shop-philocoffea",
+    "category": "map",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/w560gEeAloXqgge4NOqrx1ab/1200x-1.min.jpg",
+    "description": "PHILOCOFFEA 咖啡店介紹：粕谷哲 2016 世界冠軍品牌、4:6 沖煮理念、咖啡風格解析、表參道旗艦店與日本分店資訊整理，並提供到訪體驗與地圖。",
+    "tags": [
+      "咖啡地圖",
+      "東京",
+      "沖煮技巧",
+      "粕谷哲",
+      "咖啡冠軍"
+    ],
+    "url": "https://www.matrix.com.tw/coffee-shop-philocoffea",
+    "source": "external"
+  },
+  {
+    "title": "手沖咖啡總是不穩定？2026 AI 咖啡電子秤提升容錯率與流速控制",
+    "slug": "ai-coffee-scale-flow-rate-guide-2026",
+    "category": "news",
+    "date": "",
+    "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/eKP9MRgBYr8QxMRPlOvLWZrn/original-2.min.jpg",
+    "description": "AI 咖啡電子秤如何提升手沖容錯率？完整解析 Flow Rate 流速曲線、粉液比控制、Flow Bar 三色機制與 2026 家庭沖煮數據化趨勢。",
+    "tags": [
+      "最新消息",
+      "手沖咖啡",
+      "咖啡電子秤",
+      "沖煮技巧",
+      "2026"
+    ],
+    "url": "https://www.matrix.com.tw/ai-coffee-scale-flow-rate-guide-2026",
+    "source": "external"
   }
 ]
