@@ -50,6 +50,38 @@ x-admin-token: <從你的環境變數讀 ADMIN_TOKEN>
   "body_mode": "rich_text",
   "cover_data_url": "data:image/webp;base64,UklGR...",
   "products": [],
+  "structured_data": null,
+  "source": "openclaw"
+}
+```
+
+**教學文（HowTo）範例**：
+
+```json
+{
+  "title": "V60 手沖咖啡完整教學",
+  "slug": "v60-pour-over-tutorial",
+  "description": "從研磨到注水，五步驟教你沖出一杯乾淨明亮的手沖咖啡。",
+  "categories": ["knowledge"],
+  "tags": ["手沖","V60","教學","入門"],
+  "date": "2026-04-20",
+  "body_html": "<p>...</p>",
+  "body_mode": "rich_text",
+  "cover_data_url": "data:image/webp;base64,...",
+  "products": [],
+  "structured_data": {
+    "howto": {
+      "name": "V60 手沖五步驟",
+      "total_time": "5分鐘",
+      "steps": [
+        {"name": "準備器材", "text": "準備 V60 濾杯、濾紙、手沖壺、電子秤、15 克咖啡豆..."},
+        {"name": "研磨", "text": "將咖啡豆研磨成中等偏細度（類似砂糖顆粒）..."},
+        {"name": "悶蒸", "text": "以 1.5-2 倍粉量的水（25-30ml）悶蒸 30 秒..."},
+        {"name": "分段注水", "text": "以 15 克粉比 225 毫升水的比例，分三段注水..."},
+        {"name": "品嚐", "text": "總萃取時間約 2 分 30 秒，取下濾杯搖晃均勻後飲用..."}
+      ]
+    }
+  },
   "source": "openclaw"
 }
 ```
@@ -68,6 +100,7 @@ x-admin-token: <從你的環境變數讀 ADMIN_TOKEN>
 | `body_mode` | string | ✅ | `"rich_text"` / `"html_source"` / `"raw_full"`（見下） |
 | `cover_data_url` | string | ✅ | `data:image/webp;base64,...`，**1200×630**，≤ 500KB；覆寫模式可略 |
 | `products` | object[] | ❌ | 可為空陣列（三種 body_mode 下都會正常顯示於文末） |
+| `structured_data` | object | ❌ | 進階 SEO schema（選填），目前支援 `howto` 類型；見下方段落 |
 | `source` | string | ✅ | 固定填 `"openclaw"`（讓人工與 AI 稿可以區分） |
 | `overwrite` | boolean | ❌ | `true` 時覆寫既有 slug（更新文章用） |
 
@@ -177,7 +210,50 @@ def to_cover_data_url(pil_img):
 
 ---
 
-## 🔁 範例 curl
+## 📊 進階 SEO 結構化 schema（選填）
+
+讓 Google 搜尋結果顯示更豐富的富文字卡片。自動的部分（Article + BreadcrumbList + FAQPage）你不用管，後端會做。以下是**選填**、你可以主動加值的：
+
+### `structured_data.howto`（HowTo 操作步驟教學）
+
+**什麼時候用**：文章本質是「一步一步教人做某件事」——手沖教學、器具使用指南、清潔保養流程等。
+
+**加了會怎樣**：Google 搜尋結果可能顯示步驟卡片縮圖，點擊率顯著提升。
+
+**規格**：
+
+```json
+{
+  "structured_data": {
+    "howto": {
+      "name": "V60 手沖咖啡的完整步驟",   // 選填；空白會用文章 title
+      "total_time": "5分鐘",               // 選填；ISO 8601 也可（PT5M）
+      "steps": [
+        { "name": "研磨", "text": "將 15 克中深焙豆研磨成中等偏細..." },
+        { "name": "悶蒸", "text": "倒入 30 ml 熱水靜置 30 秒..." },
+        { "name": "分段注水", "text": "分三段注水至 225 ml..." }
+      ]
+    }
+  }
+}
+```
+
+| 欄位 | 型別 | 必填 | 規則 |
+|---|---|---|---|
+| `name` | string | ❌ | 空白會用 `title`；建議 10–40 字 |
+| `total_time` | string | ❌ | 中文（「5分鐘」）或 ISO 8601（`PT5M`）皆可 |
+| `steps` | object[] | ✅ | **至少 2 步**，少於 2 步不會產出 HowTo schema |
+| `steps[].name` | string | ❌ | 步驟名稱（選填） |
+| `steps[].text` | string | ✅ | 步驟描述（≥ 10 字有意義的內容） |
+
+**規則**：
+- 內容必須真的是教學，不要硬塞（Google 會懲罰濫用 schema）
+- 適用文章：粉水比教學、V60 手沖、法壓、冰滴、磨豆機保養、秤校正...
+- 不適用：新聞、產區知識、活動報導、地圖類
+
+### 其他類型（未來擴充）
+
+目前只支援 `howto`。若你的文章需要 `Recipe`（咖啡調飲配方）或 `Review`（器具評測），先以 rich_text 發，手動回報，之後會補。
 
 ```bash
 curl -X POST https://dailycoffee.matrix.com.tw/api/publish \
@@ -323,6 +399,8 @@ Body: { "slug": "..." }
 - [ ] categories 至少一個且在白名單內
 - [ ] source 是 `"openclaw"`
 - [ ] body_mode 正確（99% 用 `rich_text`，真的複雜版型才用 `raw_full`）
+- [ ] 若是教學類文章（how-to），有加 `structured_data.howto`，≥ 2 步每步 text ≥ 10 字
+- [ ] 若文章本身有 Q&A 區塊，用 `<details><summary>Q</summary>A</details>` 寫（會自動產 FAQPage schema）
 
 ---
 
