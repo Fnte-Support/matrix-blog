@@ -332,15 +332,24 @@
 
     <div class="cover-tab-panel" id="cover-tab-ai" style="display:none;">
       <div class="tab-hint">
-        用 MiniMax 產封面圖（約 5–15 秒）。輸入描述後點按鈕，產出後會自動裁成 1200×630 webp。
+        AI 產封面圖（約 5–15 秒）。自動裁成 1200×630 webp。<br>
+        預設 MiniMax 優先；失敗時會自動 fallback 到 OpenAI DALL-E（慢一點、貴一點）。
       </div>
       <label class="row">
         <div class="lbl">圖片描述 prompt</div>
         <textarea id="cover-ai-prompt" placeholder="例如：a minimal flat-lay photo of V60 pour over dripper with fresh coffee beans, soft morning light, wooden table, editorial magazine style"></textarea>
       </label>
+      <div class="row">
+        <div class="lbl">供應商</div>
+        <select id="cover-ai-provider" style="width:auto;">
+          <option value="auto" selected>自動（MiniMax → OpenAI fallback）</option>
+          <option value="minimax">只用 MiniMax（便宜，$0.01）</option>
+          <option value="openai">只用 OpenAI DALL-E（貴，$0.08）</option>
+        </select>
+      </div>
       <div class="tab-actions">
         <button type="button" class="btn" id="btn-cover-gen">🎨 產生封面圖</button>
-        <span style="font-size: 12px; color: var(--gray-mid);">每次約 $0.01 USD（需 Vercel 已設 MINIMAX_API_KEY）</span>
+        <span style="font-size: 12px; color: var(--gray-mid);">需 Vercel 已設對應 API key</span>
       </div>
     </div>
 
@@ -705,22 +714,34 @@
   // ── AI 產圖按鈕 ──
   document.getElementById("btn-cover-gen").addEventListener("click", async () => {
     const prompt = document.getElementById("cover-ai-prompt").value.trim();
+    const provider = document.getElementById("cover-ai-provider").value;
     if (!prompt) return showAlert("請先填圖片描述 prompt", "err");
     const btn = document.getElementById("btn-cover-gen");
     const oldHtml = btn.innerHTML;
     btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span>產圖中（約 5–15 秒）…';
+    btn.innerHTML = '<span class="spinner"></span>產圖中（約 5–15 秒，fallback 最多 30 秒）…';
     try {
       const r = await fetch("/api/generate-cover", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt }),
+        body: JSON.stringify({ prompt, provider }),
       });
       const data = await r.json();
-      if (!r.ok) throw new Error(data.error || "產圖失敗");
+      if (!r.ok) {
+        const detail = data.details
+          ? `（MiniMax: ${data.details.minimax || "?"}；OpenAI: ${data.details.openai || "?"}）`
+          : "";
+        throw new Error((data.error || "產圖失敗") + detail);
+      }
       if (!data.image_base64) throw new Error("回傳資料缺 image_base64");
-      const ok = await setCover(data.image_base64, "AI 產圖");
-      if (ok) showAlert("AI 已產圖，已裁切成 1200×630 webp", "ok");
+      const tag = data.provider === "openai" ? "DALL-E 3" : "MiniMax";
+      const ok = await setCover(data.image_base64, `AI 產圖（${tag}）`);
+      if (ok) {
+        const msg = data.fallback_used
+          ? `MiniMax 失敗，已 fallback 到 OpenAI DALL-E 產圖成功（貴 8 倍，建議查一下 MiniMax）。原因：${escapeHtml(data.minimax_error || "")}`
+          : `${tag} 已產圖，已裁成 1200×630 webp`;
+        showAlert(msg, data.fallback_used ? "warn" : "ok");
+      }
     } catch (err) {
       showAlert("產圖失敗：" + err.message, "err");
     } finally {
