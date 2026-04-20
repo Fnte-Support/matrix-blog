@@ -218,6 +218,134 @@ def check_article(slug, entry, issues):
         # 純遠端封面沒有本地 hero 不算錯
         pass
 
+    # ── JSON-LD schema 驗證 ──
+    check_schemas(slug, html, issues)
+
+
+# ── JSON-LD schema 驗證 ────────────────────────────
+def extract_json_ld(html):
+    """從 HTML 抽出所有 <script type="application/ld+json"> 區塊，解析成 dict 清單。"""
+    results = []
+    for m in re.finditer(
+        r'<script\s+type=["\']application/ld\+json["\'][^>]*>([\s\S]*?)</script>',
+        html, re.I,
+    ):
+        raw = m.group(1).strip()
+        # publish.js 會把 < 轉成 \u003c 避免 HTML 解析問題，這裡反轉
+        raw = raw.replace("\\u003c", "<").replace("\\u003e", ">")
+        try:
+            data = json.loads(raw)
+            results.append(data)
+        except json.JSONDecodeError as e:
+            results.append({"_parse_error": str(e), "_raw": raw[:200]})
+    return results
+
+
+def check_schemas(slug, html, issues):
+    schemas = extract_json_ld(html)
+    types_found = []
+
+    for s in schemas:
+        if "_parse_error" in s:
+            add_issue(issues, SEVERITY_ERROR, slug, "schema",
+                      f"JSON-LD 解析失敗：{s['_parse_error']}",
+                      detail=s.get("_raw", ""))
+            continue
+
+        # 處理 @graph 陣列格式
+        items = s.get("@graph", [s]) if isinstance(s, dict) else [s]
+        for item in items:
+            if not isinstance(item, dict):
+                continue
+            t = item.get("@type")
+            if isinstance(t, list):
+                t = t[0]
+            if not t:
+                continue
+            types_found.append(t)
+
+            if t == "Article" or t.endswith("Article"):
+                validate_article_schema(slug, item, issues)
+            elif t == "FAQPage":
+                validate_faq_schema(slug, item, issues)
+            elif t == "BreadcrumbList":
+                validate_breadcrumb_schema(slug, item, issues)
+
+    # 必有 Article + BreadcrumbList
+    if not any(t == "Article" or t.endswith("Article") for t in types_found):
+        add_issue(issues, SEVERITY_ERROR, slug, "schema",
+                  "缺 Article JSON-LD schema")
+    if "BreadcrumbList" not in types_found:
+        add_issue(issues, SEVERITY_WARN, slug, "schema",
+                  "缺 BreadcrumbList JSON-LD schema")
+
+    # 若內文含 <details><summary>（FAQ 模式）但沒有 FAQPage schema，警告
+    details_count = len(re.findall(r"<details\b", html, re.I))
+    if details_count >= 2 and "FAQPage" not in types_found:
+        add_issue(issues, SEVERITY_WARN, slug, "schema",
+                  f"內文有 {details_count} 組 <details> 看起來像 FAQ，但沒產出 FAQPage schema（發文時沒偵測到？）")
+
+
+def validate_article_schema(slug, item, issues):
+    """Article 必備欄位：headline, image, datePublished, author, publisher."""
+    required = ["headline", "image", "datePublished", "author", "publisher"]
+    missing = [k for k in required if not item.get(k)]
+    if missing:
+        add_issue(issues, SEVERITY_ERROR, slug, "schema",
+                  f"Article schema 缺必備欄位：{', '.join(missing)}")
+    # datePublished 格式
+    dp = item.get("datePublished", "")
+    if dp and not re.match(r"^\d{4}-\d{2}-\d{2}", str(dp)):
+        add_issue(issues, SEVERITY_WARN, slug, "schema",
+                  f"Article datePublished 格式建議 YYYY-MM-DD（現為 {dp}）")
+    # image 不可是臨時 CDN
+    img = item.get("image", "")
+    if isinstance(img, dict):
+        img = img.get("url", "")
+    elif isinstance(img, list):
+        img = img[0] if img else ""
+    img = str(img or "")
+    if img and any(bad in img for bad in ("aliyuncs.com", "hailuo", "Expires=")):
+        add_issue(issues, SEVERITY_ERROR, slug, "schema",
+                  f"Article image 為臨時 URL，會過期：{img[:100]}")
+
+
+def validate_faq_schema(slug, item, issues):
+    """FAQPage 必備：mainEntity 陣列、每組 Question 有 name + acceptedAnswer.text。"""
+    me = item.get("mainEntity")
+    if not isinstance(me, list):
+        add_issue(issues, SEVERITY_ERROR, slug, "schema",
+                  "FAQPage.mainEntity 必須是陣列")
+        return
+    if len(me) < 2:
+        add_issue(issues, SEVERITY_WARN, slug, "schema",
+                  f"FAQPage.mainEntity 只有 {len(me)} 組（Google 建議 ≥ 2）")
+    for i, q in enumerate(me):
+        if not isinstance(q, dict):
+            continue
+        if not q.get("name"):
+            add_issue(issues, SEVERITY_ERROR, slug, "schema",
+                      f"FAQPage 第 {i+1} 題缺 name")
+        ans = q.get("acceptedAnswer") or {}
+        if not (ans.get("text") if isinstance(ans, dict) else None):
+            add_issue(issues, SEVERITY_ERROR, slug, "schema",
+                      f"FAQPage 第 {i+1} 題缺 acceptedAnswer.text")
+
+
+def validate_breadcrumb_schema(slug, item, issues):
+    items = item.get("itemListElement")
+    if not isinstance(items, list) or not items:
+        add_issue(issues, SEVERITY_ERROR, slug, "schema",
+                  "BreadcrumbList.itemListElement 為空或非陣列")
+        return
+    for i, li in enumerate(items):
+        if not isinstance(li, dict):
+            continue
+        pos = li.get("position")
+        if pos != i + 1:
+            add_issue(issues, SEVERITY_WARN, slug, "schema",
+                      f"BreadcrumbList position 應 1,2,3... 但第 {i+1} 個是 {pos}")
+
 
 # ── 主流程 ─────────────────────────────────────────
 def run_check():

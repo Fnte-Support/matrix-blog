@@ -1,0 +1,142 @@
+name: 🔍 新文章發佈後驗證
+
+# 觸發時機：push 到 main，且有動到 article/ 底下的檔案
+on:
+  push:
+    branches: [main]
+    paths:
+      - "article/**"
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: "指定要驗證的 slug（空=掃全部）"
+        required: false
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Detect new/changed articles
+        id: detect
+        run: |
+          # 找這次 push 新增或修改的 article/<slug>/index.html
+          if [ -n "${{ inputs.slug }}" ]; then
+            echo "slugs=${{ inputs.slug }}" >> $GITHUB_OUTPUT
+          else
+            slugs=$(git diff --name-only HEAD^ HEAD 2>/dev/null | \
+              grep -E '^article/[^/]+/index\.html$' | \
+              awk -F/ '{print $2}' | sort -u | tr '\n' ' ' || true)
+            echo "slugs=$slugs" >> $GITHUB_OUTPUT
+            echo "偵測到的 slugs: $slugs"
+          fi
+
+      - name: Wait for Vercel deploy (60s)
+        if: steps.detect.outputs.slugs != ''
+        run: sleep 60
+
+      - name: Run offline schema validation
+        id: offline
+        run: |
+          python3 tools/health_check.py --json-out report.json --markdown-out report.md
+          # 只留 schema 類別相關問題
+          python3 << 'PY'
+          import json
+          d = json.load(open("report.json"))
+          schema_issues = [i for i in d["issues"] if i["category"] == "schema"]
+          print(f"schema 問題數：{len(schema_issues)}")
+          for i in schema_issues:
+              print(f"  [{i['severity']}] {i['slug']}: {i['message']}")
+          with open("schema_report.json", "w") as f:
+              json.dump({"issues": schema_issues, "checked_at": d["checked_at"]}, f, ensure_ascii=False, indent=2)
+          PY
+
+      - name: Verify deployed URL of each new article
+        if: steps.detect.outputs.slugs != ''
+        id: online
+        run: |
+          slugs="${{ steps.detect.outputs.slugs }}"
+          failed=""
+          for slug in $slugs; do
+            url="https://dailycoffee.matrix.com.tw/article/$slug/"
+            echo "→ 檢查 $url"
+            code=$(curl -sLo /tmp/page.html -w "%{http_code}" "$url")
+            if [ "$code" != "200" ]; then
+              echo "  ❌ HTTP $code"
+              failed="$failed $slug(HTTP_$code)"
+              continue
+            fi
+            # 檢查關鍵元素
+            if ! grep -q 'application/ld+json' /tmp/page.html; then
+              failed="$failed $slug(no_JSONLD)"
+              echo "  ❌ 頁面沒 JSON-LD"
+            elif ! grep -q 'og:image' /tmp/page.html; then
+              failed="$failed $slug(no_OG)"
+              echo "  ❌ 頁面沒 og:image"
+            else
+              echo "  ✅ 200 + JSON-LD + OG"
+            fi
+          done
+          if [ -n "$failed" ]; then
+            echo "failed=$failed" >> $GITHUB_OUTPUT
+            exit 0   # 不讓 Action fail，issue 會被建
+          fi
+
+      - name: Open issue if any failure
+        if: steps.online.outputs.failed != '' || always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # 有 schema error 或 online 驗證失敗才開 issue
+          schema_err=$(python3 -c "import json; d=json.load(open('schema_report.json')); print(sum(1 for i in d['issues'] if i['severity']=='error'))")
+          if [ "$schema_err" != "0" ] || [ -n "${{ steps.online.outputs.failed }}" ]; then
+            gh label create "post-publish-check" --color "F87171" --description "新文發佈後驗證失敗" 2>/dev/null || true
+            {
+              echo "## 新文章發佈後驗證報告"
+              echo ""
+              echo "**觸發 commit**: \`${{ github.sha }}\`"
+              echo "**涉及 slugs**: \`${{ steps.detect.outputs.slugs }}\`"
+              echo ""
+              if [ -n "${{ steps.online.outputs.failed }}" ]; then
+                echo "### ❌ 線上驗證失敗"
+                echo ""
+                echo "\`\`\`"
+                echo "${{ steps.online.outputs.failed }}"
+                echo "\`\`\`"
+                echo ""
+              fi
+              if [ "$schema_err" != "0" ]; then
+                echo "### ❌ JSON-LD schema 錯誤（$schema_err 個）"
+                echo ""
+                cat report.md
+              fi
+            } > issue_body.md
+            gh issue create \
+              --title "🔴 發文驗證失敗 $(date +%Y-%m-%d)" \
+              --body-file issue_body.md \
+              --label "post-publish-check"
+          else
+            echo "✅ 全部通過，不開 issue"
+          fi
+
+      - name: Upload report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: post-publish-report
+          path: |
+            report.json
+            report.md
+            schema_report.json
+          retention-days: 30
