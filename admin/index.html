@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Coffee — 文章發布後台 v2</title>
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Quill 富文字編輯器 -->
+  <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+  <!-- marked (Markdown → HTML) -->
+  <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+  <!-- DOMPurify (HTML 白名單) -->
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+  <!-- Playfair / Source Serif / DM Sans 給預覽浮層用 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Source+Serif+4:wght@300;400;600&family=DM+Sans:wght@400;500&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --coffee-dark: #2C1810;
+      --coffee-mid: #6B4226;
+      --coffee-light: #C07A3E;
+      --coffee-cream: #F5EDE0;
+      --coffee-bg: #FDFBF8;
+      --gray-light: #f0ede8;
+      --gray-mid: #8a8075;
+      --ok: #4a8a5a;
+      --err: #c84a3f;
+      --warn: #c88a3f;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Noto Sans TC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--coffee-bg); color: var(--coffee-dark); line-height: 1.6; }
+
+    header.admin-header {
+      background: var(--coffee-dark); color: #fff;
+      padding: 14px 24px; display: flex; align-items: center; gap: 12px;
+      position: sticky; top: 0; z-index: 100;
+    }
+    header.admin-header .logo { font-size: 20px; font-weight: 700; }
+    header.admin-header .badge { background: var(--coffee-light); padding: 2px 10px; border-radius: 12px; font-size: 12px; }
+
+    main { max-width: 960px; margin: 0 auto; padding: 28px 24px 80px; }
+
+    .panel { background: #fff; border: 1px solid var(--gray-light); border-radius: 10px; padding: 22px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+    .panel h2 { font-size: 16px; color: var(--coffee-mid); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--gray-light); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .panel h2 .req { color: var(--err); font-size: 12px; }
+    .panel h2 .note { color: var(--gray-mid); font-size: 12px; font-weight: 400; margin-left: auto; }
+
+    label.row, .row { display: block; margin-bottom: 14px; }
+    .lbl { font-size: 13px; color: var(--gray-mid); margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
+    .lbl .counter { font-variant-numeric: tabular-nums; }
+    .lbl .counter.warn { color: var(--warn); }
+    .lbl .counter.err { color: var(--err); }
+
+    input[type=text], textarea, select {
+      width: 100%; padding: 10px 12px; border: 1px solid var(--gray-light);
+      border-radius: 6px; font-family: inherit; font-size: 15px; background: #fff;
+      color: var(--coffee-dark);
+    }
+    input[type=text]:focus, textarea:focus, select:focus {
+      outline: none; border-color: var(--coffee-light);
+      box-shadow: 0 0 0 3px rgba(192,122,62,0.12);
+    }
+    textarea { resize: vertical; min-height: 80px; }
+
+    .inline-input { display: flex; gap: 8px; align-items: stretch; }
+    .inline-input input { flex: 1; }
+
+    .cats { display: flex; flex-wrap: wrap; gap: 8px; }
+    .cats label {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 12px; border: 1px solid var(--gray-light); border-radius: 20px;
+      cursor: pointer; font-size: 14px; user-select: none;
+      transition: all 0.15s;
+    }
+    .cats label:hover { border-color: var(--coffee-light); }
+    .cats label.checked { background: var(--coffee-light); color: #fff; border-color: var(--coffee-light); }
+    .cats input { position: absolute; opacity: 0; pointer-events: none; }
+
+    /* ── Tabs ── */
+    .tabs { display: flex; border-bottom: 1px solid var(--gray-light); margin-bottom: 14px; flex-wrap: wrap; }
+    .tabs button {
+      background: none; border: none; padding: 10px 16px; font-size: 14px;
+      cursor: pointer; color: var(--gray-mid); border-bottom: 2px solid transparent;
+      font-family: inherit;
+    }
+    .tabs button.active { color: var(--coffee-dark); border-bottom-color: var(--coffee-light); font-weight: 600; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .tab-hint {
+      background: var(--coffee-cream); padding: 10px 14px; border-radius: 6px;
+      font-size: 13px; color: var(--coffee-mid); margin-bottom: 12px; line-height: 1.6;
+    }
+    .tab-hint code { background: rgba(44,24,16,0.08); padding: 1px 5px; border-radius: 3px; font-size: 12px; }
+
+    #editor-rich { min-height: 360px; background: #fff; }
+    .ql-editor { font-size: 16px; line-height: 1.8; font-family: inherit; }
+    .ql-editor h2 { font-size: 22px; margin: 24px 0 12px; }
+    .ql-editor h3 { font-size: 18px; margin: 20px 0 10px; }
+    .ql-editor blockquote { border-left: 3px solid var(--coffee-light); padding-left: 12px; color: var(--coffee-mid); }
+    .ql-editor img { max-width: 100%; height: auto; border-radius: 4px; margin: 8px 0; }
+
+    #editor-paste, #editor-html {
+      width: 100%; min-height: 360px; font-family: "SF Mono", Monaco, Consolas, monospace;
+      font-size: 13px; line-height: 1.6;
+    }
+
+    .tab-actions { margin-top: 10px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .btn {
+      background: var(--coffee-mid); color: #fff; border: none; padding: 10px 18px;
+      border-radius: 6px; cursor: pointer; font-size: 14px; font-family: inherit;
+      transition: background 0.15s;
+    }
+    .btn:hover { background: var(--coffee-dark); }
+    .btn:disabled { background: var(--gray-mid); cursor: not-allowed; }
+    .btn.secondary { background: #fff; color: var(--coffee-mid); border: 1px solid var(--coffee-mid); }
+    .btn.secondary:hover { background: var(--coffee-cream); }
+    .btn.tiny { padding: 6px 12px; font-size: 13px; }
+    .btn.primary { background: var(--coffee-light); font-size: 16px; padding: 14px 36px; }
+    .btn.primary:hover { background: var(--coffee-mid); }
+
+    /* ── 封面圖 ── */
+    .cover-preview {
+      border: 2px dashed var(--gray-light); border-radius: 8px; padding: 20px;
+      text-align: center; color: var(--gray-mid); font-size: 14px;
+      min-height: 160px; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .cover-preview:hover { border-color: var(--coffee-light); background: var(--coffee-cream); }
+    .cover-preview.has-img { border-style: solid; padding: 0; overflow: hidden; cursor: default; }
+    .cover-preview img { max-width: 100%; height: auto; display: block; }
+    .cover-preview.has-img .cover-remove {
+      position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.65); color: #fff;
+      border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 12px;
+    }
+    .cover-wrap { position: relative; }
+    .cover-meta { font-size: 12px; color: var(--gray-mid); margin-top: 6px; }
+    #cover-file { display: none; }
+
+    /* ── 商品 ── */
+    .product-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; margin-bottom: 12px; }
+    .product-card {
+      border: 1px solid var(--gray-light); border-radius: 8px; padding: 10px;
+      position: relative; font-size: 13px; background: #fff;
+    }
+    .product-card img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 4px; background: var(--coffee-cream); }
+    .product-card .name { font-weight: 600; margin-top: 8px; line-height: 1.4; font-size: 13px; min-height: 36px; }
+    .product-card .price { color: var(--coffee-light); font-weight: 700; margin-top: 4px; min-height: 20px; }
+    .product-card .price .old { color: var(--gray-mid); text-decoration: line-through; font-weight: 400; margin-left: 6px; font-size: 12px; }
+    .product-card .remove {
+      position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.6);
+      color: #fff; border: none; width: 24px; height: 24px; border-radius: 50%;
+      cursor: pointer; font-size: 14px; line-height: 1;
+    }
+    .product-add {
+      padding: 20px; border: 2px dashed var(--gray-light); border-radius: 8px;
+      text-align: center; cursor: pointer; color: var(--gray-mid);
+      transition: all 0.15s;
+    }
+    .product-add:hover { border-color: var(--coffee-light); color: var(--coffee-mid); background: var(--coffee-cream); }
+
+    /* ── Modal ── */
+    .modal-bg {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 200;
+      display: none; align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal-bg.open { display: flex; }
+    .modal {
+      background: #fff; border-radius: 10px; padding: 24px; max-width: 480px;
+      width: 100%; max-height: 90vh; overflow-y: auto;
+    }
+    .modal h3 { margin-bottom: 16px; color: var(--coffee-mid); }
+    .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px; }
+
+    /* ── 預覽浮層（全螢幕） ── */
+    .preview-overlay {
+      position: fixed; inset: 0; background: #fff; z-index: 300;
+      display: none; overflow-y: auto;
+    }
+    .preview-overlay.open { display: block; }
+    .preview-bar {
+      position: sticky; top: 0; z-index: 2;
+      background: var(--coffee-dark); color: #fff;
+      padding: 10px 20px; display: flex; align-items: center; gap: 14px;
+    }
+    .preview-bar .title { font-weight: 600; }
+    .preview-bar .fill { flex: 1; }
+    .preview-bar button {
+      background: #fff; color: var(--coffee-dark); border: none; padding: 8px 16px;
+      border-radius: 6px; cursor: pointer; font-size: 14px; font-family: inherit;
+    }
+
+    /* 預覽內容樣式（對齊同事那篇的風格） */
+    .pv-wrap { max-width: 740px; margin: 0 auto; padding: 40px 24px 80px; font-family: "Source Serif 4", "Noto Sans TC", Georgia, serif; color: #1a1714; line-height: 1.85; }
+    .pv-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .pv-tag { font-family: "DM Sans", sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 12px; border-radius: 20px; border: 1px solid #e5dfd7; color: #7a7167; }
+    .pv-tag.accent { background: #fdf3e8; border-color: #c8864a; color: #7c4a1e; }
+    .pv-title { font-family: "Playfair Display", "Noto Sans TC", Georgia, serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; line-height: 1.25; margin-bottom: 16px; color: #1a1714; }
+    .pv-subtitle { font-family: "DM Sans", sans-serif; font-size: 16px; color: #7a7167; margin-bottom: 24px; }
+    .pv-meta { font-family: "DM Sans", sans-serif; font-size: 13px; color: #a89f93; padding-bottom: 24px; border-bottom: 1px solid #e5dfd7; }
+    .pv-meta span + span:before { content: "・"; margin: 0 8px; color: #cec5b8; }
+    .pv-cover { margin: 32px -24px; }
+    .pv-cover img { width: 100%; height: auto; border-radius: 16px; }
+    .pv-body { padding-top: 16px; }
+    .pv-body p { font-size: 17px; line-height: 1.88; color: #3d3830; margin-bottom: 1.4rem; }
+    .pv-body strong { font-weight: 600; color: #1a1714; }
+    .pv-body em { font-style: italic; color: #7c4a1e; }
+    .pv-body h2 { font-family: "Playfair Display", "Noto Sans TC", Georgia, serif; font-size: 1.7rem; font-weight: 600; color: #1a1714; margin: 2.5rem 0 1rem; padding-top: 1rem; border-top: 1px solid #e5dfd7; line-height: 1.3; }
+    .pv-body h3 { font-family: "Playfair Display", "Noto Sans TC", Georgia, serif; font-size: 1.2rem; font-weight: 600; margin: 1.6rem 0 0.6rem; }
+    .pv-body ul, .pv-body ol { padding-left: 1.4rem; margin-bottom: 1.4rem; }
+    .pv-body li { margin-bottom: 0.4rem; line-height: 1.7; }
+    .pv-body a { color: #7c4a1e; text-decoration: underline; }
+    .pv-body blockquote { border-left: 3px solid #c8864a; padding: 0.6rem 0 0.6rem 1.2rem; color: #6B4226; font-style: italic; margin: 1.5rem 0; background: #fdf3e8; border-radius: 0 6px 6px 0; }
+    .pv-body img { max-width: 100%; height: auto; border-radius: 12px; margin: 1.5rem 0; display: block; }
+    .pv-products { margin-top: 60px; padding-top: 40px; border-top: 1px solid #e5dfd7; }
+    .pv-products h2 { font-family: "Playfair Display", "Noto Sans TC", Georgia, serif; font-size: 1.4rem; margin-bottom: 24px; text-align: center; }
+    .pv-product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
+    .pv-product-card { border: 1px solid #e5dfd7; border-radius: 10px; padding: 12px; text-decoration: none; color: inherit; display: block; transition: transform 0.15s, box-shadow 0.15s; }
+    .pv-product-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.06); text-decoration: none; }
+    .pv-product-card img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 6px; background: #f6f3ee; }
+    .pv-product-card .pname { font-family: "DM Sans", sans-serif; font-size: 13px; font-weight: 500; margin: 8px 0 4px; line-height: 1.4; min-height: 36px; }
+    .pv-product-card .pprice { color: #7c4a1e; font-weight: 700; font-family: "DM Sans", sans-serif; font-size: 14px; }
+    .pv-product-card .pprice .old { color: #a89f93; text-decoration: line-through; font-weight: 400; margin-left: 6px; font-size: 12px; }
+    .pv-product-card .cta { margin-top: 10px; background: #7c4a1e; color: #fff; text-align: center; padding: 6px; border-radius: 4px; font-family: "DM Sans", sans-serif; font-size: 12px; }
+
+    /* ── 訊息 ── */
+    .alert { padding: 10px 14px; border-radius: 6px; margin-bottom: 12px; font-size: 14px; line-height: 1.6; }
+    .alert.ok { background: #eaf5ed; color: var(--ok); border: 1px solid #c9e4d1; }
+    .alert.err { background: #fbecea; color: var(--err); border: 1px solid #f0c8c3; }
+    .alert.warn { background: #fdf5e8; color: var(--warn); border: 1px solid #f0dfbe; }
+    .alert ul { margin: 4px 0 0 18px; }
+
+    /* ── 送出列 ── */
+    .submit-bar { display: flex; gap: 12px; justify-content: center; padding: 24px 0; }
+    .preview-json {
+      background: #2C1810; color: #C07A3E; padding: 16px; border-radius: 8px;
+      font-family: "SF Mono", Monaco, monospace; font-size: 12px; white-space: pre-wrap;
+      word-break: break-all; max-height: 400px; overflow-y: auto;
+    }
+    .spinner {
+      display: inline-block; width: 14px; height: 14px; border: 2px solid #fff;
+      border-top-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite;
+      vertical-align: middle; margin-right: 6px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* HTML toolbar for source tab */
+    .html-toolbar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+    .html-toolbar button { background: #fff; border: 1px solid var(--gray-light); padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; font-family: inherit; color: var(--coffee-mid); }
+    .html-toolbar button:hover { background: var(--coffee-cream); border-color: var(--coffee-light); }
+  </style>
+</head>
+<body>
+
+<header class="admin-header">
+  <span class="logo">☕ Daily Coffee</span>
+  <span class="badge">文章發布後台</span>
+  <span style="margin-left: auto; font-size: 13px; opacity: 0.7;">v2 原型（未連接發佈）</span>
+</header>
+
+<main>
+  <div id="alerts"></div>
+
+  <!-- 基本資訊 -->
+  <div class="panel">
+    <h2>基本資訊 <span class="req">* 必填</span></h2>
+
+    <label class="row">
+      <div class="lbl"><span>標題</span><span class="counter" id="cnt-title">0 / 60</span></div>
+      <input type="text" id="f-title" placeholder="例如：V60 手沖粉水比全攻略" maxlength="60">
+    </label>
+
+    <div class="row">
+      <div class="lbl"><span>Slug（網址，英文連字號）</span><span class="counter" id="cnt-slug">0</span></div>
+      <div class="inline-input">
+        <input type="text" id="f-slug" placeholder="例如：v60-brewing-ratio" pattern="[a-z][a-z0-9-]*">
+        <button type="button" class="btn secondary tiny" id="btn-slug-gen">✨ 從標題自動產生</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="lbl"><span>分類（可多選，至少一個）</span></div>
+      <div class="cats" id="cats">
+        <label data-code="knowledge"><input type="checkbox" value="knowledge">咖啡知識</label>
+        <label data-code="map"><input type="checkbox" value="map">咖啡地圖</label>
+        <label data-code="news"><input type="checkbox" value="news">新聞動態</label>
+        <label data-code="events"><input type="checkbox" value="events">活動展覽</label>
+        <label data-code="kol"><input type="checkbox" value="kol">KOL 專訪</label>
+        <label data-code="cbtj"><input type="checkbox" value="cbtj">CBTI 人格</label>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top: 14px;">
+      <div class="lbl">
+        <span>摘要（SEO description 用，首頁卡片不顯示）</span>
+        <span class="counter" id="cnt-desc">0 / 120</span>
+      </div>
+      <textarea id="f-desc" placeholder="可留空，按右下按鈕會自動從內文首段產生；想自己寫也可以（建議 80–120 字）" maxlength="160"></textarea>
+      <div class="tab-actions" style="margin-top: 6px;">
+        <button type="button" class="btn secondary tiny" id="btn-desc-gen">✨ 從內文自動產生</button>
+        <span style="font-size: 12px; color: var(--gray-mid);">截取內文首段，做為 SEO meta description</span>
+      </div>
+    </div>
+
+    <label class="row">
+      <div class="lbl"><span>標籤（逗號分隔，3-6 個）</span></div>
+      <input type="text" id="f-tags" placeholder="手沖,V60,粉水比,咖啡知識">
+    </label>
+  </div>
+
+  <!-- 封面圖 -->
+  <div class="panel">
+    <h2>封面圖 <span class="req">* 必填</span><span class="note">系統會自動裁切成 1200×630 + 轉 webp</span></h2>
+
+    <div class="tabs" style="margin-bottom: 14px;">
+      <button type="button" class="active" data-cover-tab="upload">📁 上傳圖片</button>
+      <button type="button" data-cover-tab="ai">🎨 AI 產圖（MiniMax）</button>
+    </div>
+
+    <div class="cover-tab-panel active" id="cover-tab-upload">
+      <input type="file" id="cover-file" accept="image/*">
+      <div class="cover-wrap">
+        <div class="cover-preview" id="cover-preview" onclick="if(!this.classList.contains('has-img'))document.getElementById('cover-file').click()">
+          📁 點此上傳封面圖（接受 jpg / png / webp，≤ 1MB）
+        </div>
+      </div>
+    </div>
+
+    <div class="cover-tab-panel" id="cover-tab-ai" style="display:none;">
+      <div class="tab-hint">
+        用 MiniMax 產封面圖（約 5–15 秒）。輸入描述後點按鈕，產出後會自動裁成 1200×630 webp。
+      </div>
+      <label class="row">
+        <div class="lbl">圖片描述 prompt</div>
+        <textarea id="cover-ai-prompt" placeholder="例如：a minimal flat-lay photo of V60 pour over dripper with fresh coffee beans, soft morning light, wooden table, editorial magazine style"></textarea>
+      </label>
+      <div class="tab-actions">
+        <button type="button" class="btn" id="btn-cover-gen">🎨 產生封面圖</button>
+        <span style="font-size: 12px; color: var(--gray-mid);">每次約 $0.01 USD（需 Vercel 已設 MINIMAX_API_KEY）</span>
+      </div>
+    </div>
+
+    <p class="cover-meta" id="cover-meta"></p>
+  </div>
+
+  <!-- 內文編輯器 -->
+  <div class="panel">
+    <h2>內文 <span class="req">* 必填</span><span class="note">兩層路線：簡單文章用富文字、雜誌版型用 HTML</span></h2>
+
+    <div class="tabs">
+      <button type="button" class="active" data-tab="rich">✍️ 富文字（主力）</button>
+      <button type="button" data-tab="paste">📋 貼 AI 草稿</button>
+      <button type="button" data-tab="html">&lt;/&gt; HTML 原始碼（雜誌版）</button>
+    </div>
+
+    <div class="tab-panel active" id="tab-rich">
+      <div class="tab-hint">
+        像 Word 一樣打字就好。可以做標題、粗體、清單、連結、引用。<strong>中段插入圖片</strong>：點工具列最右邊的 🖼️ 圖示，或從電腦直接拖圖片進來。
+      </div>
+      <div id="editor-rich"></div>
+    </div>
+
+    <div class="tab-panel" id="tab-paste">
+      <div class="tab-hint">
+        把 Claude / ChatGPT 聊天視窗產出的內容整段貼進這裡（支援 Markdown 或 HTML），按「轉換」會自動清理並載入到富文字分頁。
+        <br>貼入內容若含 <code>![圖](https://...)</code> 或 <code>&lt;img&gt;</code>，發佈時系統會自動下載所有外部圖片成本地檔。
+      </div>
+      <textarea id="editor-paste" placeholder="把 AI 產出的 Markdown 或 HTML 貼進來..."></textarea>
+      <div class="tab-actions">
+        <button type="button" class="btn" id="btn-convert">轉換並載入富文字</button>
+        <span style="font-size: 12px; color: var(--gray-mid);">會剝除 script / style / 奇怪 class，h1 降為 h2</span>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="tab-html">
+      <div class="tab-hint">
+        <strong>進階模式：</strong>只有技術背景的同事 / AI 產出完整 HTML 時用。可以保留 <code>&lt;section&gt;</code> / <code>&lt;div class="..."&gt;</code> / 自訂 class 等雜誌版型結構。
+        <br>送出時仍會做安全過濾（剝除 <code>&lt;script&gt;</code>、<code>&lt;iframe&gt;</code>、<code>onclick</code> 等），但允許保留 class 和語意化 HTML。
+      </div>
+      <div class="html-toolbar">
+        <button type="button" id="btn-html-insert-img">🖼️ 上傳圖片取得路徑</button>
+        <button type="button" id="btn-html-sync">從富文字載入 →</button>
+        <button type="button" id="btn-html-apply">← 套用到富文字</button>
+        <button type="button" id="btn-html-format">格式化縮排</button>
+      </div>
+      <textarea id="editor-html" placeholder="HTML 原始碼..."></textarea>
+    </div>
+  </div>
+
+  <!-- 文末商品 -->
+  <div class="panel">
+    <h2>文末商品區 <span class="note">選填</span></h2>
+    <p style="font-size: 13px; color: var(--gray-mid); margin-bottom: 14px;">
+      貼上 <code>matrix.com.tw</code> 商品網址，系統自動抓圖與標題，價格選填（沒填就不顯示價格）。
+    </p>
+    <div class="product-list" id="product-list">
+      <div class="product-add" id="btn-add-product">
+        <div style="font-size: 28px; margin-bottom: 4px;">＋</div>
+        <div>新增商品</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 送出 -->
+  <div class="submit-bar">
+    <button type="button" class="btn secondary" id="btn-preview" style="padding: 14px 28px; font-size: 15px;">👁️ 預覽文章</button>
+    <button type="button" class="btn primary" id="btn-publish">🚀 發佈文章</button>
+  </div>
+
+  <div id="result-panel" style="display: none;" class="panel">
+    <h2 id="result-title">📤 發佈結果</h2>
+    <div id="result-body"></div>
+  </div>
+</main>
+
+<!-- 商品 Modal -->
+<div class="modal-bg" id="product-modal">
+  <div class="modal">
+    <h3>新增商品</h3>
+    <div id="product-modal-alerts"></div>
+
+    <label class="row">
+      <div class="lbl">商品網址（僅限 matrix.com.tw）<span class="req">*</span></div>
+      <input type="text" id="p-url" placeholder="https://www.matrix.com.tw/products/...">
+    </label>
+    <div class="tab-actions" style="margin-bottom: 16px;">
+      <button type="button" class="btn secondary" id="btn-fetch-product">🔍 自動抓取商品資料</button>
+    </div>
+
+    <label class="row">
+      <div class="lbl">商品名稱 <span class="req">*</span></div>
+      <input type="text" id="p-name">
+    </label>
+
+    <label class="row">
+      <div class="lbl">商品圖網址 <span class="req">*</span></div>
+      <input type="text" id="p-image">
+    </label>
+
+    <label class="row">
+      <div class="lbl">售價（選填；有填就會顯示 NT$）</div>
+      <input type="text" id="p-price" placeholder="2880">
+    </label>
+
+    <label class="row">
+      <div class="lbl">原價（選填；會顯示刪除線）</div>
+      <input type="text" id="p-price-old" placeholder="3080">
+    </label>
+
+    <div class="modal-actions">
+      <button type="button" class="btn secondary" id="btn-product-cancel">取消</button>
+      <button type="button" class="btn" id="btn-product-save">加入商品</button>
+    </div>
+  </div>
+</div>
+
+<!-- HTML 插圖 Modal -->
+<div class="modal-bg" id="img-modal">
+  <div class="modal">
+    <h3>上傳圖片取得路徑</h3>
+    <p style="font-size: 13px; color: var(--gray-mid); margin-bottom: 14px;">
+      上傳後會給你一段 HTML，複製貼到編輯器的文章中段即可。
+    </p>
+    <input type="file" id="img-file-input" accept="image/*" style="margin-bottom: 12px;">
+    <div class="row">
+      <div class="lbl">alt 文字（必填，幫助 SEO 與無障礙）</div>
+      <input type="text" id="img-alt" placeholder="例如：V60 濾杯側面特寫">
+    </div>
+    <div id="img-preview-box" style="display:none;">
+      <img id="img-preview-thumb" style="max-width:100%;border-radius:6px;margin-bottom:10px;">
+      <div class="lbl" style="color:var(--coffee-mid);">複製以下 HTML 貼到你想插入的位置：</div>
+      <pre style="background:#2C1810;color:#C07A3E;padding:10px;border-radius:4px;font-size:12px;" id="img-html-snippet"></pre>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="btn secondary" id="btn-img-close">關閉</button>
+      <button type="button" class="btn" id="btn-img-copy">複製 HTML</button>
+    </div>
+  </div>
+</div>
+
+<!-- 預覽浮層 -->
+<div class="preview-overlay" id="preview-overlay">
+  <div class="preview-bar">
+    <span class="title">👁️ 文章預覽</span>
+    <span style="font-size:12px;opacity:0.7;">以上線後的樣式渲染</span>
+    <span class="fill"></span>
+    <button id="btn-preview-close">關閉預覽</button>
+  </div>
+  <div class="pv-wrap" id="preview-content"></div>
+</div>
+
+<script>
+(function () {
+  const state = {
+    products: [],
+    coverDataUrl: null,
+    coverMeta: "",
+  };
+
+  // ── 分類多選（瀏覽器會自動處理 label↔input 切換，我們只同步視覺 class）──
+  document.querySelectorAll("#cats label").forEach((lbl) => {
+    const cb = lbl.querySelector("input");
+    cb.addEventListener("change", () => {
+      lbl.classList.toggle("checked", cb.checked);
+    });
+  });
+
+  // ── 標題字數 ──
+  const titleInput = document.getElementById("f-title");
+  const slugInput = document.getElementById("f-slug");
+  titleInput.addEventListener("input", () => {
+    const n = titleInput.value.length;
+    const el = document.getElementById("cnt-title");
+    el.textContent = `${n} / 60`;
+    el.classList.toggle("warn", n > 60);
+  });
+
+  function slugify(s) {
+    return s.toLowerCase()
+      .replace(/[\s_]+/g, "-")
+      .replace(/[^a-z0-9-]/g, "")
+      .replace(/-+/g, "-")
+      .replace(/^-|-$/g, "")
+      .slice(0, 60);
+  }
+
+  // ── Slug 自動按鈕 ──
+  async function aiGenerateSlug(title) {
+    const r = await fetch("/api/generate-slug", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title }),
+    });
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.error || "AI 翻譯失敗");
+    return data.slug;
+  }
+
+  document.getElementById("btn-slug-gen").addEventListener("click", async () => {
+    const t = titleInput.value.trim();
+    if (!t) return showAlert("請先填標題", "err");
+
+    // 1) 先試本地 slugify（標題已含英文字母時會成功）
+    const localSlug = slugify(t);
+    // 判斷產出是否「有意義」：至少含 3 個 ASCII 英文字母
+    const hasMeaningfulEn = (localSlug.match(/[a-z]/g) || []).length >= 3;
+
+    if (hasMeaningfulEn) {
+      slugInput.value = localSlug;
+      document.getElementById("cnt-slug").textContent = localSlug.length;
+      return showAlert("已產生 slug：" + localSlug, "ok");
+    }
+
+    // 2) 否則呼叫 AI API 翻譯成語意 slug（需 OPENAI_API_KEY 已設定）
+    const btn = document.getElementById("btn-slug-gen");
+    const oldHtml = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner" style="border-color:var(--coffee-mid);border-top-color:transparent;"></span> AI 翻譯中…';
+    try {
+      const slug = await aiGenerateSlug(t);
+      slugInput.value = slug;
+      document.getElementById("cnt-slug").textContent = slug.length;
+      showAlert("AI 已產生 slug：" + slug, "ok");
+    } catch (err) {
+      showAlert("AI 翻譯失敗：" + err.message + "（純中文標題需要 AI 翻譯，請手動輸入英文 slug 或確認 Vercel 已設 OPENAI_API_KEY）", "err");
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = oldHtml;
+    }
+  });
+  slugInput.addEventListener("input", () => {
+    document.getElementById("cnt-slug").textContent = slugInput.value.length;
+  });
+
+  // ── 摘要字數 ──
+  const descInput = document.getElementById("f-desc");
+  function updateDescCounter() {
+    const n = descInput.value.length;
+    const el = document.getElementById("cnt-desc");
+    el.textContent = `${n} / 120`;
+    el.classList.toggle("warn", n > 120);
+    el.classList.toggle("err", n > 160);
+  }
+  descInput.addEventListener("input", updateDescCounter);
+
+  // ── 摘要自動產生（從內文首段截取）──
+  document.getElementById("btn-desc-gen").addEventListener("click", () => {
+    const plainText = quill.getText().replace(/\s+/g, " ").trim();
+    if (plainText.length < 20) return showAlert("內文太短，請先寫內容再產生摘要", "err");
+
+    // 取前 100~120 字，優先在句號/逗號斷句
+    let desc = plainText.slice(0, 120);
+    const breakAt = Math.max(desc.lastIndexOf("。"), desc.lastIndexOf("！"), desc.lastIndexOf("？"), desc.lastIndexOf("."));
+    if (breakAt > 60) desc = desc.slice(0, breakAt + 1);
+    else {
+      const comma = Math.max(desc.lastIndexOf("，"), desc.lastIndexOf(","));
+      if (comma > 60) desc = desc.slice(0, comma) + "…";
+    }
+    descInput.value = desc.trim();
+    updateDescCounter();
+    showAlert("已從內文產生摘要，可再手動微調", "ok");
+  });
+
+  // ── 封面圖 ──
+  const coverPreview = document.getElementById("cover-preview");
+  const coverMeta = document.getElementById("cover-meta");
+  const COVER_W = 1200, COVER_H = 630;
+
+  // ── 封面分頁切換 ──
+  document.querySelectorAll("[data-cover-tab]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll("[data-cover-tab]").forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      document.getElementById("cover-tab-upload").style.display = btn.dataset.coverTab === "upload" ? "" : "none";
+      document.getElementById("cover-tab-ai").style.display = btn.dataset.coverTab === "ai" ? "" : "none";
+    });
+  });
+
+  // ── 共用：把任何圖片 data URL 裁成 1200×630 webp ──
+  function cropToWebp(srcDataUrl) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = COVER_W; canvas.height = COVER_H;
+        const ctx = canvas.getContext("2d");
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, COVER_W, COVER_H);
+
+        // 保持比例，cover 模式裁切（中心對齊）
+        const srcRatio = img.width / img.height;
+        const dstRatio = COVER_W / COVER_H;
+        let sx = 0, sy = 0, sw = img.width, sh = img.height;
+        if (srcRatio > dstRatio) {
+          // 來源較寬，裁左右
+          sw = img.height * dstRatio;
+          sx = (img.width - sw) / 2;
+        } else {
+          // 來源較高，裁上下
+          sh = img.width / dstRatio;
+          sy = (img.height - sh) / 2;
+        }
+        ctx.drawImage(img, sx, sy, sw, sh, 0, 0, COVER_W, COVER_H);
+
+        // 嘗試 webp；不支援時 fallback 到 jpeg
+        const webp = canvas.toDataURL("image/webp", 0.85);
+        if (webp.startsWith("data:image/webp")) {
+          resolve({ dataUrl: webp, format: "webp", origW: img.width, origH: img.height });
+        } else {
+          const jpg = canvas.toDataURL("image/jpeg", 0.85);
+          resolve({ dataUrl: jpg, format: "jpeg", origW: img.width, origH: img.height });
+        }
+      };
+      img.onerror = () => reject(new Error("圖片載入失敗"));
+      img.src = srcDataUrl;
+    });
+  }
+
+  async function setCover(rawDataUrl, label) {
+    try {
+      const result = await cropToWebp(rawDataUrl);
+      const sizeKB = Math.round(result.dataUrl.length * 0.75 / 1024);
+      state.coverDataUrl = result.dataUrl;
+      state.coverMeta = `${label}・來源 ${result.origW}×${result.origH} → 1200×630 ${result.format}・約 ${sizeKB}KB`;
+      coverPreview.classList.add("has-img");
+      coverPreview.innerHTML = `
+        <img src="${result.dataUrl}" alt="封面預覽">
+        <button class="cover-remove" id="cover-remove">移除</button>`;
+      coverMeta.textContent = state.coverMeta;
+      document.getElementById("cover-remove").addEventListener("click", (ev) => {
+        ev.stopPropagation();
+        state.coverDataUrl = null;
+        state.coverMeta = "";
+        coverPreview.classList.remove("has-img");
+        coverPreview.innerHTML = "📁 點此上傳封面圖（接受 jpg / png / webp，≤ 1MB）";
+        coverMeta.textContent = "";
+        document.getElementById("cover-file").value = "";
+      });
+      return true;
+    } catch (err) {
+      showAlert("封面處理失敗：" + err.message, "err");
+      return false;
+    }
+  }
+
+  document.getElementById("cover-file").addEventListener("change", (e) => {
+    const f = e.target.files[0];
+    if (!f) return;
+    if (f.size > 1024 * 1024) {
+      showAlert(`檔案 ${Math.round(f.size / 1024)}KB 超過 1MB 上限，請壓縮後再上傳`, "err");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const ok = await setCover(reader.result, f.name);
+      if (ok) showAlert("已裁切並轉成 webp 1200×630", "ok");
+    };
+    reader.readAsDataURL(f);
+  });
+
+  // ── AI 產圖按鈕 ──
+  document.getElementById("btn-cover-gen").addEventListener("click", async () => {
+    const prompt = document.getElementById("cover-ai-prompt").value.trim();
+    if (!prompt) return showAlert("請先填圖片描述 prompt", "err");
+    const btn = document.getElementById("btn-cover-gen");
+    const oldHtml = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>產圖中（約 5–15 秒）…';
+    try {
+      const r = await fetch("/api/generate-cover", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt }),
+      });
+      const data = await r.json();
+      if (!r.ok) throw new Error(data.error || "產圖失敗");
+      if (!data.image_base64) throw new Error("回傳資料缺 image_base64");
+      const ok = await setCover(data.image_base64, "AI 產圖");
+      if (ok) showAlert("AI 已產圖，已裁切成 1200×630 webp", "ok");
+    } catch (err) {
+      showAlert("產圖失敗：" + err.message, "err");
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = oldHtml;
+    }
+  });
+
+  // ── Quill 富文字 ──
+  const quill = new Quill("#editor-rich", {
+    theme: "snow",
+    placeholder: "在這裡寫文章內文…",
+    modules: {
+      toolbar: {
+        container: [
+          [{ header: [2, 3, false] }],
+          ["bold", "italic"],
+          ["link", "blockquote"],
+          [{ list: "ordered" }, { list: "bullet" }],
+          ["image"],
+          ["clean"],
+        ],
+        handlers: {
+          image: quillImageHandler,
+        },
+      },
+    },
+  });
+
+  function quillImageHandler() {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.onchange = () => {
+      const f = input.files[0];
+      if (!f) return;
+      if (f.size > 500 * 1024) {
+        showAlert(`圖片 ${Math.round(f.size/1024)}KB 超過 500KB，請壓縮`, "err");
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        const range = quill.getSelection(true);
+        quill.insertEmbed(range.index, "image", reader.result, "user");
+        quill.setSelection(range.index + 1);
+        showAlert("圖片已插入（發佈時會自動轉為本地檔）", "ok");
+      };
+      reader.readAsDataURL(f);
+    };
+    input.click();
+  }
+
+  // ── Tab 切換 ──
+  document.querySelectorAll(".tabs button").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".tabs button").forEach((b) => b.classList.remove("active"));
+      document.querySelectorAll(".tab-panel").forEach((p) => p.classList.remove("active"));
+      btn.classList.add("active");
+      document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
+    });
+  });
+
+  // ── Sanitize 白名單（兩組設定）──
+  const SANITIZE_STRICT = {
+    ALLOWED_TAGS: ["p","h2","h3","ul","ol","li","strong","em","b","i","a","img","blockquote","br","hr"],
+    ALLOWED_ATTR: ["href","target","rel","src","alt","title"],
+    ALLOW_DATA_ATTR: false,
+  };
+  const SANITIZE_RELAXED = {
+    ALLOWED_TAGS: ["p","h2","h3","h4","ul","ol","li","strong","em","b","i","a","img","blockquote","br","hr","section","article","div","span","figure","figcaption","table","thead","tbody","tr","th","td","details","summary","nav","header","footer","small"],
+    ALLOWED_ATTR: ["href","target","rel","src","alt","title","class","id","style","width","height","loading","aria-label","aria-hidden","role","data-block"],
+    FORBID_TAGS: ["script","iframe","object","embed","form","input","button"],
+    FORBID_ATTR: ["onclick","onload","onerror","onmouseover","onfocus","onblur","onchange","onsubmit"],
+    ALLOW_DATA_ATTR: true,
+  };
+
+  function normalizeHtml(html, mode = "strict") {
+    let out = DOMPurify.sanitize(html, mode === "relaxed" ? SANITIZE_RELAXED : SANITIZE_STRICT);
+    // h1 → h2
+    out = out.replace(/<h1\b([^>]*)>/gi, "<h2$1>").replace(/<\/h1>/gi, "</h2>");
+    // 外連自動加 rel/target
+    out = out.replace(/<a\s+([^>]*?)href=["']([^"']+)["']([^>]*)>/gi, (m, a, href, b) => {
+      if (/^https?:\/\//i.test(href) && !/matrix\.com\.tw|dailycoffee/i.test(href)) {
+        const attrs = (a + b).replace(/\s*(target|rel)=["'][^"']*["']/gi, "");
+        return `<a ${attrs} href="${href}" target="_blank" rel="noopener noreferrer">`;
+      }
+      return m;
+    });
+    return out.trim();
+  }
+
+  // ── 貼 AI 草稿轉換 ──
+  document.getElementById("btn-convert").addEventListener("click", () => {
+    const raw = document.getElementById("editor-paste").value.trim();
+    if (!raw) return showAlert("請先貼入內容", "err");
+    const looksLikeHtml = /<[a-z][^>]*>/i.test(raw);
+    let html = looksLikeHtml ? raw : marked.parse(raw);
+    html = normalizeHtml(html, "strict");
+    quill.root.innerHTML = html;
+    document.querySelector('[data-tab="rich"]').click();
+    showAlert("已轉換並載入富文字編輯器，請檢查內容", "ok");
+  });
+
+  // ── HTML 分頁 ──
+  document.getElementById("btn-html-sync").addEventListener("click", () => {
+    document.getElementById("editor-html").value = quill.root.innerHTML;
+  });
+  document.getElementById("btn-html-apply").addEventListener("click", () => {
+    const html = normalizeHtml(document.getElementById("editor-html").value, "strict");
+    quill.root.innerHTML = html;
+    document.querySelector('[data-tab="rich"]').click();
+    showAlert("HTML 已套用到富文字編輯器（複雜版型會簡化）", "warn");
+  });
+  document.getElementById("btn-html-format").addEventListener("click", () => {
+    const ta = document.getElementById("editor-html");
+    ta.value = formatHtml(ta.value);
+  });
+
+  function formatHtml(html) {
+    // 超輕量格式化：在常見 block tag 前換行
+    return html
+      .replace(/></g, ">\n<")
+      .replace(/\n{3,}/g, "\n\n");
+  }
+
+  // ── HTML 分頁圖片上傳 ──
+  const imgModal = document.getElementById("img-modal");
+  let pendingImgSnippet = "";
+  document.getElementById("btn-html-insert-img").addEventListener("click", () => {
+    document.getElementById("img-file-input").value = "";
+    document.getElementById("img-alt").value = "";
+    document.getElementById("img-preview-box").style.display = "none";
+    pendingImgSnippet = "";
+    imgModal.classList.add("open");
+  });
+  document.getElementById("btn-img-close").addEventListener("click", () => imgModal.classList.remove("open"));
+
+  document.getElementById("img-file-input").addEventListener("change", (e) => {
+    const f = e.target.files[0];
+    if (!f) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const alt = document.getElementById("img-alt").value.trim() || "文章插圖";
+      // 原型用 data URL，正式版會改成 /article/<slug>/img-N.jpg
+      const placeholder = `/article/PENDING_SLUG/img-UPLOADED.jpg`;
+      pendingImgSnippet = `<img src="${placeholder}" alt="${alt.replace(/"/g,'&quot;')}" width="1200" height="800" loading="lazy">`;
+      document.getElementById("img-preview-thumb").src = reader.result;
+      document.getElementById("img-html-snippet").textContent = pendingImgSnippet;
+      document.getElementById("img-preview-box").style.display = "";
+    };
+    reader.readAsDataURL(f);
+  });
+  document.getElementById("btn-img-copy").addEventListener("click", () => {
+    if (!pendingImgSnippet) return showAlert("請先上傳圖片", "err");
+    navigator.clipboard.writeText(pendingImgSnippet);
+    showAlert("已複製到剪貼簿，回編輯器貼上即可", "ok");
+  });
+
+  // ── 商品 ──
+  const modal = document.getElementById("product-modal");
+  document.getElementById("btn-add-product").addEventListener("click", () => {
+    ["p-url","p-name","p-image","p-price","p-price-old"].forEach(id => document.getElementById(id).value = "");
+    document.getElementById("product-modal-alerts").innerHTML = "";
+    modal.classList.add("open");
+  });
+  document.getElementById("btn-product-cancel").addEventListener("click", () => modal.classList.remove("open"));
+  modal.addEventListener("click", (e) => { if (e.target === modal) modal.classList.remove("open"); });
+
+  document.getElementById("btn-fetch-product").addEventListener("click", async () => {
+    const url = document.getElementById("p-url").value.trim();
+    if (!url) return showModalAlert("請先貼入商品網址", "err");
+    const btn = document.getElementById("btn-fetch-product");
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>抓取中…';
+    try {
+      const r = await fetch(`/api/fetch-product?url=${encodeURIComponent(url)}`);
+      const data = await r.json();
+      if (!r.ok) throw new Error(data.error || "抓取失敗");
+      document.getElementById("p-name").value = data.title || "";
+      document.getElementById("p-image").value = data.image || "";
+      showModalAlert(data.note || "抓取成功，若有售價請手動輸入", "ok");
+    } catch (err) {
+      showModalAlert("抓取失敗：" + err.message, "err");
+    } finally {
+      btn.disabled = false; btn.innerHTML = "🔍 自動抓取商品資料";
+    }
+  });
+
+  document.getElementById("btn-product-save").addEventListener("click", () => {
+    const p = {
+      url: document.getElementById("p-url").value.trim(),
+      name: document.getElementById("p-name").value.trim(),
+      image: document.getElementById("p-image").value.trim(),
+      price: document.getElementById("p-price").value.trim(),
+      price_old: document.getElementById("p-price-old").value.trim(),
+    };
+    if (!p.url || !p.name || !p.image) return showModalAlert("網址、名稱、商品圖為必填", "err");
+    try { new URL(p.url); } catch { return showModalAlert("商品網址格式錯誤", "err"); }
+    if (p.price && !/^[0-9]+$/.test(p.price)) return showModalAlert("售價必須是純數字", "err");
+    if (p.price_old && !/^[0-9]+$/.test(p.price_old)) return showModalAlert("原價必須是純數字", "err");
+    state.products.push(p);
+    renderProducts();
+    modal.classList.remove("open");
+  });
+
+  function renderProducts() {
+    const list = document.getElementById("product-list");
+    const addBtn = document.getElementById("btn-add-product");
+    list.innerHTML = "";
+    state.products.forEach((p, idx) => {
+      const card = document.createElement("div");
+      card.className = "product-card";
+      const priceHtml = p.price
+        ? `<div class="price">NT$${p.price}${p.price_old ? `<span class="old">NT$${p.price_old}</span>` : ''}</div>`
+        : `<div class="price" style="color:var(--gray-mid);font-size:12px;font-weight:400;">（未標價）</div>`;
+      card.innerHTML = `
+        <button class="remove" data-idx="${idx}" title="移除">×</button>
+        <img src="${escapeHtml(p.image) || ''}" alt="${escapeHtml(p.name)}" onerror="this.style.background='#f5ede0'">
+        <div class="name">${escapeHtml(p.name)}</div>
+        ${priceHtml}
+      `;
+      list.appendChild(card);
+    });
+    list.appendChild(addBtn);
+    list.querySelectorAll(".remove").forEach((b) => {
+      b.addEventListener("click", () => {
+        state.products.splice(Number(b.dataset.idx), 1);
+        renderProducts();
+      });
+    });
+  }
+
+  function escapeHtml(s) {
+    return String(s ?? "").replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  }
+
+  // ── 訊息 ──
+  function showAlert(msg, type = "ok") {
+    const div = document.createElement("div");
+    div.className = "alert " + type;
+    div.innerHTML = typeof msg === "string" ? msg : msg.innerHTML;
+    const box = document.getElementById("alerts");
+    box.innerHTML = "";
+    box.appendChild(div);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setTimeout(() => div.remove(), 5000);
+  }
+  function showModalAlert(msg, type = "ok") {
+    const box = document.getElementById("product-modal-alerts");
+    box.innerHTML = `<div class="alert ${type}">${escapeHtml(msg)}</div>`;
+  }
+
+  // ── 蒐集 payload（給預覽 + 送出共用）──
+  function collectPayload() {
+    const title = titleInput.value.trim();
+    const slug = slugInput.value.trim();
+    const desc = descInput.value.trim();
+    const tagsRaw = document.getElementById("f-tags").value.trim();
+    const cats = Array.from(document.querySelectorAll("#cats input:checked")).map((i) => i.value);
+
+    // 判斷使用哪個編輯器的內容：如果 HTML 原始碼分頁有內容且不等於富文字 HTML，用 HTML 原始碼
+    const htmlSrc = document.getElementById("editor-html").value.trim();
+    const richHtml = quill.root.innerHTML;
+    let bodyHtml, bodyMode;
+    if (htmlSrc && htmlSrc !== richHtml && document.querySelector('.tabs button.active')?.dataset.tab === "html") {
+      bodyHtml = normalizeHtml(htmlSrc, "relaxed");
+      bodyMode = "html_source";
+    } else {
+      bodyHtml = normalizeHtml(richHtml, "strict");
+      bodyMode = "rich_text";
+    }
+
+    return {
+      title, slug, description: desc,
+      categories: cats,
+      tags: tagsRaw.split(/[,，]/).map(s => s.trim()).filter(Boolean),
+      date: new Date().toISOString().split("T")[0],
+      cover_data_url: state.coverDataUrl,
+      body_html: bodyHtml,
+      body_mode: bodyMode,
+      products: state.products,
+    };
+  }
+
+  function validatePayload(p) {
+    const errors = [];
+    if (!p.title) errors.push("標題必填");
+    else if (p.title.length > 60) errors.push("標題不可超過 60 字");
+    if (!p.slug) errors.push("Slug 必填（點「從標題自動產生」按鈕）");
+    else if (!/^[a-z][a-z0-9-]*$/.test(p.slug)) errors.push("Slug 格式錯誤（英文小寫開頭，只可含小寫字母/數字/連字號）");
+    if (p.categories.length === 0) errors.push("至少選一個分類");
+    if (!p.description) errors.push("摘要必填");
+    else if (p.description.length > 120) errors.push("摘要不可超過 120 字");
+    if (!p.cover_data_url) errors.push("請上傳封面圖");
+    const plain = p.body_html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+    if (!plain || plain.length < 50) errors.push("內文過短（至少 50 字）");
+    return errors;
+  }
+
+  // ── 預覽 ──
+  function renderPreview(p) {
+    const cats = {
+      knowledge: "咖啡知識", map: "咖啡地圖", news: "新聞動態",
+      events: "活動展覽", kol: "KOL 專訪", cbtj: "CBTI 人格",
+    };
+    const catHtml = p.categories.map((c, i) =>
+      `<span class="pv-tag ${i === 0 ? 'accent' : ''}">${escapeHtml(cats[c] || c)}</span>`
+    ).join("");
+    const coverHtml = p.cover_data_url
+      ? `<div class="pv-cover"><img src="${p.cover_data_url}" alt="${escapeHtml(p.title)}"></div>`
+      : "";
+    const readMin = Math.max(1, Math.round(p.body_html.replace(/<[^>]+>/g, "").length / 400));
+
+    const productHtml = p.products.length ? `
+      <section class="pv-products">
+        <h2>推薦商品</h2>
+        <div class="pv-product-grid">
+          ${p.products.map(pr => `
+            <a class="pv-product-card" href="${escapeHtml(pr.url)}" target="_blank" rel="noopener">
+              <img src="${escapeHtml(pr.image)}" alt="${escapeHtml(pr.name)}">
+              <div class="pname">${escapeHtml(pr.name)}</div>
+              ${pr.price ? `<div class="pprice">NT$${escapeHtml(pr.price)}${pr.price_old ? `<span class="old">NT$${escapeHtml(pr.price_old)}</span>` : ''}</div>` : ''}
+              <div class="cta">前往選購</div>
+            </a>
+          `).join("")}
+        </div>
+      </section>
+    ` : "";
+
+    return `
+      <div class="pv-tags">${catHtml}</div>
+      <h1 class="pv-title">${escapeHtml(p.title)}</h1>
+      <p class="pv-subtitle">${escapeHtml(p.description)}</p>
+      <div class="pv-meta">
+        <span>Daily Coffee</span>
+        <span>${p.date}</span>
+        <span>閱讀約 ${readMin} 分鐘</span>
+      </div>
+      ${coverHtml}
+      <div class="pv-body">${p.body_html}</div>
+      ${productHtml}
+    `;
+  }
+
+  document.getElementById("btn-preview").addEventListener("click", () => {
+    const p = collectPayload();
+    const errors = validatePayload(p);
+    if (errors.length) {
+      showAlert("預覽前請先修正：<ul><li>" + errors.join("</li><li>") + "</li></ul>", "err");
+      return;
+    }
+    document.getElementById("preview-content").innerHTML = renderPreview(p);
+    document.getElementById("preview-overlay").classList.add("open");
+    document.body.style.overflow = "hidden";
+  });
+  document.getElementById("btn-preview-close").addEventListener("click", () => {
+    document.getElementById("preview-overlay").classList.remove("open");
+    document.body.style.overflow = "";
+  });
+
+  // ── Admin token（本機存 localStorage，第一次會問）──
+  function getAdminToken() {
+    let t = localStorage.getItem("dc_admin_token");
+    if (!t) {
+      t = prompt("請輸入發佈密碼（ADMIN_TOKEN，Vercel 環境變數設的那個）");
+      if (!t) return null;
+      localStorage.setItem("dc_admin_token", t.trim());
+    }
+    return t.trim();
+  }
+
+  // 允許重置 token（萬一打錯）
+  window.resetAdminToken = function () {
+    localStorage.removeItem("dc_admin_token");
+    alert("已清除本機 token。下次發佈時會重新詢問。");
+  };
+
+  // ── 實際發佈 ──
+  document.getElementById("btn-publish").addEventListener("click", async () => {
+    const p = collectPayload();
+    const errors = validatePayload(p);
+    if (errors.length) {
+      showAlert("請先修正：<ul><li>" + errors.join("</li><li>") + "</li></ul>", "err");
+      return;
+    }
+
+    const token = getAdminToken();
+    if (!token) return showAlert("未輸入密碼，取消發佈", "err");
+
+    if (!confirm(`確定要發佈這篇文章到 https://dailycoffee.matrix.com.tw/article/${p.slug}/ ？\n\n發佈後 Vercel 會自動部署，約 30 秒上線。`)) {
+      return;
+    }
+
+    const btn = document.getElementById("btn-publish");
+    const oldHtml = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>發佈中（上傳文章、圖片、更新索引）…';
+
+    const resultPanel = document.getElementById("result-panel");
+    const resultBody = document.getElementById("result-body");
+    const resultTitle = document.getElementById("result-title");
+    resultPanel.style.display = "";
+    resultBody.innerHTML = `<div class="alert warn">⏳ 發佈進行中，請勿關閉頁面…</div>`;
+    resultTitle.textContent = "📤 發佈中…";
+
+    try {
+      const r = await fetch("/api/publish", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-admin-token": token,
+        },
+        body: JSON.stringify({ ...p, source: "admin" }),
+      });
+      const data = await r.json();
+
+      if (r.status === 401) {
+        localStorage.removeItem("dc_admin_token");
+        throw new Error("密碼錯誤，已清除本機 token，請重試");
+      }
+      if (!r.ok) {
+        const details = data.details ? "<ul><li>" + data.details.join("</li><li>") + "</li></ul>" : "";
+        throw new Error((data.error || "發佈失敗") + details);
+      }
+
+      resultTitle.textContent = "✅ 發佈成功";
+      resultBody.innerHTML = `
+        <div class="alert ok">
+          文章已送到 GitHub（commit <code>${data.commit}</code>，共 ${data.files_committed} 檔），Vercel 會自動部署。
+        </div>
+        <p style="margin:12px 0;"><strong>文章網址：</strong><a href="${data.url}" target="_blank" rel="noopener" style="color:var(--coffee-light);">${data.url}</a></p>
+        <p style="font-size:13px;color:var(--gray-mid);">約 30 秒後上線；若打開是 404，稍等一下重整即可。</p>
+        <div style="margin-top:16px;">
+          <button type="button" class="btn secondary" onclick="location.reload()">寫下一篇</button>
+        </div>
+      `;
+      showAlert("✅ 發佈成功！", "ok");
+    } catch (err) {
+      resultTitle.textContent = "❌ 發佈失敗";
+      resultBody.innerHTML = `<div class="alert err">${escapeHtml(err.message || String(err)).replace(/&lt;(\/?(ul|li))&gt;/g,"<$1>")}</div>`;
+      showAlert("發佈失敗，詳見下方結果區", "err");
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = oldHtml;
+      resultPanel.scrollIntoView({ behavior: "smooth" });
+    }
+  });
+
+})();
+</script>
+
+</body>
+</html>
