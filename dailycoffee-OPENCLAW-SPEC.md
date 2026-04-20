@@ -17,7 +17,7 @@
 **body_mode 三選一**，依你要發的文章類型選：
 - `rich_text`：簡單文章，只用 p/h2/h3/清單/粗體/連結等基本元素（最常用）
 - `html_source`：含 `<section>` / `<div class="...">` 等語意化結構的 HTML body 片段
-- `raw_full`：整份 HTML 文件（含 `<!DOCTYPE>` / `<head>` / `<style>` / `<script>`），照搬存檔，不套 Daily Coffee 模板（雜誌級複雜版型時才用）
+- `raw_full`：內文不 sanitize（可含 `<style>` / `<script>` / `<iframe>` / 自訂 class），但仍套 Daily Coffee 文章模板（SEO meta、返回按鈕、文末商品區都正常）；雜誌級複雜版型時才用
 
 ---
 
