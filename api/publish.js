@@ -19,8 +19,9 @@
 //   "date": "2026-04-17",               // YYYY-MM-DD
 //   "body_html": "<p>...</p>",          // 已 sanitize 的 HTML
 //   "body_mode": "rich_text"|"html_source",
-//   "cover_data_url": "data:image/webp;base64,...",  // 1200x630 webp
-//   "products": [{url,name,image,price,price_old}]
+//   "cover_data_url": "data:image/webp;base64,...",  // 新文章必填；overwrite 模式選填
+//   "products": [{url,name,image,price,price_old}],
+//   "overwrite": false                  // true 時允許覆寫既有文章（slug 已存在不報錯）
 // }
 // 回應：{ ok: true, url: "https://.../article/<slug>/" } 或 { error: "..." }
 
@@ -60,21 +61,28 @@ function validatePayload(p) {
   if (!p.date || !/^\d{4}-\d{2}-\d{2}$/.test(p.date)) errors.push("date 必填（YYYY-MM-DD）");
   if (!p.body_html || typeof p.body_html !== "string") errors.push("body_html 必填");
   else if (p.body_html.replace(/<[^>]+>/g, "").trim().length < 50) errors.push("body_html 內文過短");
-  if (!p.cover_data_url || !/^data:image\/[a-z]+;base64,/.test(p.cover_data_url)) errors.push("cover_data_url 必填且為 data URL");
+  // cover_data_url：新文章必填；overwrite 模式選填（不給就保留原封面）
+  if (p.cover_data_url) {
+    if (!/^data:image\/[a-z]+;base64,/.test(p.cover_data_url)) errors.push("cover_data_url 必須是 data URL");
+  } else if (!p.overwrite) {
+    errors.push("cover_data_url 必填（新文章必須有封面）");
+  }
   if (p.products && !Array.isArray(p.products)) errors.push("products 需為陣列");
   return errors;
 }
 
 // ── 從 body_html 抽出內嵌 base64 圖片 → 轉檔案清單 ────────────────────────
+// 使用時間戳+序號命名，避免覆寫模式下與既有檔案撞名
 function extractInlineImages(html) {
   const files = [];
   let newHtml = html;
   let idx = 1;
+  const ts = Math.floor(Date.now() / 1000).toString(36);  // 短時間戳
   newHtml = newHtml.replace(
     /<img\b([^>]*?)\bsrc=["'](data:image\/([a-z]+);base64,([^"']+))["']([^>]*)>/gi,
     (m, pre, fullData, mime, b64, post) => {
       const ext = (mime === "jpeg" ? "jpg" : mime) || "png";
-      const filename = `img-${idx}.${ext}`;
+      const filename = `img-${ts}-${idx}.${ext}`;
       idx += 1;
       files.push({ filename, base64: b64, mime: `image/${mime}` });
       return `<img${pre} src="/article/SLUG_PLACEHOLDER/${filename}"${post}>`;
@@ -116,7 +124,7 @@ function renderArticleHtml(p, inlineImagesResolvedHtml) {
     "description": p.description,
     "image": heroUrl,
     "datePublished": p.date,
-    "dateModified": p.date,
+    "dateModified": p.date_modified || p.date,
     "author": { "@type": "Organization", "name": "Daily Coffee 編輯部", "url": SITE_BASE },
     "publisher": {
       "@type": "Organization",
@@ -334,15 +342,23 @@ export default async function handler(req, res) {
   const branch = process.env.GITHUB_BRANCH || "main";
 
   try {
-    // ── Slug 唯一性檢查 ──
+    // ── Slug 唯一性檢查（新文章才檢查；overwrite 模式跳過）──
     const existing = await ghGetFile(`article/${payload.slug}/index.html`, branch);
-    if (existing) {
-      return res.status(409).json({ error: `slug 已存在：${payload.slug}` });
+    if (existing && !payload.overwrite) {
+      return res.status(409).json({ error: `slug 已存在：${payload.slug}（要覆寫請帶 overwrite: true）` });
+    }
+    if (!existing && payload.overwrite) {
+      return res.status(404).json({ error: `要覆寫的文章不存在：${payload.slug}` });
     }
 
     // ── 抽取內嵌圖片 ──
     const { html: htmlWithPathPlaceholder, files: inlineImages } = extractInlineImages(payload.body_html);
     const resolvedHtml = htmlWithPathPlaceholder.replace(/SLUG_PLACEHOLDER/g, payload.slug);
+
+    // ── 覆寫模式記錄 dateModified ──
+    if (payload.overwrite) {
+      payload.date_modified = new Date().toISOString().split("T")[0];
+    }
 
     // ── 產生文章 HTML ──
     const articleHtml = renderArticleHtml(payload, resolvedHtml);
@@ -356,13 +372,16 @@ export default async function handler(req, res) {
     const mapFile = await ghGetFile("sitemap.xml", branch);
     if (!mapFile) return res.status(500).json({ error: "找不到 sitemap.xml" });
     const mapRaw = Buffer.from(mapFile.content, "base64").toString("utf8");
-    const newMapRaw = updateSitemap(mapRaw, payload.slug, payload.date);
+    const newMapRaw = updateSitemap(mapRaw, payload.slug, payload.date_modified || payload.date);
 
-    // ── 解析 cover_data_url ──
-    const coverMatch = payload.cover_data_url.match(/^data:image\/([a-z]+);base64,(.+)$/);
-    const coverExt = coverMatch[1] === "jpeg" ? "webp" : coverMatch[1];  // 原則上會是 webp
-    const coverBase64 = coverMatch[2];
-    const coverFilename = `hero.${coverExt === "jpeg" ? "jpg" : coverExt}`;
+    // ── 解析 cover_data_url（overwrite 可略）──
+    let coverBase64 = null, coverFilename = null;
+    if (payload.cover_data_url) {
+      const coverMatch = payload.cover_data_url.match(/^data:image\/([a-z]+);base64,(.+)$/);
+      const coverExt = coverMatch[1] === "jpeg" ? "jpg" : coverMatch[1];
+      coverBase64 = coverMatch[2];
+      coverFilename = `hero.${coverExt}`;
+    }
 
     // ── 建立所有 blob（image 用 base64，文字用 utf8）──
     const blobs = [];
@@ -372,18 +391,41 @@ export default async function handler(req, res) {
     }
 
     const articlePath = `article/${payload.slug}/index.html`;
-    const coverPath = `article/${payload.slug}/${coverFilename}`;
+    const sidecarPath = `article/${payload.slug}/article.json`;
 
-    const [articleSha, coverSha, listSha, mapSha] = await Promise.all([
+    // ── 產出 sidecar JSON（編輯時載回用；不含 cover_data_url 避免肥大）──
+    const sidecar = {
+      _schema_version: 1,
+      title: payload.title,
+      slug: payload.slug,
+      description: payload.description,
+      categories: payload.categories,
+      tags: payload.tags || [],
+      date: payload.date,
+      date_modified: payload.date_modified || null,
+      body_html: resolvedHtml,  // 存已解析好路徑的版本
+      body_mode: payload.body_mode || "rich_text",
+      products: payload.products || [],
+      source: payload.source || "admin",
+    };
+    const sidecarJson = JSON.stringify(sidecar, null, 2) + "\n";
+
+    // 核心四個 blob（覆寫模式且無 cover 時，cover blob 跳過）
+    const [articleSha, listSha, mapSha, sidecarSha] = await Promise.all([
       createBlob(articleHtml, "utf-8"),
-      createBlob(coverBase64, "base64"),
       createBlob(newListRaw, "utf-8"),
       createBlob(newMapRaw, "utf-8"),
+      createBlob(sidecarJson, "utf-8"),
     ]);
     blobs.push({ path: articlePath, sha: articleSha });
-    blobs.push({ path: coverPath, sha: coverSha });
     blobs.push({ path: "article_list.json", sha: listSha });
     blobs.push({ path: "sitemap.xml", sha: mapSha });
+    blobs.push({ path: sidecarPath, sha: sidecarSha });
+
+    if (coverBase64) {
+      const coverSha = await createBlob(coverBase64, "base64");
+      blobs.push({ path: `article/${payload.slug}/${coverFilename}`, sha: coverSha });
+    }
 
     for (const img of inlineImages) {
       const sha = await createBlob(img.base64, "base64");
@@ -406,7 +448,8 @@ export default async function handler(req, res) {
     const newTree = await gh("POST", "/git/trees", { base_tree: baseTreeSha, tree: treeItems });
 
     // ── 建立 commit ──
-    const commitMsg = `feat: 新增文章《${payload.title}》\n\nslug: ${payload.slug}\ncategories: ${payload.categories.join(", ")}\nsource: ${payload.source || "admin"}`;
+    const verb = payload.overwrite ? "更新" : "新增";
+    const commitMsg = `feat: ${verb}文章《${payload.title}》\n\nslug: ${payload.slug}\ncategories: ${payload.categories.join(", ")}\nsource: ${payload.source || "admin"}`;
     const newCommit = await gh("POST", "/git/commits", {
       message: commitMsg,
       parents: [latestCommitSha],
