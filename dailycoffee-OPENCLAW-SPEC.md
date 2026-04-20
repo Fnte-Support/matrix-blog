@@ -13,7 +13,11 @@
 - ✅ 你 POST 到發佈 API
 - ❌ 絕對不要直接改網站任何檔案
 - ❌ 絕對不要 push 到 GitHub
-- ❌ 絕對不要產出完整 HTML 頁面
+
+**body_mode 三選一**，依你要發的文章類型選：
+- `rich_text`：簡單文章，只用 p/h2/h3/清單/粗體/連結等基本元素（最常用）
+- `html_source`：含 `<section>` / `<div class="...">` 等語意化結構的 HTML body 片段
+- `raw_full`：整份 HTML 文件（含 `<!DOCTYPE>` / `<head>` / `<style>` / `<script>`），照搬存檔，不套 Daily Coffee 模板（雜誌級複雜版型時才用）
 
 ---
 
@@ -54,36 +58,57 @@ x-admin-token: <從你的環境變數讀 ADMIN_TOKEN>
 
 | 欄位 | 型別 | 必填 | 規則 |
 |---|---|---|---|
-| `title` | string | ✅ | 中文，≤ 60 字 |
+| `title` | string | ✅ | 中文標題 |
 | `slug` | string | ✅ | `^[a-z][a-z0-9-]{2,59}$`，英文小寫 |
-| `description` | string | ✅ | 30–120 字摘要，會當 meta description |
+| `description` | string | ✅ | 摘要（建議 80–120 字，當 meta description） |
 | `categories` | string[] | ✅ | 至少一個。白名單：`knowledge` / `map` / `news` / `events` / `kol` / `cbtj` |
 | `tags` | string[] | ✅ | 3–6 個中文關鍵字 |
 | `date` | string | ✅ | `YYYY-MM-DD` 格式 |
-| `body_html` | string | ✅ | 已 sanitize 的 HTML，≥ 50 字純文字 |
-| `body_mode` | string | ✅ | `"rich_text"`（簡單文章）或 `"html_source"`（雜誌版型） |
-| `cover_data_url` | string | ✅ | `data:image/webp;base64,...` 格式，**1200×630**，≤ 500KB |
-| `products` | object[] | ❌ | 可為空陣列 |
+| `body_html` | string | ✅ | HTML；格式看 `body_mode` 區 |
+| `body_mode` | string | ✅ | `"rich_text"` / `"html_source"` / `"raw_full"`（見下） |
+| `cover_data_url` | string | ✅ | `data:image/webp;base64,...`，**1200×630**，≤ 500KB；覆寫模式可略 |
+| `products` | object[] | ❌ | 可為空陣列；`raw_full` 模式下會被忽略 |
 | `source` | string | ✅ | 固定填 `"openclaw"`（讓人工與 AI 稿可以區分） |
+| `overwrite` | boolean | ❌ | `true` 時覆寫既有 slug（更新文章用） |
 
 ---
 
-## 📐 body_html 格式規範
+## 📐 body_html 格式規範（三種模式）
 
-### 允許標籤（rich_text 模式）
+### `rich_text` 模式（最常用）
 
-`<p>` `<h2>` `<h3>` `<ul>` `<ol>` `<li>` `<strong>` `<em>` `<a>` `<img>` `<blockquote>` `<br>` `<hr>`
+簡單文章。允許標籤：`<p>` `<h2>` `<h3>` `<ul>` `<ol>` `<li>` `<strong>` `<em>` `<a>` `<img>` `<blockquote>` `<br>` `<hr>`
 
-### 禁止元素
+禁止：
+- `<script>` / `<iframe>` / `<style>` / `<form>` → 送出被剝掉
+- inline style `<p style="...">` / class 屬性 → 剝掉
+- onclick / onload 等事件屬性 → 剝掉
+- `<h1>` → 自動降為 `<h2>`（文章標題已由 `title` 欄位處理）
 
-- 不可有 `<script>` / `<iframe>` / `<style>` / `<form>`
-- 不可有 inline style `<p style="...">`
-- 不可有 onclick / onload 等事件屬性
-- 不可有 `<h1>`（文章標題已由 `title` 欄位處理）
+### `html_source` 模式（HTML 區段）
+
+body 內容是 HTML 片段（不是完整文件），可含語意化結構與 class：
+- 允許 `<section>` / `<article>` / `<div class="...">` / `<figure>` / `<table>` 等
+- 允許 `class` / `id` / `data-*` 屬性
+- 仍然禁止 `<script>` / `<iframe>` / `<style>` / 事件屬性
+- **不包含** `<!DOCTYPE>` / `<html>` / `<head>` / `<body>`，只有 body 內容
+
+後端會用 Daily Coffee 的文章模板包起來（自動加 SEO meta、返回按鈕、文末商品區）。
+
+### `raw_full` 模式（整份 HTML，進階）
+
+**極限用法：** body_html 是一份完整的 HTML 文件，以 `<!DOCTYPE html>` 或 `<html>` 開頭。
+
+- **完全不套模板、完全不 sanitize**，照搬存成 `/article/<slug>/index.html`
+- `<style>` / `<script>` / `<iframe>` / 自訂 CSS 全保留
+- 你自己負責 SEO meta、OG tag、JSON-LD schema、返回首頁按鈕、內嵌計算器、TOC、FAQ 等所有東西
+- 適合發雜誌級複雜版型（如互動計算器、TOC 目錄、Schema.org FAQPage）
+- **⚠️ XSS 風險由你負責**：絕對只貼自己產出的 HTML，不可能的話不要用這個模式
+- `products` 欄位會被忽略（應該自己寫進 HTML）
 
 ### 外部連結
 
-必須加 `target="_blank" rel="noopener noreferrer"`。
+必須加 `target="_blank" rel="noopener noreferrer"`（raw_full 例外，你自己處理）。
 
 ### 圖片規則
 
@@ -195,9 +220,57 @@ HTTP 200
 |---|---|---|
 | 400 | payload 格式錯 | 檢查 `details` 陣列，修正後**不要直接重試**（同一筆錯誤會再錯） |
 | 401 | ADMIN_TOKEN 不對 | **立即停止，通知人類管理者**，不要猜 token 重試 |
-| 409 | slug 已存在 | 換個 slug 重試（在 slug 後加上 `-v2` 或年月） |
+| 404 | 要覆寫的文章不存在（`overwrite: true` 但 slug 沒那篇） | 先發新文章，不要用 overwrite |
+| 409 | slug 已存在，且沒帶 overwrite | 換個 slug，或確認是不是要 overwrite |
 | 500 | 伺服器錯誤 | **指數回退重試**：等 30s / 2min / 10min，最多 3 次 |
 | 502 | MiniMax / GitHub API 暫時異常 | 等 5 分鐘重試，最多 3 次 |
+
+---
+
+## ✏️ 編輯既有文章（覆寫模式）
+
+要修改已發佈的文章：
+
+1. 讀現有資料：GET `https://dailycoffee.matrix.com.tw/article/<slug>/article.json`
+   （每次發佈會自動存這份 sidecar）
+2. 依需要修改 title / description / body_html 等欄位
+3. POST 到 `/api/publish`，payload 加 `"overwrite": true`
+4. 若不改封面，`cover_data_url` 可以不帶（保留原 hero.webp）
+
+```python
+import requests, os
+
+# 讀現有
+old = requests.get(f"https://dailycoffee.matrix.com.tw/article/{slug}/article.json").json()
+
+# 修改
+old["body_html"] = "<p>新的內容…</p>"
+old["overwrite"] = True
+old["source"] = "openclaw"
+# 不動封面就不給 cover_data_url
+
+r = requests.post(
+    "https://dailycoffee.matrix.com.tw/api/publish",
+    headers={"x-admin-token": os.environ["ADMIN_TOKEN"]},
+    json=old,
+)
+```
+
+---
+
+## 🗑️ 刪除文章
+
+```
+POST https://dailycoffee.matrix.com.tw/api/delete-article
+Header: x-admin-token: <ADMIN_TOKEN>
+Body: { "slug": "..." }
+```
+
+會原子刪除：`article/<slug>/` 整個資料夾、`article_list.json` 條目、`sitemap.xml` 對應 URL。
+
+**你要什麼時候刪？**
+- 通常**不刪**。有問題優先用 `overwrite` 修正
+- 只有以下情況才刪：測試文章殘留、完全不對題的誤發
 
 ---
 
@@ -209,10 +282,11 @@ HTTP 200
 4. **不要在 log / 輸出中印出 ADMIN_TOKEN**
 5. **不要 commit 任何 API key 到 repo**
 6. **不要把 cover 做成超過 500KB**（超過會被 Vercel 4.5MB body 限制或記憶體爆掉）
-7. **不要寫 h1**（只能用 h2 / h3）
+7. **不要寫 h1**（只能用 h2 / h3；raw_full 模式自己負責）
 8. **不要用外部臨時 CDN**（aliyuncs.com、hailuo、任何帶 Expires=XXX 參數的 URL）
-9. **不要用 iframe / embed / form / script** 標籤
-10. **不要修改網站任何既有檔案**（只能透過 /api/publish 新增文章）
+9. **不要用 iframe / embed / form / script** 標籤（raw_full 例外，但要自己保證安全）
+10. **不要修改網站任何既有檔案**（只能透過 /api/publish 新增／覆寫、/api/delete-article 刪除）
+11. **不要隨便用 raw_full 模式**。99% 情況用 rich_text 就夠
 
 ---
 
@@ -226,17 +300,18 @@ HTTP 200
 
 ## 🧪 發佈前自我檢查（你在 POST 前必須做）
 
-- [ ] 標題 20–60 字
+- [ ] 標題 20–60 字（建議長度，不是硬限制）
 - [ ] slug 符合正則 `^[a-z][a-z0-9-]{2,59}$`
-- [ ] description 30–120 字
-- [ ] body_html 純文字 ≥ 300 字（50 字只是最低門檻，寫太短沒 SEO 價值）
-- [ ] 有至少 2 個 `<h2>` 小標
+- [ ] description 80–160 字（Google 會截，太長等於沒用）
+- [ ] body_html 純文字 ≥ 300 字（寫太短沒 SEO 價值）
+- [ ] 有至少 2 個 `<h2>` 小標（raw_full 模式自己負責）
 - [ ] 所有 `<img>` 都有 `alt` 屬性
 - [ ] 所有外連都有 `target="_blank" rel="noopener noreferrer"`
 - [ ] cover_data_url 剛好 1200×630，是 webp，≤ 500KB
 - [ ] tags 有 3–6 個
 - [ ] categories 至少一個且在白名單內
 - [ ] source 是 `"openclaw"`
+- [ ] body_mode 正確（99% 用 `rich_text`，真的複雜版型才用 `raw_full`）
 
 ---
 

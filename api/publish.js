@@ -351,7 +351,7 @@ export default async function handler(req, res) {
       return res.status(404).json({ error: `要覆寫的文章不存在：${payload.slug}` });
     }
 
-    // ── 抽取內嵌圖片 ──
+    // ── 抽取內嵌圖片（raw_full 模式也要抽）──
     const { html: htmlWithPathPlaceholder, files: inlineImages } = extractInlineImages(payload.body_html);
     const resolvedHtml = htmlWithPathPlaceholder.replace(/SLUG_PLACEHOLDER/g, payload.slug);
 
@@ -361,7 +361,12 @@ export default async function handler(req, res) {
     }
 
     // ── 產生文章 HTML ──
-    const articleHtml = renderArticleHtml(payload, resolvedHtml);
+    // raw_full 模式：整份 HTML 照搬（<script>/<style>/<iframe> 全保留，由同事負責安全）
+    // rich_text / html_source：套 Daily Coffee 模板
+    const isRawFull = payload.body_mode === "raw_full";
+    const articleHtml = isRawFull
+      ? resolvedHtml
+      : renderArticleHtml(payload, resolvedHtml);
 
     // ── 取得現有 article_list.json 與 sitemap.xml ──
     const listFile = await ghGetFile("article_list.json", branch);

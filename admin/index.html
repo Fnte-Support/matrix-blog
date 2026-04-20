@@ -360,7 +360,20 @@
 
   <!-- 內文編輯器 -->
   <div class="panel">
-    <h2>內文 <span class="req">* 必填</span><span class="note">兩層路線：簡單文章用富文字、雜誌版型用 HTML</span></h2>
+    <h2>內文 <span class="req">* 必填</span><span class="note">三層路線：簡單富文字 / HTML 區段 / 整份 HTML</span></h2>
+
+    <!-- 原樣 HTML 模式切換 -->
+    <div style="background: #fdf5e8; border: 1px solid #f0dfbe; padding: 10px 14px; border-radius: 6px; margin-bottom: 14px; font-size: 13px;">
+      <label style="display: flex; align-items: flex-start; gap: 8px; cursor: pointer;">
+        <input type="checkbox" id="f-raw-mode" style="margin-top: 3px;">
+        <span>
+          <strong style="color: var(--warn);">🎨 原樣 HTML 模式（進階）</strong>
+          — 打勾後整份 HTML 照搬，<code>&lt;head&gt;</code>/<code>&lt;style&gt;</code>/<code>&lt;script&gt;</code> 全保留，文末商品區停用。
+          適合發已含完整版型的雜誌文章（例如 matrix.com.tw 既有文章搬過來）。<br>
+          <strong style="color: var(--err);">⚠️ 此模式下 XSS 風險由同事負責，只貼自己或可信 AI 產出的 HTML。</strong>
+        </span>
+      </label>
+    </div>
 
     <div class="tabs">
       <button type="button" class="active" data-tab="rich">✍️ 富文字（主力）</button>
@@ -399,6 +412,29 @@
         <button type="button" id="btn-html-format">格式化縮排</button>
       </div>
       <textarea id="editor-html" placeholder="HTML 原始碼..."></textarea>
+    </div>
+
+    <!-- 原樣 HTML 模式（整份 HTML 不套模板）-->
+    <div id="raw-full-panel" style="display: none;">
+      <div class="tab-hint" style="background: #fbecea; color: var(--err); border: 1px solid #f0c8c3;">
+        ⚠️ <strong>原樣模式：</strong>下面輸入的整段內容會**完全照搬**存成 <code>index.html</code>，
+        不會套 Daily Coffee 樣式、不會插入返回首頁按鈕、不會擋任何標籤。
+        請確認貼的 HTML 來源可信（同事自己寫或自己 AI 產出的）。
+      </div>
+      <div class="html-toolbar">
+        <button type="button" id="btn-raw-insert-img">🖼️ 上傳圖片取得路徑</button>
+      </div>
+      <textarea id="editor-raw-full" style="min-height: 500px; font-family: 'SF Mono', Monaco, Consolas, monospace; font-size: 12px;" placeholder="<!DOCTYPE html>
+<html lang=&quot;zh-Hant&quot;>
+<head>
+  <meta charset=&quot;UTF-8&quot;>
+  <title>...</title>
+  <style>...</style>
+</head>
+<body>
+  ...整份 HTML 內容...
+</body>
+</html>"></textarea>
     </div>
   </div>
 
@@ -998,12 +1034,13 @@
     if (!dataUrl) return showAlert("請先上傳或產圖", "err");
     if (!alt) return showAlert("alt 文字必填（SEO 與無障礙）", "err");
 
+    const snippet = `<img src="${dataUrl}" alt="${alt.replace(/"/g,'&quot;')}" loading="lazy">`;
+
     if (inlineImgState.context === "rich") {
       // 直接插入 Quill
       const range = quill.getSelection(true);
       const insertIdx = range ? range.index : quill.getLength();
       quill.insertEmbed(insertIdx, "image", dataUrl, "user");
-      // 加 alt：需要用 Quill 的 Delta 格式化
       setTimeout(() => {
         const imgs = quill.root.querySelectorAll('img[src="' + CSS.escape(dataUrl) + '"]');
         const last = imgs[imgs.length - 1];
@@ -1012,9 +1049,17 @@
       quill.setSelection(insertIdx + 1);
       inlineImgModal.classList.remove("open");
       showAlert("已插入到編輯器（發佈時會自動存成本地檔）", "ok");
+    } else if (inlineImgState.context === "raw") {
+      // 原樣模式：直接在 textarea 游標位置插入 snippet
+      const ta = document.getElementById("editor-raw-full");
+      const start = ta.selectionStart, end = ta.selectionEnd;
+      ta.value = ta.value.slice(0, start) + snippet + ta.value.slice(end);
+      ta.selectionStart = ta.selectionEnd = start + snippet.length;
+      ta.focus();
+      inlineImgModal.classList.remove("open");
+      showAlert("已插入到原樣 HTML 編輯器（發佈時會本地化）", "ok");
     } else {
-      // HTML 原始碼：產 snippet，把 data URL 嵌進 HTML
-      const snippet = `<img src="${dataUrl}" alt="${alt.replace(/"/g,'&quot;')}" loading="lazy">`;
+      // HTML 原始碼分頁：產 snippet，塞剪貼簿讓同事貼上
       document.getElementById("inline-img-html-snippet").textContent = snippet;
       document.getElementById("inline-img-html-container").style.display = "";
       navigator.clipboard?.writeText(snippet).catch(() => {});
@@ -1115,6 +1160,33 @@
     box.innerHTML = `<div class="alert ${type}">${escapeHtml(msg)}</div>`;
   }
 
+  // ── 原樣模式 checkbox：切換時隱藏 tabs + 商品區 ──
+  const rawModeCb = document.getElementById("f-raw-mode");
+  const productsPanel = document.querySelector(".panel h2").parentElement; // 先佔位，之後精確找
+  function applyRawMode() {
+    const on = rawModeCb.checked;
+    // 隱藏 3 個 tab 按鈕與 panel
+    document.querySelector(".tabs").style.display = on ? "none" : "";
+    document.getElementById("tab-rich").style.display = on ? "none" : "";
+    document.getElementById("tab-paste").style.display = on ? "none" : "";
+    document.getElementById("tab-html").style.display = on ? "none" : "";
+    // 顯示原樣 panel
+    document.getElementById("raw-full-panel").style.display = on ? "" : "none";
+    // 停用文末商品區（整個 panel 隱藏）
+    const allH2 = document.querySelectorAll(".panel h2");
+    allH2.forEach((h) => {
+      if (h.textContent.includes("文末商品區")) {
+        h.parentElement.style.display = on ? "none" : "";
+      }
+    });
+  }
+  rawModeCb.addEventListener("change", applyRawMode);
+
+  // 原樣模式的插圖按鈕：用同一個 inline-img-modal（context="raw"）
+  document.getElementById("btn-raw-insert-img").addEventListener("click", () => {
+    openInlineImgModal("raw");
+  });
+
   // ── 蒐集 payload（給預覽 + 送出共用）──
   function collectPayload() {
     const title = titleInput.value.trim();
@@ -1122,17 +1194,25 @@
     const desc = descInput.value.trim();
     const tagsRaw = document.getElementById("f-tags").value.trim();
     const cats = Array.from(document.querySelectorAll("#cats input:checked")).map((i) => i.value);
+    const rawMode = document.getElementById("f-raw-mode").checked;
 
-    // 判斷使用哪個編輯器的內容：如果 HTML 原始碼分頁有內容且不等於富文字 HTML，用 HTML 原始碼
-    const htmlSrc = document.getElementById("editor-html").value.trim();
-    const richHtml = quill.root.innerHTML;
     let bodyHtml, bodyMode;
-    if (htmlSrc && htmlSrc !== richHtml && document.querySelector('.tabs button.active')?.dataset.tab === "html") {
-      bodyHtml = normalizeHtml(htmlSrc, "relaxed");
-      bodyMode = "html_source";
+
+    if (rawMode) {
+      // 原樣模式：整份 HTML 完全不過濾，後端直接存
+      bodyHtml = document.getElementById("editor-raw-full").value.trim();
+      bodyMode = "raw_full";
     } else {
-      bodyHtml = normalizeHtml(richHtml, "strict");
-      bodyMode = "rich_text";
+      // 判斷使用哪個編輯器的內容
+      const htmlSrc = document.getElementById("editor-html").value.trim();
+      const richHtml = quill.root.innerHTML;
+      if (htmlSrc && htmlSrc !== richHtml && document.querySelector('.tabs button.active')?.dataset.tab === "html") {
+        bodyHtml = normalizeHtml(htmlSrc, "relaxed");
+        bodyMode = "html_source";
+      } else {
+        bodyHtml = normalizeHtml(richHtml, "strict");
+        bodyMode = "rich_text";
+      }
     }
 
     return {
@@ -1143,7 +1223,7 @@
       cover_data_url: state.coverDataUrl,
       body_html: bodyHtml,
       body_mode: bodyMode,
-      products: state.products,
+      products: rawMode ? [] : state.products,  // 原樣模式強制清空商品
     };
   }
 
@@ -1154,10 +1234,15 @@
     else if (!/^[a-z][a-z0-9-]*$/.test(p.slug)) errors.push("Slug 格式錯誤（英文小寫開頭，只可含小寫字母/數字/連字號）");
     if (p.categories.length === 0) errors.push("至少選一個分類");
     if (!p.description) errors.push("摘要必填");
-    // 編輯模式：cover 可以不重新上傳（後端會保留舊的）；新文章則必要
     if (!p.cover_data_url && !state.editing) errors.push("請上傳封面圖");
     const plain = p.body_html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
     if (!plain) errors.push("內文必填");
+    if (p.body_mode === "raw_full") {
+      const raw = p.body_html.trim();
+      if (!/^<!doctype|^<html/i.test(raw)) {
+        errors.push("原樣模式下必須貼完整 HTML（以 <!DOCTYPE html> 或 <html> 開頭）");
+      }
+    }
     return errors;
   }
 
@@ -1213,7 +1298,22 @@
       showAlert("預覽前請先修正：<ul><li>" + errors.join("</li><li>") + "</li></ul>", "err");
       return;
     }
-    document.getElementById("preview-content").innerHTML = renderPreview(p);
+    const container = document.getElementById("preview-content");
+    if (p.body_mode === "raw_full") {
+      // 原樣模式：直接用 iframe srcdoc 渲染整份 HTML
+      const iframe = document.createElement("iframe");
+      iframe.style.cssText = "width: 100%; height: calc(100vh - 50px); border: 0; display: block;";
+      iframe.setAttribute("sandbox", "allow-scripts allow-same-origin");
+      iframe.srcdoc = p.body_html;
+      container.innerHTML = "";
+      container.style.maxWidth = "none";
+      container.style.padding = "0";
+      container.appendChild(iframe);
+    } else {
+      container.style.maxWidth = "";
+      container.style.padding = "";
+      container.innerHTML = renderPreview(p);
+    }
     document.getElementById("preview-overlay").classList.add("open");
     document.body.style.overflow = "hidden";
   });
@@ -1418,11 +1518,19 @@
       renderProducts();
 
       // 內文
-      if (data.body_mode === "html_source") {
+      if (data.body_mode === "raw_full") {
+        // 原樣模式
+        document.getElementById("f-raw-mode").checked = true;
+        applyRawMode();
+        document.getElementById("editor-raw-full").value = data.body_html || "";
+      } else if (data.body_mode === "html_source") {
+        document.getElementById("f-raw-mode").checked = false;
+        applyRawMode();
         document.getElementById("editor-html").value = data.body_html || "";
         document.querySelector('[data-tab="html"]').click();
       } else {
-        // 用 Quill 的 clipboard API 確保內部 delta 同步
+        document.getElementById("f-raw-mode").checked = false;
+        applyRawMode();
         quill.setText("");
         quill.clipboard.dangerouslyPasteHTML(0, data.body_html || "", "user");
         document.querySelector('[data-tab="rich"]').click();
