@@ -1,11 +1,8 @@
 // 呼叫 AI 產封面圖，MiniMax 優先，失敗 fallback 到 OpenAI DALL-E 3
 //
 // 必要環境變數（至少其一，兩個都設可 fallback）：
-//   MINIMAX_API_KEY   — MiniMax 國際版 key（$0.01/張）
+//   MINIMAX_API_KEY   — MiniMax 國際版 key（$0.01/張，api.minimax.io）
 //   OPENAI_API_KEY    — OpenAI key（DALL-E 3，$0.08/張，當 MiniMax 失敗時使用）
-//
-// 選填：
-//   MINIMAX_GROUP_ID — 某些 MiniMax 方案需要
 //
 // POST /api/generate-cover  body: { prompt: "...", provider?: "minimax"|"openai"|"auto" }
 //   provider 預設 "auto"（MiniMax 優先，失敗 fallback OpenAI）
@@ -14,7 +11,8 @@
 // → { image_base64: "data:...", provider: "minimax"|"openai", fallback_used: bool }
 //   前端拿到後用 canvas 裁成 1200×630 webp。
 
-const MINIMAX_ENDPOINT = "https://api.minimaxi.chat/v1/image_generation";
+// MiniMax 國際版官方端點（api.minimax.io）
+const MINIMAX_ENDPOINT = "https://api.minimax.io/v1/image_generation";
 const OPENAI_ENDPOINT = "https://api.openai.com/v1/images/generations";
 
 // ── 把遠端圖片 URL 下載成 base64 data URL ──
@@ -27,7 +25,8 @@ async function downloadAsDataUrl(url) {
   return { dataUrl: `data:${mime};base64,${base64}`, bytes: buf.byteLength };
 }
 
-// ── MiniMax ──
+// ── MiniMax（api.minimax.io，image-01 模型）──
+// 官方文件：https://platform.minimax.io/docs
 async function generateWithMiniMax(prompt) {
   if (!process.env.MINIMAX_API_KEY) {
     throw new Error("未設 MINIMAX_API_KEY");
@@ -36,11 +35,8 @@ async function generateWithMiniMax(prompt) {
     model: "image-01",
     prompt,
     aspect_ratio: "16:9",
-    response_format: "url",
-    n: 1,
-    prompt_optimizer: true,
+    response_format: "base64",     // 直接拿 base64，不用再下載
   };
-  if (process.env.MINIMAX_GROUP_ID) apiReq.group_id = process.env.MINIMAX_GROUP_ID;
 
   const r = await fetch(MINIMAX_ENDPOINT, {
     method: "POST",
@@ -55,15 +51,23 @@ async function generateWithMiniMax(prompt) {
     throw new Error(`MiniMax 回應 ${r.status}: ${errText.slice(0, 200)}`);
   }
   const data = await r.json();
-  const imageUrl =
-    data?.data?.image_urls?.[0] ||
-    data?.data?.[0]?.url ||
-    data?.image_urls?.[0] ||
+  // 官方格式：data.data.image_base64 是 base64 字串陣列
+  const imageBase64 =
+    data?.data?.image_base64?.[0] ||
+    data?.data?.image_urls?.[0] ||   // 保留 url 模式做 fallback
     null;
-  if (!imageUrl) {
+  if (!imageBase64) {
     throw new Error(`MiniMax 回應格式異常: ${JSON.stringify(data).slice(0, 200)}`);
   }
-  return await downloadAsDataUrl(imageUrl);
+
+  // 如果回傳的是 http(s) URL，下載轉 base64；否則直接組 data URL
+  if (imageBase64.startsWith("http")) {
+    return await downloadAsDataUrl(imageBase64);
+  }
+  // MiniMax 預設回傳 jpeg
+  const dataUrl = `data:image/jpeg;base64,${imageBase64}`;
+  const bytes = Math.round(imageBase64.length * 0.75);
+  return { dataUrl, bytes };
 }
 
 // ── OpenAI DALL-E 3 ──
