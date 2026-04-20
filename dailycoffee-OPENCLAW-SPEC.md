@@ -67,7 +67,7 @@ x-admin-token: <從你的環境變數讀 ADMIN_TOKEN>
 | `body_html` | string | ✅ | HTML；格式看 `body_mode` 區 |
 | `body_mode` | string | ✅ | `"rich_text"` / `"html_source"` / `"raw_full"`（見下） |
 | `cover_data_url` | string | ✅ | `data:image/webp;base64,...`，**1200×630**，≤ 500KB；覆寫模式可略 |
-| `products` | object[] | ❌ | 可為空陣列；`raw_full` 模式下會被忽略 |
+| `products` | object[] | ❌ | 可為空陣列（三種 body_mode 下都會正常顯示於文末） |
 | `source` | string | ✅ | 固定填 `"openclaw"`（讓人工與 AI 稿可以區分） |
 | `overwrite` | boolean | ❌ | `true` 時覆寫既有 slug（更新文章用） |
 
@@ -95,16 +95,27 @@ body 內容是 HTML 片段（不是完整文件），可含語意化結構與 cl
 
 後端會用 Daily Coffee 的文章模板包起來（自動加 SEO meta、返回按鈕、文末商品區）。
 
-### `raw_full` 模式（整份 HTML，進階）
+### `raw_full` 模式（不 sanitize 內文，仍套模板）
 
-**極限用法：** body_html 是一份完整的 HTML 文件，以 `<!DOCTYPE html>` 或 `<html>` 開頭。
+**進階用法：** body_html 可含 `<style>` / `<script>` / `<iframe>` / `<section class="...">` 等複雜結構。
 
-- **完全不套模板、完全不 sanitize**，照搬存成 `/article/<slug>/index.html`
-- `<style>` / `<script>` / `<iframe>` / 自訂 CSS 全保留
-- 你自己負責 SEO meta、OG tag、JSON-LD schema、返回首頁按鈕、內嵌計算器、TOC、FAQ 等所有東西
-- 適合發雜誌級複雜版型（如互動計算器、TOC 目錄、Schema.org FAQPage）
-- **⚠️ XSS 風險由你負責**：絕對只貼自己產出的 HTML，不可能的話不要用這個模式
-- `products` 欄位會被忽略（應該自己寫進 HTML）
+- **內文不 sanitize**（保留 style/script/iframe/class）
+- **仍套 Daily Coffee 文章模板**（自動產生 SEO meta、OG、JSON-LD、返回首頁按鈕、文末商品區）
+- 你可以兩種格式擇一：
+  - **A. body 片段**：直接給 body 內容（含 `<style>` / `<script>` / `<section>` 等），最簡單
+  - **B. 完整 HTML 文件**：貼 `<!DOCTYPE html>...</html>`，後端會自動抽出 `<body>` 內容 + 保留 `<head>` 裡的 `<style>` / `<script>` / `<link rel="stylesheet">`
+- 適合雜誌級複雜版型（互動計算器、TOC 目錄、自訂組件、FAQ accordion）
+- **⚠️ XSS 風險由你負責**：絕對只貼自己產出的 HTML
+- `products` 欄位仍會正常顯示在文末（因為仍套模板）
+
+#### raw_full 範例（body 片段版，推薦）
+
+```json
+{
+  "body_mode": "raw_full",
+  "body_html": "<style>.my-widget{background:#fdf3e8;padding:1rem;border-radius:8px}</style><section><p class=\"my-widget\">可以用自訂 class 和 CSS 了</p></section><script>console.log('inline JS works')</script>"
+}
+```
 
 ### 外部連結
 

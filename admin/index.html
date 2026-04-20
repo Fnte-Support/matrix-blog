@@ -259,6 +259,7 @@
 <header class="admin-header">
   <span class="logo">☕ Daily Coffee</span>
   <span class="badge" id="mode-badge">✍️ 新文章</span>
+  <span style="font-size: 11px; opacity: 0.5; font-family: 'SF Mono', Monaco, monospace;">v1.2.0</span>
   <button type="button" id="btn-manage" style="margin-left: auto; background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px;">📋 管理現有文章</button>
   <button type="button" id="btn-new" style="display:none; background: var(--coffee-light); color: #fff; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px; margin-left: 8px;">✍️ 離開編輯・寫新的</button>
 </header>
@@ -414,27 +415,22 @@
       <textarea id="editor-html" placeholder="HTML 原始碼..."></textarea>
     </div>
 
-    <!-- 原樣 HTML 模式（整份 HTML 不套模板）-->
+    <!-- 原樣 HTML 模式（不 sanitize 內文，但仍套 Daily Coffee 模板）-->
     <div id="raw-full-panel" style="display: none;">
       <div class="tab-hint" style="background: #fbecea; color: var(--err); border: 1px solid #f0c8c3;">
-        ⚠️ <strong>原樣模式：</strong>下面輸入的整段內容會**完全照搬**存成 <code>index.html</code>，
-        不會套 Daily Coffee 樣式、不會插入返回首頁按鈕、不會擋任何標籤。
-        請確認貼的 HTML 來源可信（同事自己寫或自己 AI 產出的）。
+        ⚠️ <strong>原樣模式：</strong>下方內容的 <code>&lt;style&gt;</code> / <code>&lt;script&gt;</code> / <code>&lt;iframe&gt;</code> / 自訂 class 都會保留。
+        文章仍會套 Daily Coffee 外框（header、返回按鈕、文末商品區），只有<strong>內文</strong>照搬。
+        <br>
+        若貼整份 HTML 文件（<code>&lt;!DOCTYPE&gt;...&lt;/html&gt;</code>），系統會自動抽出 <code>&lt;body&gt;</code> 內容 + 保留 <code>&lt;head&gt;</code> 裡的 style/script/link。
+        <br>
+        <strong style="color:var(--err);">XSS 風險由同事負責，只貼自己或可信 AI 產出的 HTML。</strong>
       </div>
       <div class="html-toolbar">
         <button type="button" id="btn-raw-insert-img">🖼️ 上傳圖片取得路徑</button>
       </div>
-      <textarea id="editor-raw-full" style="min-height: 500px; font-family: 'SF Mono', Monaco, Consolas, monospace; font-size: 12px;" placeholder="<!DOCTYPE html>
-<html lang=&quot;zh-Hant&quot;>
-<head>
-  <meta charset=&quot;UTF-8&quot;>
-  <title>...</title>
-  <style>...</style>
-</head>
-<body>
-  ...整份 HTML 內容...
-</body>
-</html>"></textarea>
+      <textarea id="editor-raw-full" style="min-height: 500px; font-family: 'SF Mono', Monaco, Consolas, monospace; font-size: 12px;" placeholder="可以貼：
+&#10;1. 整份 HTML 文件（含 <!DOCTYPE>、<head> 的 style/script），系統會自動抽內文
+&#10;2. 或只貼 body 片段（含 <style>/<script>/<section> 等複雜結構）"></textarea>
     </div>
   </div>
 
@@ -1160,21 +1156,19 @@
     box.innerHTML = `<div class="alert ${type}">${escapeHtml(msg)}</div>`;
   }
 
-  // ── 原樣模式 checkbox：切換時隱藏 tabs + 商品區 ──
+  // ── 原樣模式 checkbox：切換時隱藏編輯器 tabs + 商品區（絕對不能動封面區）──
   const rawModeCb = document.getElementById("f-raw-mode");
-  const productsPanel = document.querySelector(".panel h2").parentElement; // 先佔位，之後精確找
+  // 明確鎖定「內文編輯器」的 tabs 容器（避免誤抓封面區的 .tabs）
+  const editorTabsEl = document.querySelector('[data-tab="rich"]').closest('.tabs');
   function applyRawMode() {
     const on = rawModeCb.checked;
-    // 隱藏 3 個 tab 按鈕與 panel
-    document.querySelector(".tabs").style.display = on ? "none" : "";
+    editorTabsEl.style.display = on ? "none" : "";
     document.getElementById("tab-rich").style.display = on ? "none" : "";
     document.getElementById("tab-paste").style.display = on ? "none" : "";
     document.getElementById("tab-html").style.display = on ? "none" : "";
-    // 顯示原樣 panel
     document.getElementById("raw-full-panel").style.display = on ? "" : "none";
-    // 停用文末商品區（整個 panel 隱藏）
-    const allH2 = document.querySelectorAll(".panel h2");
-    allH2.forEach((h) => {
+    // 文末商品區整個 panel 隱藏
+    document.querySelectorAll(".panel h2").forEach((h) => {
       if (h.textContent.includes("文末商品區")) {
         h.parentElement.style.display = on ? "none" : "";
       }
@@ -1237,12 +1231,6 @@
     if (!p.cover_data_url && !state.editing) errors.push("請上傳封面圖");
     const plain = p.body_html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
     if (!plain) errors.push("內文必填");
-    if (p.body_mode === "raw_full") {
-      const raw = p.body_html.trim();
-      if (!/^<!doctype|^<html/i.test(raw)) {
-        errors.push("原樣模式下必須貼完整 HTML（以 <!DOCTYPE html> 或 <html> 開頭）");
-      }
-    }
     return errors;
   }
 
@@ -1300,11 +1288,16 @@
     }
     const container = document.getElementById("preview-content");
     if (p.body_mode === "raw_full") {
-      // 原樣模式：直接用 iframe srcdoc 渲染整份 HTML
+      // 原樣模式：用 iframe srcdoc 渲染，讓 <style>/<script>/<iframe> 能跑
+      // 如果貼的已是完整 HTML 就直接用；否則補個最小的 HTML 外殼以便正確渲染 CSS
+      const hasFullDoc = /<html[\s>]|<!doctype/i.test(p.body_html.slice(0, 200));
+      const wrappedHtml = hasFullDoc
+        ? p.body_html
+        : `<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><style>body{font-family:"Noto Sans TC",sans-serif;max-width:760px;margin:0 auto;padding:24px;line-height:1.8;}</style></head><body>${p.body_html}</body></html>`;
       const iframe = document.createElement("iframe");
       iframe.style.cssText = "width: 100%; height: calc(100vh - 50px); border: 0; display: block;";
       iframe.setAttribute("sandbox", "allow-scripts allow-same-origin");
-      iframe.srcdoc = p.body_html;
+      iframe.srcdoc = wrappedHtml;
       container.innerHTML = "";
       container.style.maxWidth = "none";
       container.style.padding = "0";

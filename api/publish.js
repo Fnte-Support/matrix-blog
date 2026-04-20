@@ -353,20 +353,36 @@ export default async function handler(req, res) {
 
     // ── 抽取內嵌圖片（raw_full 模式也要抽）──
     const { html: htmlWithPathPlaceholder, files: inlineImages } = extractInlineImages(payload.body_html);
-    const resolvedHtml = htmlWithPathPlaceholder.replace(/SLUG_PLACEHOLDER/g, payload.slug);
+    let resolvedHtml = htmlWithPathPlaceholder.replace(/SLUG_PLACEHOLDER/g, payload.slug);
 
     // ── 覆寫模式記錄 dateModified ──
     if (payload.overwrite) {
       payload.date_modified = new Date().toISOString().split("T")[0];
     }
 
-    // ── 產生文章 HTML ──
-    // raw_full 模式：整份 HTML 照搬（<script>/<style>/<iframe> 全保留，由同事負責安全）
-    // rich_text / html_source：套 Daily Coffee 模板
+    // ── raw_full 模式：若同事貼了完整 HTML 文件，抽出 <body> 內容 + 保留 <head> 的 style/script/link ──
+    // 仍然套 Daily Coffee 文章模板（只是不 sanitize 內文，保留 <style>/<script>）
     const isRawFull = payload.body_mode === "raw_full";
-    const articleHtml = isRawFull
-      ? resolvedHtml
-      : renderArticleHtml(payload, resolvedHtml);
+    if (isRawFull) {
+      const bodyMatch = resolvedHtml.match(/<body\b[^>]*>([\s\S]*?)<\/body>/i);
+      if (bodyMatch) {
+        const headMatch = resolvedHtml.match(/<head\b[^>]*>([\s\S]*?)<\/head>/i);
+        let extras = "";
+        if (headMatch) {
+          // 只保留 head 裡的 <style>、<script>、<link rel="stylesheet|preconnect">
+          // 跳過 <title>/<meta>（避免跟模板 meta 重複）
+          const matches = headMatch[1].matchAll(/<(style|script|link)\b[^>]*(?:\/>|>[\s\S]*?<\/\1>|>)/gi);
+          for (const m of matches) {
+            extras += m[0] + "\n";
+          }
+        }
+        resolvedHtml = extras + bodyMatch[1];
+      }
+      // 若沒有 <body>，視為 body 片段，直接用
+    }
+
+    // 永遠套 Daily Coffee 模板（raw_full 只差在內文不 sanitize）
+    const articleHtml = renderArticleHtml(payload, resolvedHtml);
 
     // ── 取得現有 article_list.json 與 sitemap.xml ──
     const listFile = await ghGetFile("article_list.json", branch);
