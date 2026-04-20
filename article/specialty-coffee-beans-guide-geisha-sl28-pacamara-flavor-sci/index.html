@@ -74,52 +74,67 @@
     </div>
     <div class="article-body">
 <style>
-body{
+.mx-coffee-article{
   font-family: Arial,"Noto Sans TC",sans-serif;
   line-height:1.9;
   color:#222;
   max-width:900px;
   margin:auto;
   padding:20px;
+  box-sizing:border-box;
 }
 
-h1{
+.mx-coffee-article *,
+.mx-coffee-article *::before,
+.mx-coffee-article *::after{
+  box-sizing:border-box;
+}
+
+.mx-coffee-article h1{
   line-height:1.5;
+  margin:0 0 24px;
+  font-size:32px;
 }
 
-h2{
-  margin-top:45px;
+.mx-coffee-article h2{
+  margin:45px 0 20px;
   font-size:22px;
+  line-height:1.5;
   padding-left:12px;
   border-left:5px solid #8b5a2b;
 }
 
-h3{
-  margin-top:28px;
+.mx-coffee-article h3{
+  margin:28px 0 16px;
   font-size:18px;
   color:#5e3b1f;
+  line-height:1.6;
 }
 
-.highlight{
+.mx-coffee-article p{
+  margin:0 0 18px;
+}
+
+.mx-coffee-article .highlight{
   color:#8b5a2b;
   font-weight:600;
 }
 
-.box{
+.mx-coffee-article .box{
   background:#f7f5f2;
   padding:16px;
   border-left:4px solid #8b5a2b;
   margin:20px 0;
 }
 
-.note{
+.mx-coffee-article .note{
   background:#fff8e6;
   padding:12px;
   border-left:4px solid #c89b5a;
   margin:15px 0;
 }
 
-.cta{
+.mx-coffee-article .cta{
   background:#111;
   color:#fff;
   padding:24px;
@@ -128,13 +143,13 @@ h3{
   margin-top:45px;
 }
 
-.cta a{
+.mx-coffee-article .cta a{
   color:#fff;
   text-decoration:none;
   font-weight:bold;
 }
 
-.btn{
+.mx-coffee-article .btn{
   display:inline-block;
   margin-top:12px;
   padding:12px 18px;
@@ -144,23 +159,62 @@ h3{
   text-decoration:none;
 }
 
-table{
+.mx-coffee-article table{
   width:100%;
   border-collapse:collapse;
   margin:20px 0;
 }
 
-td,th{
+.mx-coffee-article td,
+.mx-coffee-article th{
   border:1px solid #ddd;
   padding:10px;
   vertical-align:top;
+  text-align:left;
 }
 
-ul{
+.mx-coffee-article ul{
   padding-left:22px;
+  margin:0 0 18px;
+}
+
+.mx-coffee-article li{
+  margin-bottom:8px;
+}
+
+.mx-coffee-article hr{
+  border:none;
+  border-top:1px solid #e5e5e5;
+  margin:40px 0;
+}
+
+@media (max-width: 767px){
+  .mx-coffee-article{
+    padding:16px;
+  }
+
+  .mx-coffee-article h1{
+    font-size:28px;
+  }
+
+  .mx-coffee-article h2{
+    font-size:20px;
+  }
+
+  .mx-coffee-article h3{
+    font-size:17px;
+  }
+
+  .mx-coffee-article table{
+    display:block;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+  }
 }
 </style>
 
+
+<div class="mx-coffee-article">
 
 <h1>精品咖啡豆完整解析｜藝伎、SL28、帕卡馬拉風味科學與手沖選豆攻略</h1>
 
@@ -174,7 +228,7 @@ ul{
 本篇會從<span class="highlight">品種特性、風味結構、萃取反應與實際沖煮理解</span>四個角度，帶你看懂這三種在精品咖啡世界裡極具代表性的品種，並說明為什麼透過對照與重複練習，才有辦法真正喝出差異、記住差異，最後把它轉化成自己的選豆能力。
 </p>
 
----
+<hr>
 
 <h2>精品咖啡的核心：風味不是感覺，而是結構</h2>
 
@@ -200,7 +254,7 @@ ul{
 👉 同一支咖啡豆，若研磨度、注水節奏、水溫與粉水比不同，可能會從花香清亮變成酸感凌亂，或從厚實甜潤變成悶重乾澀。你喝到的，不只是豆子本身，而是豆子與萃取共同完成的結果。
 </div>
 
----
+<hr>
 
 <h2>藝伎咖啡豆：風味解析度最高的精品咖啡</h2>
 
@@ -238,7 +292,7 @@ ul{
 👉 在杯測與風味訓練裡，藝伎常被視為很好的香氣辨識樣本，因為它的花香、果香與乾淨度表現往往非常明確，適合建立高解析度的感官記憶。
 </div>
 
----
+<hr>
 
 <h2>SL28咖啡豆：會隨溫度變化的果酸型風味</h2>
 
@@ -274,7 +328,7 @@ SL28 的風味魅力，不在於「穩定不變」，而恰恰在於它能讓你
 👉 很多人以為自己不喜歡酸咖啡，其實是不喜歡失衡的酸。SL28 若沖煮得宜，酸值不是負擔，而是讓整杯咖啡更有生命力的主軸。
 </div>
 
----
+<hr>
 
 <h2>帕卡馬拉咖啡豆：厚實與平衡的風味系統</h2>
 
@@ -312,7 +366,7 @@ SL28 的風味魅力，不在於「穩定不變」，而恰恰在於它能讓你
 👉 若你追求的是「穩定好喝、層次完整、甜感與口感都要有」，帕卡馬拉通常比強調花香或明亮果酸的品種更容易成為長期喜好。
 </div>
 
----
+<hr>
 
 <h2>三大精品咖啡豆比較：不是誰比較高級，而是誰更適合你的感官偏好</h2>
 
@@ -356,7 +410,7 @@ SL28 的風味魅力，不在於「穩定不變」，而恰恰在於它能讓你
 當你開始用「結構」而不是「高低級」來思考咖啡，你的選豆邏輯就會更清楚，也更不容易被名稱或價格牽著走。
 </p>
 
----
+<hr>
 
 <h2>為什麼你喝不出差異？關鍵不是舌頭不夠好，而是缺乏對照系統</h2>
 
@@ -386,7 +440,7 @@ SL28 的風味魅力，不在於「穩定不變」，而恰恰在於它能讓你
 👉 能說出差異，不代表你比較厲害；真正重要的是，你開始能把自己的感受和實際風味做出連結。這才是選豆與沖煮進步的起點。
 </div>
 
----
+<hr>
 
 <h2>實戰推薦：沐萃咖啡手沖咖啡豆修正練功包，讓風味學習從抽象變成可驗證</h2>
 
@@ -424,11 +478,11 @@ SL28 的風味魅力，不在於「穩定不變」，而恰恰在於它能讓你
 👉 真正有價值的風味訓練，不是把答案背起來，而是讓你透過重複沖煮，親自感受到「原來我調整這個，杯中的變化真的不一樣」。
 </div>
 
-<a class="btn" href="https://www.matrix.com.tw/products/%E6%B2%90%E8%90%83%E5%92%96%E5%95%A1-%E6%B2%90%E8%90%83%E6%89%8B%E6%B2%96%E5%92%96%E5%95%A1%E8%B1%86%E4%BF%AE%E6%AD%A3%E7%B7%B4%E5%8A%9F%E5%8C%858%E6%AC%BE%E9%A2%A8%E5%91%B3%E5%85%B116%E5%85%A5">
+<a class="btn" href="https://www.matrix.com.tw/products/%E6%B2%90%E8%90%83%E5%92%96%E5%95%A1-%E6%B2%90%E8%90%83%E6%89%8B%E6%B2%96%E5%92%96%E5%95%A1%E8%B1%86%E4%BF%AE%E6%AD%A3%E7%B7%B4%E5%8A%9F%E5%8C%858%E6%AC%BE%E9%A2%A8" target="_blank" rel="noopener noreferrer">
 👉 開始風味對照練習
 </a>
 
----
+<hr>
 
 <h2>FAQ</h2>
 
@@ -447,16 +501,20 @@ SL28 的風味魅力，不在於「穩定不變」，而恰恰在於它能讓你
 <p><b>Q5：為什麼風味學習一定要做對照練習？</b><br>
 因為味覺記憶很容易模糊，單喝一杯通常只能留下大概印象，難以形成穩定判斷。透過同品項雙次沖煮、不同品種並排比較，你才能逐漸建立「這種香氣、這種酸甜比例、這種尾韻」在腦中的感官座標。</p>
 
----
+<hr>
 
 <div class="cta">
 <p>👉 精品咖啡的進階，不是喝更多，而是「喝得更清楚」</p>
 <p>當你開始理解藝伎的解析度、SL28 的變化性、帕卡馬拉的穩定感，也開始透過反覆對照建立自己的風味判斷，你喝到的就不再只是好喝與否，而是更完整的咖啡理解。</p>
 
-<a href="https://www.matrix.com.tw/products/%E6%B2%90%E8%90%83%E5%92%96%E5%95%A1-%E6%B2%90%E8%90%83%E6%89%8B%E6%B2%96%E5%92%96%E5%95%A1%E8%B1%86%E4%BF%AE%E6%AD%A3%E7%B7%B4%E5%8A%9F%E5%8C%858%E6%AC%BE%E9%A2%A8%E5%91%B3%E5%85%B116%E5%85%A5">
+<a href="https://www.matrix.com.tw/products/%E6%B2%90%E8%90%83%E5%92%96%E5%95%A1-%E6%B2%90%E8%90%83%E6%89%8B%E6%B2%96%E5%92%96%E5%95%A1%E8%B1%86%E4%BF%AE%E6%AD%A3%E7%B7%B4%E5%8A%9F%E5%8C%858%E6%AC%BE%E9%A2%A8" target="_blank" rel="noopener noreferrer">
 👉 立即開始你的精品咖啡風味訓練
 </a>
 </div>
+
+</div>
+
+
     </div>
 
   <section class="products-section">
