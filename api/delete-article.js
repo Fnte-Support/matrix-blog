@@ -88,13 +88,17 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "method not allowed" });
   }
 
+  // 刪除文章只接受 ADMIN_TOKEN，OPENCLAW_TOKEN 一律拒絕（技術層防線）
   const token = req.headers["x-admin-token"];
   const adminToken = process.env.ADMIN_TOKEN;
-  const openclawToken = process.env.OPENCLAW_TOKEN;
-  if (!adminToken && !openclawToken) {
-    return res.status(500).json({ error: "伺服器未設 ADMIN_TOKEN 或 OPENCLAW_TOKEN" });
+  if (!adminToken) {
+    return res.status(500).json({ error: "伺服器未設 ADMIN_TOKEN" });
   }
-  if (token !== adminToken && token !== openclawToken) {
+  // 明確擋 OPENCLAW_TOKEN：若匹配，回 403 表示「身分認得出、但沒權限」
+  if (process.env.OPENCLAW_TOKEN && token === process.env.OPENCLAW_TOKEN) {
+    return res.status(403).json({ error: "OPENCLAW 身分無刪除文章權限" });
+  }
+  if (token !== adminToken) {
     return res.status(401).json({ error: "未授權" });
   }
 
