@@ -1,0 +1,84 @@
+name: 🩺 每週文章健康檢查
+
+on:
+  schedule:
+    # 每週一 09:00 Asia/Taipei = UTC 01:00
+    - cron: "0 1 * * 1"
+  workflow_dispatch:
+    inputs:
+      always_open_issue:
+        description: "即使沒問題也開 issue（手動觸發時勾選）"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run health check
+        id: check
+        run: |
+          python3 tools/health_check.py \
+            --json-out report.json \
+            --markdown-out report.md
+          issues_count=$(python3 -c "import json; print(json.load(open('report.json'))['total_issues'])")
+          errors_count=$(python3 -c "import json; d=json.load(open('report.json')); print(d['by_severity'].get('error', 0))")
+          echo "issues_count=$issues_count" >> $GITHUB_OUTPUT
+          echo "errors_count=$errors_count" >> $GITHUB_OUTPUT
+          echo "---  報告摘要 ---"
+          head -20 report.md
+
+      - name: Close old health-check issues (keep inbox clean)
+        if: steps.check.outputs.issues_count != '0' || inputs.always_open_issue == true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue list --label "health-check" --state open --json number --jq '.[].number' | while read num; do
+            [ -n "$num" ] && gh issue close "$num" --comment "已由新一輪健康檢查取代"
+          done
+
+      - name: Open issue if findings
+        if: steps.check.outputs.issues_count != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          date_str=$(date +%Y-%m-%d)
+          title="🩺 文章健康檢查 ${date_str}（${{ steps.check.outputs.issues_count }} 個問題）"
+          # 確保 label 存在
+          gh label create "health-check" --color "FDE68A" --description "自動化健康檢查產出" 2>/dev/null || true
+          gh issue create \
+            --title "$title" \
+            --body-file report.md \
+            --label "health-check"
+
+      - name: Create clean-run issue on manual trigger
+        if: steps.check.outputs.issues_count == '0' && inputs.always_open_issue == true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh label create "health-check" --color "34D399" --description "自動化健康檢查產出" 2>/dev/null || true
+          gh issue create \
+            --title "✅ 文章健康檢查 $(date +%Y-%m-%d)（全部通過）" \
+            --body-file report.md \
+            --label "health-check"
+
+      - name: Upload report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: health-report
+          path: |
+            report.json
+            report.md
+          retention-days: 30
