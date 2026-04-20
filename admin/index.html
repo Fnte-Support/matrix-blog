@@ -259,7 +259,7 @@
 <header class="admin-header">
   <span class="logo">☕ Daily Coffee</span>
   <span class="badge" id="mode-badge">✍️ 新文章</span>
-  <span style="font-size: 11px; opacity: 0.5; font-family: 'SF Mono', Monaco, monospace;">v1.2.0</span>
+  <span style="font-size: 11px; opacity: 0.5; font-family: 'SF Mono', Monaco, monospace;">v1.2.1</span>
   <button type="button" id="btn-manage" style="margin-left: auto; background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px;">📋 管理現有文章</button>
   <button type="button" id="btn-new" style="display:none; background: var(--coffee-light); color: #fff; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px; margin-left: 8px;">✍️ 離開編輯・寫新的</button>
 </header>
@@ -419,7 +419,7 @@
     <div id="raw-full-panel" style="display: none;">
       <div class="tab-hint" style="background: #fbecea; color: var(--err); border: 1px solid #f0c8c3;">
         ⚠️ <strong>原樣模式：</strong>下方內容的 <code>&lt;style&gt;</code> / <code>&lt;script&gt;</code> / <code>&lt;iframe&gt;</code> / 自訂 class 都會保留。
-        文章仍會套 Daily Coffee 外框（header、返回按鈕、文末商品區），只有<strong>內文</strong>照搬。
+        文章仍會套 Daily Coffee 外框（返回按鈕、文末商品區、SEO meta 都正常），<strong>只有內文不 sanitize</strong>。
         <br>
         若貼整份 HTML 文件（<code>&lt;!DOCTYPE&gt;...&lt;/html&gt;</code>），系統會自動抽出 <code>&lt;body&gt;</code> 內容 + 保留 <code>&lt;head&gt;</code> 裡的 style/script/link。
         <br>
@@ -1156,7 +1156,7 @@
     box.innerHTML = `<div class="alert ${type}">${escapeHtml(msg)}</div>`;
   }
 
-  // ── 原樣模式 checkbox：切換時隱藏編輯器 tabs + 商品區（絕對不能動封面區）──
+  // ── 原樣模式 checkbox：切換時隱藏「內文編輯器 tabs」而已（封面、商品都維持）──
   const rawModeCb = document.getElementById("f-raw-mode");
   // 明確鎖定「內文編輯器」的 tabs 容器（避免誤抓封面區的 .tabs）
   const editorTabsEl = document.querySelector('[data-tab="rich"]').closest('.tabs');
@@ -1167,12 +1167,6 @@
     document.getElementById("tab-paste").style.display = on ? "none" : "";
     document.getElementById("tab-html").style.display = on ? "none" : "";
     document.getElementById("raw-full-panel").style.display = on ? "" : "none";
-    // 文末商品區整個 panel 隱藏
-    document.querySelectorAll(".panel h2").forEach((h) => {
-      if (h.textContent.includes("文末商品區")) {
-        h.parentElement.style.display = on ? "none" : "";
-      }
-    });
   }
   rawModeCb.addEventListener("change", applyRawMode);
 
@@ -1217,7 +1211,7 @@
       cover_data_url: state.coverDataUrl,
       body_html: bodyHtml,
       body_mode: bodyMode,
-      products: rawMode ? [] : state.products,  // 原樣模式強制清空商品
+      products: state.products,
     };
   }
 
