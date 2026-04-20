@@ -89,8 +89,14 @@ export default async function handler(req, res) {
   }
 
   const token = req.headers["x-admin-token"];
-  if (!process.env.ADMIN_TOKEN) return res.status(500).json({ error: "伺服器未設 ADMIN_TOKEN" });
-  if (token !== process.env.ADMIN_TOKEN) return res.status(401).json({ error: "未授權" });
+  const adminToken = process.env.ADMIN_TOKEN;
+  const openclawToken = process.env.OPENCLAW_TOKEN;
+  if (!adminToken && !openclawToken) {
+    return res.status(500).json({ error: "伺服器未設 ADMIN_TOKEN 或 OPENCLAW_TOKEN" });
+  }
+  if (token !== adminToken && token !== openclawToken) {
+    return res.status(401).json({ error: "未授權" });
+  }
 
   let payload;
   try {

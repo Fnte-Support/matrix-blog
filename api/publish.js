@@ -380,12 +380,17 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "method not allowed" });
   }
 
-  // ── Auth ──
+  // ── Auth（接受 ADMIN_TOKEN 或 OPENCLAW_TOKEN）──
   const token = req.headers["x-admin-token"];
-  if (!process.env.ADMIN_TOKEN) {
-    return res.status(500).json({ error: "伺服器未設 ADMIN_TOKEN" });
+  const adminToken = process.env.ADMIN_TOKEN;
+  const openclawToken = process.env.OPENCLAW_TOKEN;
+  if (!adminToken && !openclawToken) {
+    return res.status(500).json({ error: "伺服器未設 ADMIN_TOKEN 或 OPENCLAW_TOKEN" });
   }
-  if (token !== process.env.ADMIN_TOKEN) {
+  let tokenRole = null;
+  if (adminToken && token === adminToken) tokenRole = "admin";
+  else if (openclawToken && token === openclawToken) tokenRole = "openclaw";
+  if (!tokenRole) {
     return res.status(401).json({ error: "未授權（x-admin-token 不符）" });
   }
 

@@ -31,10 +31,12 @@ POST https://dailycoffee.matrix.com.tw/api/publish
 
 ```
 Content-Type: application/json
-x-admin-token: <從你的環境變數讀 ADMIN_TOKEN>
+x-admin-token: <從你的環境變數讀 OPENCLAW_TOKEN>
 ```
 
-**重要：**ADMIN_TOKEN 必須存在你的安全環境變數中，**絕對不要寫在程式碼、log、或任何會外流的地方**。
+**重要：**你的 token 是 `OPENCLAW_TOKEN`（由 Daily Coffee 網站發給你的專屬 token，跟人類管理員的 ADMIN_TOKEN 不同一個）。必須存在你的安全環境變數中，**絕對不要寫在程式碼、log、或任何會外流的地方**。
+
+若 token 失效或回 401，**立即停止、通知人類管理者**，不要猜 token。
 
 ### Body（JSON）
 
@@ -258,7 +260,7 @@ def to_cover_data_url(pil_img):
 ```bash
 curl -X POST https://dailycoffee.matrix.com.tw/api/publish \
   -H "Content-Type: application/json" \
-  -H "x-admin-token: $ADMIN_TOKEN" \
+  -H "x-admin-token: $OPENCLAW_TOKEN" \
   -d @article.json
 ```
 
@@ -274,7 +276,7 @@ r = requests.post(
     "https://dailycoffee.matrix.com.tw/api/publish",
     headers={
         "Content-Type": "application/json",
-        "x-admin-token": os.environ["ADMIN_TOKEN"],
+        "x-admin-token": os.environ["OPENCLAW_TOKEN"],
     },
     json=payload,
     timeout=60,
@@ -306,7 +308,7 @@ HTTP 200
 | 狀態碼 | 原因 | 你應該怎麼辦 |
 |---|---|---|
 | 400 | payload 格式錯 | 檢查 `details` 陣列，修正後**不要直接重試**（同一筆錯誤會再錯） |
-| 401 | ADMIN_TOKEN 不對 | **立即停止，通知人類管理者**，不要猜 token 重試 |
+| 401 | OPENCLAW_TOKEN 不對或被撤銷 | **立即停止，通知人類管理者**，不要猜 token 重試 |
 | 404 | 要覆寫的文章不存在（`overwrite: true` 但 slug 沒那篇） | 先發新文章，不要用 overwrite |
 | 409 | slug 已存在，且沒帶 overwrite | 換個 slug，或確認是不是要 overwrite |
 | 500 | 伺服器錯誤 | **指數回退重試**：等 30s / 2min / 10min，最多 3 次 |
@@ -338,7 +340,7 @@ old["source"] = "openclaw"
 
 r = requests.post(
     "https://dailycoffee.matrix.com.tw/api/publish",
-    headers={"x-admin-token": os.environ["ADMIN_TOKEN"]},
+    headers={"x-admin-token": os.environ["OPENCLAW_TOKEN"]},
     json=old,
 )
 ```
@@ -349,7 +351,7 @@ r = requests.post(
 
 ```
 POST https://dailycoffee.matrix.com.tw/api/delete-article
-Header: x-admin-token: <ADMIN_TOKEN>
+Header: x-admin-token: <OPENCLAW_TOKEN>
 Body: { "slug": "..." }
 ```
 
@@ -366,7 +368,7 @@ Body: { "slug": "..." }
 1. **不要繞過 /api/publish**，例如直接用 GitHub API 改 repo
 2. **不要發重複內容**（slug 相同或內文 > 80% 相似度）
 3. **不要一次發超過 3 篇**，避免 Vercel function 超時或 GitHub API rate limit
-4. **不要在 log / 輸出中印出 ADMIN_TOKEN**
+4. **不要在 log / 輸出中印出 OPENCLAW_TOKEN**
 5. **不要 commit 任何 API key 到 repo**
 6. **不要把 cover 做成超過 500KB**（超過會被 Vercel 4.5MB body 限制或記憶體爆掉）
 7. **不要寫 h1**（只能用 h2 / h3；raw_full 模式自己負責）
