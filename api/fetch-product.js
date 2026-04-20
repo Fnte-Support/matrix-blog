@@ -13,12 +13,24 @@ function parseMeta(html, property) {
 }
 
 function parseFirstH1(html) {
-  const m = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
+  // 先剝掉 <script> / <style> 內容，避免 h1 regex 誤匹配到 JS 模板字串
+  const cleaned = html
+    .replace(/<script\b[\s\S]*?<\/script>/gi, "")
+    .replace(/<style\b[\s\S]*?<\/style>/gi, "");
+  const m = cleaned.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
   if (!m) return null;
-  return m[1]
-    .replace(/<[^>]+>/g, "")
+  let text = m[1]
+    .replace(/<[^>]+>/g, "")   // 剝內層標籤
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&quot;/gi, '"')
     .replace(/\s+/g, " ")
     .trim();
+  // 限制最多 80 字（避免有人把整段介紹塞進 h1）
+  if (text.length > 80) text = text.slice(0, 80) + "…";
+  return text || null;
 }
 
 export default async function handler(req, res) {

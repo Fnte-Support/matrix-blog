@@ -112,11 +112,17 @@ export default async function handler(req, res) {
   }
 
   const body = typeof req.body === "string" ? JSON.parse(req.body) : (req.body || {});
-  const prompt = (body.prompt || "").trim();
+  const rawPrompt = (body.prompt || "").trim();
   const provider = (body.provider || "auto").toLowerCase();
+  const skipCjkHint = body.skip_cjk_hint === true;  // 進階用戶可跳過自動後綴
 
-  if (!prompt) return res.status(400).json({ error: "缺少 prompt" });
-  if (prompt.length > 500) return res.status(400).json({ error: "prompt 過長（上限 500 字）" });
+  if (!rawPrompt) return res.status(400).json({ error: "缺少 prompt" });
+  if (rawPrompt.length > 500) return res.status(400).json({ error: "prompt 過長（上限 500 字）" });
+
+  // 自動加繁中後綴：如果圖片中出現任何文字或招牌，應為繁體中文（台灣用字）
+  // 這能避免 AI 常預設產英文或簡體中文文字在圖片裡
+  const CJK_HINT = "Any visible text, signage, or labels in the image must be in Traditional Chinese (zh-TW, Taiwan), not English, not Simplified Chinese.";
+  const prompt = skipCjkHint ? rawPrompt : `${rawPrompt}\n\n${CJK_HINT}`;
   if (!["auto", "minimax", "openai"].includes(provider)) {
     return res.status(400).json({ error: "provider 必須是 auto / minimax / openai" });
   }

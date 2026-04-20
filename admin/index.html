@@ -148,7 +148,7 @@
       position: relative; font-size: 13px; background: #fff;
     }
     .product-card img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 4px; background: var(--coffee-cream); }
-    .product-card .name { font-weight: 600; margin-top: 8px; line-height: 1.4; font-size: 13px; min-height: 36px; }
+    .product-card .name { font-weight: 600; margin-top: 8px; line-height: 1.4; font-size: 13px; min-height: 36px; max-height: 54px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; word-break: break-word; }
     .product-card .price { color: var(--coffee-light); font-weight: 700; margin-top: 4px; min-height: 20px; }
     .product-card .price .old { color: var(--gray-mid); text-decoration: line-through; font-weight: 400; margin-left: 6px; font-size: 12px; }
     .product-card .remove {
@@ -222,7 +222,7 @@
     .pv-product-card { border: 1px solid #e5dfd7; border-radius: 10px; padding: 12px; text-decoration: none; color: inherit; display: block; transition: transform 0.15s, box-shadow 0.15s; }
     .pv-product-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.06); text-decoration: none; }
     .pv-product-card img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 6px; background: #f6f3ee; }
-    .pv-product-card .pname { font-family: "DM Sans", sans-serif; font-size: 13px; font-weight: 500; margin: 8px 0 4px; line-height: 1.4; min-height: 36px; }
+    .pv-product-card .pname { font-family: "DM Sans", sans-serif; font-size: 13px; font-weight: 500; margin: 8px 0 4px; line-height: 1.4; min-height: 36px; max-height: 54px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; word-break: break-word; }
     .pv-product-card .pprice { color: #7c4a1e; font-weight: 700; font-family: "DM Sans", sans-serif; font-size: 14px; }
     .pv-product-card .pprice .old { color: #a89f93; text-decoration: line-through; font-weight: 400; margin-left: 6px; font-size: 12px; }
     .pv-product-card .cta { margin-top: 10px; background: #7c4a1e; color: #fff; text-align: center; padding: 6px; border-radius: 4px; font-family: "DM Sans", sans-serif; font-size: 12px; }
@@ -271,8 +271,8 @@
     <h2>基本資訊 <span class="req">* 必填</span></h2>
 
     <label class="row">
-      <div class="lbl"><span>標題</span><span class="counter" id="cnt-title">0 / 60</span></div>
-      <input type="text" id="f-title" placeholder="例如：V60 手沖粉水比全攻略" maxlength="60">
+      <div class="lbl"><span>標題</span><span class="counter" id="cnt-title">0</span></div>
+      <input type="text" id="f-title" placeholder="例如：V60 手沖粉水比全攻略">
     </label>
 
     <div class="row">
@@ -298,12 +298,12 @@
     <div class="row" style="margin-top: 14px;">
       <div class="lbl">
         <span>摘要（SEO description 用，首頁卡片不顯示）</span>
-        <span class="counter" id="cnt-desc">0 / 120</span>
+        <span class="counter" id="cnt-desc">0</span>
       </div>
-      <textarea id="f-desc" placeholder="可留空，按右下按鈕會自動從內文首段產生；想自己寫也可以（建議 80–120 字）" maxlength="160"></textarea>
+      <textarea id="f-desc" placeholder="可留空，按右下按鈕會自動從內文首段產生；想自己寫也可以"></textarea>
       <div class="tab-actions" style="margin-top: 6px;">
         <button type="button" class="btn secondary tiny" id="btn-desc-gen">✨ 從內文自動產生</button>
-        <span style="font-size: 12px; color: var(--gray-mid);">截取內文首段，做為 SEO meta description</span>
+        <span style="font-size: 12px; color: var(--gray-mid);">Google 搜尋結果通常顯示 80–160 字，太長會被截斷</span>
       </div>
     </div>
 
@@ -334,11 +334,12 @@
     <div class="cover-tab-panel" id="cover-tab-ai" style="display:none;">
       <div class="tab-hint">
         AI 產封面圖（約 5–15 秒）。自動裁成 1200×630 webp。<br>
-        預設 MiniMax 優先；失敗時會自動 fallback 到 OpenAI DALL-E（慢一點、貴一點）。
+        預設 MiniMax 優先；失敗時會自動 fallback 到 OpenAI DALL-E（慢一點、貴一點）。<br>
+        <strong>圖片中若有任何文字招牌，系統會自動要求 AI 產出繁體中文（台灣用字），不會有英文或簡體。</strong>
       </div>
       <label class="row">
-        <div class="lbl">圖片描述 prompt</div>
-        <textarea id="cover-ai-prompt" placeholder="例如：a minimal flat-lay photo of V60 pour over dripper with fresh coffee beans, soft morning light, wooden table, editorial magazine style"></textarea>
+        <div class="lbl">圖片描述 prompt（中英文皆可）</div>
+        <textarea id="cover-ai-prompt" placeholder="例如：極簡平拍 V60 手沖濾杯與新鮮咖啡豆，柔和晨光，木質桌面，雜誌編輯風格。&#10;或英文：minimal flat-lay of V60 dripper with coffee beans, soft morning light, editorial style"></textarea>
       </label>
       <div class="row">
         <div class="lbl">供應商</div>
@@ -501,8 +502,8 @@
     </div>
     <div class="inline-tab-panel" id="inline-tab-ai" style="display:none;">
       <label class="row">
-        <div class="lbl">圖片描述 prompt</div>
-        <textarea id="inline-ai-prompt" placeholder="例如：close-up of a V60 filter cone with fresh coffee grounds, soft natural light"></textarea>
+        <div class="lbl">圖片描述 prompt（中英文皆可；有文字會自動產繁中）</div>
+        <textarea id="inline-ai-prompt" placeholder="例如：V60 濾杯近拍，剛研磨好的咖啡粉，柔和自然光"></textarea>
       </label>
       <div class="row">
         <div class="lbl">供應商</div>
@@ -566,9 +567,7 @@
   const slugInput = document.getElementById("f-slug");
   titleInput.addEventListener("input", () => {
     const n = titleInput.value.length;
-    const el = document.getElementById("cnt-title");
-    el.textContent = `${n} / 60`;
-    el.classList.toggle("warn", n > 60);
+    document.getElementById("cnt-title").textContent = n;
   });
 
   function slugify(s) {
@@ -632,10 +631,7 @@
   const descInput = document.getElementById("f-desc");
   function updateDescCounter() {
     const n = descInput.value.length;
-    const el = document.getElementById("cnt-desc");
-    el.textContent = `${n} / 120`;
-    el.classList.toggle("warn", n > 120);
-    el.classList.toggle("err", n > 160);
+    document.getElementById("cnt-desc").textContent = n;
   }
   descInput.addEventListener("input", updateDescCounter);
 
@@ -1154,16 +1150,14 @@
   function validatePayload(p) {
     const errors = [];
     if (!p.title) errors.push("標題必填");
-    else if (p.title.length > 60) errors.push("標題不可超過 60 字");
     if (!p.slug) errors.push("Slug 必填（點「從標題自動產生」按鈕）");
     else if (!/^[a-z][a-z0-9-]*$/.test(p.slug)) errors.push("Slug 格式錯誤（英文小寫開頭，只可含小寫字母/數字/連字號）");
     if (p.categories.length === 0) errors.push("至少選一個分類");
     if (!p.description) errors.push("摘要必填");
-    else if (p.description.length > 120) errors.push("摘要不可超過 120 字");
     // 編輯模式：cover 可以不重新上傳（後端會保留舊的）；新文章則必要
     if (!p.cover_data_url && !state.editing) errors.push("請上傳封面圖");
     const plain = p.body_html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-    if (!plain || plain.length < 50) errors.push("內文過短（至少 50 字）");
+    if (!plain) errors.push("內文必填");
     return errors;
   }
 
