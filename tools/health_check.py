@@ -270,6 +270,8 @@ def check_schemas(slug, html, issues):
                 validate_faq_schema(slug, item, issues)
             elif t == "BreadcrumbList":
                 validate_breadcrumb_schema(slug, item, issues)
+            elif t == "HowTo":
+                validate_howto_schema(slug, item, issues)
 
     # 必有 Article + BreadcrumbList
     if not any(t == "Article" or t.endswith("Article") for t in types_found):
@@ -345,6 +347,23 @@ def validate_breadcrumb_schema(slug, item, issues):
         if pos != i + 1:
             add_issue(issues, SEVERITY_WARN, slug, "schema",
                       f"BreadcrumbList position 應 1,2,3... 但第 {i+1} 個是 {pos}")
+
+
+def validate_howto_schema(slug, item, issues):
+    """HowTo 必備：name, step 陣列，每步有 text。"""
+    if not item.get("name"):
+        add_issue(issues, SEVERITY_ERROR, slug, "schema", "HowTo 缺 name")
+    steps = item.get("step")
+    if not isinstance(steps, list) or len(steps) < 2:
+        add_issue(issues, SEVERITY_ERROR, slug, "schema",
+                  "HowTo.step 必須是 ≥ 2 個步驟的陣列")
+        return
+    for i, s in enumerate(steps):
+        if not isinstance(s, dict):
+            continue
+        if not s.get("text"):
+            add_issue(issues, SEVERITY_ERROR, slug, "schema",
+                      f"HowTo 第 {i+1} 步缺 text")
 
 
 # ── 主流程 ─────────────────────────────────────────

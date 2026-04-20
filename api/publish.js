@@ -189,6 +189,22 @@ function renderArticleHtml(p, inlineImagesResolvedHtml) {
     })),
   } : null;
 
+  // 手動填的結構化資料（structured_data.howto）→ HowTo schema
+  const howto = p.structured_data && p.structured_data.howto;
+  const schemaHowTo = (howto && Array.isArray(howto.steps) && howto.steps.length >= 2) ? {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": howto.name || p.title,
+    "description": p.description,
+    ...(howto.total_time ? { "totalTime": howto.total_time } : {}),
+    "step": howto.steps.map((s, i) => ({
+      "@type": "HowToStep",
+      "position": i + 1,
+      ...(s.name ? { "name": s.name } : {}),
+      "text": s.text,
+    })),
+  } : null;
+
   return `<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -213,7 +229,8 @@ function renderArticleHtml(p, inlineImagesResolvedHtml) {
   <meta name="twitter:image" content="${heroUrl}">
   <script type="application/ld+json">${jsonLdEscape(JSON.stringify(schemaArticle))}</script>
   <script type="application/ld+json">${jsonLdEscape(JSON.stringify(schemaBreadcrumb))}</script>${schemaFaqPage ? `
-  <script type="application/ld+json">${jsonLdEscape(JSON.stringify(schemaFaqPage))}</script>` : ""}
+  <script type="application/ld+json">${jsonLdEscape(JSON.stringify(schemaFaqPage))}</script>` : ""}${schemaHowTo ? `
+  <script type="application/ld+json">${jsonLdEscape(JSON.stringify(schemaHowTo))}</script>` : ""}
   <style>
     :root { --coffee-dark: #2C1810; --coffee-mid: #6B4226; --coffee-light: #C07A3E; --coffee-cream: #F5EDE0; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -459,7 +476,7 @@ export default async function handler(req, res) {
 
     // ── 產出 sidecar JSON（編輯時載回用；不含 cover_data_url 避免肥大）──
     const sidecar = {
-      _schema_version: 1,
+      _schema_version: 2,
       title: payload.title,
       slug: payload.slug,
       description: payload.description,
@@ -470,6 +487,7 @@ export default async function handler(req, res) {
       body_html: resolvedHtml,  // 存已解析好路徑的版本
       body_mode: payload.body_mode || "rich_text",
       products: payload.products || [],
+      structured_data: payload.structured_data || null,  // HowTo 等手動填的 schema
       source: payload.source || "admin",
     };
     const sidecarJson = JSON.stringify(sidecar, null, 2) + "\n";

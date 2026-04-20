@@ -259,7 +259,7 @@
 <header class="admin-header">
   <span class="logo">☕ Daily Coffee</span>
   <span class="badge" id="mode-badge">✍️ 新文章</span>
-  <span style="font-size: 11px; opacity: 0.5; font-family: 'SF Mono', Monaco, monospace;">v1.3.0</span>
+  <span style="font-size: 11px; opacity: 0.5; font-family: 'SF Mono', Monaco, monospace;">v1.4.0</span>
   <button type="button" id="btn-manage" style="margin-left: auto; background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px;">📋 管理現有文章</button>
   <button type="button" id="btn-new" style="display:none; background: var(--coffee-light); color: #fff; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px; margin-left: 8px;">✍️ 離開編輯・寫新的</button>
 </header>
@@ -431,6 +431,42 @@
       <textarea id="editor-raw-full" style="min-height: 500px; font-family: 'SF Mono', Monaco, Consolas, monospace; font-size: 12px;" placeholder="可以貼：
 &#10;1. 整份 HTML 文件（含 <!DOCTYPE>、<head> 的 style/script），系統會自動抽內文
 &#10;2. 或只貼 body 片段（含 <style>/<script>/<section> 等複雜結構）"></textarea>
+    </div>
+  </div>
+
+  <!-- 進階 SEO 結構化資料（選填）-->
+  <div class="panel">
+    <h2>📊 進階 SEO 結構化（選填）<span class="note">讓 Google 搜尋結果出現更豐富的富文字卡片</span></h2>
+    <p style="font-size: 13px; color: var(--gray-mid); margin-bottom: 14px;">
+      文章的 Article + BreadcrumbList schema 會自動產出。<br>
+      內文有 <code>&lt;details&gt;&lt;summary&gt;Q&lt;/summary&gt;A&lt;/details&gt;</code> Q&amp;A 區塊會<strong>自動</strong>產出 FAQPage schema。<br>
+      以下是額外、手動填的結構化類型：
+    </p>
+
+    <!-- HowTo 操作步驟 -->
+    <div style="border: 1px solid var(--gray-light); border-radius: 6px; padding: 14px; margin-bottom: 14px;">
+      <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 600; color: var(--coffee-mid);">
+        <input type="checkbox" id="f-howto-enabled">
+        📖 HowTo 操作步驟教學
+      </label>
+      <div id="howto-body" style="display: none; margin-top: 12px;">
+        <p style="font-size: 12px; color: var(--gray-mid); margin-bottom: 10px;">
+          勾選後列出操作步驟，Google 搜尋可能顯示步驟卡片。適合手沖教學、器具使用指南這類 how-to 文章。
+        </p>
+        <label class="row">
+          <div class="lbl">教學名稱（空白 = 用文章標題）</div>
+          <input type="text" id="howto-name" placeholder="例如：V60 手沖咖啡的完整步驟">
+        </label>
+        <label class="row">
+          <div class="lbl">總時間（選填，例：5分鐘 / 10分鐘）</div>
+          <input type="text" id="howto-total-time" placeholder="例如：5分鐘">
+        </label>
+        <div class="row">
+          <div class="lbl">步驟列表（至少 2 步才會產 schema）</div>
+          <div id="howto-steps-list"></div>
+          <button type="button" class="btn secondary tiny" id="btn-howto-add-step" style="margin-top: 8px;">+ 新增步驟</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1175,6 +1211,90 @@
     openInlineImgModal("raw");
   });
 
+  // ── HowTo 步驟 UI ──
+  const howToState = { steps: [] };  // [{name, text}]
+  function renderHowToSteps() {
+    const list = document.getElementById("howto-steps-list");
+    list.innerHTML = "";
+    howToState.steps.forEach((s, idx) => {
+      const row = document.createElement("div");
+      row.style.cssText = "border: 1px solid var(--gray-light); border-radius: 6px; padding: 10px; margin-bottom: 8px; background: #faf7f2;";
+      row.innerHTML = `
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+          <strong style="color:var(--coffee-mid);">步驟 ${idx+1}</strong>
+          <span style="flex:1;"></span>
+          <button type="button" class="btn tiny" data-move-up="${idx}" ${idx===0?"disabled":""}>↑</button>
+          <button type="button" class="btn tiny" data-move-down="${idx}" ${idx===howToState.steps.length-1?"disabled":""}>↓</button>
+          <button type="button" class="btn tiny" data-remove="${idx}" style="background:#c84a3f;">移除</button>
+        </div>
+        <input type="text" data-field="name" data-idx="${idx}" placeholder="步驟名稱（選填，例：悶蒸）" value="${escapeHtml(s.name || "")}" style="margin-bottom:6px;">
+        <textarea data-field="text" data-idx="${idx}" placeholder="步驟描述（必填）">${escapeHtml(s.text || "")}</textarea>
+      `;
+      list.appendChild(row);
+    });
+    // 綁事件
+    list.querySelectorAll("input[data-field], textarea[data-field]").forEach((inp) => {
+      inp.addEventListener("input", () => {
+        const idx = Number(inp.dataset.idx);
+        howToState.steps[idx][inp.dataset.field] = inp.value;
+      });
+    });
+    list.querySelectorAll("[data-remove]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        howToState.steps.splice(Number(btn.dataset.remove), 1);
+        renderHowToSteps();
+      });
+    });
+    list.querySelectorAll("[data-move-up]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const i = Number(btn.dataset.moveUp);
+        if (i > 0) {
+          [howToState.steps[i-1], howToState.steps[i]] = [howToState.steps[i], howToState.steps[i-1]];
+          renderHowToSteps();
+        }
+      });
+    });
+    list.querySelectorAll("[data-move-down]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const i = Number(btn.dataset.moveDown);
+        if (i < howToState.steps.length - 1) {
+          [howToState.steps[i+1], howToState.steps[i]] = [howToState.steps[i], howToState.steps[i+1]];
+          renderHowToSteps();
+        }
+      });
+    });
+  }
+  document.getElementById("f-howto-enabled").addEventListener("change", (e) => {
+    document.getElementById("howto-body").style.display = e.target.checked ? "" : "none";
+    if (e.target.checked && howToState.steps.length === 0) {
+      howToState.steps = [{name: "", text: ""}, {name: "", text: ""}];
+      renderHowToSteps();
+    }
+  });
+  document.getElementById("btn-howto-add-step").addEventListener("click", () => {
+    howToState.steps.push({name: "", text: ""});
+    renderHowToSteps();
+  });
+
+  function collectStructuredData() {
+    const howToEnabled = document.getElementById("f-howto-enabled").checked;
+    const out = {};
+    if (howToEnabled) {
+      const validSteps = howToState.steps.filter((s) => (s.text || "").trim().length > 0);
+      if (validSteps.length >= 2) {
+        out.howto = {
+          name: document.getElementById("howto-name").value.trim(),
+          total_time: document.getElementById("howto-total-time").value.trim(),
+          steps: validSteps.map((s) => ({
+            name: (s.name || "").trim(),
+            text: s.text.trim(),
+          })),
+        };
+      }
+    }
+    return Object.keys(out).length ? out : null;
+  }
+
   // ── 蒐集 payload（給預覽 + 送出共用）──
   function collectPayload() {
     const title = titleInput.value.trim();
@@ -1212,6 +1332,7 @@
       body_html: bodyHtml,
       body_mode: bodyMode,
       products: state.products,
+      structured_data: collectStructuredData(),  // 選填，為 null 時後端不產 HowTo schema
     };
   }
 
@@ -1503,6 +1624,21 @@
       // 商品
       state.products = data.products || [];
       renderProducts();
+
+      // 進階 SEO 結構化
+      const sd = data.structured_data || {};
+      if (sd.howto) {
+        document.getElementById("f-howto-enabled").checked = true;
+        document.getElementById("howto-body").style.display = "";
+        document.getElementById("howto-name").value = sd.howto.name || "";
+        document.getElementById("howto-total-time").value = sd.howto.total_time || "";
+        howToState.steps = (sd.howto.steps || []).map((s) => ({name: s.name || "", text: s.text || ""}));
+        renderHowToSteps();
+      } else {
+        document.getElementById("f-howto-enabled").checked = false;
+        document.getElementById("howto-body").style.display = "none";
+        howToState.steps = [];
+      }
 
       // 內文
       if (data.body_mode === "raw_full") {
