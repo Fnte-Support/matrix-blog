@@ -71,6 +71,32 @@ function validatePayload(p) {
   return errors;
 }
 
+// ── 從 HTML 抽 FAQ（偵測 <details><summary>...</summary>...</details> 模式）──
+// 用於產出 FAQPage JSON-LD schema，讓 Google 搜尋結果出現可展開的 Q&A 卡片
+function extractFaqFromHtml(html) {
+  const faqs = [];
+  const detailsRe = /<details\b[^>]*>([\s\S]*?)<\/details>/gi;
+  let m;
+  while ((m = detailsRe.exec(html)) !== null) {
+    const inner = m[1];
+    const sumMatch = inner.match(/<summary\b[^>]*>([\s\S]*?)<\/summary>/i);
+    if (!sumMatch) continue;
+    const q = sumMatch[1].replace(/<[^>]+>/g, "").replace(/&nbsp;/gi, " ").replace(/\s+/g, " ").trim();
+    const aRaw = inner.replace(/<summary\b[^>]*>[\s\S]*?<\/summary>/i, "");
+    const a = aRaw.replace(/<[^>]+>/g, " ").replace(/&nbsp;/gi, " ").replace(/\s+/g, " ").trim();
+    if (q && a && q.length <= 500 && a.length >= 10) {
+      faqs.push({ q, a });
+    }
+  }
+  return faqs;
+}
+
+// 計算中文字數（去標籤、去空白，剩下字元數）
+function countCjkWords(html) {
+  const text = html.replace(/<[^>]+>/g, " ").replace(/&[a-z#0-9]+;/gi, " ").replace(/\s+/g, "").trim();
+  return text.length;
+}
+
 // ── 從 body_html 抽出內嵌 base64 圖片 → 轉檔案清單 ────────────────────────
 // 使用時間戳+序號命名，避免覆寫模式下與既有檔案撞名
 function extractInlineImages(html) {
@@ -117,6 +143,8 @@ function renderArticleHtml(p, inlineImagesResolvedHtml) {
   </section>
   ` : "";
 
+  const wordCount = countCjkWords(inlineImagesResolvedHtml);
+
   const schemaArticle = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -125,6 +153,8 @@ function renderArticleHtml(p, inlineImagesResolvedHtml) {
     "image": heroUrl,
     "datePublished": p.date,
     "dateModified": p.date_modified || p.date,
+    "inLanguage": "zh-TW",
+    "wordCount": wordCount,
     "author": { "@type": "Organization", "name": "Daily Coffee 編輯部", "url": SITE_BASE },
     "publisher": {
       "@type": "Organization",
@@ -146,6 +176,18 @@ function renderArticleHtml(p, inlineImagesResolvedHtml) {
       { "@type": "ListItem", "position": 3, "name": p.title, "item": pageUrl },
     ],
   };
+
+  // 自動偵測 <details><summary> FAQ 模式；≥ 2 組問答才產 FAQPage schema
+  const faqs = extractFaqFromHtml(inlineImagesResolvedHtml);
+  const schemaFaqPage = faqs.length >= 2 ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((f) => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a },
+    })),
+  } : null;
 
   return `<!DOCTYPE html>
 <html lang="zh-TW">
@@ -170,7 +212,8 @@ function renderArticleHtml(p, inlineImagesResolvedHtml) {
   <meta name="twitter:description" content="${escapeAttr(p.description)}">
   <meta name="twitter:image" content="${heroUrl}">
   <script type="application/ld+json">${jsonLdEscape(JSON.stringify(schemaArticle))}</script>
-  <script type="application/ld+json">${jsonLdEscape(JSON.stringify(schemaBreadcrumb))}</script>
+  <script type="application/ld+json">${jsonLdEscape(JSON.stringify(schemaBreadcrumb))}</script>${schemaFaqPage ? `
+  <script type="application/ld+json">${jsonLdEscape(JSON.stringify(schemaFaqPage))}</script>` : ""}
   <style>
     :root { --coffee-dark: #2C1810; --coffee-mid: #6B4226; --coffee-light: #C07A3E; --coffee-cream: #F5EDE0; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
