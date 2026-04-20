@@ -65,12 +65,14 @@
     @media (min-width: 600px) { .site-desc { display: block; } }
 
     /* ── Category Nav ── */
-    /* cat-nav 外框：放置右側漸層；實際捲動在 inner 層 */
+    /* cat-nav 外框（桌機：右側漸層 + 橫向捲動；手機：隱藏，改顯示漢堡選單） */
     .cat-nav { background: var(--coffee-mid); position: relative; }
     .cat-nav::after { content: ""; position: absolute; right: 0; top: 0; bottom: 0; width: 28px; background: linear-gradient(to right, transparent, var(--coffee-mid) 80%); pointer-events: none; z-index: 2; }
     .cat-nav-inner { max-width: 1200px; margin: 0 auto; display: flex; padding: 0 1.5rem; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
     .cat-nav-inner::-webkit-scrollbar { display: none; }
     .cat-btn { flex-shrink: 0; padding: 0.75rem 1.2rem; color: rgba(255,255,255,0.75); font-size: 0.9rem; font-weight: 500; border: none; background: none; cursor: pointer; border-bottom: 3px solid transparent; transition: all .2s; white-space: nowrap; }
+    /* 漢堡選單 toggle：手機才顯示 */
+    .cat-menu-toggle { display: none; }
     .cat-btn:hover { color: #fff; background: rgba(255,255,255,0.08); }
     .cat-btn.active { color: #fff; border-bottom-color: var(--coffee-light); font-weight: 600; }
 
@@ -139,12 +141,36 @@
     .footer-links { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
 
     /* ── Responsive ── */
-    @media (max-width: 600px) {
+    @media (max-width: 767px) {
       .header-inner { height: 56px; }
       .site-logo { font-size: 1.1rem; }
-      .cat-nav-inner { padding: 0 0.75rem; }
-      .cat-btn { padding: 0.65rem 0.75rem; font-size: 0.82rem; }
       .grid { grid-template-columns: 1fr; }
+      /* 手機：隱藏右側漸層（改用漢堡選單不需要）、關掉橫向捲動 */
+      .cat-nav::after { display: none; }
+      .cat-menu-toggle {
+        display: flex; width: 100%; align-items: center; justify-content: space-between;
+        background: var(--coffee-mid); color: #fff; border: none;
+        padding: 0.85rem 1rem; cursor: pointer; font-family: inherit;
+        font-size: 0.95rem; font-weight: 500;
+      }
+      .cat-menu-toggle .cat-menu-icon { font-size: 1.3rem; transition: transform .2s; }
+      .cat-nav.open .cat-menu-toggle .cat-menu-icon { transform: rotate(90deg); }
+      .cat-nav-inner {
+        display: none; flex-direction: column; padding: 0;
+        overflow: visible; max-height: 70vh; overflow-y: auto;
+        border-top: 1px solid rgba(255,255,255,0.08);
+      }
+      .cat-nav.open .cat-nav-inner { display: flex; }
+      .cat-nav-inner .cat-btn {
+        width: 100%; text-align: left; padding: 0.9rem 1.25rem;
+        font-size: 0.95rem; border-bottom: 1px solid rgba(255,255,255,0.06);
+        border-left: 3px solid transparent;
+      }
+      .cat-nav-inner .cat-btn.active {
+        border-bottom-color: rgba(255,255,255,0.06);
+        border-left-color: var(--coffee-light);
+        background: rgba(255,255,255,0.06);
+      }
     }
   </style>
 </head>
@@ -157,7 +183,11 @@
 </header>
 
 <nav class="cat-nav" id="catNav">
-  <div class="cat-nav-inner">
+  <button class="cat-menu-toggle" id="catMenuToggle" aria-expanded="false" aria-controls="catNavInner">
+    <span class="cat-menu-label" id="catMenuLabel">全部文章</span>
+    <span class="cat-menu-icon" aria-hidden="true">☰</span>
+  </button>
+  <div class="cat-nav-inner" id="catNavInner">
     <button class="cat-btn active" data-cat="all">全部文章</button>
     <button class="cat-btn" data-cat="news">📢 最新消息</button>
     <button class="cat-btn" data-cat="knowledge">📖 咖啡小學堂</button>
@@ -248,13 +278,41 @@ let currentPage = 1;
       b.classList.toggle('active', b.dataset.cat === urlCat);
     });
     document.getElementById('sectionLabel').textContent = CAT_LABELS[urlCat];
+    // 同步手機漢堡選單顯示的當前分類
+    const ml = document.getElementById('catMenuLabel');
+    if (ml) ml.textContent = CAT_LABELS[urlCat];
   }
 
   render();
 })();
 
 // ── Category tab ──
-document.getElementById('catNav').addEventListener('click', e => {
+const catNav = document.getElementById('catNav');
+const catMenuToggle = document.getElementById('catMenuToggle');
+const catMenuLabel = document.getElementById('catMenuLabel');
+
+// 手機漢堡選單開關
+catMenuToggle.addEventListener('click', e => {
+  e.stopPropagation();
+  const opened = catNav.classList.toggle('open');
+  catMenuToggle.setAttribute('aria-expanded', opened ? 'true' : 'false');
+});
+// 點選單外關閉
+document.addEventListener('click', e => {
+  if (catNav.classList.contains('open') && !catNav.contains(e.target)) {
+    catNav.classList.remove('open');
+    catMenuToggle.setAttribute('aria-expanded', 'false');
+  }
+});
+// Esc 關閉
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && catNav.classList.contains('open')) {
+    catNav.classList.remove('open');
+    catMenuToggle.setAttribute('aria-expanded', 'false');
+  }
+});
+
+catNav.addEventListener('click', e => {
   // 外連（<a>）讓瀏覽器自然處理，不觸發過濾
   if (e.target.classList.contains('cat-link')) return;
   if (e.target.classList.contains('cat-btn') && e.target.dataset.cat) {
@@ -263,6 +321,10 @@ document.getElementById('catNav').addEventListener('click', e => {
     currentCat = e.target.dataset.cat;
     currentPage = 1;
     document.getElementById('sectionLabel').textContent = CAT_LABELS[currentCat];
+    if (catMenuLabel) catMenuLabel.textContent = CAT_LABELS[currentCat];
+    // 選完自動關閉手機漢堡選單
+    catNav.classList.remove('open');
+    catMenuToggle.setAttribute('aria-expanded', 'false');
     // Update URL
     const url = new URL(location);
     if (currentCat === 'all') { url.searchParams.delete('cat'); }
