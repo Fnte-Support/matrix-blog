@@ -529,6 +529,7 @@ AI 模型常在長文中意外夾入簡體字。發文前請自我檢查。
 10. **不要用 iframe / embed / form / script** 標籤（raw_full 例外，但要自己保證安全）
 11. **不要修改網站任何既有檔案**（只能透過 /api/publish 新增／覆寫）
 12. **不要隨便用 raw_full 模式**。99% 情況用 rich_text 就夠
+13. **不要自己加 Google Analytics / gtag / GTM / 追蹤碼**。後端文章模板已自動注入 `G-7B8FEK6CJ6`（與主站 matrix.com.tw 共用衡量 ID）。你若再加一次，事件會被數兩倍、流量數字會虛灌
 
 ---
 
