@@ -1,5 +1,23 @@
 [
   {
+    "title": "海拔高度如何影響咖啡風味？從非洲到中南美的精品咖啡風土學",
+    "slug": "coffee-altitude-flavor-terroir",
+    "category": "knowledge",
+    "date": "2026-04-24",
+    "image": "https://dailycoffee.matrix.com.tw/article/coffee-altitude-flavor-terroir/hero.webp",
+    "description": "深入解析海拔與咖啡風味的科學關聯，從1700公尺高海拔到800公尺低海拔，說明溫差、櫻桃成熟度與杯測分數的實際對應。收錄非洲、中南美主要產區的海拔分布，幫助讀者建立精品咖啡的海拔評估框架。",
+    "tags": [
+      "咖啡海拔",
+      "精品咖啡",
+      "風土",
+      "產區",
+      "杯測",
+      "非洲咖啡"
+    ],
+    "url": "/article/coffee-altitude-flavor-terroir/",
+    "source": "local"
+  },
+  {
     "title": "咖啡豆研磨粗細對萃取的影響：圖解一次搞懂顆粒感與風味關係",
     "slug": "coffee-grind-size-extraction-guide",
     "category": "knowledge",
