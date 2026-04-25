@@ -69,19 +69,20 @@
     "source": "local"
   },
   {
-    "title": "咖啡豆研磨粗細對萃取的影響：圖解一次搞懂顆粒感與風味關係",
+    "title": "咖啡豆研磨粗細完全攻略：從科學原理到機種實戰，一篇深度解析顆粒與風味的關係",
     "slug": "coffee-grind-size-extraction-guide",
     "category": "knowledge",
-    "date": "2026-04-23",
+    "date": "2026-04-25",
     "image": "https://dailycoffee.matrix.com.tw/article/coffee-grind-size-extraction-guide/hero.webp",
-    "description": "研磨刻度數字越大越粗還是越細？C40和EK43的刻度能直接比較嗎？Daily Coffee用視覺化解說一次說清楚研磨與萃取率、風味表現的關係，並提供常見機種的實用對照建議。",
+    "description": "研磨是咖啡萃取的第一步，也是最容易被低估的變數。本文從顆粒表面積的科學原理切入，解析錐刀、平刀、鬼齒三大刀盤類型的研磨特性與風味差異，說明如何透過流速判斷萃取狀態、避免通道效應，並提供各機種的實用刻度對照。",
     "tags": [
       "咖啡研磨",
       "磨豆機",
-      "萃取率",
-      "研磨刻度",
-      "手沖教學",
-      "顆粒分佈"
+      "錐刀",
+      "平刀",
+      "手搖磨豆機",
+      "萃取",
+      "手沖"
     ],
     "url": "/article/coffee-grind-size-extraction-guide/",
     "source": "local"
