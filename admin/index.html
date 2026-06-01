@@ -285,7 +285,7 @@
 <header class="admin-header">
   <span class="logo">☕ Daily Coffee</span>
   <span class="badge" id="mode-badge">✍️ 新文章</span>
-  <span style="font-size: 11px; opacity: 0.5; font-family: 'SF Mono', Monaco, monospace;">v1.13.0</span>
+  <span style="font-size: 11px; opacity: 0.5; font-family: 'SF Mono', Monaco, monospace;">v1.14.0</span>
   <button type="button" id="btn-manage" style="margin-left: auto; background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px;">📋 管理現有文章</button>
   <button type="button" id="btn-new" style="display:none; background: var(--coffee-light); color: #fff; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px; margin-left: 8px;">✍️ 離開編輯・寫新的</button>
 </header>
@@ -1049,6 +1049,18 @@
   // ── Markdown 編輯器（全寬，預覽走「預覽文章」全螢幕頁）──
   const mdEditor = document.getElementById("editor-md");
 
+  // 記住 Markdown 游標位置（AI 配圖 / IG 從上方面板插入時用）
+  let mdLastCursor = null;
+  ["click", "keyup", "select", "blur"].forEach((ev) =>
+    mdEditor.addEventListener(ev, () => { mdLastCursor = mdEditor.selectionStart; }));
+  function insertIntoMdAtCursor(text) {
+    const at = (mdLastCursor != null) ? mdLastCursor : mdEditor.value.length;
+    mdEditor.value = mdEditor.value.slice(0, at) + text + mdEditor.value.slice(at);
+    mdLastCursor = at + text.length;
+    mdEditor.selectionStart = mdEditor.selectionEnd = mdLastCursor;
+    mdEditor.dispatchEvent(new Event("input"));
+  }
+
   // 在游標處插入文字（包裹型會包住選取）
   function mdInsert(text) {
     const start = mdEditor.selectionStart, end = mdEditor.selectionEnd;
@@ -1241,8 +1253,8 @@
         const data = await r.json();
         if (!r.ok) throw new Error(data.error || "產圖失敗");
         if (!data.image_base64) throw new Error("回傳缺 image_base64");
-        mdEditor.value = mdEditor.value.replace(/\s*$/, "") + `\n\n![${alt.replace(/[\[\]]/g,"")}](${data.image_base64})\n`;
-        status.textContent = `✅ 已插入（${data.provider === "openai" ? "DALL-E" : "MiniMax"}${data.fallback_used ? " fallback" : ""}）`;
+        insertIntoMdAtCursor(`\n\n![${alt.replace(/[\[\]]/g,"")}](${data.image_base64})\n\n`);
+        status.textContent = `✅ 已插入游標處（${data.provider === "openai" ? "DALL-E" : "MiniMax"}${data.fallback_used ? " fallback" : ""}）`;
         genBtn.textContent = "↻ 重新產生";
       } catch (err) {
         status.textContent = "失敗：" + err.message;
@@ -1259,8 +1271,8 @@
       if (!m) { status.textContent = "網址格式錯（需含 /p/ 或 /reel/）"; return; }
       const clean = `https://www.instagram.com/${m[1]}/${m[2]}/`;
       const embed = `\n\n<blockquote class="instagram-media" data-instgrm-permalink="${clean}" data-instgrm-version="14" style="max-width:540px;margin:1rem auto;"><a href="${clean}">在 Instagram 查看這則貼文</a></blockquote>\n\n`;
-      mdEditor.value = mdEditor.value.replace(/\s*$/, "") + embed;
-      status.textContent = "✅ 已插入 IG 嵌入（發佈後會載入 IG 顯示）";
+      insertIntoMdAtCursor(embed);
+      status.textContent = "✅ 已插入游標處（發佈後會載入 IG 顯示）";
     });
 
     // 插在「新增配圖」按鈕之前
@@ -1271,7 +1283,8 @@
 
   function renderAiImageSpecs(data) {
     data = data || {};
-    aiImgBox.innerHTML = `<div style="font-size:13px;font-weight:600;color:var(--coffee-mid);margin-bottom:8px;">🖼️ 配圖 — 圖1 是封面（必填），圖2 起為內文圖（可 AI 生成 / IG 嵌入 / 不放），也可自行新增</div>
+    aiImgBox.innerHTML = `<div style="font-size:13px;font-weight:600;color:var(--coffee-mid);margin-bottom:8px;">🖼️ 配圖 — 圖1 是封面（必填）；圖2 起為內文圖，會插到 Markdown 內文的<strong>游標位置</strong>（先在內文點一下要插入的地方）</div>
+      <div style="font-size:12px;color:var(--gray-mid);margin-bottom:8px;">內文圖可選 AI 生成 / IG 嵌入 / 不放，也可自行新增。</div>
       <button type="button" class="btn secondary tiny" id="btn-add-img-card" style="margin-top:4px;">＋ 新增內文配圖</button>`;
     document.getElementById("btn-add-img-card").addEventListener("click", () => addImageCard({}, { label: "新圖" }));
     aiImgBox.style.display = "";
