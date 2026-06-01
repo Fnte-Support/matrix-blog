@@ -8,6 +8,8 @@
 
   <!-- Quill 富文字編輯器 -->
   <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
+  <!-- 文章視覺化元件庫（預覽用，與發佈文章同一支）-->
+  <link rel="stylesheet" href="/article-components.css">
   <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
   <!-- marked (Markdown → HTML) -->
   <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
@@ -91,27 +93,19 @@
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
 
-    /* ── Markdown 編輯器（左寫右預覽）── */
-    .md-split { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: stretch; }
-    @media (max-width: 760px) { .md-split { grid-template-columns: 1fr; } }
-    .md-pane-label { font-size: 12px; color: var(--gray-mid); margin-bottom: 4px; font-weight: 600; }
-    #editor-md { width: 100%; min-height: 460px; resize: vertical; font-family: "SF Mono", Monaco, Consolas, monospace; font-size: 13px; line-height: 1.7; }
-    .md-preview {
-      min-height: 460px; max-height: 70vh; overflow-y: auto; border: 1px solid var(--gray-light);
-      border-radius: 6px; padding: 14px 16px; background: #fff; font-size: 15px; line-height: 1.8;
-    }
-    .md-preview h2 { font-size: 20px; color: var(--coffee-mid); margin: 18px 0 8px; padding-top: 8px; border-top: 1px solid var(--gray-light); }
-    .md-preview h2:first-child { border-top: none; padding-top: 0; }
-    .md-preview h3 { font-size: 16px; margin: 14px 0 6px; }
-    .md-preview p { margin: 0 0 12px; }
-    .md-preview ul, .md-preview ol { margin: 0 0 12px 1.4em; }
-    .md-preview blockquote { border-left: 3px solid var(--coffee-light); padding: 4px 12px; margin: 12px 0; background: var(--coffee-cream); color: var(--coffee-mid); border-radius: 0 6px 6px 0; }
-    .md-preview img { max-width: 100%; height: auto; border-radius: 6px; margin: 8px 0; }
-    .md-preview table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 14px; }
-    .md-preview th, .md-preview td { border: 1px solid var(--gray-light); padding: 6px 10px; text-align: left; }
-    .md-toolbar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+    /* ── Markdown 編輯器（全寬 + 速查表）── */
+    #editor-md { width: 100%; min-height: 520px; resize: vertical; font-family: "SF Mono", Monaco, Consolas, monospace; font-size: 13px; line-height: 1.7; }
+    .md-toolbar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; align-items: center; }
     .md-toolbar button { background: #fff; border: 1px solid var(--gray-light); padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; font-family: inherit; color: var(--coffee-mid); }
     .md-toolbar button:hover { background: var(--coffee-cream); border-color: var(--coffee-light); }
+    /* 速查表 */
+    .md-cheatsheet { margin-bottom: 10px; border: 1px solid var(--gray-light); border-radius: 6px; background: #fffaf4; }
+    .md-cheatsheet summary { cursor: pointer; padding: 8px 12px; font-size: 13px; font-weight: 600; color: var(--coffee-mid); user-select: none; }
+    .cheat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; padding: 0 12px 12px; }
+    .cheat-card { border: 1px solid var(--gray-light); border-radius: 6px; padding: 8px 10px; background: #fff; cursor: pointer; transition: all 0.12s; }
+    .cheat-card:hover { border-color: var(--coffee-light); background: var(--coffee-cream); transform: translateY(-1px); }
+    .cheat-card .cc-name { font-size: 12px; font-weight: 600; color: var(--coffee-dark); }
+    .cheat-card .cc-desc { font-size: 11px; color: var(--gray-mid); margin-top: 2px; line-height: 1.4; }
 
     .tab-hint {
       background: var(--coffee-cream); padding: 10px 14px; border-radius: 6px;
@@ -281,7 +275,7 @@
 <header class="admin-header">
   <span class="logo">☕ Daily Coffee</span>
   <span class="badge" id="mode-badge">✍️ 新文章</span>
-  <span style="font-size: 11px; opacity: 0.5; font-family: 'SF Mono', Monaco, monospace;">v1.7.0</span>
+  <span style="font-size: 11px; opacity: 0.5; font-family: 'SF Mono', Monaco, monospace;">v1.8.0</span>
   <button type="button" id="btn-manage" style="margin-left: auto; background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px;">📋 管理現有文章</button>
   <button type="button" id="btn-new" style="display:none; background: var(--coffee-light); color: #fff; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px; margin-left: 8px;">✍️ 離開編輯・寫新的</button>
 </header>
@@ -455,19 +449,17 @@
         <button type="button" data-md-ins="- ">清單</button>
         <button type="button" data-md-ins="> ">引言</button>
         <button type="button" data-md-ins="[文字](https://)">連結</button>
-        <button type="button" id="btn-md-faq">＋ FAQ 區塊</button>
         <button type="button" id="btn-md-insert-img">🖼️ 插入圖片</button>
+        <button type="button" id="btn-md-preview" style="margin-left:auto;border-color:var(--coffee-light);color:var(--coffee-dark);">👁️ 預覽文章</button>
       </div>
-      <div class="md-split">
-        <div>
-          <div class="md-pane-label">Markdown 原始碼</div>
-          <textarea id="editor-md" placeholder="## 第一個段落標題&#10;&#10;在這裡寫內文…&#10;&#10;> 小撇步：用引言框放重點提示&#10;&#10;### Q：常見問題？&#10;這裡寫答案。"></textarea>
-        </div>
-        <div>
-          <div class="md-pane-label">即時預覽</div>
-          <div class="md-preview" id="md-preview"></div>
-        </div>
-      </div>
+
+      <!-- 常用語法 / 視覺元件速查（點開展開，點卡片自動插入）-->
+      <details class="md-cheatsheet">
+        <summary>📖 常用語法 & 視覺元件（點開 → 點任一個自動插入游標處）</summary>
+        <div class="cheat-grid" id="cheat-grid"></div>
+      </details>
+
+      <textarea id="editor-md" style="min-height:520px;" placeholder="## 第一個段落標題&#10;&#10;在這裡寫內文…&#10;&#10;點上方「📖 常用語法 & 視覺元件」可一鍵插入 30 秒重點框、彩色提示框、比較卡、步驟卡等。"></textarea>
     </div>
 
     <div class="tab-panel" id="tab-paste">
@@ -1014,23 +1006,14 @@
     showAlert("已轉換並載入富文字編輯器，請檢查內容", "ok");
   });
 
-  // ── Markdown 編輯器（左寫右預覽）──
+  // ── Markdown 編輯器（全寬，預覽走「預覽文章」全螢幕頁）──
   const mdEditor = document.getElementById("editor-md");
-  const mdPreview = document.getElementById("md-preview");
-  function renderMdPreview() {
-    const raw = mdEditor.value || "";
-    // 預覽用 marked + sanitize（跟發佈同一套白名單，所見即所得）
-    mdPreview.innerHTML = raw.trim() ? normalizeHtml(marked.parse(raw), "strict") : '<span style="color:var(--gray-mid);">（預覽會顯示在這裡）</span>';
-  }
-  mdEditor.addEventListener("input", renderMdPreview);
-  renderMdPreview();
 
-  // markdown 工具列：在游標處插入語法
+  // 在游標處插入文字（包裹型會包住選取）
   function mdInsert(text) {
     const start = mdEditor.selectionStart, end = mdEditor.selectionEnd;
     const sel = mdEditor.value.slice(start, end);
     let out = text;
-    // 若有選取且是包裹型（**...** / > ... / - ...），包住選取內容
     if (sel) {
       if (text === "**粗體**") out = `**${sel}**`;
       else if (text === "[文字](https://)") out = `[${sel}](https://)`;
@@ -1038,17 +1021,54 @@
     }
     mdEditor.value = mdEditor.value.slice(0, start) + out + mdEditor.value.slice(end);
     mdEditor.selectionStart = mdEditor.selectionEnd = start + out.length;
-    mdEditor.dispatchEvent(new Event("input"));
     mdEditor.focus();
   }
   document.querySelectorAll("[data-md-ins]").forEach((btn) => {
     btn.addEventListener("click", () => mdInsert(btn.dataset.mdIns));
   });
-  document.getElementById("btn-md-faq").addEventListener("click", () => {
-    mdInsert("\n\n### Q：在這裡寫問題？\n在這裡寫答案。\n\n### Q：第二個問題？\n第二個答案。\n");
+  document.getElementById("btn-md-insert-img").addEventListener("click", () => openInlineImgModal("md"));
+  document.getElementById("btn-md-preview").addEventListener("click", () => {
+    document.querySelector('[data-tab="md"]').classList.add("active"); // 確保 collectPayload 認得 md 分頁
+    document.getElementById("btn-preview").click();
   });
-  document.getElementById("btn-md-insert-img").addEventListener("click", () => {
-    openInlineImgModal("md");
+
+  // ── 常用語法 & 視覺元件速查（點卡片插入游標處）──
+  const CHEAT_BLOCKS = [
+    { name: "💡 30 秒重點框", desc: "文章開頭摘要", snip:
+`\n\n<div class="dc-quick">\n  <p>💡 30 秒重點｜這篇在講什麼</p>\n  <ul>\n    <li><strong>核心結論：</strong>一句話直接給答案</li>\n    <li><strong>適合對象：</strong>誰最該看</li>\n    <li><strong>關鍵重點：</strong>1、2、3</li>\n  </ul>\n</div>\n\n` },
+    { name: "💡 提示框（綠）", desc: "新手建議 / 推薦", snip:
+`\n\n<div class="dc-callout tip">\n  <p>💡 新手建議</p>\n  <p>在這裡寫建議內容。</p>\n</div>\n\n` },
+    { name: "⚠️ 警告框（橘）", desc: "注意事項 / 雷點", snip:
+`\n\n<div class="dc-callout warn">\n  <p>⚠️ 注意</p>\n  <p>在這裡寫要小心的地方。</p>\n</div>\n\n` },
+    { name: "ℹ️ 資訊框（藍）", desc: "補充說明", snip:
+`\n\n<div class="dc-callout info">\n  <p>ℹ️ 小知識</p>\n  <p>在這裡寫補充資訊。</p>\n</div>\n\n` },
+    { name: "☕ 推薦框（咖啡）", desc: "老手會這樣做", snip:
+`\n\n<div class="dc-callout pro">\n  <p>☕ 老手會這樣做</p>\n  <p>在這裡寫進階做法。</p>\n</div>\n\n` },
+    { name: "⚖️ 比較卡 A/B", desc: "兩方案並排", snip:
+`\n\n<div class="dc-compare">\n  <div class="dc-compare-card">\n    <span class="label">方案 A</span>\n    <h3>標題 A</h3>\n    <p>說明。</p>\n    <ul><li>適合：…</li><li>缺點：…</li></ul>\n  </div>\n  <div class="dc-compare-card">\n    <span class="label">方案 B</span>\n    <h3>標題 B</h3>\n    <p>說明。</p>\n    <ul><li>適合：…</li><li>缺點：…</li></ul>\n  </div>\n</div>\n\n` },
+    { name: "1️⃣ 步驟卡", desc: "自動編號流程", snip:
+`\n\n<div class="dc-steps">\n  <div class="dc-step"><h3>第一步</h3><p>說明。</p></div>\n  <div class="dc-step"><h3>第二步</h3><p>說明。</p></div>\n  <div class="dc-step"><h3>第三步</h3><p>說明。</p></div>\n</div>\n\n` },
+    { name: "✓ 檢查清單", desc: "打勾項目", snip:
+`\n\n<ul class="dc-check">\n  <li>項目一</li>\n  <li>項目二</li>\n  <li>項目三</li>\n</ul>\n\n` },
+    { name: "❝ 大引言", desc: "強調金句", snip:
+`\n\n<p class="dc-quote">在這裡放一句想強調的金句。</p>\n\n` },
+    { name: "📍 資訊卡", desc: "時間 / 地點 / 數據", snip:
+`\n\n<div class="dc-info-card">\n  <span class="ic-icon">📍</span>\n  <div class="ic-body">\n    <p>活動資訊</p>\n    <p>時間：<strong>2026/06/13</strong>／地點：<strong>台北</strong></p>\n  </div>\n</div>\n\n` },
+    { name: "❓ FAQ（展開式）", desc: "自動產 FAQ schema", snip:
+`\n\n<details><summary>Q：常見問題一？</summary>\n答案內容。\n</details>\n<details><summary>Q：常見問題二？</summary>\n答案內容。\n</details>\n\n` },
+    { name: "▦ 表格", desc: "比較 / 規格表", snip:
+`\n\n| 項目 | 說明 | 備註 |\n|---|---|---|\n| A | … | … |\n| B | … | … |\n\n` },
+  ];
+  const cheatGrid = document.getElementById("cheat-grid");
+  CHEAT_BLOCKS.forEach((b) => {
+    const card = document.createElement("div");
+    card.className = "cheat-card";
+    card.innerHTML = `<div class="cc-name">${escapeHtml(b.name)}</div><div class="cc-desc">${escapeHtml(b.desc)}</div>`;
+    card.addEventListener("click", () => {
+      mdInsert(b.snip);
+      showAlert(`已插入「${b.name}」到 Markdown，記得改成你的內容`, "ok");
+    });
+    cheatGrid.appendChild(card);
   });
 
   // ── AI 一鍵產文 ──
@@ -1542,10 +1562,10 @@
       bodyHtml = document.getElementById("editor-raw-full").value.trim();
       bodyMode = "raw_full";
     } else if (activeTab === "md") {
-      // Markdown 分頁：markdown → HTML（嚴格白名單），歸為 rich_text
+      // Markdown 分頁：markdown → HTML（relaxed 白名單，保留 dc-* 元件 class）→ html_source
       const md = document.getElementById("editor-md").value.trim();
-      bodyHtml = normalizeHtml(marked.parse(md), "strict");
-      bodyMode = "rich_text";
+      bodyHtml = normalizeHtml(marked.parse(md), "relaxed");
+      bodyMode = "html_source";
     } else {
       // 判斷使用哪個編輯器的內容
       const htmlSrc = document.getElementById("editor-html").value.trim();

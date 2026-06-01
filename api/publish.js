@@ -239,6 +239,7 @@ function renderArticleHtml(p, inlineImagesResolvedHtml) {
   <script type="application/ld+json">${jsonLdEscape(JSON.stringify(schemaBreadcrumb))}</script>${schemaFaqPage ? `
   <script type="application/ld+json">${jsonLdEscape(JSON.stringify(schemaFaqPage))}</script>` : ""}${schemaHowTo ? `
   <script type="application/ld+json">${jsonLdEscape(JSON.stringify(schemaHowTo))}</script>` : ""}
+  <link rel="stylesheet" href="/article-components.css">
   <style>
     :root { --coffee-dark: #2C1810; --coffee-mid: #6B4226; --coffee-light: #C07A3E; --coffee-cream: #F5EDE0; }
     * { box-sizing: border-box; margin: 0; padding: 0; }

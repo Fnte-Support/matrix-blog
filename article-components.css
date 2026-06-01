@@ -1,0 +1,114 @@
+/* ============================================================
+   Daily Coffee 文章視覺化元件庫
+   單一來源：發佈文章模板（api/publish.js）與後台預覽（admin/）都 link 這支。
+   全部 scope 在 .article-body 與 .pv-body 之下，避免污染外框。
+   配色：--coffee-* 為主，輔以提示色（綠/橘/藍）。
+   ============================================================ */
+
+.article-body, .pv-body {
+  --dc-dark: #2C1810;
+  --dc-mid: #6B4226;
+  --dc-light: #C07A3E;
+  --dc-cream: #F5EDE0;
+  --dc-tip: #2E7D32;   --dc-tip-bg: #EAF6EC;
+  --dc-warn: #B45309;  --dc-warn-bg: #FEF3E2;
+  --dc-info: #1565C0;  --dc-info-bg: #E8F1FB;
+  --dc-pro: #6B4226;   --dc-pro-bg: #F6EDE3;
+}
+
+/* ── 30 秒重點框 ───────────────────────────── */
+.dc-quick {
+  background: linear-gradient(180deg, #FFFaf4, var(--dc-cream));
+  border: 1px solid var(--dc-light);
+  border-left: 5px solid var(--dc-light);
+  border-radius: 10px;
+  padding: 1.1rem 1.3rem;
+  margin: 1.5rem 0;
+}
+.dc-quick > :first-child {
+  font-weight: 700; color: var(--dc-mid); font-size: 1.05rem;
+  margin: 0 0 0.6rem; padding: 0; border: none;
+}
+.dc-quick ul { margin: 0; padding-left: 1.2rem; list-style: none; }
+.dc-quick li { margin: 0.4rem 0; padding-left: 0.2rem; line-height: 1.6; }
+.dc-quick li strong { color: var(--dc-mid); }
+
+/* ── Callout 彩色提示框（tip / warn / info / pro）── */
+.dc-callout {
+  border-radius: 8px; padding: 0.9rem 1.1rem; margin: 1.25rem 0;
+  border-left: 4px solid var(--dc-pro); background: var(--dc-pro-bg);
+}
+.dc-callout > :first-child { font-weight: 600; margin-top: 0; }
+.dc-callout > :last-child { margin-bottom: 0; }
+.dc-callout.tip  { border-left-color: var(--dc-tip);  background: var(--dc-tip-bg); }
+.dc-callout.tip  > :first-child { color: var(--dc-tip); }
+.dc-callout.warn { border-left-color: var(--dc-warn); background: var(--dc-warn-bg); }
+.dc-callout.warn > :first-child { color: var(--dc-warn); }
+.dc-callout.info { border-left-color: var(--dc-info); background: var(--dc-info-bg); }
+.dc-callout.info > :first-child { color: var(--dc-info); }
+.dc-callout.pro  { border-left-color: var(--dc-pro);  background: var(--dc-pro-bg); }
+.dc-callout.pro  > :first-child { color: var(--dc-pro); }
+
+/* ── 比較卡（A / B 並排）─────────────────────── */
+.dc-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 1.5rem 0; }
+.dc-compare-card {
+  background: #fff; border: 1px solid var(--dc-cream); border-top: 3px solid var(--dc-light);
+  border-radius: 10px; padding: 1rem 1.1rem;
+}
+.dc-compare-card .label {
+  display: inline-block; background: var(--dc-light); color: #fff;
+  font-size: 0.72rem; font-weight: 600; padding: 0.15rem 0.6rem; border-radius: 20px; margin-bottom: 0.5rem;
+}
+.dc-compare-card h3 { margin: 0.2rem 0 0.5rem; color: var(--dc-dark); font-size: 1.05rem; }
+.dc-compare-card ul { margin: 0.5rem 0 0; padding-left: 1.1rem; font-size: 0.92rem; }
+@media (max-width: 560px) { .dc-compare { grid-template-columns: 1fr; } }
+
+/* ── 步驟卡（自動編號）──────────────────────── */
+.dc-steps { counter-reset: dcstep; margin: 1.5rem 0; display: grid; gap: 12px; }
+.dc-step {
+  position: relative; background: #fff; border: 1px solid var(--dc-cream);
+  border-radius: 10px; padding: 1rem 1.1rem 1rem 3.2rem;
+}
+.dc-step::before {
+  counter-increment: dcstep; content: counter(dcstep);
+  position: absolute; left: 0.9rem; top: 1rem;
+  width: 1.7rem; height: 1.7rem; background: var(--dc-light); color: #fff;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 0.9rem;
+}
+.dc-step h3 { margin: 0 0 0.3rem; font-size: 1rem; color: var(--dc-dark); }
+.dc-step p:last-child { margin-bottom: 0; }
+
+/* ── Checklist（✓ 清單）────────────────────── */
+.dc-check { list-style: none; margin: 1.25rem 0; padding: 0; }
+.dc-check li {
+  position: relative; padding: 0.35rem 0 0.35rem 1.8rem; line-height: 1.6;
+  border-bottom: 1px dashed var(--dc-cream);
+}
+.dc-check li::before {
+  content: "✓"; position: absolute; left: 0.3rem; top: 0.35rem;
+  color: var(--dc-tip); font-weight: 700;
+}
+
+/* ── Pull quote 大引言 ──────────────────────── */
+.dc-quote {
+  font-size: clamp(1.1rem, 2.2vw, 1.4rem); font-style: italic; color: var(--dc-light);
+  text-align: center; line-height: 1.55; margin: 2rem 0; padding: 1.2rem 1.5rem;
+  border-top: 2px solid var(--dc-cream); border-bottom: 2px solid var(--dc-cream);
+}
+
+/* ── 資訊卡（重點數據 / 時間地點）───────────── */
+.dc-info-card {
+  background: var(--dc-cream); border-radius: 10px; padding: 1rem 1.2rem; margin: 1.25rem 0;
+  display: flex; gap: 0.8rem; align-items: flex-start;
+}
+.dc-info-card .ic-icon { font-size: 1.6rem; line-height: 1; }
+.dc-info-card .ic-body { flex: 1; }
+.dc-info-card .ic-body :first-child { margin-top: 0; font-weight: 600; color: var(--dc-mid); }
+.dc-info-card .ic-body :last-child { margin-bottom: 0; }
+
+/* ── badge 小標籤 ───────────────────────────── */
+.dc-badge {
+  display: inline-block; background: var(--dc-light); color: #fff;
+  font-size: 0.72rem; font-weight: 600; padding: 0.12rem 0.55rem; border-radius: 12px; vertical-align: middle;
+}
