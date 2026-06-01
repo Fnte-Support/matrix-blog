@@ -285,7 +285,7 @@
 <header class="admin-header">
   <span class="logo">☕ Daily Coffee</span>
   <span class="badge" id="mode-badge">✍️ 新文章</span>
-  <span style="font-size: 11px; opacity: 0.5; font-family: 'SF Mono', Monaco, monospace;">v1.11.0</span>
+  <span style="font-size: 11px; opacity: 0.5; font-family: 'SF Mono', Monaco, monospace;">v1.12.0</span>
   <button type="button" id="btn-manage" style="margin-left: auto; background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px;">📋 管理現有文章</button>
   <button type="button" id="btn-new" style="display:none; background: var(--coffee-light); color: #fff; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px; margin-left: 8px;">✍️ 離開編輯・寫新的</button>
 </header>
@@ -1138,6 +1138,11 @@
       <div class="lbl" style="margin-top:6px;"><span>alt 文字（繁中）</span></div>
       <input type="text" data-cover-alt value="${escapeHtml(im.alt || "")}">
       <div class="tab-actions" style="margin-top:8px;">
+        <select data-cover-provider style="font-size:12px;padding:4px 6px;border:1px solid var(--gray-light);border-radius:4px;">
+          <option value="auto">自動（MiniMax→OpenAI）</option>
+          <option value="minimax">只用 MiniMax</option>
+          <option value="openai">只用 OpenAI</option>
+        </select>
         <button type="button" class="btn secondary tiny" data-cover-gen>🎨 產生封面</button>
         <label class="btn secondary tiny" style="cursor:pointer;">📁 上傳<input type="file" accept="image/*" data-cover-upload style="display:none;"></label>
         <span data-cover-status style="font-size:12px;color:var(--gray-mid);"></span>
@@ -1146,11 +1151,12 @@
     card.querySelector("[data-cover-gen]").addEventListener("click", async () => {
       const genBtn = card.querySelector("[data-cover-gen]");
       const prompt = card.querySelector("[data-cover-prompt]").value.trim();
+      const provider = card.querySelector("[data-cover-provider]").value;
       const status = card.querySelector("[data-cover-status]");
       if (!prompt) { status.textContent = "請先填 prompt"; return; }
       genBtn.disabled = true; const o = genBtn.innerHTML; genBtn.innerHTML = '<span class="spinner"></span>產圖中…'; status.textContent = "";
       try {
-        const r = await fetch("/api/generate-cover", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ prompt, provider: "auto" }) });
+        const r = await fetch("/api/generate-cover", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ prompt, provider }) });
         const data = await r.json();
         if (!r.ok) throw new Error(data.error || "產圖失敗");
         if (!data.image_base64) throw new Error("回傳缺 image_base64");
@@ -1191,6 +1197,11 @@
         <div class="lbl" style="margin-top:6px;"><span>alt 文字（繁中）</span></div>
         <input type="text" data-ai-img-alt value="${escapeHtml(im.alt || "")}">
         <div class="tab-actions" style="margin-top:8px;">
+          <select data-ai-img-provider style="font-size:12px;padding:4px 6px;border:1px solid var(--gray-light);border-radius:4px;">
+            <option value="auto">自動（MiniMax→OpenAI）</option>
+            <option value="minimax">只用 MiniMax</option>
+            <option value="openai">只用 OpenAI</option>
+          </select>
           <button type="button" class="btn secondary tiny" data-ai-img-gen>🎨 產生並插入 Markdown</button>
           <span data-img-status style="font-size:12px;color:var(--gray-mid);"></span>
         </div>
@@ -1223,6 +1234,7 @@
       const genBtn = card.querySelector("[data-ai-img-gen]");
       const prompt = card.querySelector("[data-ai-img-prompt]").value.trim();
       const alt = card.querySelector("[data-ai-img-alt]").value.trim();
+      const provider = card.querySelector("[data-ai-img-provider]").value;
       const status = card.querySelector('[data-pane="ai"] [data-img-status]');
       if (!prompt) { status.textContent = "請先填 prompt"; return; }
       if (!alt) { status.textContent = "請先填 alt"; return; }
@@ -1231,7 +1243,7 @@
       try {
         const r = await fetch("/api/generate-cover", {
           method: "POST", headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ prompt, provider: "auto" }),
+          body: JSON.stringify({ prompt, provider }),
         });
         const data = await r.json();
         if (!r.ok) throw new Error(data.error || "產圖失敗");
