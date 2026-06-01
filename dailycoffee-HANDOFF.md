@@ -49,19 +49,26 @@
 
 使用者用 AI 產了一篇「2026 珈琲與花物語」實測，給了視覺回饋。**CSS 區塊化部分已做**（H2 實心底色、引言區塊、資訊卡加框、FAQ 留白、延伸閱讀/資料來源統一區塊），**prompt 已改**（延伸閱讀不由 AI 編、資料來源用真實連結）。
 
-### ✅ 2026-06-01 session 完成（本機可做的全做了，已 commit 未 push）
+### ✅ 2026-06-01 session 完成
 1. **暫存草稿刪不掉** → 修好。根因：`saveDraftsArr` 空陣列時 `while(list.length)` 直接跳過、從沒呼叫 `setItem`，刪「最後一筆」時 localStorage 沒寫回 → 畫面像「按了沒反應」。改成空陣列也會寫回（＝清空）。瀏覽器實測：刪到 0 筆會真的清空並顯示「目前沒有暫存草稿」。
 2. **配圖插入防呆** → 重新設計。產圖與插入**拆兩步**：按「🎨 產生配圖」後只顯示**縮圖**＋兩顆按鈕「➕ 插入到游標處 / 📄 插到文末」，由使用者看到圖再決定位置；沒在內文點過游標會提示「已插到文末」。短碼插入後仍可在內文自由搬動。stub 實測整條流程通過（產圖不再自動塞、兩種插入都正確）。相關函式：`registerInlineImg`／`insertImageToken`（游標）／`appendImageToken`（文末），在 admin/index.html。
 3. **所有視覺元件都是底色區塊** → 完成。盤點 `article-components.css` 後發現唯一缺口是 **`.dc-check` 檢查清單**（原本只有虛線、無底色），已補成**淡綠底色區塊**（綠左條＋綠 ✓，最後一項無分隔線）。其餘元件 computed style 都確認有底色。改在共用 CSS 即同步套到上線文章＋後台預覽（publish.js／buildPreviewDoc 都沒覆蓋 .dc-check）。
    → 對應 commit：`fix: 修好暫存草稿刪不掉 + 配圖插入流程防呆（v1.18.0）`、`feat: 檢查清單 dc-check 補上淡綠底色區塊`。
+4. **依 production 實測回饋修文章版型（3 項）** → 完成並用真實 #F5EDE0 背景驗證：
+   - **H2 底色無效**：文章頁 `body` 背景＝`--coffee-cream` #F5EDE0，而 H2 舊底色也是 `--dc-cream` #F5EDE0（同色）→ 改**暖棕漸層** `linear-gradient(180deg,#FBEFDB,#EAD6B4)`＋淡陰影，明顯跳出背景。
+   - **FAQ 答案貼框線**：AI 產的答案常是 `<details><summary>…</summary>裸文字</details>`，子元素 padding 套不到「文字節點」→ 改成 **details 自身左右 padding（0 1.3rem）+ summary 負 margin（0 -1.3rem）撐回滿版**，純文字答案也有左右留白。
+   - **延伸閱讀／資料來源標題太小**：放大到 **1.18rem**。
+   - 全在 `article-components.css`（單一來源，文章＋後台預覽同步）。⚠️ **教訓：測版型一定要用真實文章背景 #F5EDE0**（publish.js／buildPreviewDoc 都是這色），別用 #FDFBF8，否則米色元件會假性「正常」。
+   → 對應 commit：`fix: 文章版型三修（依實測回饋）`。
 
 ### 🔴 還沒做（都卡在「要先部署」）
 4. **🟡 AI 產文品質驗證**：本機沒 OPENAI_API_KEY、gpt-5.5 也只在 Vercel 上跑，**必須部署後**用 `/admin/` 真的產一篇才能驗：有沒有到 3000–5000 字、用足 ≥4 種元件、表格只用在多項目比較、單一資訊用 `dc-info-card`。`api/generate-article.js` 的 prompt 已很完整（已含 dc-check、延伸閱讀不由 AI 編、資料來源只用真連結）——**不到位再調 prompt，別盲調**。
    - 💡 可選強化（有風險）：OpenAI chat completions 加 `response_format:{type:"json_object"}` 可大幅降低 JSON parse 失敗，但 **gpt-5.5 是否支援未驗證**，不支援會回 400 讓全部產文掛掉。目前已有防禦式 parser，**先確認模型支援再加**。
 5. **🟢 舊文章不套新版型**：`article-components.css` 是發布時 link 進去，舊文章 HTML 已寫死、不會自動變新樣式。要全套需寫批次重刷腳本（讀每篇 article.json sidecar → 重新 POST `/api/publish` overwrite）。⚠️ 這會用 ADMIN_TOKEN 覆寫線上文章（外部動作），且明訂**先確認新版 OK 再做**——務必先跟使用者確認再跑。
 
-**接手第一步**：`git push`（main 目前領先 origin **5 個 commit**：上個 session 的 CSS 區塊化／交接 2 個 + 本 session 的 3 個），部署後實際產一篇文章看新版型，再做待辦 4、5。
-**注意**：本專案 push 由使用者手動處理（見 CLAUDE.md「不要執行 git push」）；agent 只 commit、不 push。`editor/` 是 gosakurajp 的東西、永遠別 commit。
+**目前進度**：v1.18.0 那批（草稿／配圖／dc-check）已 push 並部署，使用者實測後回饋 3 個版型問題 → 已修（上面第 4 點）。版型三修這批是否已 push 看下面狀態。
+**接手第一步**：確認版型三修已 push＋部署 → 再產一篇看 H2／FAQ／延伸閱讀標題對不對 → 接著做待辦 4（AI 品質）、5（批次重刷）。
+**注意**：本專案 push 由使用者手動處理（見 CLAUDE.md「不要執行 git push」）；agent 只 commit、要 push 前先問。`editor/` 是 gosakurajp 的東西、永遠別 commit。
 
 ---
 
