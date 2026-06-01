@@ -285,7 +285,7 @@
 <header class="admin-header">
   <span class="logo">☕ Daily Coffee</span>
   <span class="badge" id="mode-badge">✍️ 新文章</span>
-  <span style="font-size: 11px; opacity: 0.5; font-family: 'SF Mono', Monaco, monospace;">v1.16.0</span>
+  <span style="font-size: 11px; opacity: 0.5; font-family: 'SF Mono', Monaco, monospace;">v1.17.0</span>
   <button type="button" id="btn-new" style="display:none; margin-left: auto; background: var(--coffee-light); color: #fff; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px;">✍️ 離開編輯・寫新的</button>
 </header>
 
@@ -314,35 +314,19 @@
 
   <!-- AI 一鍵產文 -->
   <div class="panel" id="ai-panel" style="border: 1px solid var(--coffee-light); background: #fffaf4;">
-    <h2 style="border-bottom-color: var(--coffee-light);">🤖 AI 一鍵產文 <span class="note">輸入標題 → 自動產出整篇草稿（內文載入 Markdown 分頁）</span></h2>
-    <label class="row">
-      <div class="lbl"><span>文章標題</span></div>
-      <input type="text" id="ai-gen-title" placeholder="例如：新手如何挑選人生第一台磨豆機">
-    </label>
-    <div class="row" style="display: flex; gap: 12px; flex-wrap: wrap;">
-      <div style="flex: 1; min-width: 140px;">
-        <div class="lbl"><span>分類</span></div>
-        <select id="ai-gen-cat" style="width: 100%;">
-          <option value="knowledge">咖啡知識</option>
-          <option value="map">咖啡地圖</option>
-          <option value="news">新聞動態</option>
-          <option value="events">活動展覽</option>
-          <option value="kol">KOL 專訪</option>
-          <option value="cbtj">CBTI 人格</option>
-        </select>
-      </div>
-      <div style="flex: 2; min-width: 200px;">
+    <h2 style="border-bottom-color: var(--coffee-light);">🤖 AI 一鍵產文 <span class="note">填好下方標題＋分類，按產生 → AI 補摘要／標籤／內文／配圖（你的標題會保留）</span></h2>
+
+    <!-- 基本資訊欄位搬進這裡（標題在最上面，產生時當主題）-->
+    <div id="ai-basic-slot"></div>
+
+    <!-- 產生控制：角度 + 產生按鈕 -->
+    <div class="row" style="display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; margin-top: 4px;">
+      <div style="flex: 1; min-width: 200px;">
         <div class="lbl"><span>核心角度／補充（選填）</span></div>
         <input type="text" id="ai-gen-topic" placeholder="例如：預算 2000 元內、新手友善、手沖為主">
       </div>
+      <button type="button" class="btn" id="btn-ai-gen" style="white-space:nowrap;">🤖 產生整篇文章</button>
     </div>
-    <div class="tab-actions">
-      <button type="button" class="btn" id="btn-ai-gen">🤖 產生整篇文章</button>
-      <span style="font-size: 12px; color: var(--gray-mid);">產出後可在下方檢查／微調標題、摘要、分類、封面與配圖</span>
-    </div>
-
-    <!-- 產出後：基本資訊欄位搬進這裡（AI 模式）-->
-    <div id="ai-basic-slot" style="margin-top: 16px;"></div>
 
     <!-- 配圖（圖1 = 封面，圖2+ = 內文圖）-->
     <div id="ai-gen-images" style="display: none; margin-top: 16px;"></div>
@@ -1206,6 +1190,8 @@
       reader.readAsDataURL(f);
     });
     aiImgBox.insertBefore(card, document.getElementById("btn-add-img-card"));
+    showThumb(); // 若已有封面（如草稿還原）立刻顯示縮圖
+    if (state.coverDataUrl) card.querySelector("[data-cover-status]").textContent = "（已有封面，重產或上傳可換）";
     return card;
   }
 
@@ -1320,10 +1306,12 @@
   }
 
   document.getElementById("btn-ai-gen").addEventListener("click", async () => {
-    const title = document.getElementById("ai-gen-title").value.trim();
-    const category = document.getElementById("ai-gen-cat").value;
+    // 用「真正的標題欄位」當主題種子（不再有第二個標題框）
+    const title = titleInput.value.trim();
+    const checkedCats = Array.from(document.querySelectorAll("#cats input:checked")).map((i) => i.value);
+    const category = checkedCats[0] || "knowledge";
     const topic = document.getElementById("ai-gen-topic").value.trim();
-    if (!title) return showAlert("請先填文章標題", "err");
+    if (!title) return showAlert("請先在上方「標題」填入文章標題（會當作產文主題，且會保留）", "err");
 
     const btn = document.getElementById("btn-ai-gen");
     const old = btn.innerHTML;
@@ -1337,17 +1325,16 @@
       const data = await r.json();
       if (!r.ok) throw new Error((data.error || "產文失敗") + (data.debug ? `（${String(data.debug).slice(0,120)}）` : ""));
 
-      // 回填基本資訊
-      titleInput.value = data.title || title;
-      titleInput.dispatchEvent(new Event("input"));
+      // 標題保留使用者填的（不被 AI 簡化覆蓋）；只回填摘要/標籤/內文/配圖
       descInput.value = data.description || "";
       descInput.dispatchEvent(new Event("input"));
       document.getElementById("f-tags").value = (data.tags || []).join(",");
-      // 勾選分類
-      document.querySelectorAll("#cats input").forEach((cb) => {
-        cb.checked = (cb.value === category);
-        cb.dispatchEvent(new Event("change"));
-      });
+      // 若使用者沒勾分類，幫他勾上採用的分類
+      if (checkedCats.length === 0) {
+        document.querySelectorAll("#cats input").forEach((cb) => {
+          cb.checked = (cb.value === category); cb.dispatchEvent(new Event("change"));
+        });
+      }
       // 內文載入 Markdown 分頁
       mdEditor.value = data.body_markdown || "";
       mdEditor.dispatchEvent(new Event("input"));
@@ -1355,7 +1342,7 @@
       // 配圖：圖1 封面 + 圖2.. 內文圖
       renderAiImageSpecs(data);
 
-      showAlert(`✅ AI 已產出草稿（${data.model || ""}）。請在 AI 面板檢查標題/摘要/分類、產生封面（圖1）與內文圖，內文在 Markdown 分頁微調。`, "ok");
+      showAlert(`✅ AI 已產出草稿（${data.model || ""}）。標題保留你填的；摘要/標籤/內文/配圖已補上，內文在 Markdown 分頁微調。`, "ok");
       document.getElementById("ai-panel").scrollIntoView({ behavior: "smooth", block: "start" });
     } catch (err) {
       showAlert("AI 產文失敗：" + err.message, "err");
@@ -2119,7 +2106,9 @@ ${/instagram-media/.test(p.body_html)?'<scr'+'ipt async src="//www.instagram.com
     }
     // 切到對應內文分頁
     if (!d.rawMode && d.activeTab) document.querySelector(`[data-tab="${d.activeTab}"]`)?.click();
-    showAlert(`↩️ 已還原草稿「${escapeHtml(d.title)}」`, "ok");
+    // AI 模式：把配圖區（圖1 封面卡 + 新增配圖）叫回來，讓使用者能繼續編輯/新增圖片
+    if (currentMode === "ai") renderAiImageSpecs({});
+    showAlert(`↩️ 已還原草稿「${escapeHtml(d.title)}」。圖片已在內文，要再加圖可用配圖區或內文「🖼️ 插入圖片」`, "ok");
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
