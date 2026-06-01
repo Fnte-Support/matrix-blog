@@ -70,37 +70,49 @@ async function generateWithMiniMax(prompt) {
   return { dataUrl, bytes };
 }
 
-// ── OpenAI DALL-E 3 ──
+// ── OpenAI 產圖（預設 dall-e-3，可用 EDITOR_IMAGE_MODEL 切 gpt-image-1）──
+// gpt-image-1 的文字渲染遠勝 dall-e-3／MiniMax（MiniMax 圖中文字會變亂碼），
+// 圖中需要文字時建議用 OpenAI、並把模型設成 gpt-image-1。
 async function generateWithOpenAI(prompt) {
   if (!process.env.OPENAI_API_KEY) {
     throw new Error("未設 OPENAI_API_KEY");
   }
-  // 1792×1024 是 DALL-E 3 最接近 16:9 的尺寸，前端會再裁成 1200×630
+  const model = process.env.EDITOR_IMAGE_MODEL || "dall-e-3";
+  const isGptImage = model.startsWith("gpt-image");
+  // 各模型最接近 16:9 的橫向尺寸（前端再裁成 1200×630）
+  const reqBody = {
+    model,
+    prompt,
+    n: 1,
+    size: isGptImage ? "1536x1024" : "1792x1024",
+  };
+  // quality 值各模型不同：dall-e-3 用 standard/hd；gpt-image-1 用 low/medium/high/auto。
+  if (!isGptImage) reqBody.quality = "standard";
+  // 重要：不要送 response_format。gpt-image-1 不收這參數會回 400 unknown_parameter；
+  // dall-e-3 省略時預設回 url、gpt-image-1 預設回 b64_json，下面兩種都接。
   const r = await fetch(OPENAI_ENDPOINT, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
     },
-    body: JSON.stringify({
-      model: "dall-e-3",
-      prompt,
-      n: 1,
-      size: "1792x1024",
-      quality: "standard",
-      response_format: "url",
-    }),
+    body: JSON.stringify(reqBody),
   });
   if (!r.ok) {
     const errText = await r.text();
     throw new Error(`OpenAI 回應 ${r.status}: ${errText.slice(0, 200)}`);
   }
   const data = await r.json();
-  const imageUrl = data?.data?.[0]?.url;
-  if (!imageUrl) {
-    throw new Error(`OpenAI 回應格式異常: ${JSON.stringify(data).slice(0, 200)}`);
+  const item = data?.data?.[0];
+  // gpt-image-1 回 b64_json；dall-e-3 回 url
+  if (item?.b64_json) {
+    const dataUrl = `data:image/png;base64,${item.b64_json}`;
+    return { dataUrl, bytes: Math.round(item.b64_json.length * 0.75) };
   }
-  return await downloadAsDataUrl(imageUrl);
+  if (item?.url) {
+    return await downloadAsDataUrl(item.url);
+  }
+  throw new Error(`OpenAI 回應格式異常: ${JSON.stringify(data).slice(0, 200)}`);
 }
 
 // ── Handler ──
