@@ -285,18 +285,31 @@
 <header class="admin-header">
   <span class="logo">☕ Daily Coffee</span>
   <span class="badge" id="mode-badge">✍️ 新文章</span>
-  <span style="font-size: 11px; opacity: 0.5; font-family: 'SF Mono', Monaco, monospace;">v1.14.0</span>
-  <button type="button" id="btn-manage" style="margin-left: auto; background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px;">📋 管理現有文章</button>
-  <button type="button" id="btn-new" style="display:none; background: var(--coffee-light); color: #fff; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px; margin-left: 8px;">✍️ 離開編輯・寫新的</button>
+  <span style="font-size: 11px; opacity: 0.5; font-family: 'SF Mono', Monaco, monospace;">v1.15.0</span>
+  <button type="button" id="btn-new" style="display:none; margin-left: auto; background: var(--coffee-light); color: #fff; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px;">✍️ 離開編輯・寫新的</button>
 </header>
 
 <main>
   <div id="alerts"></div>
 
-  <!-- 模式切換：AI 產文 / 手動撰寫 -->
+  <!-- 模式切換：AI 產文 / 手動撰寫 / 草稿與文章 -->
   <div class="mode-tabs">
     <button type="button" class="mode-tab active" data-mode="ai">🤖 AI 一鍵產文</button>
     <button type="button" class="mode-tab" data-mode="manual">✍️ 手動撰寫</button>
+    <button type="button" class="mode-tab" data-mode="manage">📋 草稿與文章</button>
+  </div>
+
+  <!-- 草稿與文章管理（內嵌，非彈窗）-->
+  <div class="panel" id="manage-view" style="display:none;">
+    <h2>📝 暫存草稿 <span class="note">存在這台電腦的瀏覽器，換電腦看不到</span></h2>
+    <div id="drafts-container" style="border:1px solid var(--gray-light);border-radius:6px;margin-bottom:24px;">
+      <div style="padding:16px;text-align:center;color:var(--gray-mid);">目前沒有暫存草稿</div>
+    </div>
+    <h2>📰 已發布文章 <span class="note">站內文章（source: local）</span></h2>
+    <div id="manage-list-container" style="max-height:50vh;overflow-y:auto;border:1px solid var(--gray-light);border-radius:6px;">
+      <div style="padding:16px;text-align:center;color:var(--gray-mid);">切到這裡時自動載入…</div>
+    </div>
+    <div style="margin-top:12px;"><button type="button" class="btn secondary tiny" id="btn-manage-refresh">🔄 重新載入已發布文章</button></div>
   </div>
 
   <!-- AI 一鍵產文 -->
@@ -582,6 +595,7 @@
 
   <!-- 送出 -->
   <div class="submit-bar">
+    <button type="button" class="btn secondary" id="btn-save-draft" style="padding: 14px 24px; font-size: 15px;">💾 暫存草稿</button>
     <button type="button" class="btn secondary" id="btn-preview" style="padding: 14px 28px; font-size: 15px;">👁️ 預覽文章</button>
     <button type="button" class="btn primary" id="btn-publish">🚀 發佈文章</button>
   </div>
@@ -636,22 +650,7 @@
 <!-- HTML 插圖 Modal -->
 <!-- （舊的 img-modal 已被新的 inline-img-modal 取代，統一支援 upload / AI）-->
 
-<!-- 管理現有文章 Modal -->
-<div class="modal-bg" id="manage-modal">
-  <div class="modal" style="max-width: 720px;">
-    <h3>📋 管理現有文章</h3>
-    <p style="font-size: 13px; color: var(--gray-mid); margin-bottom: 14px;">
-      只列站內文章（source: local）。點「編輯」載入資料回表單；「刪除」會同步清掉資料夾、list、sitemap。
-    </p>
-    <div id="manage-list-container" style="max-height: 60vh; overflow-y: auto; border: 1px solid var(--gray-light); border-radius: 6px;">
-      <div style="padding: 20px; text-align: center; color: var(--gray-mid);">讀取中…</div>
-    </div>
-    <div class="modal-actions">
-      <button type="button" class="btn secondary" id="btn-manage-close">關閉</button>
-      <button type="button" class="btn secondary" id="btn-manage-refresh">🔄 重新載入</button>
-    </div>
-  </div>
-</div>
+<!-- （管理現有文章已從彈窗改成「📋 草稿與文章」模式分頁，見 #manage-view）-->
 
 <!-- 插入內嵌圖片 Modal（富文字用，升級版：支援 AI 產圖）-->
 <div class="modal-bg" id="inline-img-modal">
@@ -715,17 +714,28 @@
   const basicPanelEl = document.getElementById("basic-panel");
   const coverPanelEl = document.getElementById("cover-panel");
   const aiBasicSlotEl = document.getElementById("ai-basic-slot");
+  const manageViewEl = document.getElementById("manage-view");
+  // 編輯表單的所有區塊（manage 模式時整批隱藏）
+  const editorBlocks = Array.from(document.querySelectorAll("main > .panel:not(#manage-view), main > .submit-bar, main > #result-panel"));
   let currentMode = "ai";
   function applyMode(mode) {
     currentMode = mode;
+    const isManage = mode === "manage";
     const ai = mode === "ai";
     document.querySelectorAll(".mode-tab").forEach((b) => b.classList.toggle("active", b.dataset.mode === mode));
-    document.getElementById("ai-panel").style.display = ai ? "" : "none";
-    basicPanelEl.style.display = ai ? "none" : "";
-    coverPanelEl.style.display = ai ? "none" : "";
-    // 搬移基本欄位 DOM（單一來源，無重複欄位）
-    if (ai) aiBasicSlotEl.appendChild(basicFieldsEl);
-    else basicPanelEl.appendChild(basicFieldsEl);
+    manageViewEl.style.display = isManage ? "" : "none";
+    editorBlocks.forEach((el) => { el.style.display = isManage ? "none" : ""; });
+    if (!isManage) {
+      document.getElementById("ai-panel").style.display = ai ? "" : "none";
+      basicPanelEl.style.display = ai ? "none" : "";
+      coverPanelEl.style.display = ai ? "none" : "";
+      // 搬移基本欄位 DOM（單一來源，無重複欄位）
+      if (ai) aiBasicSlotEl.appendChild(basicFieldsEl);
+      else basicPanelEl.appendChild(basicFieldsEl);
+    } else {
+      renderDrafts();
+      loadArticleList();
+    }
   }
   document.querySelectorAll(".mode-tab").forEach((btn) => {
     btn.addEventListener("click", () => applyMode(btn.dataset.mode));
@@ -1952,7 +1962,6 @@ ${/instagram-media/.test(p.body_html)?'<scr'+'ipt async src="//www.instagram.com
   // ── 管理現有文章（列表 / 編輯 / 刪除）──
   // ══════════════════════════════════════════════════════════════════
 
-  const manageModal = document.getElementById("manage-modal");
   const CAT_LABELS = {
     knowledge: "咖啡知識", map: "咖啡地圖", news: "新聞動態",
     events: "活動展覽", kol: "KOL 專訪", cbtj: "CBTI 人格",
@@ -1998,13 +2007,108 @@ ${/instagram-media/.test(p.body_html)?'<scr'+'ipt async src="//www.instagram.com
     }
   }
 
-  document.getElementById("btn-manage").addEventListener("click", () => {
-    manageModal.classList.add("open");
-    loadArticleList();
-  });
-  document.getElementById("btn-manage-close").addEventListener("click", () => manageModal.classList.remove("open"));
   document.getElementById("btn-manage-refresh").addEventListener("click", () => loadArticleList());
-  manageModal.addEventListener("click", (e) => { if (e.target === manageModal) manageModal.classList.remove("open"); });
+
+  // ══════════════════════════════════════════════════════════════════
+  // ── 暫存草稿（localStorage）──
+  // ══════════════════════════════════════════════════════════════════
+  const DRAFTS_KEY = "dc_drafts";
+  function getDrafts() {
+    try { return JSON.parse(localStorage.getItem(DRAFTS_KEY) || "[]"); } catch { return []; }
+  }
+  function saveDraftsArr(arr) {
+    // 控制大小：超過配額時砍最舊的再試
+    let list = arr.slice(0, 20);
+    while (list.length) {
+      try { localStorage.setItem(DRAFTS_KEY, JSON.stringify(list)); return true; }
+      catch (e) { list = list.slice(0, list.length - 1); }
+    }
+    return false;
+  }
+
+  document.getElementById("btn-save-draft").addEventListener("click", () => {
+    const snapshot = {
+      id: "d" + Date.now(),
+      savedAt: new Date().toISOString(),
+      title: titleInput.value.trim() || "（未命名草稿）",
+      slug: slugInput.value.trim(),
+      mode: currentMode === "manage" ? "manual" : currentMode,
+      rawMode: document.getElementById("f-raw-mode").checked,
+      activeTab: editorTabsEl.querySelector("button.active")?.dataset.tab || "rich",
+      fields: {
+        title: titleInput.value, slug: slugInput.value, desc: descInput.value,
+        tags: document.getElementById("f-tags").value,
+        categories: Array.from(document.querySelectorAll("#cats input:checked")).map((i) => i.value),
+      },
+      cover: state.coverDataUrl || null,
+      products: state.products,
+      md: mdEditor.value,
+      rich: quill.root.innerHTML,
+      html: document.getElementById("editor-html").value,
+      raw: document.getElementById("editor-raw-full").value,
+    };
+    const drafts = getDrafts();
+    // 同 slug 覆蓋，否則新增到最前
+    const idx = snapshot.slug ? drafts.findIndex((d) => d.slug === snapshot.slug) : -1;
+    if (idx >= 0) drafts[idx] = snapshot; else drafts.unshift(snapshot);
+    if (saveDraftsArr(drafts)) {
+      showAlert(`💾 已暫存草稿「${escapeHtml(snapshot.title)}」（在「📋 草稿與文章」可找回）`, "ok");
+    } else {
+      showAlert("暫存失敗：草稿太大（可能含多張內嵌圖），瀏覽器空間不足", "err");
+    }
+  });
+
+  function renderDrafts() {
+    const box = document.getElementById("drafts-container");
+    const drafts = getDrafts();
+    if (!drafts.length) { box.innerHTML = `<div style="padding:16px;text-align:center;color:var(--gray-mid);">目前沒有暫存草稿</div>`; return; }
+    box.innerHTML = drafts.map((d) => `
+      <div style="padding:12px 14px;border-bottom:1px solid var(--gray-light);display:flex;align-items:center;gap:12px;">
+        <div style="flex:1;min-width:0;">
+          <div style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escapeHtml(d.title)}</div>
+          <div style="font-size:12px;color:var(--gray-mid);">${d.slug ? "<code>"+escapeHtml(d.slug)+"</code>・" : ""}存於 ${new Date(d.savedAt).toLocaleString("zh-TW")}</div>
+        </div>
+        <button class="btn secondary tiny" data-restore="${d.id}">↩️ 還原</button>
+        <button class="btn tiny" data-deldraft="${d.id}" style="background:#c84a3f;">🗑️</button>
+      </div>`).join("");
+    box.querySelectorAll("[data-restore]").forEach((b) => b.addEventListener("click", () => restoreDraft(b.dataset.restore)));
+    box.querySelectorAll("[data-deldraft]").forEach((b) => b.addEventListener("click", () => {
+      saveDraftsArr(getDrafts().filter((d) => d.id !== b.dataset.deldraft));
+      renderDrafts();
+    }));
+  }
+
+  function restoreDraft(id) {
+    const d = getDrafts().find((x) => x.id === id);
+    if (!d) return;
+    // 先切回可編輯模式
+    applyMode(d.mode === "ai" ? "ai" : "manual");
+    // 基本欄位
+    titleInput.value = d.fields.title || ""; titleInput.dispatchEvent(new Event("input"));
+    slugInput.value = d.fields.slug || ""; slugInput.dispatchEvent(new Event("input"));
+    descInput.value = d.fields.desc || ""; descInput.dispatchEvent(new Event("input"));
+    document.getElementById("f-tags").value = d.fields.tags || "";
+    document.querySelectorAll("#cats input").forEach((cb) => {
+      cb.checked = (d.fields.categories || []).includes(cb.value); cb.dispatchEvent(new Event("change"));
+    });
+    // 編輯器內容
+    mdEditor.value = d.md || ""; mdEditor.dispatchEvent(new Event("input"));
+    quill.root.innerHTML = d.rich || "";
+    document.getElementById("editor-html").value = d.html || "";
+    document.getElementById("editor-raw-full").value = d.raw || "";
+    document.getElementById("f-raw-mode").checked = !!d.rawMode; applyRawMode();
+    // 商品 + 封面
+    state.products = d.products || []; renderProducts();
+    if (d.cover) {
+      state.coverDataUrl = d.cover;
+      const cp = document.getElementById("cover-preview");
+      if (cp) { cp.classList.add("has-img"); cp.innerHTML = `<img src="${d.cover}" alt="封面預覽"><button class="cover-remove" id="cover-remove">移除</button>`; }
+    }
+    // 切到對應內文分頁
+    if (!d.rawMode && d.activeTab) document.querySelector(`[data-tab="${d.activeTab}"]`)?.click();
+    showAlert(`↩️ 已還原草稿「${escapeHtml(d.title)}」`, "ok");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
 
   // 離開編輯模式（回到寫新文）
   document.getElementById("btn-new").addEventListener("click", () => {
@@ -2106,7 +2210,6 @@ ${/instagram-media/.test(p.body_html)?'<scr'+'ipt async src="//www.instagram.com
       document.getElementById("btn-new").style.display = "";
       document.getElementById("btn-publish").textContent = "💾 更新文章";
 
-      manageModal.classList.remove("open");
       showAlert(`已載入《${escapeHtml(data.title)}》，修改後按「💾 更新文章」`, "ok");
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err) {
