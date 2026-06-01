@@ -275,7 +275,7 @@
 <header class="admin-header">
   <span class="logo">☕ Daily Coffee</span>
   <span class="badge" id="mode-badge">✍️ 新文章</span>
-  <span style="font-size: 11px; opacity: 0.5; font-family: 'SF Mono', Monaco, monospace;">v1.8.0</span>
+  <span style="font-size: 11px; opacity: 0.5; font-family: 'SF Mono', Monaco, monospace;">v1.9.0</span>
   <button type="button" id="btn-manage" style="margin-left: auto; background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px;">📋 管理現有文章</button>
   <button type="button" id="btn-new" style="display:none; background: var(--coffee-light); color: #fff; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px; margin-left: 8px;">✍️ 離開編輯・寫新的</button>
 </header>
@@ -1066,62 +1066,115 @@
     card.innerHTML = `<div class="cc-name">${escapeHtml(b.name)}</div><div class="cc-desc">${escapeHtml(b.desc)}</div>`;
     card.addEventListener("click", () => {
       mdInsert(b.snip);
-      showAlert(`已插入「${b.name}」到 Markdown，記得改成你的內容`, "ok");
+      showAlert(`已插入「${b.name}」到 Markdown，記得改成你的內容`, "ok", false);
     });
     cheatGrid.appendChild(card);
   });
 
-  // ── AI 一鍵產文 ──
-  function renderAiImageSpecs(images) {
-    const box = document.getElementById("ai-gen-images");
-    if (!images || !images.length) { box.style.display = "none"; box.innerHTML = ""; return; }
-    box.style.display = "";
-    box.innerHTML = `<div style="font-size:13px;font-weight:600;color:var(--coffee-mid);margin-bottom:8px;">🖼️ AI 配圖建議（${images.length} 張）— 逐張決定是否生成，生成後自動插入 Markdown 內文末尾</div>`;
-    images.forEach((im, idx) => {
-      const card = document.createElement("div");
-      card.style.cssText = "border:1px solid var(--gray-light);border-radius:6px;padding:10px;margin-bottom:8px;background:#fff;";
-      card.innerHTML = `
-        <div style="font-size:12px;color:var(--gray-mid);margin-bottom:4px;">配圖 ${idx+1}・建議位置：${escapeHtml(im.placement || "未指定")}</div>
-        <div class="lbl"><span>生圖 prompt（可改）</span></div>
-        <textarea data-ai-img-prompt style="min-height:48px;font-size:13px;">${escapeHtml(im.prompt)}</textarea>
+  // ── AI 配圖（每張可選 AI生成 / IG嵌入 / 不放，可新增）──
+  const aiImgBox = document.getElementById("ai-gen-images");
+  let aiImgCardSeq = 0;
+
+  function addImageCard(im = {}) {
+    aiImgBox.style.display = "";
+    const id = "imgcard-" + (++aiImgCardSeq);
+    const card = document.createElement("div");
+    card.style.cssText = "border:1px solid var(--gray-light);border-radius:6px;padding:10px;margin-bottom:8px;background:#fff;";
+    card.innerHTML = `
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap;">
+        <span style="font-size:12px;color:var(--gray-mid);">配圖・建議位置：${escapeHtml(im.placement || "自訂")}</span>
+        <span style="flex:1;"></span>
+        <label style="font-size:12px;"><input type="radio" name="${id}-type" value="ai" checked> 📷 AI 生成</label>
+        <label style="font-size:12px;"><input type="radio" name="${id}-type" value="ig"> 📱 IG 嵌入</label>
+        <label style="font-size:12px;"><input type="radio" name="${id}-type" value="none"> 🚫 不放</label>
+        <button type="button" class="btn tiny" data-img-remove style="background:#c84a3f;">×</button>
+      </div>
+      <div data-pane="ai">
+        <div class="lbl"><span>生圖 prompt（英文佳，可改）</span></div>
+        <textarea data-ai-img-prompt style="min-height:46px;font-size:13px;">${escapeHtml(im.prompt || "")}</textarea>
         <div class="lbl" style="margin-top:6px;"><span>alt 文字（繁中）</span></div>
-        <input type="text" data-ai-img-alt value="${escapeHtml(im.alt)}">
+        <input type="text" data-ai-img-alt value="${escapeHtml(im.alt || "")}">
         <div class="tab-actions" style="margin-top:8px;">
           <button type="button" class="btn secondary tiny" data-ai-img-gen>🎨 產生並插入 Markdown</button>
-          <span data-ai-img-status style="font-size:12px;color:var(--gray-mid);"></span>
-        </div>`;
-      const genBtn = card.querySelector("[data-ai-img-gen]");
-      genBtn.addEventListener("click", async () => {
-        const prompt = card.querySelector("[data-ai-img-prompt]").value.trim();
-        const alt = card.querySelector("[data-ai-img-alt]").value.trim();
-        const status = card.querySelector("[data-ai-img-status]");
-        if (!prompt) { status.textContent = "請先填 prompt"; return; }
-        if (!alt) { status.textContent = "請先填 alt"; return; }
-        genBtn.disabled = true; const old = genBtn.innerHTML;
-        genBtn.innerHTML = '<span class="spinner"></span>產圖中…';
-        status.textContent = "";
-        try {
-          const r = await fetch("/api/generate-cover", {
-            method: "POST", headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ prompt, provider: "auto" }),
-          });
-          const data = await r.json();
-          if (!r.ok) throw new Error(data.error || "產圖失敗");
-          if (!data.image_base64) throw new Error("回傳缺 image_base64");
-          // 插到 Markdown 內文末尾
-          mdEditor.value = mdEditor.value.replace(/\s*$/, "") + `\n\n![${alt.replace(/[\[\]]/g,"")}](${data.image_base64})\n`;
-          mdEditor.dispatchEvent(new Event("input"));
-          status.textContent = `✅ 已插入（${data.provider === "openai" ? "DALL-E" : "MiniMax"}${data.fallback_used ? " fallback" : ""}）`;
-          genBtn.textContent = "↻ 重新產生";
-        } catch (err) {
-          status.textContent = "失敗：" + err.message;
-        } finally {
-          genBtn.disabled = false;
-          if (genBtn.innerHTML.includes("spinner")) genBtn.innerHTML = old;
-        }
+          <span data-img-status style="font-size:12px;color:var(--gray-mid);"></span>
+        </div>
+      </div>
+      <div data-pane="ig" style="display:none;">
+        <div class="lbl"><span>Instagram 貼文網址（/p/ 或 /reel/）</span></div>
+        <input type="text" data-ig-url placeholder="https://www.instagram.com/p/XXXX/">
+        <div class="tab-actions" style="margin-top:8px;">
+          <button type="button" class="btn secondary tiny" data-ig-insert>📱 插入 IG 嵌入到 Markdown</button>
+          <span data-ig-status style="font-size:12px;color:var(--gray-mid);"></span>
+        </div>
+      </div>
+      <div data-pane="none" style="display:none;font-size:12px;color:var(--gray-mid);padding:6px 0;">這個位置不放圖。</div>`;
+
+    // 型別切換：只顯示被選中型別的 pane
+    card.querySelectorAll(`input[name="${id}-type"]`).forEach((rb) => {
+      rb.addEventListener("change", () => {
+        ["ai","ig","none"].forEach((t) => {
+          card.querySelector(`[data-pane="${t}"]`).style.display = card.querySelector(`input[value="${t}"]`).checked ? "" : "none";
+        });
       });
-      box.appendChild(card);
     });
+    // 移除
+    card.querySelector("[data-img-remove]").addEventListener("click", () => {
+      card.remove();
+      if (!aiImgBox.querySelector("[data-pane]")) { aiImgBox.style.display = "none"; }
+    });
+    // AI 生圖
+    card.querySelector("[data-ai-img-gen]").addEventListener("click", async () => {
+      const genBtn = card.querySelector("[data-ai-img-gen]");
+      const prompt = card.querySelector("[data-ai-img-prompt]").value.trim();
+      const alt = card.querySelector("[data-ai-img-alt]").value.trim();
+      const status = card.querySelector('[data-pane="ai"] [data-img-status]');
+      if (!prompt) { status.textContent = "請先填 prompt"; return; }
+      if (!alt) { status.textContent = "請先填 alt"; return; }
+      genBtn.disabled = true; const old = genBtn.innerHTML;
+      genBtn.innerHTML = '<span class="spinner"></span>產圖中…'; status.textContent = "";
+      try {
+        const r = await fetch("/api/generate-cover", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt, provider: "auto" }),
+        });
+        const data = await r.json();
+        if (!r.ok) throw new Error(data.error || "產圖失敗");
+        if (!data.image_base64) throw new Error("回傳缺 image_base64");
+        mdEditor.value = mdEditor.value.replace(/\s*$/, "") + `\n\n![${alt.replace(/[\[\]]/g,"")}](${data.image_base64})\n`;
+        status.textContent = `✅ 已插入（${data.provider === "openai" ? "DALL-E" : "MiniMax"}${data.fallback_used ? " fallback" : ""}）`;
+        genBtn.textContent = "↻ 重新產生";
+      } catch (err) {
+        status.textContent = "失敗：" + err.message;
+      } finally {
+        genBtn.disabled = false;
+        if (genBtn.innerHTML.includes("spinner")) genBtn.innerHTML = old;
+      }
+    });
+    // IG 嵌入
+    card.querySelector("[data-ig-insert]").addEventListener("click", () => {
+      const status = card.querySelector("[data-ig-status]");
+      let url = card.querySelector("[data-ig-url]").value.trim();
+      const m = url.match(/instagram\.com\/(p|reel|tv)\/([A-Za-z0-9_-]+)/i);
+      if (!m) { status.textContent = "網址格式錯（需含 /p/ 或 /reel/）"; return; }
+      const clean = `https://www.instagram.com/${m[1]}/${m[2]}/`;
+      const embed = `\n\n<blockquote class="instagram-media" data-instgrm-permalink="${clean}" data-instgrm-version="14" style="max-width:540px;margin:1rem auto;"><a href="${clean}">在 Instagram 查看這則貼文</a></blockquote>\n\n`;
+      mdEditor.value = mdEditor.value.replace(/\s*$/, "") + embed;
+      status.textContent = "✅ 已插入 IG 嵌入（發佈後會載入 IG 顯示）";
+    });
+
+    // 插在「新增配圖」按鈕之前
+    const addBtn = document.getElementById("btn-add-img-card");
+    aiImgBox.insertBefore(card, addBtn);
+    return card;
+  }
+
+  function renderAiImageSpecs(images) {
+    aiImgBox.innerHTML = `<div style="font-size:13px;font-weight:600;color:var(--coffee-mid);margin-bottom:8px;">🖼️ AI 配圖建議 — 每張可選 AI 生成 / IG 嵌入 / 不放，也可自行新增</div>
+      <button type="button" class="btn secondary tiny" id="btn-add-img-card" style="margin-top:4px;">＋ 新增配圖</button>`;
+    document.getElementById("btn-add-img-card").addEventListener("click", () => addImageCard());
+    aiImgBox.style.display = "";
+    (images || []).forEach((im) => addImageCard(im));
+    if (!images || !images.length) addImageCard();
   }
 
   document.getElementById("btn-ai-gen").addEventListener("click", async () => {
@@ -1425,14 +1478,14 @@
   }
 
   // ── 訊息 ──
-  function showAlert(msg, type = "ok") {
+  function showAlert(msg, type = "ok", scroll = true) {
     const div = document.createElement("div");
     div.className = "alert " + type;
     div.innerHTML = typeof msg === "string" ? msg : msg.innerHTML;
     const box = document.getElementById("alerts");
     box.innerHTML = "";
     box.appendChild(div);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (scroll) window.scrollTo({ top: 0, behavior: "smooth" });
     setTimeout(() => div.remove(), 5000);
   }
   function showModalAlert(msg, type = "ok") {
