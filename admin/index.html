@@ -93,6 +93,16 @@
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
 
+    /* ── 模式切換分頁（AI 產文 / 手動撰寫）── */
+    .mode-tabs { display: flex; gap: 8px; margin-bottom: 18px; }
+    .mode-tab {
+      flex: 1; padding: 14px; font-size: 15px; font-weight: 600; font-family: inherit;
+      border: 1px solid var(--gray-light); background: #fff; color: var(--gray-mid);
+      border-radius: 10px; cursor: pointer; transition: all 0.15s;
+    }
+    .mode-tab:hover { border-color: var(--coffee-light); }
+    .mode-tab.active { background: var(--coffee-light); color: #fff; border-color: var(--coffee-light); box-shadow: 0 2px 8px rgba(192,122,62,0.25); }
+
     /* ── Markdown 編輯器（全寬 + 速查表）── */
     #editor-md { width: 100%; min-height: 520px; resize: vertical; font-family: "SF Mono", Monaco, Consolas, monospace; font-size: 13px; line-height: 1.7; }
     .md-toolbar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; align-items: center; }
@@ -275,7 +285,7 @@
 <header class="admin-header">
   <span class="logo">☕ Daily Coffee</span>
   <span class="badge" id="mode-badge">✍️ 新文章</span>
-  <span style="font-size: 11px; opacity: 0.5; font-family: 'SF Mono', Monaco, monospace;">v1.9.0</span>
+  <span style="font-size: 11px; opacity: 0.5; font-family: 'SF Mono', Monaco, monospace;">v1.10.0</span>
   <button type="button" id="btn-manage" style="margin-left: auto; background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px;">📋 管理現有文章</button>
   <button type="button" id="btn-new" style="display:none; background: var(--coffee-light); color: #fff; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px; margin-left: 8px;">✍️ 離開編輯・寫新的</button>
 </header>
@@ -283,8 +293,14 @@
 <main>
   <div id="alerts"></div>
 
+  <!-- 模式切換：AI 產文 / 手動撰寫 -->
+  <div class="mode-tabs">
+    <button type="button" class="mode-tab active" data-mode="ai">🤖 AI 一鍵產文</button>
+    <button type="button" class="mode-tab" data-mode="manual">✍️ 手動撰寫</button>
+  </div>
+
   <!-- AI 一鍵產文 -->
-  <div class="panel" style="border: 1px solid var(--coffee-light); background: #fffaf4;">
+  <div class="panel" id="ai-panel" style="border: 1px solid var(--coffee-light); background: #fffaf4;">
     <h2 style="border-bottom-color: var(--coffee-light);">🤖 AI 一鍵產文 <span class="note">輸入標題 → 自動產出整篇草稿（內文載入 Markdown 分頁）</span></h2>
     <label class="row">
       <div class="lbl"><span>文章標題</span></div>
@@ -694,6 +710,15 @@
     editing: null,             // null = 新文章模式；否則 = 正在編輯的 slug
     editingOriginalDate: null, // 編輯中原本的 date（保留不變）
   };
+
+  // ── 模式切換：AI 產文 / 手動撰寫（只控制 AI 面板顯示，底下共用表單不動）──
+  document.querySelectorAll(".mode-tab").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".mode-tab").forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      document.getElementById("ai-panel").style.display = btn.dataset.mode === "ai" ? "" : "none";
+    });
+  });
 
   // ── 分類多選（瀏覽器會自動處理 label↔input 切換，我們只同步視覺 class）──
   document.querySelectorAll("#cats label").forEach((lbl) => {
