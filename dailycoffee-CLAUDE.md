@@ -7,8 +7,21 @@
 ## 🚨 新 session 必讀（順序重要）
 
 1. **先讀 `dailycoffee-HANDOFF.md`** — 了解目前網站狀態、近期工作、待辦事項
+   （最上方有「文章發布後台 /admin/」專區 + 目前待辦，這是現在的主線工作）
 2. **本檔案（CLAUDE.md）** — 通用行為規範和設計原則
 3. **`dailycoffee-ARTICLE-SOP.md`** — 新增文章時必讀，逐條照做
+
+---
+
+## 🛠️ 文章發布後台（/admin/）— 目前主線
+
+近期都在做 `admin/index.html` 這套網頁 CMS（純前端 + Vercel serverless `api/*.js`）。
+細節全在 HANDOFF；這裡只記**最容易害死整個編輯器的兩個雷**：
+
+- **JS 字串內絕不可出現 `</script>`**（如 IG embed.js）→ 瀏覽器會提前關閉 inline script、整頁 JS 靜默全死。一律拆成 `'<scr'+'ipt>'`。
+- **不要碰 `editor/` 資料夾**（gosakurajp 旅遊站 Flask 編輯器，未追蹤，與本站不相容，只當參考）。
+
+改 `admin/index.html` 後務必抽主 script 跑 `node --check`（指令在 HANDOFF），改完 bump header 版本號。
 
 ---
 

@@ -4,6 +4,62 @@
 
 ---
 
+## 🔴 新 session 必讀：目前在做「文章發布後台」（/admin/）
+
+最近幾個 session 都在做一套 **網頁版文章 CMS**（在 `admin/index.html`，純前端 ~2300 行 + Vercel serverless）。
+這是現在的主要工作。**不要碰 `editor/` 資料夾**（那是 gosakurajp 旅遊站的 Flask 編輯器，未追蹤、只當 AI 串接參考，跟 Daily Coffee 不相容）。
+
+### 系統架構（檔案職責）
+| 檔案 | 做什麼 |
+|---|---|
+| `admin/index.html` | 編輯器 UI。頂部 3 模式分頁：🤖 AI 一鍵產文 / ✍️ 手動撰寫 / 📋 草稿與文章。header 有版本號（目前 **v1.17.0**，改完記得 bump）|
+| `api/publish.js` | 發布主引擎：GitHub Git Data API 原子 commit；產文章 HTML（含 SEO meta/OG/JSON-LD Article+Breadcrumb，自動偵測 `<details>` 產 FAQPage、structured_data.howto 產 HowTo、偵測 instagram-media 注入 IG embed.js）；更新 article_list.json + sitemap.xml + 每篇 article.json sidecar。支援 overwrite。雙 token（ADMIN/OPENCLAW）|
+| `api/generate-article.js` | AI 一鍵產文（OpenAI，模型 `EDITOR_TEXT_MODEL` 預設 gpt-5.5）。回傳 title/description/tags/cover/body_markdown/images。內含繁中規範+元件指令 |
+| `api/generate-cover.js` | AI 產圖（MiniMax image-01 優先 → OpenAI dall-e-3 fallback），provider 可選 |
+| `api/generate-slug.js` / `fetch-product.js` / `delete-article.js` | slug 翻譯 / 抓商品 OG / 刪文（刪文只接受 ADMIN_TOKEN，擋 OPENCLAW）|
+| `article-components.css` | **視覺元件庫**（dc-quick/callout/compare/steps/check/quote/info-card/related/sources + H2/表格/FAQ 樣式）。發布文章模板與後台預覽都 `<link>` 這支（root-absolute `/article-components.css`）|
+| `tools/health_check.py` + `.github/workflows/` | 每週健康檢查 + 發文後驗證，有問題開 issue |
+| `dailycoffee-OPENCLAW-SPEC.md` | 給 OpenClaw（小龍蝦 AI）的發文 API 規格 |
+| `dailycoffee-PUBLISH-SOP.md` | 給人類同事的後台使用教學 |
+
+### Vercel 環境變數（都已設）
+`ADMIN_TOKEN`（人類，值 `fUTikaVyQvtV7NTS7ii4goTs2AW4dU`）、`OPENCLAW_TOKEN`（AI，值 `hoRuDBTdbOGSgDee4bCZZ0mxQrd334gh`）、`GITHUB_TOKEN`、`GITHUB_REPO`、`OPENAI_API_KEY`、`MINIMAX_API_KEY`。選填 `EDITOR_TEXT_MODEL`（換產文模型，預設 gpt-5.5）。本機備忘：`/Users/fnte/Downloads/dc-admin-setup.txt`。
+
+### 編輯器三模式運作
+- **AI 一鍵產文**：基本資訊欄位 DOM 搬進 AI 面板（單一標題框，不被 AI 覆蓋）、封面=「圖1」配圖卡、內文載入 Markdown 分頁、配圖卡（AI/IG/不放、可選供應商、插到游標處）
+- **手動撰寫**：獨立的基本資訊 + 封面圖 + 內文（富文字/Markdown/貼草稿/HTML 四分頁 + 原樣HTML模式）
+- **草稿與文章**：💾 暫存草稿（localStorage）的草稿區 + 已發布文章管理（編輯/刪除，非彈窗）
+
+### ⚠️ 致命坑（一定要記住）
+1. **JS 字串內不可有 `</script>`**：任何 inline `<script>` 裡的字串若含 `</script>`（如 IG embed.js），瀏覽器 parse 時會提前關閉 script → **整個編輯器 JS 靜默全死**。一律拆字 `'<scr'+'ipt>'`。已踩過一次、修過。
+2. **`collectPayload` 的 activeTab** 要用內文 tabs 容器 `editorTabsEl.querySelector('button.active')`，不能用全域 `.tabs`（封面區也叫 .tabs，會抓錯）。
+3. **內文 tab 切換用事件委派**（`document` 上監聽 `button[data-tab]`），別用 init 逐個掛。
+4. **圖片用短碼**：插圖是 `![alt](dc-img-N)` 短 token（base64 存 `inlineImgMap`），`resolveInlineImages()` 在 collectPayload/預覽時換回 base64。草稿存/還原一併帶 inlineImgMap。
+5. **預覽開新分頁**：`window.open("", "dcPreview")` 具名視窗，再按一次預覽會更新同一分頁。
+6. **元件 CSS 有 3 處**：`article-components.css`（共用，link）、`api/publish.js` 模板 inline `<style>`、`admin/index.html` 的 `buildPreviewDoc` inline。元件覆蓋用 `!important` 蓋過 inline。改樣式優先改 `article-components.css`。
+
+### 🧪 測試方式
+- 改完 JS：抽主 script 做 `node --check`：
+  `S=$(grep -n '^(function () {' admin/index.html|head -1|cut -d: -f1); E=$(awk -v s=$S 'NR>s&&/^<\/script>/{print NR;exit}' admin/index.html); sed -n "${S},$((E-1))p" admin/index.html > /tmp/s.js && node --check /tmp/s.js`
+- 瀏覽器實測用 preview（`npx serve`，已設 .claude/launch.json `dailycoffee`）。**preview 工具會卡 viewport=0 或跑舊頁面**，重啟 server 拿乾淨 context；reload 後等 ~1.3s 再 eval。
+
+---
+
+## 🟡 待辦（接手就做這些）— 來自最新一次文章實測回饋
+
+使用者用 AI 產了一篇「2026 珈琲與花物語」實測，給了視覺回饋。**CSS 區塊化部分已做**（H2 實心底色、引言區塊、資訊卡加框、FAQ 留白、延伸閱讀/資料來源統一區塊），**prompt 已改**（延伸閱讀不由 AI 編、資料來源用真實連結）。這些已 commit **但還沒 push**。
+
+**還沒做（優先序）：**
+1. **🔴 暫存草稿不能刪**：草稿區的 🗑️（`[data-deldraft]`）按了沒反應。要 debug `renderDrafts` 裡的刪除 handler（在 admin/index.html，搜 `data-deldraft`）。可能 saveDraftsArr 或事件綁定問題，先在瀏覽器測。
+2. **🔴 配圖插入不防呆**：現在 AI 配圖是「插到 Markdown 游標處」，但使用者不知道要先點游標還是先產圖，流程混亂。要重新設計：建議改成「產圖後顯示縮圖 + 一顆『插入到游標處』按鈕」讓使用者自己決定時機，或產圖後預設插在文章末尾並提示可搬動（短碼好搬）。
+3. **🟡 確認所有視覺元件都是底色區塊**：使用者要「所有視覺元件都用底色變成區塊更凸出」。已處理 H2/引言/資訊卡/FAQ/延伸閱讀/資料來源；callout/30秒框/比較卡/步驟卡本來就有底色。部署後再看實際 AI 產出有沒有都套到（AI 不一定每個都用對 class）。
+4. **🟡 AI 產文品質驗證**：gpt-5.5 不一定完全聽 prompt。要實際產一篇看：有沒有到 3000–5000 字、有沒有用足元件、表格有沒有亂用（應只多項目比較）、資訊卡有沒有用對。不到位就再調 `api/generate-article.js` 的 prompt。
+5. **🟢 舊文章不套新版型**：`article-components.css` 是發布時 link 進去的，舊文章 HTML 已寫死、不會自動變新樣式。只有新發布/重新編輯發布的才套。要全套需寫批次重刷腳本（讀每篇 article.json sidecar → 重新 POST /api/publish overwrite）。先確認新版 OK 再做。
+
+**接手第一步**：`git push`（把已 commit 的 CSS 區塊化推上線），部署後實際產一篇文章看新版型，再從待辦 1、2 開始。
+
+---
+
 ## 最後更新：2026-04-22（編輯器第三批：模式分頁 + 草稿 + 預覽新頁，v1.9→v1.15）
 
 ### 第三批做了什麼
