@@ -285,7 +285,7 @@
 <header class="admin-header">
   <span class="logo">☕ Daily Coffee</span>
   <span class="badge" id="mode-badge">✍️ 新文章</span>
-  <span style="font-size: 11px; opacity: 0.5; font-family: 'SF Mono', Monaco, monospace;">v1.12.0</span>
+  <span style="font-size: 11px; opacity: 0.5; font-family: 'SF Mono', Monaco, monospace;">v1.13.0</span>
   <button type="button" id="btn-manage" style="margin-left: auto; background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px;">📋 管理現有文章</button>
   <button type="button" id="btn-new" style="display:none; background: var(--coffee-light); color: #fff; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px; margin-left: 8px;">✍️ 離開編輯・寫新的</button>
 </header>
@@ -697,16 +697,6 @@
   </div>
 </div>
 
-<!-- 預覽浮層 -->
-<div class="preview-overlay" id="preview-overlay">
-  <div class="preview-bar">
-    <span class="title">👁️ 文章預覽</span>
-    <span style="font-size:12px;opacity:0.7;">以上線後的樣式渲染</span>
-    <span class="fill"></span>
-    <button id="btn-preview-close">關閉預覽</button>
-  </div>
-  <div class="pv-wrap" id="preview-content"></div>
-</div>
 
 <script>
 (function () {
@@ -1002,14 +992,17 @@
     openInlineImgModal("rich");
   }
 
-  // ── Tab 切換 ──
-  document.querySelectorAll(".tabs button").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      document.querySelectorAll(".tabs button").forEach((b) => b.classList.remove("active"));
-      document.querySelectorAll(".tab-panel").forEach((p) => p.classList.remove("active"));
-      btn.classList.add("active");
-      document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
-    });
+  // ── 內文編輯器 Tab 切換（事件委派；只認 button[data-tab]，封面/彈窗用別的 data-* 不受影響）──
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-tab]");
+    if (!btn) return;
+    const tabsEl = btn.closest(".tabs");
+    if (!tabsEl) return;
+    tabsEl.querySelectorAll("button[data-tab]").forEach((b) => b.classList.remove("active"));
+    document.querySelectorAll(".tab-panel").forEach((p) => p.classList.remove("active"));
+    btn.classList.add("active");
+    const panel = document.getElementById("tab-" + btn.dataset.tab);
+    if (panel) panel.classList.add("active");
   });
 
   // ── Sanitize 白名單（兩組設定）──
@@ -1075,7 +1068,7 @@
   });
   document.getElementById("btn-md-insert-img").addEventListener("click", () => openInlineImgModal("md"));
   document.getElementById("btn-md-preview").addEventListener("click", () => {
-    document.querySelector('[data-tab="md"]').classList.add("active"); // 確保 collectPayload 認得 md 分頁
+    document.querySelector('[data-tab="md"]').click(); // 正確切到 md 分頁（單一 active）
     document.getElementById("btn-preview").click();
   });
 
@@ -1717,7 +1710,8 @@
 
     let bodyHtml, bodyMode;
 
-    const activeTab = document.querySelector('.tabs button.active')?.dataset.tab;
+    // 只看「內文編輯器」那組 tabs 的 active 按鈕（避免抓到封面圖區的 .tabs）
+    const activeTab = editorTabsEl.querySelector('button.active')?.dataset.tab;
 
     if (rawMode) {
       // 原樣模式：整份 HTML 完全不過濾，後端直接存
@@ -1768,84 +1762,77 @@
   }
 
   // ── 預覽 ──
-  function renderPreview(p) {
-    const cats = {
-      knowledge: "咖啡知識", map: "咖啡地圖", news: "新聞動態",
-      events: "活動展覽", kol: "KOL 專訪", cbtj: "CBTI 人格",
-    };
-    const catHtml = p.categories.map((c, i) =>
-      `<span class="pv-tag ${i === 0 ? 'accent' : ''}">${escapeHtml(cats[c] || c)}</span>`
-    ).join("");
-    const coverHtml = p.cover_data_url
-      ? `<div class="pv-cover"><img src="${p.cover_data_url}" alt="${escapeHtml(p.title)}"></div>`
-      : "";
-    const readMin = Math.max(1, Math.round(p.body_html.replace(/<[^>]+>/g, "").length / 400));
-
-    const productHtml = p.products.length ? `
-      <section class="pv-products">
-        <h2>推薦商品</h2>
-        <div class="pv-product-grid">
-          ${p.products.map(pr => `
-            <a class="pv-product-card" href="${escapeHtml(pr.url)}" target="_blank" rel="noopener">
-              <img src="${escapeHtml(pr.image)}" alt="${escapeHtml(pr.name)}">
-              <div class="pname">${escapeHtml(pr.name)}</div>
-              ${pr.price ? `<div class="pprice">NT$${escapeHtml(pr.price)}${pr.price_old ? `<span class="old">NT$${escapeHtml(pr.price_old)}</span>` : ''}</div>` : ''}
-              <div class="cta">前往選購</div>
-            </a>
-          `).join("")}
-        </div>
-      </section>
-    ` : "";
-
-    return `
-      <div class="pv-tags">${catHtml}</div>
-      <h1 class="pv-title">${escapeHtml(p.title)}</h1>
-      <p class="pv-subtitle">${escapeHtml(p.description)}</p>
-      <div class="pv-meta">
-        <span>Daily Coffee</span>
-        <span>${p.date}</span>
-        <span>閱讀約 ${readMin} 分鐘</span>
-      </div>
-      ${coverHtml}
-      <div class="pv-body">${p.body_html}</div>
-      ${productHtml}
-    `;
+  // 建一份「跟上線文章相近」的完整預覽 HTML（含 article-components.css + 文章樣式）
+  function buildPreviewDoc(p) {
+    const cats = { knowledge:"咖啡知識", map:"咖啡地圖", news:"新聞動態", events:"活動展覽", kol:"KOL 專訪", cbtj:"CBTI 人格" };
+    const catTags = (p.categories||[]).map(c=>`<span class="cat-tag">${escapeHtml(cats[c]||c)}</span>`).join("");
+    const cover = p.cover_data_url ? `<div class="hero"><img src="${p.cover_data_url}" alt="${escapeHtml(p.title)}"></div>` : "";
+    const products = (p.products&&p.products.length) ? `
+      <section class="products-section"><h2>推薦商品</h2><div class="products-grid">
+      ${p.products.map(pr=>`<a class="product-card" href="${escapeHtml(pr.url)}" target="_blank" rel="noopener"><img src="${escapeHtml(pr.image)}" alt="${escapeHtml(pr.name)}"><div class="p-name">${escapeHtml(pr.name)}</div>${pr.price?`<div class="p-price">NT$${escapeHtml(pr.price)}${pr.price_old?`<span class="p-old">NT$${escapeHtml(pr.price_old)}</span>`:""}</div>`:""}<div class="p-cta">前往選購</div></a>`).join("")}
+      </div></section>` : "";
+    const style = `
+      :root{--coffee-dark:#2C1810;--coffee-mid:#6B4226;--coffee-light:#C07A3E;--coffee-cream:#F5EDE0;}
+      *{box-sizing:border-box;margin:0;padding:0;}
+      body{font-family:-apple-system,"Noto Sans TC",sans-serif;background:var(--coffee-cream);color:var(--coffee-dark);line-height:1.8;}
+      .pv-bar{background:var(--coffee-dark);color:#fff;padding:8px 16px;font-size:13px;text-align:center;}
+      .hero{max-width:900px;margin:0 auto;}.hero img{width:100%;height:auto;display:block;}
+      .container{max-width:760px;margin:0 auto;padding:2rem 1.5rem 4rem;}
+      h1{font-size:clamp(1.5rem,4vw,2rem);margin:1.2rem 0;line-height:1.3;}
+      .meta{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid rgba(0,0,0,.1);font-size:.85rem;color:#888;}
+      .meta .cat-tag{background:#E8F5E9;color:#2E7D32;padding:.2rem .75rem;border-radius:20px;font-size:.8rem;font-weight:600;}
+      .article-body h2{font-size:1.35rem;color:var(--coffee-mid);margin:2.2rem 0 .8rem;padding-left:1rem;border-left:4px solid var(--coffee-light);}
+      .article-body h3{font-size:1.1rem;margin:1.5rem 0 .5rem;}
+      .article-body p{margin-bottom:1rem;}.article-body ul,.article-body ol{margin:0 0 1rem 1.5rem;}
+      .article-body blockquote{border-left:4px solid var(--coffee-light);padding:.75rem 1rem;margin:1rem 0;background:#fff;color:var(--coffee-mid);border-radius:0 8px 8px 0;}
+      .article-body img{max-width:100%;height:auto;border-radius:8px;margin:1rem 0;display:block;}
+      .article-body table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.95rem;}
+      .article-body th,.article-body td{padding:.6rem .75rem;text-align:left;border-bottom:1px solid #eee;}
+      .article-body th{background:var(--coffee-dark);color:#fff;}
+      .article-body a{color:var(--coffee-light);}
+      .products-section{max-width:760px;margin:2rem auto 0;padding:2rem 1.5rem;border-top:1px solid rgba(0,0,0,.1);}
+      .products-section h2{color:var(--coffee-mid);font-size:1.2rem;margin-bottom:1rem;text-align:center;}
+      .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;}
+      .product-card{background:#fff;border-radius:8px;padding:10px;text-decoration:none;color:inherit;display:block;}
+      .product-card img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:4px;}
+      .product-card .p-name{font-size:13px;font-weight:500;margin:8px 0 4px;}
+      .product-card .p-price{color:var(--coffee-light);font-weight:700;font-size:14px;}
+      .product-card .p-price .p-old{color:#aaa;text-decoration:line-through;font-weight:400;margin-left:6px;font-size:12px;}
+      .product-card .p-cta{margin-top:8px;background:var(--coffee-mid);color:#fff;text-align:center;padding:6px;border-radius:4px;font-size:12px;}`;
+    return `<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>預覽：${escapeHtml(p.title)}</title>
+<link rel="stylesheet" href="/article-components.css">
+<style>${style}</style></head><body>
+<div class="pv-bar">📄 文章預覽（這是草稿預覽，尚未發佈）</div>
+${cover}
+<div class="container">
+  <div class="meta">${catTags}<time>${p.date||""}</time><span>By Daily Coffee</span></div>
+  <h1>${escapeHtml(p.title)}</h1>
+  <div class="article-body">${p.body_html}</div>
+</div>
+${products}
+${/instagram-media/.test(p.body_html)?'<scr'+'ipt async src="//www.instagram.com/embed.js"><\/scr'+'ipt>':""}
+</body></html>`;
   }
 
   document.getElementById("btn-preview").addEventListener("click", () => {
     const p = collectPayload();
-    const errors = validatePayload(p);
-    if (errors.length) {
-      showAlert("預覽前請先修正：<ul><li>" + errors.join("</li><li>") + "</li></ul>", "err");
-      return;
-    }
-    const container = document.getElementById("preview-content");
-    if (p.body_mode === "raw_full") {
-      // 原樣模式：用 iframe srcdoc 渲染，讓 <style>/<script>/<iframe> 能跑
-      // 如果貼的已是完整 HTML 就直接用；否則補個最小的 HTML 外殼以便正確渲染 CSS
-      const hasFullDoc = /<html[\s>]|<!doctype/i.test(p.body_html.slice(0, 200));
-      const wrappedHtml = hasFullDoc
-        ? p.body_html
-        : `<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><style>body{font-family:"Noto Sans TC",sans-serif;max-width:760px;margin:0 auto;padding:24px;line-height:1.8;}</style></head><body>${p.body_html}</body></html>`;
-      const iframe = document.createElement("iframe");
-      iframe.style.cssText = "width: 100%; height: calc(100vh - 50px); border: 0; display: block;";
-      iframe.setAttribute("sandbox", "allow-scripts allow-same-origin");
-      iframe.srcdoc = wrappedHtml;
-      container.innerHTML = "";
-      container.style.maxWidth = "none";
-      container.style.padding = "0";
-      container.appendChild(iframe);
+    const plain = (p.body_html || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+    if (!plain) { showAlert("內文還是空的，先寫點東西再預覽", "err"); return; }
+    if (!p.title) p.title = "（未填標題）";
+
+    // 原樣模式：若已是完整 HTML 直接開；否則套元件 CSS 外殼
+    let doc;
+    if (p.body_mode === "raw_full" && /<html[\s>]|<!doctype/i.test(p.body_html.slice(0, 200))) {
+      doc = p.body_html;
     } else {
-      container.style.maxWidth = "";
-      container.style.padding = "";
-      container.innerHTML = renderPreview(p);
+      doc = buildPreviewDoc(p);
     }
-    document.getElementById("preview-overlay").classList.add("open");
-    document.body.style.overflow = "hidden";
-  });
-  document.getElementById("btn-preview-close").addEventListener("click", () => {
-    document.getElementById("preview-overlay").classList.remove("open");
-    document.body.style.overflow = "";
+    const win = window.open("", "_blank");
+    if (!win) { showAlert("瀏覽器擋了彈出視窗，請允許後再按預覽", "warn"); return; }
+    win.document.open();
+    win.document.write(doc);
+    win.document.close();
   });
 
   // ── Admin token（本機存 localStorage，第一次會問）──
