@@ -13,3 +13,4 @@ old_site_full_inventory.json
 .vscode/settings.json
 .idea/
 slug_categories_map.json
+.vercel

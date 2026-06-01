@@ -90,21 +90,33 @@
   color: var(--dc-tip); font-weight: 700;
 }
 
-/* ── Pull quote 大引言 ──────────────────────── */
+/* ── Pull quote 大引言（顯著底色區塊）──────────── */
 .dc-quote {
-  font-size: clamp(1.1rem, 2.2vw, 1.4rem); font-style: italic; color: var(--dc-light);
-  text-align: center; line-height: 1.55; margin: 2rem 0; padding: 1.2rem 1.5rem;
-  border-top: 2px solid var(--dc-cream); border-bottom: 2px solid var(--dc-cream);
+  background: linear-gradient(135deg, var(--dc-pro-bg), var(--dc-cream));
+  border: 1px solid var(--dc-light); border-radius: 12px;
+  font-size: clamp(1.15rem, 2.2vw, 1.45rem); font-style: italic; font-weight: 500;
+  color: var(--dc-mid); text-align: center; line-height: 1.6;
+  margin: 2rem 0; padding: 1.6rem 2rem 1.6rem 3.2rem; position: relative;
+}
+.dc-quote::before {
+  content: "\201C"; position: absolute; left: 0.9rem; top: 0.3rem;
+  font-size: 3.4rem; color: var(--dc-light); opacity: 0.5; line-height: 1; font-family: Georgia, "Noto Serif TC", serif;
 }
 
-/* ── 資訊卡（重點數據 / 時間地點）───────────── */
+/* ── 資訊卡（重點數據 / 時間地點）：明確區塊 + 框線 ── */
 .dc-info-card {
-  background: var(--dc-cream); border-radius: 10px; padding: 1rem 1.2rem; margin: 1.25rem 0;
-  display: flex; gap: 0.8rem; align-items: flex-start;
+  background: #fff; border: 1px solid var(--dc-light); border-left: 5px solid var(--dc-light);
+  border-radius: 10px; padding: 1rem 1.2rem; margin: 1.25rem 0;
+  display: flex; gap: 0.85rem; align-items: flex-start;
+  box-shadow: 0 1px 3px rgba(44,24,16,0.05);
 }
-.dc-info-card .ic-icon { font-size: 1.6rem; line-height: 1; }
+.dc-info-card .ic-icon {
+  font-size: 1.4rem; line-height: 1; background: var(--dc-cream);
+  width: 2.4rem; height: 2.4rem; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
 .dc-info-card .ic-body { flex: 1; }
-.dc-info-card .ic-body :first-child { margin-top: 0; font-weight: 600; color: var(--dc-mid); }
+.dc-info-card .ic-body :first-child { margin-top: 0; font-weight: 700; color: var(--dc-mid); }
 .dc-info-card .ic-body :last-child { margin-bottom: 0; }
 
 /* ── badge 小標籤 ───────────────────────────── */
@@ -113,18 +125,20 @@
   font-size: 0.72rem; font-weight: 600; padding: 0.12rem 0.55rem; border-radius: 12px; vertical-align: middle;
 }
 
-/* ── H2 小標：上底色更凸顯（覆蓋模板的基礎樣式）─────── */
+/* ── H2 小標：實心底色區塊（明顯區分段落）──────────── */
 .article-body h2, .pv-body h2 {
-  background: linear-gradient(90deg, var(--dc-cream), transparent);
+  background: var(--dc-cream) !important;
   color: var(--dc-dark) !important;
-  border-left: 5px solid var(--dc-light) !important;
-  padding: 0.5rem 0.9rem !important;
-  border-radius: 0 8px 8px 0;
-  margin: 2.4rem 0 1rem !important;
+  border-left: 6px solid var(--dc-light) !important;
+  border-top: none !important;
+  padding: 0.7rem 1rem !important;
+  border-radius: 6px;
+  margin: 2.6rem 0 1.1rem !important;
+  font-size: 1.3rem;
 }
 .article-body h3, .pv-body h3 {
   color: var(--dc-mid); border-left: 3px solid var(--dc-light);
-  padding-left: 0.6rem;
+  padding-left: 0.6rem; margin: 1.6rem 0 0.6rem;
 }
 
 /* ── 表格：明確框線 + 表頭底色 + 斑馬紋（覆蓋模板）──── */
@@ -160,21 +174,33 @@
   color: var(--dc-light); font-weight: 700; font-size: 1.1rem; transition: transform 0.2s;
 }
 .article-body details[open] summary::after, .pv-body details[open] summary::after { content: "−"; }
-.article-body details > :not(summary), .pv-body details > :not(summary) { padding: 0.4rem 1rem 0.2rem; margin: 0.6rem 0; }
+/* 答案區：給足留白，不要和框線緊貼 */
+.article-body details > :not(summary), .pv-body details > :not(summary) {
+  padding: 0; margin: 0;
+}
+.article-body details[open] > :not(summary):first-of-type, .pv-body details[open] > :not(summary):first-of-type { margin-top: 0.9rem; }
+.article-body details[open], .pv-body details[open] { padding-bottom: 0.2rem; }
+.article-body details[open] > :not(summary), .pv-body details[open] > :not(summary) {
+  padding: 0 1.2rem; margin: 0.7rem 0; line-height: 1.75; color: var(--dc-dark);
+}
 
-/* ── 延伸閱讀 / 相關文章 ───────────────────────── */
+/* ── 延伸閱讀 / 相關文章（區塊，標題列同其他元件）──── */
 .dc-related {
-  background: var(--dc-cream); border-radius: 10px; padding: 1.1rem 1.3rem; margin: 2rem 0;
+  background: var(--dc-cream); border: 1px solid var(--dc-light); border-left: 5px solid var(--dc-light);
+  border-radius: 10px; padding: 1.1rem 1.3rem; margin: 2rem 0;
 }
-.dc-related > :first-child { font-weight: 700; color: var(--dc-mid); margin: 0 0 0.6rem; }
+.dc-related > :first-child { font-weight: 700; color: var(--dc-mid); margin: 0 0 0.7rem; font-size: 1.05rem; }
 .dc-related ul { margin: 0; padding-left: 0; list-style: none; }
-.dc-related li { margin: 0.4rem 0; padding-left: 1.4rem; position: relative; }
+.dc-related li { margin: 0.5rem 0; padding-left: 1.5rem; position: relative; line-height: 1.6; }
 .dc-related li::before { content: "📖"; position: absolute; left: 0; }
-.dc-related a { color: var(--dc-light); font-weight: 500; }
+.dc-related a { color: var(--dc-light); font-weight: 600; text-decoration: underline; }
 
-/* ── 資料來源 ──────────────────────────────── */
+/* ── 資料來源（區塊，同其他元件樣式）─────────────── */
 .dc-sources {
-  border-top: 1px solid var(--dc-cream); margin-top: 2.5rem; padding-top: 1rem;
-  font-size: 0.85rem; color: var(--dc-mid);
+  background: #faf6f0; border: 1px solid var(--dc-cream); border-radius: 10px;
+  padding: 1rem 1.3rem; margin: 2.5rem 0 1rem; font-size: 0.9rem; color: var(--dc-mid);
 }
-.dc-sources > :first-child { font-weight: 700; margin-bottom: 0.4rem; }
+.dc-sources > :first-child { font-weight: 700; margin: 0 0 0.5rem; color: var(--dc-mid); }
+.dc-sources ul { margin: 0; padding-left: 1.2rem; }
+.dc-sources li { margin: 0.3rem 0; line-height: 1.6; }
+.dc-sources a { color: var(--dc-light); font-weight: 500; text-decoration: underline; word-break: break-all; }
