@@ -4,11 +4,42 @@
 
 ---
 
-## 最後更新：2026-04-22（編輯器 AI 增強 session）
+## 最後更新：2026-04-22（編輯器 AI 增強 + 視覺化元件 session）
 
-### 🎯 目前進度（這個 session 做了什麼）
+### 🎯 第二批（v1.7.0 → v1.9.0）：視覺化版型元件
 
-在現有的網頁發文後台 `admin/index.html`（v1.5.0 → **v1.7.0**）加了三件事：
+對齊 gosakurajp/shinygoods 那種「彩色雜誌版型」，讓文章不再是純文字長文：
+
+1. **視覺化元件庫 `article-components.css`**（repo 根目錄，單一來源）
+   - 發佈模板（api/publish.js）與後台預覽都 `<link>` 同一支
+   - 元件：30秒重點框、彩色 callout（提示綠/警告橘/資訊藍/推薦咖啡）、
+     比較卡 A/B、步驟卡（自動編號）、checklist、大引言、資訊卡、badge，全 RWD
+2. **Markdown 分頁改版**（v1.8.0）
+   - ① 移除右側即時預覽 → 全寬編輯，工具列「👁️ 預覽文章」走全螢幕預覽頁
+   - ④ 新增「常用語法 & 視覺元件」速查表（12 張卡，點一下插入游標處、不跳頂）
+   - Markdown 改用 `html_source`（relaxed 白名單）發佈，元件 class 才不被剝掉
+3. **AI 產文直接吐彩色元件**（③）：generate-article prompt 要求開頭放 30秒重點框、
+   至少用 3 種 dc-* 元件、FAQ 用 `<details>`
+4. **配圖三選 + 新增**（②）：每張配圖卡可選 📷 AI生成 / 📱 IG嵌入 / 🚫 不放，
+   可「＋ 新增配圖」；IG 嵌入會插 instagram-media blockquote，publish.js 偵測到
+   會自動注入 IG embed.js
+
+**驗證**：瀏覽器實測元件 CSS（computed style + 截圖確認雜誌版型）、速查插入、
+配圖三選切換、IG 插入、預覽渲染全部通過。
+
+### ⚠️ 第二批已知的坑
+- **元件靠 `html_source` + relaxed 白名單**：Markdown 發佈走 html_source（保留 class）。
+  relaxed 允許 class/id/style/data-*，但仍擋 script/iframe/onclick。
+- **IG 嵌入**：發佈文章偵測到 instagram-media 才注入 embed.js；本地預覽看不到 IG 渲染
+  （跟 /socialmedia/ 一樣是 IG 平台限制），要 production 才會出現。
+- **`article-components.css` 路徑**：用 root-absolute `/article-components.css`，
+  發佈文章（/article/<slug>/）與後台（/admin/）都能解析；Vercel 從 repo 根目錄 serve。
+
+---
+
+### 🎯 第一批（v1.5.0 → v1.7.0）：AI 產文 + Markdown 分頁
+
+在現有的網頁發文後台 `admin/index.html` 加了三件事：
 
 1. **AI 一鍵產文**（新 endpoint `api/generate-article.js`）
    - 頂部新面板：填標題＋選分類＋選填角度 → OpenAI（gpt-5.5，env `EDITOR_TEXT_MODEL` 可換）產出整篇咖啡文章草稿
