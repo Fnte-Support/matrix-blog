@@ -1867,6 +1867,9 @@
 <link rel="stylesheet" href="/article-components.css">
 <style>${style}</style></head><body>
 <div class="pv-bar">📄 文章預覽（草稿，尚未發佈）— 改完內容回編輯器再按一次「👁️ 預覽文章」就會更新這個分頁</div>
+<nav id="dc-toc-side" class="dc-toc-side" aria-label="文章目錄"><div class="dc-toc-title">📑 文章目錄</div><ul id="dc-toc-list" class="dc-toc-list"></ul></nav>
+<button id="dc-toc-fab" class="dc-toc-fab" type="button" style="display:none" aria-label="開啟文章目錄">📑</button>
+<div id="dc-toc-overlay" class="dc-toc-overlay"><div class="dc-toc-sheet"><div class="dc-toc-sheet-head"><span>📑 文章目錄</span><button id="dc-toc-close" class="dc-toc-close" type="button" aria-label="關閉">✕</button></div><ul id="dc-toc-sheet-list" class="dc-toc-list"></ul></div></div>
 ${cover}
 <div class="container">
   <div class="meta">${catTags}<time>${p.date||""}</time><span>By Daily Coffee</span></div>
@@ -1875,6 +1878,7 @@ ${cover}
 </div>
 ${products}
 ${/instagram-media/.test(p.body_html)?'<scr'+'ipt async src="//www.instagram.com/embed.js"><\/scr'+'ipt>':""}
+<scr`+`ipt src="/article-toc.js" defer><\/scr`+`ipt>
 </body></html>`;
   }
 

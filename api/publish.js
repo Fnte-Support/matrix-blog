@@ -277,6 +277,9 @@ function renderArticleHtml(p, inlineImagesResolvedHtml) {
   </style>
 </head>
 <body>
+  <nav id="dc-toc-side" class="dc-toc-side" aria-label="文章目錄"><div class="dc-toc-title">📑 文章目錄</div><ul id="dc-toc-list" class="dc-toc-list"></ul></nav>
+  <button id="dc-toc-fab" class="dc-toc-fab" type="button" style="display:none" aria-label="開啟文章目錄">📑</button>
+  <div id="dc-toc-overlay" class="dc-toc-overlay"><div class="dc-toc-sheet"><div class="dc-toc-sheet-head"><span>📑 文章目錄</span><button id="dc-toc-close" class="dc-toc-close" type="button" aria-label="關閉">✕</button></div><ul id="dc-toc-sheet-list" class="dc-toc-list"></ul></div></div>
   <a href="${SITE_BASE}" class="back-link">← 返回首頁</a>
   <div class="hero">
     <img src="${heroUrl}" alt="${escapeAttr(p.title)}">
@@ -295,6 +298,7 @@ ${inlineImagesResolvedHtml}
     </div>
 ${productsHtml}
   </div>${/instagram-media/.test(inlineImagesResolvedHtml) ? '\n  <script async src="//www.instagram.com/embed.js"></script>' : ""}
+  <script src="/article-toc.js" defer></script>
 </body>
 </html>
 `;
