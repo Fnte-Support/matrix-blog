@@ -4,6 +4,46 @@
 
 ---
 
+## 最後更新：2026-04-22（編輯器 AI 增強 session）
+
+### 🎯 目前進度（這個 session 做了什麼）
+
+在現有的網頁發文後台 `admin/index.html`（v1.5.0 → **v1.7.0**）加了三件事：
+
+1. **AI 一鍵產文**（新 endpoint `api/generate-article.js`）
+   - 頂部新面板：填標題＋選分類＋選填角度 → OpenAI（gpt-5.5，env `EDITOR_TEXT_MODEL` 可換）產出整篇咖啡文章草稿
+   - 自動回填 標題/摘要/標籤、勾分類、內文載入 Markdown 分頁
+   - 內建繁中台灣用字規範（手沖非手衝、零簡體），對齊 OPENCLAW-SPEC
+2. **Markdown 編輯分頁**（左寫右預覽）
+   - 第 4 個內文分頁「📝 Markdown」，marked + DOMPurify 即時預覽
+   - 工具列：H2/H3/粗體/清單/引言/連結/FAQ 模板/插入圖片
+   - 發佈時 markdown → HTML（strict 白名單）→ rich_text 模式
+3. **AI 配圖（逐張）**
+   - 產文後列出 2–4 張配圖建議，每張可改 prompt/alt
+   - 按「產生並插入」→ 重用 `api/generate-cover` 生圖 → 插入 markdown 內文末尾（gosakura 模式：只給 prompt，手動決定生不生）
+
+**驗證**：瀏覽器 stub fetch 端到端實測整條前端流程（回填/分類/Markdown/配圖/逐張生圖插入）全通過。後端 endpoint 語法 + JSON parser 單測通過。**真實 OpenAI/MiniMax 回應需部署後才能測。**
+
+### ⏭️ 下一步要做什麼
+
+1. **部署後實測 AI 產文**：設好 env 後，打開 `/admin/` 用 AI 面板產一篇，確認 gpt-5.5 真的可用、產出繁中無簡體、配圖能生成
+2. **確認 `gpt-5.5` 這個 model 名稱在 OPENAI_API_KEY 帳號下可用**（若 402/404，改 Vercel env `EDITOR_TEXT_MODEL` 成可用的 model）
+3. （選配）AI 產文的 prompt 還可再調：目前 FAQ 用 `### Q：` 格式，若想自動產 `<details>` FAQPage schema，要讓產文輸出 `<details><summary>` 或在發佈前轉換
+
+### ⚠️ 已知的坑
+
+- **`gpt-5.5` 模型可用性未驗證**：endpoint 預設用它（因為使用者說在用 gpt-5.5），但沒在 Vercel 上實跑過。掛了就設 `EDITOR_TEXT_MODEL` env。
+- **Vercel body size 上限 ~4.5MB**：AI 配圖採「逐張生成插入 base64」，若一篇插太多大圖，發佈時 `/api/publish` 的 payload 可能超標 → 目前靠「手動逐張、不一次全生」緩解，但沒硬性擋。
+- **兩套編輯器並存**：`admin/`（網頁，**線上正式用的**）vs `editor/`（Flask，**gosakurajp 旅遊站遺留，Daily Coffee 不用**，只當 AI 串接參考）。別搞混；`editor/lib/publish.py` 全是 gosakurajp 專屬（articles.json、npm build、寫死 `/Users/fnte/Downloads/sakura`）。
+- **產文 model 回傳非 JSON 風險**：endpoint 有防禦式 parser（去 code fence、抓首個 JSON 物件），但若 gpt-5.5 大幅偏離格式仍可能 502，會回 `debug` 欄位協助排查。
+
+### 🔑 環境變數現況（Vercel Production）
+
+`ADMIN_TOKEN` / `OPENCLAW_TOKEN` / `GITHUB_TOKEN` / `GITHUB_REPO` / `OPENAI_API_KEY` / `MINIMAX_API_KEY` 都已設。
+新功能**沒有新增必要 env**（`EDITOR_TEXT_MODEL` 選填，不設預設 gpt-5.5）。
+
+---
+
 ## 最後更新：2026-04-17（下午 session）
 
 ## 🎯 新 session 接手 3 步驟
