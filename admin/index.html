@@ -285,7 +285,7 @@
 <header class="admin-header">
   <span class="logo">☕ Daily Coffee</span>
   <span class="badge" id="mode-badge">✍️ 新文章</span>
-  <span style="font-size: 11px; opacity: 0.5; font-family: 'SF Mono', Monaco, monospace;">v1.17.0</span>
+  <span style="font-size: 11px; opacity: 0.5; font-family: 'SF Mono', Monaco, monospace;">v1.18.0</span>
   <button type="button" id="btn-new" style="display:none; margin-left: auto; background: var(--coffee-light); color: #fff; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px;">✍️ 離開編輯・寫新的</button>
 </header>
 
@@ -1058,10 +1058,21 @@
   // 圖片用短 token（避免 markdown 被超長 base64 塞爆難讀）；發佈/預覽時才還原成 base64
   const inlineImgMap = {};
   let inlineImgSeq = 0;
-  function insertImageToken(alt, dataUrl) {
+  // 註冊一張內文圖→回傳對應的 Markdown 短碼字串（不插入，由呼叫端決定何時／何處插）
+  function registerInlineImg(alt, dataUrl) {
     const key = "dc-img-" + (++inlineImgSeq);
     inlineImgMap[key] = dataUrl;
-    insertIntoMdAtCursor(`\n\n![${(alt || "圖片").replace(/[\[\]]/g, "")}](${key})\n\n`);
+    return `\n\n![${(alt || "圖片").replace(/[\[\]]/g, "")}](${key})\n\n`;
+  }
+  function insertImageToken(alt, dataUrl) {       // 註冊並直接插到游標處（手動插圖 modal 沿用）
+    insertIntoMdAtCursor(registerInlineImg(alt, dataUrl));
+  }
+  // 把已註冊的短碼 token 接到內文最後面（配圖防呆流程的「插到文末」）
+  function appendImageToken(token) {
+    mdEditor.value = mdEditor.value.replace(/\s+$/, "") + token;
+    mdLastCursor = mdEditor.value.length;
+    mdEditor.selectionStart = mdEditor.selectionEnd = mdLastCursor;
+    mdEditor.dispatchEvent(new Event("input"));
   }
   // 把 markdown 裡的 dc-img-N token 換回真正的 base64（給發佈 / 預覽用）
   function resolveInlineImages(md) {
@@ -1220,8 +1231,21 @@
             <option value="minimax">只用 MiniMax</option>
             <option value="openai">只用 OpenAI</option>
           </select>
-          <button type="button" class="btn secondary tiny" data-ai-img-gen>🎨 產生並插入 Markdown</button>
+          <button type="button" class="btn secondary tiny" data-ai-img-gen>🎨 產生配圖</button>
           <span data-img-status style="font-size:12px;color:var(--gray-mid);"></span>
+        </div>
+        <div data-ai-img-result style="display:none;margin-top:10px;padding-top:10px;border-top:1px dashed var(--gray-light);">
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <img data-ai-img-thumb alt="配圖預覽" style="width:84px;height:84px;object-fit:cover;border-radius:6px;border:1px solid var(--gray-light);flex:none;">
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:12px;color:var(--gray-mid);margin-bottom:6px;">✅ 產好了！決定位置再插入（短碼插入後仍可在內文自由搬動）：</div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+                <button type="button" class="btn secondary tiny" data-ai-img-ins-cursor>➕ 插入到游標處</button>
+                <button type="button" class="btn secondary tiny" data-ai-img-ins-end>📄 插到文末</button>
+                <span data-ai-img-ins-status style="font-size:12px;color:var(--gray-mid);"></span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div data-pane="ig" style="display:none;">
@@ -1266,8 +1290,12 @@
         const data = await r.json();
         if (!r.ok) throw new Error(data.error || "產圖失敗");
         if (!data.image_base64) throw new Error("回傳缺 image_base64");
-        insertImageToken(alt, data.image_base64);
-        status.textContent = `✅ 已插入游標處（${data.provider === "openai" ? "DALL-E" : "MiniMax"}${data.fallback_used ? " fallback" : ""}）`;
+        // 防呆：先註冊短碼＋顯示縮圖，不自動插入；使用者看到圖後再按按鈕決定位置
+        card._imgToken = registerInlineImg(alt, data.image_base64);
+        card.querySelector("[data-ai-img-thumb]").src = data.image_base64;
+        card.querySelector("[data-ai-img-result]").style.display = "";
+        card.querySelector("[data-ai-img-ins-status]").textContent = "";
+        status.textContent = `✅ 產好了（${data.provider === "openai" ? "DALL-E" : "MiniMax"}${data.fallback_used ? " fallback" : ""}）— 往下選插入位置`;
         genBtn.textContent = "↻ 重新產生";
       } catch (err) {
         status.textContent = "失敗：" + err.message;
@@ -1275,6 +1303,19 @@
         genBtn.disabled = false;
         if (genBtn.innerHTML.includes("spinner")) genBtn.innerHTML = old;
       }
+    });
+    // 插入按鈕（產圖後才出現）：游標處 / 文末，由使用者自己決定時機與位置
+    card.querySelector("[data-ai-img-ins-cursor]").addEventListener("click", () => {
+      if (!card._imgToken) return;
+      const insStatus = card.querySelector("[data-ai-img-ins-status]");
+      const noCursor = (mdLastCursor == null);
+      insertIntoMdAtCursor(card._imgToken);
+      insStatus.textContent = noCursor ? "✅ 你還沒在內文點過位置，已插到文末" : "✅ 已插入游標處";
+    });
+    card.querySelector("[data-ai-img-ins-end]").addEventListener("click", () => {
+      if (!card._imgToken) return;
+      appendImageToken(card._imgToken);
+      card.querySelector("[data-ai-img-ins-status]").textContent = "✅ 已插到文末";
     });
     // IG 嵌入
     card.querySelector("[data-ig-insert]").addEventListener("click", () => {
@@ -1296,7 +1337,7 @@
 
   function renderAiImageSpecs(data) {
     data = data || {};
-    aiImgBox.innerHTML = `<div style="font-size:13px;font-weight:600;color:var(--coffee-mid);margin-bottom:8px;">🖼️ 配圖 — 圖1 是封面（必填）；圖2 起為內文圖，會插到 Markdown 內文的<strong>游標位置</strong>（先在內文點一下要插入的地方）</div>
+    aiImgBox.innerHTML = `<div style="font-size:13px;font-weight:600;color:var(--coffee-mid);margin-bottom:8px;">🖼️ 配圖 — 圖1 是封面（必填）；圖2 起為內文圖：<strong>先產圖看效果，再按「插入到游標處／文末」放進內文</strong>（短碼可自由搬動位置）</div>
       <div style="font-size:12px;color:var(--gray-mid);margin-bottom:8px;">內文圖可選 AI 生成 / IG 嵌入 / 不放，也可自行新增。</div>
       <button type="button" class="btn secondary tiny" id="btn-add-img-card" style="margin-top:4px;">＋ 新增內文配圖</button>`;
     document.getElementById("btn-add-img-card").addEventListener("click", () => addImageCard({}, { label: "新圖" }));
@@ -2015,13 +2056,16 @@ ${/instagram-media/.test(p.body_html)?'<scr'+'ipt async src="//www.instagram.com
     try { return JSON.parse(localStorage.getItem(DRAFTS_KEY) || "[]"); } catch { return []; }
   }
   function saveDraftsArr(arr) {
-    // 控制大小：超過配額時砍最舊的再試
+    // 控制大小：超過配額時砍最舊的再試。空陣列也必須寫入（＝清空草稿），
+    // 否則刪掉最後一筆草稿時不會真的存回 localStorage（按了沒反應）。
     let list = arr.slice(0, 20);
-    while (list.length) {
+    for (;;) {
       try { localStorage.setItem(DRAFTS_KEY, JSON.stringify(list)); return true; }
-      catch (e) { list = list.slice(0, list.length - 1); }
+      catch (e) {
+        if (!list.length) return false;   // 連空陣列都寫不進去才放棄
+        list = list.slice(0, list.length - 1);  // 砍最舊的（unshift 存的，末尾最舊）
+      }
     }
-    return false;
   }
 
   document.getElementById("btn-save-draft").addEventListener("click", () => {
