@@ -79,14 +79,19 @@
 .dc-step h3 { margin: 0 0 0.3rem; font-size: 1rem; color: var(--dc-dark); }
 .dc-step p:last-child { margin-bottom: 0; }
 
-/* ── Checklist（✓ 清單）────────────────────── */
-.dc-check { list-style: none; margin: 1.25rem 0; padding: 0; }
-.dc-check li {
-  position: relative; padding: 0.35rem 0 0.35rem 1.8rem; line-height: 1.6;
-  border-bottom: 1px dashed var(--dc-cream);
+/* ── Checklist（✓ 清單）：淡綠底色區塊，配綠勾更凸出 ──── */
+.dc-check {
+  list-style: none; margin: 1.25rem 0; padding: 0.7rem 1.2rem;
+  background: var(--dc-tip-bg); border: 1px solid #cfe6d3;
+  border-left: 5px solid var(--dc-tip); border-radius: 10px;
 }
+.dc-check li {
+  position: relative; padding: 0.4rem 0 0.4rem 1.8rem; line-height: 1.6;
+  border-bottom: 1px dashed #cfe6d3;
+}
+.dc-check li:last-child { border-bottom: none; }
 .dc-check li::before {
-  content: "✓"; position: absolute; left: 0.3rem; top: 0.35rem;
+  content: "✓"; position: absolute; left: 0.3rem; top: 0.4rem;
   color: var(--dc-tip); font-weight: 700;
 }
 
