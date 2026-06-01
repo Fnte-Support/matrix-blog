@@ -91,6 +91,28 @@
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
 
+    /* ── Markdown 編輯器（左寫右預覽）── */
+    .md-split { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: stretch; }
+    @media (max-width: 760px) { .md-split { grid-template-columns: 1fr; } }
+    .md-pane-label { font-size: 12px; color: var(--gray-mid); margin-bottom: 4px; font-weight: 600; }
+    #editor-md { width: 100%; min-height: 460px; resize: vertical; font-family: "SF Mono", Monaco, Consolas, monospace; font-size: 13px; line-height: 1.7; }
+    .md-preview {
+      min-height: 460px; max-height: 70vh; overflow-y: auto; border: 1px solid var(--gray-light);
+      border-radius: 6px; padding: 14px 16px; background: #fff; font-size: 15px; line-height: 1.8;
+    }
+    .md-preview h2 { font-size: 20px; color: var(--coffee-mid); margin: 18px 0 8px; padding-top: 8px; border-top: 1px solid var(--gray-light); }
+    .md-preview h2:first-child { border-top: none; padding-top: 0; }
+    .md-preview h3 { font-size: 16px; margin: 14px 0 6px; }
+    .md-preview p { margin: 0 0 12px; }
+    .md-preview ul, .md-preview ol { margin: 0 0 12px 1.4em; }
+    .md-preview blockquote { border-left: 3px solid var(--coffee-light); padding: 4px 12px; margin: 12px 0; background: var(--coffee-cream); color: var(--coffee-mid); border-radius: 0 6px 6px 0; }
+    .md-preview img { max-width: 100%; height: auto; border-radius: 6px; margin: 8px 0; }
+    .md-preview table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 14px; }
+    .md-preview th, .md-preview td { border: 1px solid var(--gray-light); padding: 6px 10px; text-align: left; }
+    .md-toolbar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+    .md-toolbar button { background: #fff; border: 1px solid var(--gray-light); padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; font-family: inherit; color: var(--coffee-mid); }
+    .md-toolbar button:hover { background: var(--coffee-cream); border-color: var(--coffee-light); }
+
     .tab-hint {
       background: var(--coffee-cream); padding: 10px 14px; border-radius: 6px;
       font-size: 13px; color: var(--coffee-mid); margin-bottom: 12px; line-height: 1.6;
@@ -259,7 +281,7 @@
 <header class="admin-header">
   <span class="logo">☕ Daily Coffee</span>
   <span class="badge" id="mode-badge">✍️ 新文章</span>
-  <span style="font-size: 11px; opacity: 0.5; font-family: 'SF Mono', Monaco, monospace;">v1.5.0</span>
+  <span style="font-size: 11px; opacity: 0.5; font-family: 'SF Mono', Monaco, monospace;">v1.6.0</span>
   <button type="button" id="btn-manage" style="margin-left: auto; background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px;">📋 管理現有文章</button>
   <button type="button" id="btn-new" style="display:none; background: var(--coffee-light); color: #fff; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px; margin-left: 8px;">✍️ 離開編輯・寫新的</button>
 </header>
@@ -378,6 +400,7 @@
 
     <div class="tabs">
       <button type="button" class="active" data-tab="rich">✍️ 富文字（主力）</button>
+      <button type="button" data-tab="md">📝 Markdown</button>
       <button type="button" data-tab="paste">📋 貼 AI 草稿</button>
       <button type="button" data-tab="html">&lt;/&gt; HTML 原始碼（雜誌版）</button>
     </div>
@@ -387,6 +410,33 @@
         像 Word 一樣打字就好。可以做標題、粗體、清單、連結、引用。<strong>中段插入圖片</strong>：點工具列最右邊的 🖼️ 圖示，或從電腦直接拖圖片進來。
       </div>
       <div id="editor-rich"></div>
+    </div>
+
+    <div class="tab-panel" id="tab-md">
+      <div class="tab-hint">
+        用 Markdown 寫，左邊打字、右邊即時預覽。<strong>AI 產文的草稿會載入到這裡</strong>，最好讀好改。
+        發佈時會自動轉成乾淨 HTML。
+      </div>
+      <div class="md-toolbar">
+        <button type="button" data-md-ins="## ">H2 標題</button>
+        <button type="button" data-md-ins="### ">H3 標題</button>
+        <button type="button" data-md-ins="**粗體**">粗體</button>
+        <button type="button" data-md-ins="- ">清單</button>
+        <button type="button" data-md-ins="> ">引言</button>
+        <button type="button" data-md-ins="[文字](https://)">連結</button>
+        <button type="button" id="btn-md-faq">＋ FAQ 區塊</button>
+        <button type="button" id="btn-md-insert-img">🖼️ 插入圖片</button>
+      </div>
+      <div class="md-split">
+        <div>
+          <div class="md-pane-label">Markdown 原始碼</div>
+          <textarea id="editor-md" placeholder="## 第一個段落標題&#10;&#10;在這裡寫內文…&#10;&#10;> 小撇步：用引言框放重點提示&#10;&#10;### Q：常見問題？&#10;這裡寫答案。"></textarea>
+        </div>
+        <div>
+          <div class="md-pane-label">即時預覽</div>
+          <div class="md-preview" id="md-preview"></div>
+        </div>
+      </div>
     </div>
 
     <div class="tab-panel" id="tab-paste">
@@ -933,6 +983,43 @@
     showAlert("已轉換並載入富文字編輯器，請檢查內容", "ok");
   });
 
+  // ── Markdown 編輯器（左寫右預覽）──
+  const mdEditor = document.getElementById("editor-md");
+  const mdPreview = document.getElementById("md-preview");
+  function renderMdPreview() {
+    const raw = mdEditor.value || "";
+    // 預覽用 marked + sanitize（跟發佈同一套白名單，所見即所得）
+    mdPreview.innerHTML = raw.trim() ? normalizeHtml(marked.parse(raw), "strict") : '<span style="color:var(--gray-mid);">（預覽會顯示在這裡）</span>';
+  }
+  mdEditor.addEventListener("input", renderMdPreview);
+  renderMdPreview();
+
+  // markdown 工具列：在游標處插入語法
+  function mdInsert(text) {
+    const start = mdEditor.selectionStart, end = mdEditor.selectionEnd;
+    const sel = mdEditor.value.slice(start, end);
+    let out = text;
+    // 若有選取且是包裹型（**...** / > ... / - ...），包住選取內容
+    if (sel) {
+      if (text === "**粗體**") out = `**${sel}**`;
+      else if (text === "[文字](https://)") out = `[${sel}](https://)`;
+      else out = text + sel;
+    }
+    mdEditor.value = mdEditor.value.slice(0, start) + out + mdEditor.value.slice(end);
+    mdEditor.selectionStart = mdEditor.selectionEnd = start + out.length;
+    mdEditor.dispatchEvent(new Event("input"));
+    mdEditor.focus();
+  }
+  document.querySelectorAll("[data-md-ins]").forEach((btn) => {
+    btn.addEventListener("click", () => mdInsert(btn.dataset.mdIns));
+  });
+  document.getElementById("btn-md-faq").addEventListener("click", () => {
+    mdInsert("\n\n### Q：在這裡寫問題？\n在這裡寫答案。\n\n### Q：第二個問題？\n第二個答案。\n");
+  });
+  document.getElementById("btn-md-insert-img").addEventListener("click", () => {
+    openInlineImgModal("md");
+  });
+
   // ── HTML 分頁 ──
   document.getElementById("btn-html-sync").addEventListener("click", () => {
     document.getElementById("editor-html").value = quill.root.innerHTML;
@@ -1090,6 +1177,17 @@
       ta.focus();
       inlineImgModal.classList.remove("open");
       showAlert("已插入到原樣 HTML 編輯器（發佈時會本地化）", "ok");
+    } else if (inlineImgState.context === "md") {
+      // Markdown 分頁：插入 markdown 圖片語法到游標位置
+      const ta = document.getElementById("editor-md");
+      const mdImg = `\n\n![${alt.replace(/[\[\]]/g, "")}](${dataUrl})\n\n`;
+      const start = ta.selectionStart, end = ta.selectionEnd;
+      ta.value = ta.value.slice(0, start) + mdImg + ta.value.slice(end);
+      ta.selectionStart = ta.selectionEnd = start + mdImg.length;
+      ta.dispatchEvent(new Event("input"));
+      ta.focus();
+      inlineImgModal.classList.remove("open");
+      showAlert("已插入到 Markdown（發佈時會自動存成本地檔）", "ok");
     } else {
       // HTML 原始碼分頁：產 snippet，塞剪貼簿讓同事貼上
       document.getElementById("inline-img-html-snippet").textContent = snippet;
@@ -1200,6 +1298,7 @@
     const on = rawModeCb.checked;
     editorTabsEl.style.display = on ? "none" : "";
     document.getElementById("tab-rich").style.display = on ? "none" : "";
+    document.getElementById("tab-md").style.display = on ? "none" : "";
     document.getElementById("tab-paste").style.display = on ? "none" : "";
     document.getElementById("tab-html").style.display = on ? "none" : "";
     document.getElementById("raw-full-panel").style.display = on ? "" : "none";
@@ -1306,15 +1405,22 @@
 
     let bodyHtml, bodyMode;
 
+    const activeTab = document.querySelector('.tabs button.active')?.dataset.tab;
+
     if (rawMode) {
       // 原樣模式：整份 HTML 完全不過濾，後端直接存
       bodyHtml = document.getElementById("editor-raw-full").value.trim();
       bodyMode = "raw_full";
+    } else if (activeTab === "md") {
+      // Markdown 分頁：markdown → HTML（嚴格白名單），歸為 rich_text
+      const md = document.getElementById("editor-md").value.trim();
+      bodyHtml = normalizeHtml(marked.parse(md), "strict");
+      bodyMode = "rich_text";
     } else {
       // 判斷使用哪個編輯器的內容
       const htmlSrc = document.getElementById("editor-html").value.trim();
       const richHtml = quill.root.innerHTML;
-      if (htmlSrc && htmlSrc !== richHtml && document.querySelector('.tabs button.active')?.dataset.tab === "html") {
+      if (htmlSrc && htmlSrc !== richHtml && activeTab === "html") {
         bodyHtml = normalizeHtml(htmlSrc, "relaxed");
         bodyMode = "html_source";
       } else {
