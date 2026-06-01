@@ -12,12 +12,13 @@
 ### 系統架構（檔案職責）
 | 檔案 | 做什麼 |
 |---|---|
-| `admin/index.html` | 編輯器 UI。頂部 3 模式分頁：🤖 AI 一鍵產文 / ✍️ 手動撰寫 / 📋 草稿與文章。header 有版本號（目前 **v1.18.0**，改完記得 bump）|
+| `admin/index.html` | 編輯器 UI。頂部 3 模式分頁：🤖 AI 一鍵產文 / ✍️ 手動撰寫 / 📋 草稿與文章。header 有版本號（目前 **v1.19.0**，改完記得 bump）|
 | `api/publish.js` | 發布主引擎：GitHub Git Data API 原子 commit；產文章 HTML（含 SEO meta/OG/JSON-LD Article+Breadcrumb，自動偵測 `<details>` 產 FAQPage、structured_data.howto 產 HowTo、偵測 instagram-media 注入 IG embed.js）；更新 article_list.json + sitemap.xml + 每篇 article.json sidecar。支援 overwrite。雙 token（ADMIN/OPENCLAW）|
 | `api/generate-article.js` | AI 一鍵產文（OpenAI，模型 `EDITOR_TEXT_MODEL` 預設 gpt-5.5）。回傳 title/description/tags/cover/body_markdown/images。內含繁中規範+元件指令 |
-| `api/generate-cover.js` | AI 產圖（MiniMax image-01 優先 → OpenAI dall-e-3 fallback），provider 可選 |
+| `api/generate-cover.js` | AI 產圖（MiniMax image-01 優先 → OpenAI fallback），provider 可選。**OpenAI 預設 dall-e-3，可用 `EDITOR_IMAGE_MODEL=gpt-image-1` 切換（文字渲染佳）**；不送 response_format（新模型不收會 400），相容 url/b64_json。**MiniMax 圖內文字會亂碼→文字圖走 OpenAI** |
 | `api/generate-slug.js` / `fetch-product.js` / `delete-article.js` | slug 翻譯 / 抓商品 OG / 刪文（刪文只接受 ADMIN_TOKEN，擋 OPENCLAW）|
-| `article-components.css` | **視覺元件庫**（dc-quick/callout/compare/steps/check/quote/info-card/related/sources + H2/表格/FAQ 樣式）。發布文章模板與後台預覽都 `<link>` 這支（root-absolute `/article-components.css`）|
+| `article-components.css` | **視覺元件庫**（dc-quick/callout/compare/steps/check/quote/info-card/related/sources + H2/表格/FAQ + **TOC 文章目錄**樣式）。發布文章模板與後台預覽都 `<link>` 這支（root-absolute `/article-components.css`）|
+| `article-toc.js` | **文章目錄 TOC**：從 `.article-body` 的 H2 自動生目錄（桌機左側 fixed 卡＋手機浮動按鈕/overlay＋scroll spy）。publish.js 與 buildPreviewDoc 都 `<script src="/article-toc.js" defer>`（單一來源，root-absolute）|
 | `tools/health_check.py` + `.github/workflows/` | 每週健康檢查 + 發文後驗證，有問題開 issue |
 | `dailycoffee-OPENCLAW-SPEC.md` | 給 OpenClaw（小龍蝦 AI）的發文 API 規格 |
 | `dailycoffee-PUBLISH-SOP.md` | 給人類同事的後台使用教學 |
@@ -60,6 +61,11 @@
    - **延伸閱讀／資料來源標題太小**：放大到 **1.18rem**。
    - 全在 `article-components.css`（單一來源，文章＋後台預覽同步）。⚠️ **教訓：測版型一定要用真實文章背景 #F5EDE0**（publish.js／buildPreviewDoc 都是這色），別用 #FDFBF8，否則米色元件會假性「正常」。
    → 對應 commit：`fix: 文章版型三修（依實測回饋）`。
+5. **依第二輪回饋：產圖修復 + 文章目錄 TOC + 資料來源連結（3 項）**：
+   - **產圖 OpenAI 路徑 400**：`generate-cover.js` 拿掉 `response_format`（新版 gpt-image-1 不收會回 400 unknown_parameter），改相容 url/b64_json；可用 `EDITOR_IMAGE_MODEL=gpt-image-1` 切換（文字渲染遠勝 dall-e-3/MiniMax）。**MiniMax 圖內文字會亂碼** → 配圖卡加提示「圖中有文字選 OpenAI」。
+   - **文章目錄 TOC**：新增 `/article-toc.js`（從 H2 自動生目錄；桌機左側 fixed 卡＋手機浮動按鈕/overlay＋平滑捲動＋scroll spy），publish.js 與 buildPreviewDoc 都 `<script src>` 引入。桌機/手機全功能瀏覽器驗證通過。⚠️ buildPreviewDoc 在 admin inline `<script>` 內，TOC 的 script 標籤用 backtick 拆分（`<scr`+`ipt…<\/scr`+`ipt>`）避開 `</script>` 致命坑。
+   - **資料來源沒連結**：根因是 prompt 叫 AI「不確定網址就不附連結」（前端消毒器 relaxed 其實允許 `<a href>` 且自動補 target/rel）。改 prompt 成「盡量連官方首頁網域、只有連首頁都沒把握才純文字」。**需部署後實測 AI 有沒有照做。**
+   → 對應 commit：`fix: 產圖 OpenAI 路徑不再被 response_format 卡死…`、`feat: 文章加文章目錄 TOC…`、`fix: 資料來源預設附官網連結…v1.19.0`。
 
 ### 🔴 還沒做（都卡在「要先部署」）
 4. **🟡 AI 產文品質驗證**：本機沒 OPENAI_API_KEY、gpt-5.5 也只在 Vercel 上跑，**必須部署後**用 `/admin/` 真的產一篇才能驗：有沒有到 3000–5000 字、用足 ≥4 種元件、表格只用在多項目比較、單一資訊用 `dc-info-card`。`api/generate-article.js` 的 prompt 已很完整（已含 dc-check、延伸閱讀不由 AI 編、資料來源只用真連結）——**不到位再調 prompt，別盲調**。
