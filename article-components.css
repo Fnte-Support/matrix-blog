@@ -112,3 +112,69 @@
   display: inline-block; background: var(--dc-light); color: #fff;
   font-size: 0.72rem; font-weight: 600; padding: 0.12rem 0.55rem; border-radius: 12px; vertical-align: middle;
 }
+
+/* ── H2 小標：上底色更凸顯（覆蓋模板的基礎樣式）─────── */
+.article-body h2, .pv-body h2 {
+  background: linear-gradient(90deg, var(--dc-cream), transparent);
+  color: var(--dc-dark) !important;
+  border-left: 5px solid var(--dc-light) !important;
+  padding: 0.5rem 0.9rem !important;
+  border-radius: 0 8px 8px 0;
+  margin: 2.4rem 0 1rem !important;
+}
+.article-body h3, .pv-body h3 {
+  color: var(--dc-mid); border-left: 3px solid var(--dc-light);
+  padding-left: 0.6rem;
+}
+
+/* ── 表格：明確框線 + 表頭底色 + 斑馬紋（覆蓋模板）──── */
+.article-body table, .pv-body table {
+  width: 100%; border-collapse: collapse !important; margin: 1.5rem 0; font-size: 0.95rem;
+  border: 1px solid var(--dc-light) !important; border-radius: 8px; overflow: hidden;
+}
+.article-body th, .pv-body th {
+  background: var(--dc-mid) !important; color: #fff !important;
+  padding: 0.7rem 0.9rem !important; text-align: left; border: 1px solid var(--dc-light) !important;
+  font-weight: 600;
+}
+.article-body td, .pv-body td {
+  padding: 0.65rem 0.9rem !important; border: 1px solid #e6ddd0 !important;
+  vertical-align: top;
+}
+.article-body tbody tr:nth-child(even), .pv-body tbody tr:nth-child(even) { background: #faf6f0; }
+
+/* ── FAQ 手風琴（<details>/<summary>）──────────── */
+.article-body details, .pv-body details {
+  border: 1px solid var(--dc-cream); border-radius: 8px; margin: 0.6rem 0;
+  background: #fff; overflow: hidden;
+}
+.article-body details[open], .pv-body details[open] { border-color: var(--dc-light); }
+.article-body summary, .pv-body summary {
+  cursor: pointer; padding: 0.9rem 2.4rem 0.9rem 1rem; font-weight: 600; color: var(--dc-mid);
+  list-style: none; position: relative; background: var(--dc-cream); transition: background 0.15s;
+}
+.article-body summary::-webkit-details-marker, .pv-body summary::-webkit-details-marker { display: none; }
+.article-body summary:hover, .pv-body summary:hover { background: #efe3d4; }
+.article-body summary::after, .pv-body summary::after {
+  content: "＋"; position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
+  color: var(--dc-light); font-weight: 700; font-size: 1.1rem; transition: transform 0.2s;
+}
+.article-body details[open] summary::after, .pv-body details[open] summary::after { content: "−"; }
+.article-body details > :not(summary), .pv-body details > :not(summary) { padding: 0.4rem 1rem 0.2rem; margin: 0.6rem 0; }
+
+/* ── 延伸閱讀 / 相關文章 ───────────────────────── */
+.dc-related {
+  background: var(--dc-cream); border-radius: 10px; padding: 1.1rem 1.3rem; margin: 2rem 0;
+}
+.dc-related > :first-child { font-weight: 700; color: var(--dc-mid); margin: 0 0 0.6rem; }
+.dc-related ul { margin: 0; padding-left: 0; list-style: none; }
+.dc-related li { margin: 0.4rem 0; padding-left: 1.4rem; position: relative; }
+.dc-related li::before { content: "📖"; position: absolute; left: 0; }
+.dc-related a { color: var(--dc-light); font-weight: 500; }
+
+/* ── 資料來源 ──────────────────────────────── */
+.dc-sources {
+  border-top: 1px solid var(--dc-cream); margin-top: 2.5rem; padding-top: 1rem;
+  font-size: 0.85rem; color: var(--dc-mid);
+}
+.dc-sources > :first-child { font-weight: 700; margin-bottom: 0.4rem; }

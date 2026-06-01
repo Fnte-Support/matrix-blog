@@ -285,7 +285,7 @@
 <header class="admin-header">
   <span class="logo">☕ Daily Coffee</span>
   <span class="badge" id="mode-badge">✍️ 新文章</span>
-  <span style="font-size: 11px; opacity: 0.5; font-family: 'SF Mono', Monaco, monospace;">v1.15.0</span>
+  <span style="font-size: 11px; opacity: 0.5; font-family: 'SF Mono', Monaco, monospace;">v1.16.0</span>
   <button type="button" id="btn-new" style="display:none; margin-left: auto; background: var(--coffee-light); color: #fff; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px;">✍️ 離開編輯・寫新的</button>
 </header>
 
@@ -1071,6 +1071,19 @@
     mdEditor.dispatchEvent(new Event("input"));
   }
 
+  // 圖片用短 token（避免 markdown 被超長 base64 塞爆難讀）；發佈/預覽時才還原成 base64
+  const inlineImgMap = {};
+  let inlineImgSeq = 0;
+  function insertImageToken(alt, dataUrl) {
+    const key = "dc-img-" + (++inlineImgSeq);
+    inlineImgMap[key] = dataUrl;
+    insertIntoMdAtCursor(`\n\n![${(alt || "圖片").replace(/[\[\]]/g, "")}](${key})\n\n`);
+  }
+  // 把 markdown 裡的 dc-img-N token 換回真正的 base64（給發佈 / 預覽用）
+  function resolveInlineImages(md) {
+    return (md || "").replace(/\]\((dc-img-\d+)\)/g, (m, key) => inlineImgMap[key] ? `](${inlineImgMap[key]})` : m);
+  }
+
   // 在游標處插入文字（包裹型會包住選取）
   function mdInsert(text) {
     const start = mdEditor.selectionStart, end = mdEditor.selectionEnd;
@@ -1120,6 +1133,10 @@
 `\n\n<details><summary>Q：常見問題一？</summary>\n答案內容。\n</details>\n<details><summary>Q：常見問題二？</summary>\n答案內容。\n</details>\n\n` },
     { name: "▦ 表格", desc: "比較 / 規格表", snip:
 `\n\n| 項目 | 說明 | 備註 |\n|---|---|---|\n| A | … | … |\n| B | … | … |\n\n` },
+    { name: "📖 延伸閱讀", desc: "相關文章連結", snip:
+`\n\n<div class="dc-related">\n  <p>📖 延伸閱讀</p>\n  <ul>\n    <li><a href="/article/SLUG-A/">相關文章一</a></li>\n    <li><a href="/article/SLUG-B/">相關文章二</a></li>\n  </ul>\n</div>\n\n` },
+    { name: "🔖 資料來源", desc: "文末引用出處", snip:
+`\n\n<div class="dc-sources">\n  <p>資料來源</p>\n  <ul>\n    <li><a href="https://sca.coffee/" target="_blank" rel="noopener noreferrer">SCA</a></li>\n  </ul>\n</div>\n\n` },
   ];
   const cheatGrid = document.getElementById("cheat-grid");
   CHEAT_BLOCKS.forEach((b) => {
@@ -1263,7 +1280,7 @@
         const data = await r.json();
         if (!r.ok) throw new Error(data.error || "產圖失敗");
         if (!data.image_base64) throw new Error("回傳缺 image_base64");
-        insertIntoMdAtCursor(`\n\n![${alt.replace(/[\[\]]/g,"")}](${data.image_base64})\n\n`);
+        insertImageToken(alt, data.image_base64);
         status.textContent = `✅ 已插入游標處（${data.provider === "openai" ? "DALL-E" : "MiniMax"}${data.fallback_used ? " fallback" : ""}）`;
         genBtn.textContent = "↻ 重新產生";
       } catch (err) {
@@ -1506,16 +1523,10 @@
       inlineImgModal.classList.remove("open");
       showAlert("已插入到原樣 HTML 編輯器（發佈時會本地化）", "ok");
     } else if (inlineImgState.context === "md") {
-      // Markdown 分頁：插入 markdown 圖片語法到游標位置
-      const ta = document.getElementById("editor-md");
-      const mdImg = `\n\n![${alt.replace(/[\[\]]/g, "")}](${dataUrl})\n\n`;
-      const start = ta.selectionStart, end = ta.selectionEnd;
-      ta.value = ta.value.slice(0, start) + mdImg + ta.value.slice(end);
-      ta.selectionStart = ta.selectionEnd = start + mdImg.length;
-      ta.dispatchEvent(new Event("input"));
-      ta.focus();
+      // Markdown 分頁：用短 token 插入（避免超長 base64 塞爆編輯器）
+      insertImageToken(alt, dataUrl);
       inlineImgModal.classList.remove("open");
-      showAlert("已插入到 Markdown（發佈時會自動存成本地檔）", "ok");
+      showAlert("已插入到 Markdown 游標處（短代碼，發佈時自動還原成圖片）", "ok");
     } else {
       // HTML 原始碼分頁：產 snippet，塞剪貼簿讓同事貼上
       document.getElementById("inline-img-html-snippet").textContent = snippet;
@@ -1741,8 +1752,8 @@
       bodyHtml = document.getElementById("editor-raw-full").value.trim();
       bodyMode = "raw_full";
     } else if (activeTab === "md") {
-      // Markdown 分頁：markdown → HTML（relaxed 白名單，保留 dc-* 元件 class）→ html_source
-      const md = document.getElementById("editor-md").value.trim();
+      // Markdown 分頁：先把 dc-img token 還原成 base64 → markdown → HTML（relaxed）→ html_source
+      const md = resolveInlineImages(document.getElementById("editor-md").value.trim());
       bodyHtml = normalizeHtml(marked.parse(md), "relaxed");
       bodyMode = "html_source";
     } else {
@@ -1826,7 +1837,7 @@
 <title>預覽：${escapeHtml(p.title)}</title>
 <link rel="stylesheet" href="/article-components.css">
 <style>${style}</style></head><body>
-<div class="pv-bar">📄 文章預覽（這是草稿預覽，尚未發佈）</div>
+<div class="pv-bar">📄 文章預覽（草稿，尚未發佈）— 改完內容回編輯器再按一次「👁️ 預覽文章」就會更新這個分頁</div>
 ${cover}
 <div class="container">
   <div class="meta">${catTags}<time>${p.date||""}</time><span>By Daily Coffee</span></div>
@@ -1851,7 +1862,7 @@ ${/instagram-media/.test(p.body_html)?'<scr'+'ipt async src="//www.instagram.com
     } else {
       doc = buildPreviewDoc(p);
     }
-    const win = window.open("", "_blank");
+    const win = window.open("", "dcPreview");  // 具名視窗：再按一次預覽會更新同一分頁
     if (!win) { showAlert("瀏覽器擋了彈出視窗，請允許後再按預覽", "warn"); return; }
     win.document.open();
     win.document.write(doc);
@@ -2043,6 +2054,7 @@ ${/instagram-media/.test(p.body_html)?'<scr'+'ipt async src="//www.instagram.com
       cover: state.coverDataUrl || null,
       products: state.products,
       md: mdEditor.value,
+      inlineImgMap: inlineImgMap,
       rich: quill.root.innerHTML,
       html: document.getElementById("editor-html").value,
       raw: document.getElementById("editor-raw-full").value,
@@ -2093,6 +2105,7 @@ ${/instagram-media/.test(p.body_html)?'<scr'+'ipt async src="//www.instagram.com
     });
     // 編輯器內容
     mdEditor.value = d.md || ""; mdEditor.dispatchEvent(new Event("input"));
+    Object.assign(inlineImgMap, d.inlineImgMap || {});  // 還原圖片 token 對應
     quill.root.innerHTML = d.rich || "";
     document.getElementById("editor-html").value = d.html || "";
     document.getElementById("editor-raw-full").value = d.raw || "";
