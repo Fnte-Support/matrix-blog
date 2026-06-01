@@ -285,7 +285,7 @@
 <header class="admin-header">
   <span class="logo">☕ Daily Coffee</span>
   <span class="badge" id="mode-badge">✍️ 新文章</span>
-  <span style="font-size: 11px; opacity: 0.5; font-family: 'SF Mono', Monaco, monospace;">v1.10.0</span>
+  <span style="font-size: 11px; opacity: 0.5; font-family: 'SF Mono', Monaco, monospace;">v1.11.0</span>
   <button type="button" id="btn-manage" style="margin-left: auto; background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px;">📋 管理現有文章</button>
   <button type="button" id="btn-new" style="display:none; background: var(--coffee-light); color: #fff; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px; margin-left: 8px;">✍️ 離開編輯・寫新的</button>
 </header>
@@ -325,15 +325,21 @@
     </div>
     <div class="tab-actions">
       <button type="button" class="btn" id="btn-ai-gen">🤖 產生整篇文章</button>
-      <span style="font-size: 12px; color: var(--gray-mid);">會自動填入標題／摘要／標籤，內文載入 Markdown 分頁，並列出配圖建議</span>
+      <span style="font-size: 12px; color: var(--gray-mid);">產出後可在下方檢查／微調標題、摘要、分類、封面與配圖</span>
     </div>
-    <div id="ai-gen-images" style="display: none; margin-top: 14px;"></div>
+
+    <!-- 產出後：基本資訊欄位搬進這裡（AI 模式）-->
+    <div id="ai-basic-slot" style="margin-top: 16px;"></div>
+
+    <!-- 配圖（圖1 = 封面，圖2+ = 內文圖）-->
+    <div id="ai-gen-images" style="display: none; margin-top: 16px;"></div>
   </div>
 
-  <!-- 基本資訊 -->
-  <div class="panel">
+  <!-- 基本資訊（AI 模式時整組搬進 AI 面板）-->
+  <div class="panel" id="basic-panel">
     <h2>基本資訊 <span class="req">* 必填</span></h2>
 
+    <div id="basic-fields">
     <label class="row">
       <div class="lbl"><span>標題</span><span class="counter" id="cnt-title">0</span></div>
       <input type="text" id="f-title" placeholder="例如：V60 手沖粉水比全攻略">
@@ -375,10 +381,11 @@
       <div class="lbl"><span>標籤（逗號分隔，3-6 個）</span></div>
       <input type="text" id="f-tags" placeholder="手沖,V60,粉水比,咖啡知識">
     </label>
+    </div><!-- /#basic-fields -->
   </div>
 
-  <!-- 封面圖 -->
-  <div class="panel">
+  <!-- 封面圖（AI 模式時隱藏，封面改由配圖「圖1」處理）-->
+  <div class="panel" id="cover-panel">
     <h2>封面圖 <span class="req">* 必填</span><span class="note">系統會自動裁切成 1200×630 + 轉 webp</span></h2>
 
     <div class="tabs" style="margin-bottom: 14px;">
@@ -711,14 +718,29 @@
     editingOriginalDate: null, // 編輯中原本的 date（保留不變）
   };
 
-  // ── 模式切換：AI 產文 / 手動撰寫（只控制 AI 面板顯示，底下共用表單不動）──
+  // ── 模式切換：AI 產文 / 手動撰寫 ──
+  // AI 模式：基本資訊欄位搬進 AI 面板、隱藏獨立的 基本資訊/封面圖 區塊（封面改由配圖圖1）
+  // 手動模式：基本資訊欄位放回、顯示 基本資訊 + 封面圖 區塊
+  const basicFieldsEl = document.getElementById("basic-fields");
+  const basicPanelEl = document.getElementById("basic-panel");
+  const coverPanelEl = document.getElementById("cover-panel");
+  const aiBasicSlotEl = document.getElementById("ai-basic-slot");
+  let currentMode = "ai";
+  function applyMode(mode) {
+    currentMode = mode;
+    const ai = mode === "ai";
+    document.querySelectorAll(".mode-tab").forEach((b) => b.classList.toggle("active", b.dataset.mode === mode));
+    document.getElementById("ai-panel").style.display = ai ? "" : "none";
+    basicPanelEl.style.display = ai ? "none" : "";
+    coverPanelEl.style.display = ai ? "none" : "";
+    // 搬移基本欄位 DOM（單一來源，無重複欄位）
+    if (ai) aiBasicSlotEl.appendChild(basicFieldsEl);
+    else basicPanelEl.appendChild(basicFieldsEl);
+  }
   document.querySelectorAll(".mode-tab").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      document.querySelectorAll(".mode-tab").forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
-      document.getElementById("ai-panel").style.display = btn.dataset.mode === "ai" ? "" : "none";
-    });
+    btn.addEventListener("click", () => applyMode(btn.dataset.mode));
   });
+  applyMode("ai"); // 預設 AI 模式
 
   // ── 分類多選（瀏覽器會自動處理 label↔input 切換，我們只同步視覺 class）──
   document.querySelectorAll("#cats label").forEach((lbl) => {
@@ -1100,14 +1122,63 @@
   const aiImgBox = document.getElementById("ai-gen-images");
   let aiImgCardSeq = 0;
 
-  function addImageCard(im = {}) {
+  // 封面卡（圖1）：AI 生成 / 上傳 → setCover（裁 1200×630），不插 markdown
+  function addCoverCard(im = {}) {
+    aiImgBox.style.display = "";
+    const card = document.createElement("div");
+    card.style.cssText = "border:1px solid var(--coffee-light);border-radius:6px;padding:10px;margin-bottom:8px;background:#fffaf4;";
+    card.innerHTML = `
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+        <strong style="font-size:12px;color:var(--coffee-mid);">圖 1（封面）<span style="color:var(--err);">＊必填</span></strong>
+        <span style="flex:1;"></span>
+        <span data-cover-thumb></span>
+      </div>
+      <div class="lbl"><span>封面生圖 prompt（英文佳，可改）</span></div>
+      <textarea data-cover-prompt style="min-height:46px;font-size:13px;">${escapeHtml(im.prompt || "")}</textarea>
+      <div class="lbl" style="margin-top:6px;"><span>alt 文字（繁中）</span></div>
+      <input type="text" data-cover-alt value="${escapeHtml(im.alt || "")}">
+      <div class="tab-actions" style="margin-top:8px;">
+        <button type="button" class="btn secondary tiny" data-cover-gen>🎨 產生封面</button>
+        <label class="btn secondary tiny" style="cursor:pointer;">📁 上傳<input type="file" accept="image/*" data-cover-upload style="display:none;"></label>
+        <span data-cover-status style="font-size:12px;color:var(--gray-mid);"></span>
+      </div>`;
+    const showThumb = () => { if (state.coverDataUrl) card.querySelector("[data-cover-thumb]").innerHTML = `<img src="${state.coverDataUrl}" style="height:34px;border-radius:4px;">`; };
+    card.querySelector("[data-cover-gen]").addEventListener("click", async () => {
+      const genBtn = card.querySelector("[data-cover-gen]");
+      const prompt = card.querySelector("[data-cover-prompt]").value.trim();
+      const status = card.querySelector("[data-cover-status]");
+      if (!prompt) { status.textContent = "請先填 prompt"; return; }
+      genBtn.disabled = true; const o = genBtn.innerHTML; genBtn.innerHTML = '<span class="spinner"></span>產圖中…'; status.textContent = "";
+      try {
+        const r = await fetch("/api/generate-cover", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ prompt, provider: "auto" }) });
+        const data = await r.json();
+        if (!r.ok) throw new Error(data.error || "產圖失敗");
+        if (!data.image_base64) throw new Error("回傳缺 image_base64");
+        const ok = await setCover(data.image_base64, "AI 封面");
+        if (ok) { status.textContent = `✅ 已設為封面（${data.provider === "openai" ? "DALL-E" : "MiniMax"}）`; showThumb(); genBtn.textContent = "↻ 重新產生"; }
+      } catch (err) { status.textContent = "失敗：" + err.message; }
+      finally { genBtn.disabled = false; if (genBtn.innerHTML.includes("spinner")) genBtn.innerHTML = o; }
+    });
+    card.querySelector("[data-cover-upload]").addEventListener("change", (e) => {
+      const f = e.target.files[0]; if (!f) return;
+      const status = card.querySelector("[data-cover-status]");
+      if (f.size > 1024 * 1024) { status.textContent = "檔案超過 1MB"; return; }
+      const reader = new FileReader();
+      reader.onload = async () => { const ok = await setCover(reader.result, f.name); if (ok) { status.textContent = "✅ 已設為封面"; showThumb(); } };
+      reader.readAsDataURL(f);
+    });
+    aiImgBox.insertBefore(card, document.getElementById("btn-add-img-card"));
+    return card;
+  }
+
+  function addImageCard(im = {}, opts = {}) {
     aiImgBox.style.display = "";
     const id = "imgcard-" + (++aiImgCardSeq);
     const card = document.createElement("div");
     card.style.cssText = "border:1px solid var(--gray-light);border-radius:6px;padding:10px;margin-bottom:8px;background:#fff;";
     card.innerHTML = `
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap;">
-        <span style="font-size:12px;color:var(--gray-mid);">配圖・建議位置：${escapeHtml(im.placement || "自訂")}</span>
+        <span style="font-size:12px;color:var(--gray-mid);">${escapeHtml(opts.label || "配圖")}・建議位置：${escapeHtml(im.placement || "自訂")}</span>
         <span style="flex:1;"></span>
         <label style="font-size:12px;"><input type="radio" name="${id}-type" value="ai" checked> 📷 AI 生成</label>
         <label style="font-size:12px;"><input type="radio" name="${id}-type" value="ig"> 📱 IG 嵌入</label>
@@ -1193,13 +1264,14 @@
     return card;
   }
 
-  function renderAiImageSpecs(images) {
-    aiImgBox.innerHTML = `<div style="font-size:13px;font-weight:600;color:var(--coffee-mid);margin-bottom:8px;">🖼️ AI 配圖建議 — 每張可選 AI 生成 / IG 嵌入 / 不放，也可自行新增</div>
-      <button type="button" class="btn secondary tiny" id="btn-add-img-card" style="margin-top:4px;">＋ 新增配圖</button>`;
-    document.getElementById("btn-add-img-card").addEventListener("click", () => addImageCard());
+  function renderAiImageSpecs(data) {
+    data = data || {};
+    aiImgBox.innerHTML = `<div style="font-size:13px;font-weight:600;color:var(--coffee-mid);margin-bottom:8px;">🖼️ 配圖 — 圖1 是封面（必填），圖2 起為內文圖（可 AI 生成 / IG 嵌入 / 不放），也可自行新增</div>
+      <button type="button" class="btn secondary tiny" id="btn-add-img-card" style="margin-top:4px;">＋ 新增內文配圖</button>`;
+    document.getElementById("btn-add-img-card").addEventListener("click", () => addImageCard({}, { label: "新圖" }));
     aiImgBox.style.display = "";
-    (images || []).forEach((im) => addImageCard(im));
-    if (!images || !images.length) addImageCard();
+    addCoverCard(data.cover || {});                                  // 圖1 封面
+    (data.images || []).forEach((im, i) => addImageCard(im, { label: `圖 ${i + 2}` }));  // 圖2..
   }
 
   document.getElementById("btn-ai-gen").addEventListener("click", async () => {
@@ -1235,11 +1307,11 @@
       mdEditor.value = data.body_markdown || "";
       mdEditor.dispatchEvent(new Event("input"));
       document.querySelector('[data-tab="md"]').click();
-      // 配圖建議
-      renderAiImageSpecs(data.images || []);
+      // 配圖：圖1 封面 + 圖2.. 內文圖
+      renderAiImageSpecs(data);
 
-      showAlert(`✅ AI 已產出草稿（${data.model || ""}）。內文在 Markdown 分頁，請檢查繁中用字後微調。配圖建議在上方逐張生成。`, "ok");
-      document.getElementById("tab-md").scrollIntoView({ behavior: "smooth", block: "center" });
+      showAlert(`✅ AI 已產出草稿（${data.model || ""}）。請在 AI 面板檢查標題/摘要/分類、產生封面（圖1）與內文圖，內文在 Markdown 分頁微調。`, "ok");
+      document.getElementById("ai-panel").scrollIntoView({ behavior: "smooth", block: "start" });
     } catch (err) {
       showAlert("AI 產文失敗：" + err.message, "err");
     } finally {
@@ -1677,7 +1749,7 @@
     else if (!/^[a-z][a-z0-9-]*$/.test(p.slug)) errors.push("Slug 格式錯誤（英文小寫開頭，只可含小寫字母/數字/連字號）");
     if (p.categories.length === 0) errors.push("至少選一個分類");
     if (!p.description) errors.push("摘要必填");
-    if (!p.cover_data_url && !state.editing) errors.push("請上傳封面圖");
+    if (!p.cover_data_url && !state.editing) errors.push(currentMode === "ai" ? "請在圖1產生或上傳封面圖" : "請上傳封面圖");
     const plain = p.body_html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
     if (!plain) errors.push("內文必填");
     return errors;
@@ -1935,6 +2007,9 @@
         throw new Error(`找不到 article.json（這篇可能是舊版沒 sidecar 的文章，無法用編輯功能）`);
       }
       const data = await r.json();
+
+      // 編輯既有文章一律切到手動模式（基本資訊/封面圖區塊才正常顯示）
+      applyMode("manual");
 
       // 填回表單
       titleInput.value = data.title || "";

@@ -64,6 +64,7 @@ function buildUserPrompt({ title, category, topic }) {
     `  "title": "可微調過、更吸引人的繁中標題（≤ 40 字）",`,
     `  "description": "SEO meta description，80–120 字，繁中",`,
     `  "tags": ["3–6 個繁中關鍵字"],`,
+    `  "cover": { "prompt": "封面圖英文生圖 prompt（橫幅 16:9，主視覺，不含文字）", "alt": "封面繁中說明" },`,
     `  "body_markdown": "完整內文，markdown + 上述視覺元件 HTML 混用。開頭先放 dc-quick 30 秒重點框，再寫引言（不加標題），接著數個 ## H2 段落穿插彩色 callout／比較卡／步驟卡。FAQ 用 <details><summary>Q：問題</summary>答案</details>（會自動產 FAQ schema）。至少 800 字，至少用 3 種視覺元件。",`,
     `  "images": [`,
     `    { "prompt": "英文生圖 prompt，描述要畫什麼（不含風格詞，風格由系統統一加）", "alt": "繁中圖片說明", "placement": "放在哪一段（例：引言後 / 某H2標題段）" }`,
@@ -146,6 +147,7 @@ export default async function handler(req, res) {
       title: String(parsed.title || title).trim(),
       description: String(parsed.description || "").trim(),
       tags: Array.isArray(parsed.tags) ? parsed.tags.map((t) => String(t).trim()).filter(Boolean).slice(0, 8) : [],
+      cover: (parsed.cover && parsed.cover.prompt) ? { prompt: String(parsed.cover.prompt).trim(), alt: String(parsed.cover.alt || "").trim() } : null,
       body_markdown: String(parsed.body_markdown || "").trim(),
       images: Array.isArray(parsed.images) ? parsed.images.map((im) => ({
         prompt: String(im.prompt || "").trim(),
