@@ -12,7 +12,7 @@
 ### 系統架構（檔案職責）
 | 檔案 | 做什麼 |
 |---|---|
-| `admin/index.html` | 編輯器 UI。頂部 3 模式分頁：🤖 AI 一鍵產文 / ✍️ 手動撰寫 / 📋 草稿與文章。header 有版本號（目前 **v1.17.0**，改完記得 bump）|
+| `admin/index.html` | 編輯器 UI。頂部 3 模式分頁：🤖 AI 一鍵產文 / ✍️ 手動撰寫 / 📋 草稿與文章。header 有版本號（目前 **v1.18.0**，改完記得 bump）|
 | `api/publish.js` | 發布主引擎：GitHub Git Data API 原子 commit；產文章 HTML（含 SEO meta/OG/JSON-LD Article+Breadcrumb，自動偵測 `<details>` 產 FAQPage、structured_data.howto 產 HowTo、偵測 instagram-media 注入 IG embed.js）；更新 article_list.json + sitemap.xml + 每篇 article.json sidecar。支援 overwrite。雙 token（ADMIN/OPENCLAW）|
 | `api/generate-article.js` | AI 一鍵產文（OpenAI，模型 `EDITOR_TEXT_MODEL` 預設 gpt-5.5）。回傳 title/description/tags/cover/body_markdown/images。內含繁中規範+元件指令 |
 | `api/generate-cover.js` | AI 產圖（MiniMax image-01 優先 → OpenAI dall-e-3 fallback），provider 可選 |
@@ -47,16 +47,21 @@
 
 ## 🟡 待辦（接手就做這些）— 來自最新一次文章實測回饋
 
-使用者用 AI 產了一篇「2026 珈琲與花物語」實測，給了視覺回饋。**CSS 區塊化部分已做**（H2 實心底色、引言區塊、資訊卡加框、FAQ 留白、延伸閱讀/資料來源統一區塊），**prompt 已改**（延伸閱讀不由 AI 編、資料來源用真實連結）。這些已 commit **但還沒 push**。
+使用者用 AI 產了一篇「2026 珈琲與花物語」實測，給了視覺回饋。**CSS 區塊化部分已做**（H2 實心底色、引言區塊、資訊卡加框、FAQ 留白、延伸閱讀/資料來源統一區塊），**prompt 已改**（延伸閱讀不由 AI 編、資料來源用真實連結）。
 
-**還沒做（優先序）：**
-1. **🔴 暫存草稿不能刪**：草稿區的 🗑️（`[data-deldraft]`）按了沒反應。要 debug `renderDrafts` 裡的刪除 handler（在 admin/index.html，搜 `data-deldraft`）。可能 saveDraftsArr 或事件綁定問題，先在瀏覽器測。
-2. **🔴 配圖插入不防呆**：現在 AI 配圖是「插到 Markdown 游標處」，但使用者不知道要先點游標還是先產圖，流程混亂。要重新設計：建議改成「產圖後顯示縮圖 + 一顆『插入到游標處』按鈕」讓使用者自己決定時機，或產圖後預設插在文章末尾並提示可搬動（短碼好搬）。
-3. **🟡 確認所有視覺元件都是底色區塊**：使用者要「所有視覺元件都用底色變成區塊更凸出」。已處理 H2/引言/資訊卡/FAQ/延伸閱讀/資料來源；callout/30秒框/比較卡/步驟卡本來就有底色。部署後再看實際 AI 產出有沒有都套到（AI 不一定每個都用對 class）。
-4. **🟡 AI 產文品質驗證**：gpt-5.5 不一定完全聽 prompt。要實際產一篇看：有沒有到 3000–5000 字、有沒有用足元件、表格有沒有亂用（應只多項目比較）、資訊卡有沒有用對。不到位就再調 `api/generate-article.js` 的 prompt。
-5. **🟢 舊文章不套新版型**：`article-components.css` 是發布時 link 進去的，舊文章 HTML 已寫死、不會自動變新樣式。只有新發布/重新編輯發布的才套。要全套需寫批次重刷腳本（讀每篇 article.json sidecar → 重新 POST /api/publish overwrite）。先確認新版 OK 再做。
+### ✅ 2026-06-01 session 完成（本機可做的全做了，已 commit 未 push）
+1. **暫存草稿刪不掉** → 修好。根因：`saveDraftsArr` 空陣列時 `while(list.length)` 直接跳過、從沒呼叫 `setItem`，刪「最後一筆」時 localStorage 沒寫回 → 畫面像「按了沒反應」。改成空陣列也會寫回（＝清空）。瀏覽器實測：刪到 0 筆會真的清空並顯示「目前沒有暫存草稿」。
+2. **配圖插入防呆** → 重新設計。產圖與插入**拆兩步**：按「🎨 產生配圖」後只顯示**縮圖**＋兩顆按鈕「➕ 插入到游標處 / 📄 插到文末」，由使用者看到圖再決定位置；沒在內文點過游標會提示「已插到文末」。短碼插入後仍可在內文自由搬動。stub 實測整條流程通過（產圖不再自動塞、兩種插入都正確）。相關函式：`registerInlineImg`／`insertImageToken`（游標）／`appendImageToken`（文末），在 admin/index.html。
+3. **所有視覺元件都是底色區塊** → 完成。盤點 `article-components.css` 後發現唯一缺口是 **`.dc-check` 檢查清單**（原本只有虛線、無底色），已補成**淡綠底色區塊**（綠左條＋綠 ✓，最後一項無分隔線）。其餘元件 computed style 都確認有底色。改在共用 CSS 即同步套到上線文章＋後台預覽（publish.js／buildPreviewDoc 都沒覆蓋 .dc-check）。
+   → 對應 commit：`fix: 修好暫存草稿刪不掉 + 配圖插入流程防呆（v1.18.0）`、`feat: 檢查清單 dc-check 補上淡綠底色區塊`。
 
-**接手第一步**：`git push`（把已 commit 的 CSS 區塊化推上線），部署後實際產一篇文章看新版型，再從待辦 1、2 開始。
+### 🔴 還沒做（都卡在「要先部署」）
+4. **🟡 AI 產文品質驗證**：本機沒 OPENAI_API_KEY、gpt-5.5 也只在 Vercel 上跑，**必須部署後**用 `/admin/` 真的產一篇才能驗：有沒有到 3000–5000 字、用足 ≥4 種元件、表格只用在多項目比較、單一資訊用 `dc-info-card`。`api/generate-article.js` 的 prompt 已很完整（已含 dc-check、延伸閱讀不由 AI 編、資料來源只用真連結）——**不到位再調 prompt，別盲調**。
+   - 💡 可選強化（有風險）：OpenAI chat completions 加 `response_format:{type:"json_object"}` 可大幅降低 JSON parse 失敗，但 **gpt-5.5 是否支援未驗證**，不支援會回 400 讓全部產文掛掉。目前已有防禦式 parser，**先確認模型支援再加**。
+5. **🟢 舊文章不套新版型**：`article-components.css` 是發布時 link 進去，舊文章 HTML 已寫死、不會自動變新樣式。要全套需寫批次重刷腳本（讀每篇 article.json sidecar → 重新 POST `/api/publish` overwrite）。⚠️ 這會用 ADMIN_TOKEN 覆寫線上文章（外部動作），且明訂**先確認新版 OK 再做**——務必先跟使用者確認再跑。
+
+**接手第一步**：`git push`（main 目前領先 origin **5 個 commit**：上個 session 的 CSS 區塊化／交接 2 個 + 本 session 的 3 個），部署後實際產一篇文章看新版型，再做待辦 4、5。
+**注意**：本專案 push 由使用者手動處理（見 CLAUDE.md「不要執行 git push」）；agent 只 commit、不 push。`editor/` 是 gosakurajp 的東西、永遠別 commit。
 
 ---
 
