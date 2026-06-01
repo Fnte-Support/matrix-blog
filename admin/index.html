@@ -281,13 +281,44 @@
 <header class="admin-header">
   <span class="logo">☕ Daily Coffee</span>
   <span class="badge" id="mode-badge">✍️ 新文章</span>
-  <span style="font-size: 11px; opacity: 0.5; font-family: 'SF Mono', Monaco, monospace;">v1.6.0</span>
+  <span style="font-size: 11px; opacity: 0.5; font-family: 'SF Mono', Monaco, monospace;">v1.7.0</span>
   <button type="button" id="btn-manage" style="margin-left: auto; background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px;">📋 管理現有文章</button>
   <button type="button" id="btn-new" style="display:none; background: var(--coffee-light); color: #fff; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px; margin-left: 8px;">✍️ 離開編輯・寫新的</button>
 </header>
 
 <main>
   <div id="alerts"></div>
+
+  <!-- AI 一鍵產文 -->
+  <div class="panel" style="border: 1px solid var(--coffee-light); background: #fffaf4;">
+    <h2 style="border-bottom-color: var(--coffee-light);">🤖 AI 一鍵產文 <span class="note">輸入標題 → 自動產出整篇草稿（內文載入 Markdown 分頁）</span></h2>
+    <label class="row">
+      <div class="lbl"><span>文章標題</span></div>
+      <input type="text" id="ai-gen-title" placeholder="例如：新手如何挑選人生第一台磨豆機">
+    </label>
+    <div class="row" style="display: flex; gap: 12px; flex-wrap: wrap;">
+      <div style="flex: 1; min-width: 140px;">
+        <div class="lbl"><span>分類</span></div>
+        <select id="ai-gen-cat" style="width: 100%;">
+          <option value="knowledge">咖啡知識</option>
+          <option value="map">咖啡地圖</option>
+          <option value="news">新聞動態</option>
+          <option value="events">活動展覽</option>
+          <option value="kol">KOL 專訪</option>
+          <option value="cbtj">CBTI 人格</option>
+        </select>
+      </div>
+      <div style="flex: 2; min-width: 200px;">
+        <div class="lbl"><span>核心角度／補充（選填）</span></div>
+        <input type="text" id="ai-gen-topic" placeholder="例如：預算 2000 元內、新手友善、手沖為主">
+      </div>
+    </div>
+    <div class="tab-actions">
+      <button type="button" class="btn" id="btn-ai-gen">🤖 產生整篇文章</button>
+      <span style="font-size: 12px; color: var(--gray-mid);">會自動填入標題／摘要／標籤，內文載入 Markdown 分頁，並列出配圖建議</span>
+    </div>
+    <div id="ai-gen-images" style="display: none; margin-top: 14px;"></div>
+  </div>
 
   <!-- 基本資訊 -->
   <div class="panel">
@@ -1018,6 +1049,105 @@
   });
   document.getElementById("btn-md-insert-img").addEventListener("click", () => {
     openInlineImgModal("md");
+  });
+
+  // ── AI 一鍵產文 ──
+  function renderAiImageSpecs(images) {
+    const box = document.getElementById("ai-gen-images");
+    if (!images || !images.length) { box.style.display = "none"; box.innerHTML = ""; return; }
+    box.style.display = "";
+    box.innerHTML = `<div style="font-size:13px;font-weight:600;color:var(--coffee-mid);margin-bottom:8px;">🖼️ AI 配圖建議（${images.length} 張）— 逐張決定是否生成，生成後自動插入 Markdown 內文末尾</div>`;
+    images.forEach((im, idx) => {
+      const card = document.createElement("div");
+      card.style.cssText = "border:1px solid var(--gray-light);border-radius:6px;padding:10px;margin-bottom:8px;background:#fff;";
+      card.innerHTML = `
+        <div style="font-size:12px;color:var(--gray-mid);margin-bottom:4px;">配圖 ${idx+1}・建議位置：${escapeHtml(im.placement || "未指定")}</div>
+        <div class="lbl"><span>生圖 prompt（可改）</span></div>
+        <textarea data-ai-img-prompt style="min-height:48px;font-size:13px;">${escapeHtml(im.prompt)}</textarea>
+        <div class="lbl" style="margin-top:6px;"><span>alt 文字（繁中）</span></div>
+        <input type="text" data-ai-img-alt value="${escapeHtml(im.alt)}">
+        <div class="tab-actions" style="margin-top:8px;">
+          <button type="button" class="btn secondary tiny" data-ai-img-gen>🎨 產生並插入 Markdown</button>
+          <span data-ai-img-status style="font-size:12px;color:var(--gray-mid);"></span>
+        </div>`;
+      const genBtn = card.querySelector("[data-ai-img-gen]");
+      genBtn.addEventListener("click", async () => {
+        const prompt = card.querySelector("[data-ai-img-prompt]").value.trim();
+        const alt = card.querySelector("[data-ai-img-alt]").value.trim();
+        const status = card.querySelector("[data-ai-img-status]");
+        if (!prompt) { status.textContent = "請先填 prompt"; return; }
+        if (!alt) { status.textContent = "請先填 alt"; return; }
+        genBtn.disabled = true; const old = genBtn.innerHTML;
+        genBtn.innerHTML = '<span class="spinner"></span>產圖中…';
+        status.textContent = "";
+        try {
+          const r = await fetch("/api/generate-cover", {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ prompt, provider: "auto" }),
+          });
+          const data = await r.json();
+          if (!r.ok) throw new Error(data.error || "產圖失敗");
+          if (!data.image_base64) throw new Error("回傳缺 image_base64");
+          // 插到 Markdown 內文末尾
+          mdEditor.value = mdEditor.value.replace(/\s*$/, "") + `\n\n![${alt.replace(/[\[\]]/g,"")}](${data.image_base64})\n`;
+          mdEditor.dispatchEvent(new Event("input"));
+          status.textContent = `✅ 已插入（${data.provider === "openai" ? "DALL-E" : "MiniMax"}${data.fallback_used ? " fallback" : ""}）`;
+          genBtn.textContent = "↻ 重新產生";
+        } catch (err) {
+          status.textContent = "失敗：" + err.message;
+        } finally {
+          genBtn.disabled = false;
+          if (genBtn.innerHTML.includes("spinner")) genBtn.innerHTML = old;
+        }
+      });
+      box.appendChild(card);
+    });
+  }
+
+  document.getElementById("btn-ai-gen").addEventListener("click", async () => {
+    const title = document.getElementById("ai-gen-title").value.trim();
+    const category = document.getElementById("ai-gen-cat").value;
+    const topic = document.getElementById("ai-gen-topic").value.trim();
+    if (!title) return showAlert("請先填文章標題", "err");
+
+    const btn = document.getElementById("btn-ai-gen");
+    const old = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>AI 產文中（約 20–60 秒，請稍候）…';
+    try {
+      const r = await fetch("/api/generate-article", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, category, topic }),
+      });
+      const data = await r.json();
+      if (!r.ok) throw new Error((data.error || "產文失敗") + (data.debug ? `（${String(data.debug).slice(0,120)}）` : ""));
+
+      // 回填基本資訊
+      titleInput.value = data.title || title;
+      titleInput.dispatchEvent(new Event("input"));
+      descInput.value = data.description || "";
+      descInput.dispatchEvent(new Event("input"));
+      document.getElementById("f-tags").value = (data.tags || []).join(",");
+      // 勾選分類
+      document.querySelectorAll("#cats input").forEach((cb) => {
+        cb.checked = (cb.value === category);
+        cb.dispatchEvent(new Event("change"));
+      });
+      // 內文載入 Markdown 分頁
+      mdEditor.value = data.body_markdown || "";
+      mdEditor.dispatchEvent(new Event("input"));
+      document.querySelector('[data-tab="md"]').click();
+      // 配圖建議
+      renderAiImageSpecs(data.images || []);
+
+      showAlert(`✅ AI 已產出草稿（${data.model || ""}）。內文在 Markdown 分頁，請檢查繁中用字後微調。配圖建議在上方逐張生成。`, "ok");
+      document.getElementById("tab-md").scrollIntoView({ behavior: "smooth", block: "center" });
+    } catch (err) {
+      showAlert("AI 產文失敗：" + err.message, "err");
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = old;
+    }
   });
 
   // ── HTML 分頁 ──
