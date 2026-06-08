@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google tag (gtag.js) — 與主站 matrix.com.tw 共用同一個 GA 衡量 ID -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7B8FEK6CJ6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7B8FEK6CJ6');
+  </script>
+  <title>咖啡用水完整化學手冊：TDS、GH、KH、pH與風味的科學 | Daily Coffee</title>
+  <meta name="description" content="水佔咖啡的98%，卻是最容易被忽略的變數。本篇深入解析TDS、總硬度GH、碳酸鹽硬度KH、pH值與咖啡萃取的化學關係，並提供SCA標準與台灣水質的實測改善方案。">
+  <meta name="keywords" content="咖啡用水,水質化學,TDS,GH,KH,手衝咖啡,萃取科學,咖啡知識">
+  <link rel="canonical" href="https://dailycoffee.matrix.com.tw/article/coffee-water-chemistry-complete-guide-tds-gh-kh-ph/">
+  <meta property="og:url" content="https://dailycoffee.matrix.com.tw/article/coffee-water-chemistry-complete-guide-tds-gh-kh-ph/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="咖啡用水完整化學手冊：TDS、GH、KH、pH與風味的科學">
+  <meta property="og:description" content="水佔咖啡的98%，卻是最容易被忽略的變數。本篇深入解析TDS、總硬度GH、碳酸鹽硬度KH、pH值與咖啡萃取的化學關係，並提供SCA標準與台灣水質的實測改善方案。">
+  <meta property="og:image" content="https://dailycoffee.matrix.com.tw/article/coffee-water-chemistry-complete-guide-tds-gh-kh-ph/hero.webp">
+  <meta property="og:site_name" content="Daily Coffee">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="article:published_time" content="2026-06-08">
+  <meta property="article:section" content="咖啡知識">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="咖啡用水完整化學手冊：TDS、GH、KH、pH與風味的科學">
+  <meta name="twitter:description" content="水佔咖啡的98%，卻是最容易被忽略的變數。本篇深入解析TDS、總硬度GH、碳酸鹽硬度KH、pH值與咖啡萃取的化學關係，並提供SCA標準與台灣水質的實測改善方案。">
+  <meta name="twitter:image" content="https://dailycoffee.matrix.com.tw/article/coffee-water-chemistry-complete-guide-tds-gh-kh-ph/hero.webp">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"咖啡用水完整化學手冊：TDS、GH、KH、pH與風味的科學","description":"水佔咖啡的98%，卻是最容易被忽略的變數。本篇深入解析TDS、總硬度GH、碳酸鹽硬度KH、pH值與咖啡萃取的化學關係，並提供SCA標準與台灣水質的實測改善方案。","image":"https://dailycoffee.matrix.com.tw/article/coffee-water-chemistry-complete-guide-tds-gh-kh-ph/hero.webp","datePublished":"2026-06-08","dateModified":"2026-06-08","inLanguage":"zh-TW","wordCount":3005,"author":{"@type":"Organization","name":"Daily Coffee 編輯部","url":"https://dailycoffee.matrix.com.tw"},"publisher":{"@type":"Organization","name":"Daily Coffee","url":"https://www.matrix.com.tw","logo":{"@type":"ImageObject","url":"https://www.matrix.com.tw/logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://dailycoffee.matrix.com.tw/article/coffee-water-chemistry-complete-guide-tds-gh-kh-ph/"},"articleSection":"咖啡知識","keywords":"咖啡用水,水質化學,TDS,GH,KH,手衝咖啡,萃取科學,咖啡知識"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首頁","item":"https://dailycoffee.matrix.com.tw/"},{"@type":"ListItem","position":2,"name":"文章","item":"https://dailycoffee.matrix.com.tw/"},{"@type":"ListItem","position":3,"name":"咖啡用水完整化學手冊：TDS、GH、KH、pH與風味的科學","item":"https://dailycoffee.matrix.com.tw/article/coffee-water-chemistry-complete-guide-tds-gh-kh-ph/"}]}</script>
+  <link rel="stylesheet" href="/article-components.css">
+  <style>
+    :root { --coffee-dark: #2C1810; --coffee-mid: #6B4226; --coffee-light: #C07A3E; --coffee-cream: #F5EDE0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif; background: var(--coffee-cream); color: var(--coffee-dark); line-height: 1.8; }
+    .hero { position: relative; height: 420px; overflow: hidden; }
+    .hero img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hero-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(44,24,16,0.85)); padding: 2rem 2rem 2.5rem; }
+    .hero-overlay h1 { color: #fff; font-size: clamp(1.4rem, 4vw, 2rem); line-height: 1.3; max-width: 800px; margin: 0 auto; }
+    .container { max-width: 760px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+    .meta { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.85rem; color: #888; }
+    .meta .cat-tag { background: #E8F5E9; color: #2E7D32; padding: 0.2rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+    .meta time { margin-left: 0.5rem; }
+    .article-body h2 { font-size: 1.35rem; color: var(--coffee-mid); margin: 2.2rem 0 0.8rem; padding-left: 1rem; border-left: 4px solid var(--coffee-light); }
+    .article-body h3 { font-size: 1.1rem; color: var(--coffee-dark); margin: 1.5rem 0 0.5rem; }
+    .article-body p { margin-bottom: 1rem; }
+    .article-body ul, .article-body ol { margin: 0 0 1rem 1.5rem; }
+    .article-body li { margin-bottom: 0.4rem; }
+    .article-body blockquote { border-left: 4px solid var(--coffee-light); padding: 0.75rem 1rem; margin: 1rem 0; background: #fff; color: var(--coffee-mid); border-radius: 0 8px 8px 0; }
+    .article-body img { max-width: 100%; height: auto; border-radius: 8px; margin: 1rem 0; display: block; }
+    .article-body table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.95rem; }
+    .article-body th, .article-body td { padding: 0.6rem 0.75rem; text-align: left; border-bottom: 1px solid #eee; }
+    .article-body th { background: var(--coffee-dark); color: #fff; font-weight: 600; }
+    .article-body a { color: var(--coffee-light); }
+    .back-link { display: inline-block; margin: 1rem 1.5rem; color: var(--coffee-mid); text-decoration: none; font-size: 0.9rem; }
+    .products-section { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(0,0,0,0.1); }
+    .products-section h2 { color: var(--coffee-mid); font-size: 1.2rem; margin-bottom: 1rem; text-align: center; }
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+    .product-card { background: #fff; border-radius: 8px; padding: 10px; text-decoration: none; color: inherit; display: block; transition: transform 0.15s; }
+    .product-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    .product-card img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 4px; background: var(--coffee-cream); }
+    .product-card .p-name { font-size: 13px; font-weight: 500; margin: 8px 0 4px; line-height: 1.4; min-height: 36px; }
+    .product-card .p-price { color: var(--coffee-light); font-weight: 700; font-size: 14px; }
+    .product-card .p-price .p-old { color: #aaa; text-decoration: line-through; font-weight: 400; margin-left: 6px; font-size: 12px; }
+    .product-card .p-cta { margin-top: 8px; background: var(--coffee-mid); color: #fff; text-align: center; padding: 6px; border-radius: 4px; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <nav id="dc-toc-side" class="dc-toc-side" aria-label="文章目錄"><div class="dc-toc-title">📑 文章目錄</div><ul id="dc-toc-list" class="dc-toc-list"></ul></nav>
+  <button id="dc-toc-fab" class="dc-toc-fab" type="button" style="display:none" aria-label="開啟文章目錄">📑</button>
+  <div id="dc-toc-overlay" class="dc-toc-overlay"><div class="dc-toc-sheet"><div class="dc-toc-sheet-head"><span>📑 文章目錄</span><button id="dc-toc-close" class="dc-toc-close" type="button" aria-label="關閉">✕</button></div><ul id="dc-toc-sheet-list" class="dc-toc-list"></ul></div></div>
+  <a href="https://dailycoffee.matrix.com.tw" class="back-link">← 返回首頁</a>
+  <div class="hero">
+    <img src="https://dailycoffee.matrix.com.tw/article/coffee-water-chemistry-complete-guide-tds-gh-kh-ph/hero.webp" alt="咖啡用水完整化學手冊：TDS、GH、KH、pH與風味的科學">
+    <div class="hero-overlay">
+      <h1>咖啡用水完整化學手冊：TDS、GH、KH、pH與風味的科學</h1>
+    </div>
+  </div>
+  <div class="container">
+    <div class="meta">
+      <span class="cat-tag">咖啡知識</span>
+      <time>2026-06-08</time>
+      <span>By Daily Coffee</span>
+    </div>
+    <div class="article-body">
+<ol class="toc">
+<li><a href="#h1">水：咖啡萃取中最容易被忽略的變數</a></li>
+<li><a href="#h2">TDS 總溶解固形物：多少算適中？</a></li>
+<li><a href="#h3">GH 總硬度與 KH 碳酸鹽硬度：硬度與緩衝力的化學</a></li>
+<li><a href="#h4">pH 值與咖啡萃取的酸鹼交互作用</a></li>
+<li><a href="#h5">完美咖啡用水的配方： SCA 建議與自調配方</a></li>
+<li><a href="#h6">台灣自來水沖咖啡的實測與改善方案</a></li>
+</ol>
+
+<h2 id="h1">水：咖啡萃取中最容易被忽略的變數</h2>
+<p>咖啡中有 98% 是水，但多數人在討論萃取時，只專注於豆子、研磨、溫度與時間，卻忘記了水本身的化學組成直接影響萃取的效率與風味表現。水中的礦物質扮演著「萃取媒介」的角色——它們與咖啡粉中的酸性化合物、油脂與糖類發生交互作用，決定了這些物質溶入液體的速率與比例。</p>
+<p>一項由 Christopher H. Hendon 等學者進行的研究（2014年，《Journal of Agricultural and Food Chemistry》）指出，水中的鎂離子與鈣離子是萃取咖啡中綠原酸與咖啡因的關鍵催化劑。換句話說，即便你有最昂貴的豆子、最精密的研磨，若水質不對，風味依然會大打折扣。</p>
+
+<h2 id="h2">TDS 總溶解固形物：多少算適中？</h2>
+<p>TDS（Total Dissolved Solids）代表水中所有溶解礦物質與微量物質的總濃度，單位通常為 ppm（百萬分之一）或 mg/L。SCA 建議咖啡用水的 TDS 落在 75–250 ppm 之間，低於 75 ppm 代表水太「軟」，缺乏足够的礦物質來辅助萃取，咖啡會顯得口感單薄、層次不足；高於 250 ppm 則代表水太「硬」，礦物質會在萃取過程中與咖啡化合物過度反應，產生不愉悅的苦澀感。</p>
+<p>值得注意的是，TDS 只能告訴你「總量」，卻無法區分鎂、鈣、鈉、氯等個別離子的比例。兩杯同樣 150 ppm 的水，可能因為礦物質組成不同，沖出截然不同風味的咖啡。這也是為什麼專業咖啡師不只用 TDS 筆，還需要了解 GH 與 KH 的數值。</p>
+<img  src="/article/coffee-water-chemistry-complete-guide-tds-gh-kh-ph/img-tgadsk-1.jpg" style="width:100%;max-width:700px;border-radius:8px;margin:20px 0;" />
+
+<h2 id="h3">GH 總硬度與 KH 碳酸鹽硬度：硬度與緩衝力的化學</h2>
+<p>GH（General Hardness，總硬度）主要反映水中鈣離子（Ca²⁺）與鎂離子（Mg²⁺）的濃度，這兩種離子是萃取咖啡時最重要的催化劑。鎂離子尤其關鍵——研究顯示，鎂離子能有效萃取出咖啡中的芳香化合物與酸類，讓咖啡呈現更豐富的風味層次。這也是為什麼使用含有適量鎂質的礦泉水，經常比純蒸餾水沖出的咖啡更好喝。</p>
+<p>KH（Carbonate Hardness，碳酸鹽硬度，又稱暫時硬度）則代表水中碳酸氫根離子（HCO₃⁻）的濃度。KH 的重要性在於它的「緩衝能力」——碳酸氫根離子會中和咖啡中的酸性物質，影響萃取的酸鹼平衡。KH 過高的水會讓咖啡顯得平淡、鹼性、金屬味；KH 過低的水則可能讓咖啡酸質過於尖銳、不平衡。</p>
+<p>SCA 建議 GH 範圍為 50–175 ppm（以 CaCO₃ 計），KH 則建議低於 40 ppm。對於水質偏硬的地区（如部分石灰岩地形），使用軟水或逆滲透水作為基底，再添加適量礦物質制劑，是較佳的解決方案。</p>
+
+<h2 id="h4">pH 值與咖啡萃取的酸鹼交互作用</h2>
+<p>咖啡液體的 pH 值通常落在 4.8–5.5 之間（弱酸性），這個範圍與水本身的 pH 值（建議 6.5–7.5）有直接的化學交互作用。自來水的 pH 通常受消毒劑（氯）影響而偏鹼性（7.0–8.0），若未經適當處理，氯的味道會干擾咖啡的香氣表現。去除氯的方法很簡單：將水煮沸後靜置片刻，或使用活性碳濾水器。</p>
+<p>更深層的化學邏輯是：水的 pH 會影響咖啡粉中酸性物質的游離形態，進而改變它們的溶解度。在偏鹼性的水中，酸性物質更傾向以離子態存在，溶解度提高，萃取速度加快；在偏酸性的水中，酸性物質傾向以分子態存在，萃取速率較慢。這解釋了為什麼不同水質會影響咖啡的酸質感知——不是改變了酸的總量，而是改變了酸的生物利用率與口感呈現。</p>
+
+<h2 id="h5">完美咖啡用水的配方：SCA 建議與自調配方</h2>
+<p>SCA 發布的咖啡用水標準包含以下參數：TDS 75–250 ppm、pH 6.5–7.5、GH 50–175 ppm、KH 低於 40 ppm，且不應含有任何明顯的氯味或異味。符合這個標準的水，能讓咖啡的甜感、酸質與醇厚度達到最佳平衡。</p>
+<p>自調配方最簡便的方式是使用蒸餾水或逆滲透水作為基底（去除所有雜質），再添加專用的咖啡水質改良礦物包（如 Third Wave Water、Lau James 等品牌），按照說明比例加入即可。若想自行調配，可以參考：每公升水加入 80mg 硫酸鎂（MgSO₄）與 40mg 碳酸氫鈉（NaHCO₃），可得到接近 SCA 建議範圍的水質。</p>
+
+<h2 id="h6">台灣自來水沖咖啡的實測與改善方案</h2>
+<p>台灣各地自來水水質差異頗大：北部水質普遍較軟（TDS 約 50–100 ppm），中南部水質則因地質關係硬度較高（TDS 可達 150–250 ppm）。多數縣市的自來水在直接飲用前都經過加氯消毒，殘留的氯會在咖啡中產生類似藥水的不愉悅氣息。</p>
+<p>實測建議：使用 TDS 筆、GH/KH 試劑組與 pH 試紙，分別測量你所在地的自來水各項數值。根據結果，台北地區可考慮使用活性碳濾水器去除氯味即可；台中與高雄則建議使用逆滲透水或軟水設備，將 GH 降至建議範圍再使用。記錄調整前後咖啡的風味差異，是最直觀的水質評估方式。</p>
+
+<h3>相關文章</h3>
+<ul>
+<li><a href="/article/coffee-water-quality-complete-guide/">咖啡用水完整指南：從基礎到科學</a></li>
+<li><a href="/article/coffee-brewing-ratio-complete-guide/">咖啡粉水比攻略：黃金比例背後的科學</a></li>
+<li><a href="/article/pourover-coffee-water-flow-control-guide/">手衝水流控制：影響萃取均勻度的關鍵變數</a></li>
+</ul>
+
+<h3>參考資料</h3>
+<ul>
+<li>SCA (Specialty Coffee Association). <em>Water for Coffee: SCA Water Chart.</em> https://sca.coffee/</li>
+<li>Hendon, C.H. et al. <em>Water for Coffee: The Chemical Composition of Brewed Coffee.</em> Journal of Agricultural and Food Chemistry, 2014.</li>
+<li>World Coffee Research. <em>Water Quality Guidelines for Coffee Processing.</em> https://worldcoffeeresearch.org/</li>
+<li>Coffee Science Laboratory (CSF). <em>Hardness and Extraction: Understanding Mineral Interaction in Coffee Brewing.</em></li>
+</ul>
+
+<details><summary>FAQ：咖啡用水常見疑問</summary>
+<p><strong>Q：可以用寶特瓶水或礦泉水直接沖咖啡嗎？</strong><br/>可以，但要注意礦泉水的 TDS 與礦物質組成差異頗大。建議選擇 TDS 100–200 ppm 的礦泉水，避免使用蒸餾水或電解質純水（過低的礦物質會讓萃取不足）。有條件的話，用 TDS 筆測試後再決定。</p>
+<p><strong>Q：逆滲透水（RO 水）可以拿來沖咖啡嗎？</strong><br/>RO 水幾乎不含任何礦物質，直接使用會導致萃取不足，咖啡寡淡無味。建議以 RO 水作為基底，再添加咖啡水質改良礦物包或自行調配礦物質（硫酸鎂、碳酸氫鈉等），將 TDS 調整至 100–150 ppm 的範圍。</p>
+<p><strong>Q：水的 GH 與 KH 哪個更重要？</strong><br/>兩者都重要，但功能不同。GH（鈣、鎂離子）直接影響萃取的效率與風味化合物的溶出量；KH（碳酸氫根離子）則決定水的緩衝能力，影響酸質的穩定性。理想咖啡用水的 GH 適中、KH 偏低，這樣才能避免過度緩衝或酸質失衡。</p>
+<p><strong>Q：台灣自來水加氯的味道怎麼去除？</strong><br/>最簡單的方法是將水煮沸後靜置 5–10 分鐘，讓氯自然揮發；或使用具有活性碳濾芯的濾水器，能有效吸附氯味。活性碳濾水器還能去除部分影響風味的異味，是性價比最高的改善方案。</p>
+<p><strong>Q：硬水產生的水垢會不會影響咖啡機或手衝器具？</strong><br/>長期使用硬水確實可能在器具表面殘留水垢（碳酸鈣沉積），影響導熱與水流分布。建議定期以稀釋白醋或專用除垢劑清洗 V60、聰明濾杯等塑膠或陶瓷器具，金屬器具則可使用專用除垢錠。</p>
+</details>
+    </div>
+
+  </div>
+  <script src="/article-toc.js" defer></script>
+</body>
+</html>

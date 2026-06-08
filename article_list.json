@@ -1,5 +1,24 @@
 [
   {
+    "title": "咖啡用水完整化學手冊：TDS、GH、KH、pH與風味的科學",
+    "slug": "coffee-water-chemistry-complete-guide-tds-gh-kh-ph",
+    "category": "knowledge",
+    "date": "2026-06-08",
+    "image": "https://dailycoffee.matrix.com.tw/article/coffee-water-chemistry-complete-guide-tds-gh-kh-ph/hero.webp",
+    "description": "水佔咖啡的98%，卻是最容易被忽略的變數。本篇深入解析TDS、總硬度GH、碳酸鹽硬度KH、pH值與咖啡萃取的化學關係，並提供SCA標準與台灣水質的實測改善方案。",
+    "tags": [
+      "咖啡用水",
+      "水質化學",
+      "TDS",
+      "GH",
+      "KH",
+      "手衝咖啡",
+      "萃取科學"
+    ],
+    "url": "/article/coffee-water-chemistry-complete-guide-tds-gh-kh-ph/",
+    "source": "local"
+  },
+  {
     "title": "咖啡萃取率終極攻略：用TDS折射儀解讀萃出率的科學",
     "slug": "coffee-extraction-yield-tds-refractometer-science-guide",
     "category": "knowledge",
