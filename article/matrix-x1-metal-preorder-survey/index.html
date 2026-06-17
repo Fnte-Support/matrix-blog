@@ -28,7 +28,7 @@
   <meta name="twitter:title" content="Matrix X1 METAL 等離子磨豆機 早鳥預購前測問卷">
   <meta name="twitter:description" content="搶先體驗 Matrix X1 METAL 磨豆機:等離子技術降低咖啡粉結塊與靜電、75 段研磨刻度、金屬機身可攜帶。填寫前測問卷,即可獲得早鳥預購優惠與優先通知。">
   <meta name="twitter:image" content="https://dailycoffee.matrix.com.tw/article/matrix-x1-metal-preorder-survey/hero.webp">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Matrix X1 METAL 等離子磨豆機 早鳥預購前測問卷","description":"搶先體驗 Matrix X1 METAL 磨豆機:等離子技術降低咖啡粉結塊與靜電、75 段研磨刻度、金屬機身可攜帶。填寫前測問卷,即可獲得早鳥預購優惠與優先通知。","image":"https://dailycoffee.matrix.com.tw/article/matrix-x1-metal-preorder-survey/hero.webp","datePublished":"2026-06-17","dateModified":"2026-06-17","inLanguage":"zh-TW","wordCount":5987,"author":{"@type":"Organization","name":"Daily Coffee 編輯部","url":"https://dailycoffee.matrix.com.tw"},"publisher":{"@type":"Organization","name":"Daily Coffee","url":"https://www.matrix.com.tw","logo":{"@type":"ImageObject","url":"https://www.matrix.com.tw/logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://dailycoffee.matrix.com.tw/article/matrix-x1-metal-preorder-survey/"},"articleSection":"咖啡知識","keywords":"matrix,x1-matal,磨豆機,自動磨豆機,電動磨豆機,咖啡知識,新聞動態"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Matrix X1 METAL 等離子磨豆機 早鳥預購前測問卷","description":"搶先體驗 Matrix X1 METAL 磨豆機:等離子技術降低咖啡粉結塊與靜電、75 段研磨刻度、金屬機身可攜帶。填寫前測問卷,即可獲得早鳥預購優惠與優先通知。","image":"https://dailycoffee.matrix.com.tw/article/matrix-x1-metal-preorder-survey/hero.webp","datePublished":"2026-06-17","dateModified":"2026-06-17","inLanguage":"zh-TW","wordCount":6797,"author":{"@type":"Organization","name":"Daily Coffee 編輯部","url":"https://dailycoffee.matrix.com.tw"},"publisher":{"@type":"Organization","name":"Daily Coffee","url":"https://www.matrix.com.tw","logo":{"@type":"ImageObject","url":"https://www.matrix.com.tw/logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://dailycoffee.matrix.com.tw/article/matrix-x1-metal-preorder-survey/"},"articleSection":"咖啡知識","keywords":"matrix,x1-matal,磨豆機,自動磨豆機,電動磨豆機,咖啡知識,新聞動態"}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首頁","item":"https://dailycoffee.matrix.com.tw/"},{"@type":"ListItem","position":2,"name":"文章","item":"https://dailycoffee.matrix.com.tw/"},{"@type":"ListItem","position":3,"name":"Matrix X1 METAL 等離子磨豆機 早鳥預購前測問卷","item":"https://dailycoffee.matrix.com.tw/article/matrix-x1-metal-preorder-survey/"}]}</script>
   <link rel="stylesheet" href="/article-components.css">
   <style>
@@ -85,6 +85,27 @@
       <span>By Daily Coffee</span>
     </div>
     <div class="article-body">
+<link rel="canonical" href="[問卷頁面正式網址，例如 https://www.matrix.com.tw/x1-metal-survey]">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Matrix X1 METAL 等離子便攜式電動磨豆機",
+  "image": "https://img.1shop.tw/dmLqpoYEVREYo9xRbZy2XK7l/a1A4ovQm3KXP8GQLlDxz6OWE/original.jpg",
+  "description": "金屬機身便攜式電動磨豆機，搭載等離子技術降低咖啡粉結塊與靜電飛粉，75 段研磨刻度，涵蓋義式、摩卡壺、手沖到法式濾壓。內建 1800mAh 鋰電池、Type-C 充電。",
+  "brand": {
+    "@type": "Brand",
+    "name": "Matrix"
+  },
+  "category": "咖啡磨豆機",
+  "offers": {
+    "@type": "Offer",
+    "availability": "https://schema.org/PreOrder",
+    "priceCurrency": "TWD",
+    "url": "[問卷頁面正式網址]"
+  }
+}
+</script>
 <style>
   body {
     font-family: "Microsoft JhengHei", Arial, sans-serif;
@@ -481,6 +502,17 @@
     var btn    = document.getElementById('submitBtn');
     var status = document.getElementById('formStatus');
 
+    // 防呆：若嵌入網站時 formStatus 元素沒被一起貼上，動態補一個，避免 showStatus 崩潰
+    if (!status && btn) {
+      status = document.createElement('p');
+      status.id = 'formStatus';
+      status.style.textAlign = 'center';
+      status.style.fontSize = '14px';
+      status.style.margin = '0 24px 10px';
+      status.style.display = 'none';
+      btn.parentNode.insertBefore(status, btn.nextSibling);
+    }
+
     // 取單選 / 量表的值
     function getRadio(name) {
       var el = document.querySelector('input[name="' + name + '"]:checked');
@@ -493,7 +525,8 @@
       var vals = [];
       els.forEach(function (el) {
         if (el.value === '其他' && otherId) {
-          var t = document.getElementById(otherId).value.trim();
+          var otherEl = document.getElementById(otherId);
+          var t = otherEl ? otherEl.value.trim() : '';
           vals.push(t ? '其他：' + t : '其他');
         } else {
           vals.push(el.value);
@@ -503,6 +536,7 @@
     }
 
     function showStatus(msg, color) {
+      if (!status) { alert(msg); return; }
       status.textContent = msg;
       status.style.color = color;
       status.style.display = 'block';
