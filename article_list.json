@@ -1,5 +1,19 @@
 [
   {
+    "title": "diagnostic",
+    "slug": "coffee-map-diagnostic-2026-07-27-1785157296",
+    "category": "map",
+    "date": "2026-07-27",
+    "image": "https://dailycoffee.matrix.com.tw/article/coffee-map-diagnostic-2026-07-27-1785157296/hero.webp",
+    "description": "diagnostic test payload for confirming server-side GitHub 401 blocker",
+    "tags": [
+      "diagnostic",
+      "test"
+    ],
+    "url": "/article/coffee-map-diagnostic-2026-07-27-1785157296/",
+    "source": "local"
+  },
+  {
     "title": "溫哥華｜Matchstick Coffee Roasters, Vancouver — 咖啡地圖",
     "slug": "coffee-map-vancouver-matchstick-coffee-roasters-vancouver",
     "category": "map",
