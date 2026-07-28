@@ -1,5 +1,19 @@
 [
   {
+    "title": "diagnostic",
+    "slug": "coffee-map-diagnostic-2026-07-28-1785200527",
+    "category": "map",
+    "date": "2026-07-28",
+    "image": "https://dailycoffee.matrix.com.tw/article/coffee-map-diagnostic-2026-07-28-1785200527/hero.webp",
+    "description": "diagnostic test payload for confirming server-side GitHub 401 blocker",
+    "tags": [
+      "diagnostic",
+      "test"
+    ],
+    "url": "/article/coffee-map-diagnostic-2026-07-28-1785200527/",
+    "source": "local"
+  },
+  {
     "title": "咖啡果皮茶 Cascara 完全指南：從果肉處理到沖泡的永續新選擇",
     "slug": "cascara-coffee-cherry-tea-complete-guide",
     "category": "knowledge",

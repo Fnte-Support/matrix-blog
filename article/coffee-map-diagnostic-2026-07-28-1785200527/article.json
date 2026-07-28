@@ -1,0 +1,20 @@
+{
+  "_schema_version": 2,
+  "title": "diagnostic",
+  "slug": "coffee-map-diagnostic-2026-07-28-1785200527",
+  "description": "diagnostic test payload for confirming server-side GitHub 401 blocker",
+  "categories": [
+    "map"
+  ],
+  "tags": [
+    "diagnostic",
+    "test"
+  ],
+  "date": "2026-07-28",
+  "date_modified": null,
+  "body_html": "<h2>診斷測試</h2>\n<p>本篇為 Daily Coffee 自動排程的發布流程診斷內容，用於確認伺服器端 GitHub API 認證與文章儲存程序是否正常運作。</p>\n<p>測試內容包含完整的咖啡地圖文章結構、基本資訊、店家資訊、外部連結、推薦品項、顧客回饋與相關標籤，以通過正式發布 API 的內容長度與欄位驗證。這不是正式店家介紹，僅供系統健康檢查使用。</p>\n<h2>📍 基本資訊</h2>\n<p>☕ 測試咖啡店｜📍 測試地址 123 號｜⏰ 每日 09:00–18:00｜💰 價格參考 NT$100–250</p>\n<h2>🛒 店家資訊</h2>\n<p>測試店家提供手沖咖啡、濃縮咖啡與季節限定飲品，欄位僅用於驗證文章模板。</p>\n<h2>🔗 連結</h2>\n<p><a href=\"https://example.com\" target=\"_blank\" rel=\"noopener\">🌐 測試官網</a></p>\n<h2>為什麼值得專程來</h2>\n<p>此段落用於確認長篇內容、標題與連結可由後端完整處理。</p>\n<h2>☕ 這裡適合什麼人</h2>\n<p>適合系統維護人員執行發布健康檢查。</p>\n<h2>推薦品項</h2>\n<p>測試手沖咖啡、測試拿鐵與測試濃縮咖啡。</p>\n<h2>顧客回饋</h2>\n<p>本段為測試文字，不代表任何真實店家評價。</p>\n<h2>🏷️ 相關標籤</h2>\n<p>#系統診斷 #咖啡地圖</p>\n<p><a href=\"https://maps.google.com\" target=\"_blank\" rel=\"noopener\">📍 Google Maps 開啟地圖</a></p>",
+  "body_mode": "rich_text",
+  "products": [],
+  "structured_data": null,
+  "source": "admin"
+}
