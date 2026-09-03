@@ -46,6 +46,20 @@
 
 ---
 
+## 📋 2026-09-03 遠端 session 驗證紀錄（唯讀查核，未改程式）
+
+**做了什麼**：確認 v1.19.0 批次（版型三修 + TOC + 產圖修復）已合入 main；當日經 `/api/publish` 發布的文章（如首爾 Milestone）模板都帶 `/article-components.css` + `/article-toc.js`，發布管線已是新版。（沙箱 egress 擋 dailycoffee.matrix.com.tw，無法直接目視 production 頁面。）
+
+**主要發現：所有已發布文章 0 個 dc-\* 視覺元件**
+- 抽查近期長文（SOE 攻略 6562 字、外帶杯、除垢）＋地圖文：`body_html` 內 dc-\* 元件數全部為 0（只有模板自帶的 TOC 標記）。
+- 排除 sanitizer 因素：`publish.js` 收「已 sanitize 的 HTML」、不會剝 class → 是**產文端從沒產出元件**。
+- 根因：這些每日文章來自 OpenClaw 管線，而 `dailycoffee-OPENCLAW-SPEC.md` **完全沒提 dc-\* 元件庫**（admin 的 `generate-article.js` prompt 有提 7 處）。→ 建議：跟使用者確認後，在 OPENCLAW-SPEC 補「視覺元件」章節。
+- 附帶發現：`publish.js` 的 `source: payload.source || "admin"`，OpenClaw 沒帶 source → 所有文章都標 `source: admin`，log 上分不出誰發的。
+
+**待辦 4（admin AI 產文品質驗證）與 5（舊文批次重刷）維持未動**：4 需在 production `/admin/` 實際產文（本環境無 OPENAI key、egress 也擋）；5 明訂要先經使用者同意。
+
+---
+
 ## 🟡 待辦（接手就做這些）— 來自最新一次文章實測回饋
 
 使用者用 AI 產了一篇「2026 珈琲與花物語」實測，給了視覺回饋。**CSS 區塊化部分已做**（H2 實心底色、引言區塊、資訊卡加框、FAQ 留白、延伸閱讀/資料來源統一區塊），**prompt 已改**（延伸閱讀不由 AI 編、資料來源用真實連結）。
